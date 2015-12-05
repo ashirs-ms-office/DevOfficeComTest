@@ -1,11 +1,12 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.Chrome;
 
 namespace TestFramework
 {
     public static class Browser
     {
-        static IWebDriver webDriver = new FirefoxDriver();
+        static IWebDriver webDriver = new ChromeDriver(@"c:\libraries");
         public static void Goto(string url)
         {
             webDriver.Url = url;
