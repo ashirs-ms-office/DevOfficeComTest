@@ -11,19 +11,6 @@ namespace TestFramework.Office365Page
 {
     public class CardRegisterApp
     {
-        static string Url = "https://dev.office.com/Getting-Started/office365Apis#register-app";
-        private static string PageTitle = "Office Dev Center - Getting started with Office 365 REST APIs";
-        
-        public void Goto()
-        {
-            Browser.Goto(Url);
-        }
-
-        public bool IsAt()
-        {
-            return Browser.Title == PageTitle;
-        }
-
         public void ChooseService(int serviceIndex)
         {
             var service = Browser.Driver.FindElement(By.Id("serviceOption"+serviceIndex));

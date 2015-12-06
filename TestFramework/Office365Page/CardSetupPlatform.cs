@@ -8,19 +8,6 @@ namespace TestFramework.Office365Page
 {
     public class CardSetupPlatform
     {
-        static string Url = "http://dev.office.com/getting-started/office365apis#setup";
-        private static string PageTitle = "Office Dev Center - Getting started with Office 365 REST APIs";
-        
-        public void Goto()
-        {
-            Browser.Goto(Url);
-        }
-
-        public bool IsAt()
-        {
-            return Browser.Title == PageTitle;
-        }
-
         public void ChoosePlatform(string platformName)
         {
             var platform = Browser.Driver.FindElement(By.Id("option-"+platformName));

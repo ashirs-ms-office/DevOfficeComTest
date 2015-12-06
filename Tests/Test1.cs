@@ -35,7 +35,7 @@ namespace Tests
         [TestMethod]
         public void Try_It_Out()
         {
-            Pages.CardTryItOut.Goto();
+            Browser.Goto("http://dev.office.com/getting-started/office365apis#try-it-out");
             Pages.CardTryItOut.ChooseService(4);
             Pages.CardTryItOut.ClickTry();
             Assert.IsTrue(Pages.CardTryItOut.CanGetResponse(4));
@@ -44,7 +44,7 @@ namespace Tests
         [TestMethod]
         public void Can_Choose_Platform()
         {
-            Pages.CardSetupPlatform.Goto();
+            Browser.Goto("http://dev.office.com/getting-started/office365apis#setup");
             Pages.CardSetupPlatform.ChoosePlatform("ios");
             Assert.IsTrue(Pages.CardSetupPlatform.IsShowingPlatformSetup("ios"));
         }
@@ -52,11 +52,11 @@ namespace Tests
         [TestMethod]
         public void Can_SignIn()
         {
-            Pages.CardRegisterApp.Goto();
+            Browser.Goto("https://dev.office.com/Getting-Started/office365Apis#register-app");
             Pages.CardRegisterApp.SigninAs("JingyuShao@devexperience.onmicrosoft.com")
                 .WithPassword("Sjy_10091=")
                 .Signin();
-            Assert.IsTrue(Pages.CardRegisterApp.IsSignedin("JingyuShao@devexperience.onmicrosoft.com"));
+            Assert.IsTrue(Pages.CardRegisterApp.IsSignedin("JingyuShao@devexperience.onmicrosoft.com"),"Failed to sign in.");
         }
 
         [ClassCleanup]
