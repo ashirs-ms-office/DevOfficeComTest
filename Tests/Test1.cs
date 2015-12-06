@@ -5,12 +5,13 @@ using TestFramework;
 namespace Tests
 {
     [TestClass]
-    public class UnitTest1
+    public class Test1
     {
         [ClassInitialize]
         public static void ClassInitialize(TestContext tc)
         {
-            Pages.HomePage.Goto();
+            //Pages.HomePage.Goto();
+            Browser.Initialize();
         }
         
         [TestMethod]
@@ -37,6 +38,26 @@ namespace Tests
         {
              Pages.HomePage.Goto();
         }
+
+        [TestMethod]
+        public void Try_It_Out()
+        {
+            Pages.CardTryItOut.Goto();
+            Pages.CardTryItOut.ChooseService(4);
+            Pages.CardTryItOut.ClickTry();
+            Assert.IsTrue(Pages.CardTryItOut.CanGetResponse(4));
+        }
+        [TestMethod]
+        public void Can_Choose_Platform()
+        {
+            Pages.CardSetupPlatform.Goto();
+            Pages.CardSetupPlatform.ChoosePlatform("android");
+            Assert.IsTrue(Pages.CardSetupPlatform.IsShowingPlatformSetup("android"));
+        }
+
+        
+
+
 
         [ClassCleanup]
         public static void ClassCleanup()

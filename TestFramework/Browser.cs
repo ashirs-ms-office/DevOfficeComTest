@@ -7,9 +7,15 @@ namespace TestFramework
     public static class Browser
     {
         static IWebDriver webDriver = new ChromeDriver(@"c:\libraries");
+
+        public static void Initialize()
+        {
+            webDriver.Navigate().GoToUrl("http://dev.office.com");
+        }
+        
         public static void Goto(string url)
         {
-            webDriver.Url = url;
+            webDriver.Navigate().GoToUrl(url);
         }
 
         public static string Title

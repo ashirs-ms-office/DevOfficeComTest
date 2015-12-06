@@ -49,14 +49,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Browser.cs" />
+    <Compile Include="Office365Page\CardSetupPlatform.cs" />
     <Compile Include="HomePage.cs" />
-    <Compile Include="Pages.cs" />
+    <Compile Include="Office365Page\CardTryItOut.cs" />
+    <Compile Include="Pages.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ProductPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

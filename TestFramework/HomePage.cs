@@ -34,7 +34,6 @@ namespace TestFramework
             var productPage = new ProductPage();
             PageFactory.InitElements(Browser.Driver, productPage);
             return productPage.ProductName == productName;
-
         }
     }
 }
