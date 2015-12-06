@@ -10,7 +10,6 @@ namespace Tests
         [ClassInitialize]
         public static void ClassInitialize(TestContext tc)
         {
-            //Pages.HomePage.Goto();
             Browser.Initialize();
         }
         
@@ -32,13 +31,7 @@ namespace Tests
             Pages.HomePage.SelectProduct("iOS");
             Assert.IsTrue(Pages.HomePage.IsAtProductPage("iOS"));
         }
-        
-        [TestCleanup]
-        public void Cleanup()
-        {
-             Pages.HomePage.Goto();
-        }
-
+       
         [TestMethod]
         public void Try_It_Out()
         {
@@ -47,17 +40,24 @@ namespace Tests
             Pages.CardTryItOut.ClickTry();
             Assert.IsTrue(Pages.CardTryItOut.CanGetResponse(4));
         }
+
         [TestMethod]
         public void Can_Choose_Platform()
         {
             Pages.CardSetupPlatform.Goto();
-            Pages.CardSetupPlatform.ChoosePlatform("android");
-            Assert.IsTrue(Pages.CardSetupPlatform.IsShowingPlatformSetup("android"));
+            Pages.CardSetupPlatform.ChoosePlatform("ios");
+            Assert.IsTrue(Pages.CardSetupPlatform.IsShowingPlatformSetup("ios"));
         }
 
-        
-
-
+        [TestMethod]
+        public void Can_SignIn()
+        {
+            Pages.CardRegisterApp.Goto();
+            Pages.CardRegisterApp.SigninAs("JingyuShao@devexperience.onmicrosoft.com")
+                .WithPassword("Sjy_10091=")
+                .Signin();
+            Assert.IsTrue(Pages.CardRegisterApp.IsSignedin("JingyuShao@devexperience.onmicrosoft.com"));
+        }
 
         [ClassCleanup]
         public static void ClassCleanup()

@@ -32,35 +32,35 @@ namespace TestFramework.Office365Page
 
         public void ClickTry()
         {
-            var action = new Actions(Browser.Driver as IWebDriver);
-
             var tryBtn = Browser.Driver.FindElement(By.Id("invokeurlBtn"));
-
-            action.MoveToElement(tryBtn);
-            action.Perform();
             tryBtn.Click();
             
-            Thread.Sleep(5000);
+            Thread.Sleep(3000);
+           // var wait = new WebDriverWait(Browser.Driver as IWebDriver, TimeSpan.FromSeconds(5));
+            //wait.Until(d => d.FindElement(By.Id("response-container")));
             //WebDriverWait wait = new WebDriverWait((Browser.Driver as IWebDriver), TimeSpan.FromSeconds(10));
             //IWebElement responseContainer = wait.Until(d =>
             //{
             //    return d.FindElement(By.Id("response-container"));
             //});
 
-
-            var responseContainer = Browser.Driver.FindElement(By.Id("response-container"));
-            action.MoveToElement(responseContainer);
-            action.Perform();
-           
+            try
+            {
+                var action = new Actions(Browser.Driver as IWebDriver);
+                var responseContainer = Browser.Driver.FindElement(By.Id("response-container"));
+                action.MoveToElement(responseContainer);
+                action.Perform();
+            }
+            catch (Exception)
+            {
+                { }
+                throw;
+            }
         }
-
-       
 
         public bool CanGetResponse(int serviceIndex)
         {
-            
             var responseBody = Browser.Driver.FindElement(By.Id("responseBody"));
-
             switch (serviceIndex)
             {
                 case (4):

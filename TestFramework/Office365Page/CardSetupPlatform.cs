@@ -25,12 +25,7 @@ namespace TestFramework.Office365Page
         {
             var platform = Browser.Driver.FindElement(By.Id("option-"+platformName));
             platform.Click();
-            
             Thread.Sleep(1000);
-            var setupPlatform = Browser.Driver.FindElement(By.Id("SetupPlatform"));
-            Actions action = new Actions(Browser.Driver as IWebDriver);
-            action.MoveToElement(setupPlatform).Perform();
-            
         }
 
         public bool IsShowingPlatformSetup(string platformName)

@@ -39,5 +39,14 @@ namespace TestFramework
                 return cardTryItOut;
             }
         }
+        public static CardRegisterApp CardRegisterApp
+        {
+            get
+            {
+                var cardRegisterApp = new CardRegisterApp();
+                PageFactory.InitElements(Browser.Driver, cardRegisterApp);
+                return cardRegisterApp;
+            }
+        }
     }
 }
