@@ -51,7 +51,9 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Test1.cs" />
+    <Compile Include="HomPageTest.cs" />
+    <Compile Include="NavigationTest.cs" />
+    <Compile Include="Office365PageTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

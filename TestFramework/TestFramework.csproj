@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Browser.cs" />
+    <Compile Include="Navigation.cs" />
     <Compile Include="Office365Page\CardSetupPlatform.cs" />
     <Compile Include="HomePage.cs" />
     <Compile Include="Office365Page\CardRegisterApp.cs" />

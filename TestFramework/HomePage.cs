@@ -22,18 +22,18 @@ namespace TestFramework
             return Browser.Title == PageTitle;
         }
 
-        public void SelectProduct(string productName)
-        {
-            exploreLink.Click();
-            var product = Browser.Driver.FindElement(By.LinkText(productName));
-            product.Click();
-        }
+        //public void SelectProduct(string productName)
+        //{
+        //    exploreLink.Click();
+        //    var product = Browser.Driver.FindElement(By.LinkText(productName));
+        //    product.Click();
+        //}
 
-        public bool IsAtProductPage(string productName)
-        {
-            var productPage = new ProductPage();
-            PageFactory.InitElements(Browser.Driver, productPage);
-            return productPage.ProductName == productName;
-        }
+        //public bool IsAtProductPage(string productName)
+        //{
+        //    var productPage = new ProductPage();
+        //    PageFactory.InitElements(Browser.Driver, productPage);
+        //    return productPage.ProductName == productName;
+        //}
     }
 }

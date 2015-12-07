@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Interactions;
-using OpenQA.Selenium.Support.UI;
 
 namespace TestFramework.Office365Page
 {
@@ -21,8 +15,8 @@ namespace TestFramework.Office365Page
         {
             var tryBtn = Browser.Driver.FindElement(By.Id("invokeurlBtn"));
             tryBtn.Click();
-            
-            Thread.Sleep(5000);
+
+            Browser.Wait(TimeSpan.FromSeconds(5));
            // var wait = new WebDriverWait(Browser.Driver as IWebDriver, TimeSpan.FromSeconds(5));
             //wait.Until(d => d.FindElement(By.Id("response-container")));
             //WebDriverWait wait = new WebDriverWait((Browser.Driver as IWebDriver), TimeSpan.FromSeconds(10));
@@ -44,7 +38,7 @@ namespace TestFramework.Office365Page
 
         public bool IsSignedin(string userName)
         {
-            Thread.Sleep(2000);
+            Browser.Wait(TimeSpan.FromSeconds(2));
             var registrationForm = Browser.Driver.FindElement(By.Id("registration-form"));
             return registrationForm.Displayed;
         }
@@ -69,14 +63,14 @@ namespace TestFramework.Office365Page
         {
             var signinGoBtn = Browser.Driver.FindElement(By.Id("app-reg-signin"));
             signinGoBtn.Click();
-            Thread.Sleep(1000);
+            Browser.Wait(TimeSpan.FromSeconds(1));
 
             var signinInput = Browser.Driver.FindElement(By.Name("login"));
             signinInput.SendKeys(userName);
             var passwordInput = Browser.Driver.FindElement(By.Name("passwd"));
             passwordInput.SendKeys(password);
             var signinBtn = Browser.Driver.FindElement(By.Id("cred_sign_in_button"));
-            Thread.Sleep(1000);
+            Browser.Wait(TimeSpan.FromSeconds(1));
 
             signinBtn.Click();
         }

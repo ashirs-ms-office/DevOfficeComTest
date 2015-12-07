@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
-using OpenQA.Selenium.Support.UI;
 
 namespace TestFramework.Office365Page
 {
@@ -21,8 +16,8 @@ namespace TestFramework.Office365Page
         {
             var tryBtn = Browser.Driver.FindElement(By.Id("invokeurlBtn"));
             tryBtn.Click();
-            
-            Thread.Sleep(3000);
+
+            Browser.Wait(TimeSpan.FromSeconds(3));
            // var wait = new WebDriverWait(Browser.Driver as IWebDriver, TimeSpan.FromSeconds(5));
             //wait.Until(d => d.FindElement(By.Id("response-container")));
             //WebDriverWait wait = new WebDriverWait((Browser.Driver as IWebDriver), TimeSpan.FromSeconds(10));

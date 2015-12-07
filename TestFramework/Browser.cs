@@ -1,4 +1,6 @@
-﻿using OpenQA.Selenium;
+﻿using System;
+using System.Threading;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Chrome;
 
@@ -7,10 +9,14 @@ namespace TestFramework
     public static class Browser
     {
         static IWebDriver webDriver = new ChromeDriver(@"c:\libraries");
+        public static string BaseAddress
+        {
+            get { return "http://dev.office.com"; }
+        }
 
         public static void Initialize()
         {
-            webDriver.Navigate().GoToUrl("http://dev.office.com");
+            webDriver.Navigate().GoToUrl(BaseAddress);
         }
         
         public static void Goto(string url)
@@ -31,6 +37,11 @@ namespace TestFramework
         public static ISearchContext Driver
         {
             get { return webDriver; }
+        }
+
+        public static void Wait(TimeSpan timeSpan)
+        {
+            Thread.Sleep((int) timeSpan.TotalSeconds*1000);
         }
     }
 }

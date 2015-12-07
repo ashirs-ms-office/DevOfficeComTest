@@ -1,8 +1,5 @@
 ﻿using System;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Interactions;
-using OpenQA.Selenium.Support.PageObjects;
-using System.Threading;
 
 namespace TestFramework.Office365Page
 {
@@ -12,7 +9,8 @@ namespace TestFramework.Office365Page
         {
             var platform = Browser.Driver.FindElement(By.Id("option-"+platformName));
             platform.Click();
-            Thread.Sleep(1000);
+
+            Browser.Wait(TimeSpan.FromSeconds(1));
         }
 
         public bool IsShowingPlatformSetup(string platformName)

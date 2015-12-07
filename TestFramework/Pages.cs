@@ -20,6 +20,16 @@ namespace TestFramework
                 return homePage;
             }
         }
+
+        public static Navigation Navigation
+        {
+            get
+            {
+                var navigation = new Navigation();
+                PageFactory.InitElements(Browser.Driver, navigation);
+                return navigation;
+            }
+        }
         public static CardSetupPlatform CardSetupPlatform
         {
             get
