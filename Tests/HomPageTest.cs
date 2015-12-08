@@ -22,6 +22,12 @@ namespace Tests
         {
             Assert.IsTrue(Pages.HomePage.IsAt());
         }
+
+        [TestMethod]
+        public void Load_Banner_Image()
+        {
+            Assert.IsTrue(Pages.HomePage.CanLoadImage(HomePageImages.Banner));
+        }
         
         [ClassCleanup]
         public static void ClassCleanup()
