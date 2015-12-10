@@ -26,6 +26,7 @@ namespace TestFramework
 
         public bool CanLoadImage(HomePageImages image)
         {
+            // should rewrite this case as use DOM element's URL to do the HTTP request, instead of pre-saved dictionary
             Dictionary<HomePageImages, string> homePageImagesPaths = new Dictionary<HomePageImages, string>();
             homePageImagesPaths.Add(HomePageImages.Banner, Browser.BaseAddress+"/Media/Default/Banners/Banners_300x1900/get-started-banner.png");
 
