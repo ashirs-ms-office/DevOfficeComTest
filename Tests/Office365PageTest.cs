@@ -27,8 +27,8 @@ namespace Tests
         public void Can_SignIn()
         {
             Browser.Goto(Browser.BaseAddress + "/Getting-Started/office365Apis#register-app");
-            Pages.CardRegisterApp.SigninAs("JingyuShao@devexperience.onmicrosoft.com")
-                .WithPassword("password")
+            Pages.CardRegisterApp.SigninAs("Tester@devexperience.onmicrosoft.com")
+                .WithPassword("Password02@")
                 .Signin();
             Assert.IsTrue(Pages.CardRegisterApp.IsSignedin("JingyuShao@devexperience.onmicrosoft.com"),"Failed to sign in.");
         }
