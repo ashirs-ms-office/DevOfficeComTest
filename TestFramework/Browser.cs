@@ -41,6 +41,7 @@ namespace TestFramework
 
         public static void Wait(TimeSpan timeSpan)
         {
+            // need to replace with Framework wait methods: implicit wait, explicit wait
             Thread.Sleep((int) timeSpan.TotalSeconds*1000);
         }
     }
