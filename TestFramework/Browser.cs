@@ -11,7 +11,7 @@ namespace TestFramework
         static IWebDriver webDriver = new ChromeDriver(@"c:\libraries");
         public static string BaseAddress
         {
-            get { return "http://dev.office.com"; }
+            get { return "http://officedevcentersite-orchard.azurewebsites.net"; }
         }
 
         public static void Initialize()
