@@ -10,10 +10,13 @@ namespace TestFramework
 
         [FindsBy(How = How.LinkText, Using = "Resources")]
         private IWebElement resourceLinkElement;
+
         [FindsBy(How = How.LinkText, Using = "Getting Started")]
         private IWebElement gettingstartedLinkElement;
+
         [FindsBy(How = How.LinkText, Using = "Code Samples")]
         private IWebElement codesamplesLinkElement;
+
         [FindsBy(How = How.LinkText, Using = "Documentation")]
         private IWebElement documentationLinkElement;
      
@@ -38,8 +41,6 @@ namespace TestFramework
                     break;
                 default:
                     break;
-
-
             }
             
             var item = Browser.Driver.FindElement(By.LinkText(itemName));

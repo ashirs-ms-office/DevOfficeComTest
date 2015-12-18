@@ -8,17 +8,10 @@ namespace TestFramework
 {
     public class HomePage
     {
-
-        static string Url = "http://dev.office.com";
         private static string PageTitle = "Office Dev Center - Homepage";
 
         [FindsBy(How = How.LinkText, Using = "Explore")] private IWebElement exploreLink;
-
-        public void Goto()
-        {
-            Browser.Goto(Url);
-        }
-
+      
         public bool IsAt()
         {
             return Browser.Title == PageTitle;
