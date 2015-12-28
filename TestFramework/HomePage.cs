@@ -6,7 +6,7 @@ using OpenQA.Selenium.Support.PageObjects;
 
 namespace TestFramework
 {
-    public class HomePage
+    public class HomePage : BasePage
     {
         private static string PageTitle = "Office Dev Center - Homepage";
 

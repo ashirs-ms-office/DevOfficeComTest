@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.NetworkInformation;
-using System.Text;
-using System.Threading.Tasks;
-using OpenQA.Selenium.Support.PageObjects;
+﻿using OpenQA.Selenium.Support.PageObjects;
 using TestFramework.Office365Page;
 
 namespace TestFramework
@@ -15,9 +9,7 @@ namespace TestFramework
         {
             get
             {
-                var homePage = new HomePage();
-                PageFactory.InitElements(Browser.Driver, homePage);
-                return homePage;
+                return new HomePage();
             }
         }
 
@@ -25,18 +17,14 @@ namespace TestFramework
         {
             get
             {
-                var navigation = new Navigation();
-                PageFactory.InitElements(Browser.Driver, navigation);
-                return navigation;
+                return new Navigation();
             }
         }
         public static CardSetupPlatform CardSetupPlatform
         {
             get
             {
-                var cardSetupPlatform = new CardSetupPlatform();
-                PageFactory.InitElements(Browser.Driver, cardSetupPlatform);
-                return cardSetupPlatform;
+                return new CardSetupPlatform();
             }
         }
 
@@ -44,18 +32,14 @@ namespace TestFramework
         {
             get
             {
-                var cardTryItOut = new CardTryItOut();
-                PageFactory.InitElements(Browser.Driver, cardTryItOut);
-                return cardTryItOut;
+                return new CardTryItOut();
             }
         }
         public static CardRegisterApp CardRegisterApp
         {
             get
             {
-                var cardRegisterApp = new CardRegisterApp();
-                PageFactory.InitElements(Browser.Driver, cardRegisterApp);
-                return cardRegisterApp;
+                return new CardRegisterApp(); ;
             }
         }
     }

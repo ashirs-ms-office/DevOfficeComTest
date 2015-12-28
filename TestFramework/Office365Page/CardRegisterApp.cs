@@ -3,7 +3,7 @@ using OpenQA.Selenium;
 
 namespace TestFramework.Office365Page
 {
-    public class CardRegisterApp
+    public class CardRegisterApp : BasePage
     {
         public void ChooseService(int serviceIndex)
         {
@@ -33,6 +33,11 @@ namespace TestFramework.Office365Page
 
         public SigninCommand SigninAs(string userName)
         {
+            if (!Browser.Url.Contains("/getting-started/office365apis"))
+            {
+                Browser.Goto(Browser.BaseAddress + "/Getting-Started/office365Apis#register-app");
+            }
+
             return new SigninCommand(userName);
         }
 

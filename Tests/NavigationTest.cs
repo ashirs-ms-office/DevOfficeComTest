@@ -31,6 +31,13 @@ namespace Tests
             Assert.IsTrue(Pages.Navigation.IsAtProductPage("Word"));
         }
 
+        [TestMethod]
+        public void Can_Go_To_EventsPage()
+        {
+            Pages.Navigation.Select("Resources", "App Registration Tool");
+            Assert.IsTrue(Pages.Navigation.IsAtResourcePage("Office 365 app registration tool"));
+        }
+
         [ClassCleanup]
         public static void ClassCleanup()
         {

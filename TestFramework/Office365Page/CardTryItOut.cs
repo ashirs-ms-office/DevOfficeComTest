@@ -4,10 +4,15 @@ using OpenQA.Selenium.Interactions;
 
 namespace TestFramework.Office365Page
 {
-    public class CardTryItOut
+    public class CardTryItOut : BasePage
     {
         public void ChooseService(int serviceIndex)
         {
+            if (!Browser.Url.Contains("/getting-started/office365apis"))
+            {
+                Browser.Goto(Browser.BaseAddress + "/getting-started/office365apis#try-it-out");
+            }
+
             var service = Browser.Driver.FindElement(By.Id("serviceOption"+serviceIndex));
             service.Click();
         }

@@ -3,7 +3,7 @@ using OpenQA.Selenium.Support.PageObjects;
 
 namespace TestFramework
 {
-    public class Navigation
+    public class Navigation : BasePage
     {
         [FindsBy(How = How.LinkText, Using = "Explore")]
         private IWebElement exploreLinkElement;
@@ -50,14 +50,13 @@ namespace TestFramework
         public bool IsAtProductPage(string productName)
         {
             var productPage = new ProductPage();
-            PageFactory.InitElements(Browser.Driver, productPage);
             return productPage.ProductName == productName;
         }
 
         public bool IsAtResourcePage(string resourceName)
         {
-            //To do
-            return true;
+            var resourcePage = new ResourcePage();
+            return resourcePage.ResourceName == resourceName;
         }
     }
 }
