@@ -6,7 +6,10 @@ namespace TestFramework
 {
     public enum Product
     {
-        Word,
+        Excel,
+        Outlook,
+        PowerPoint,
+        Word
     }
 
     public enum Platform
@@ -23,6 +26,16 @@ namespace TestFramework
         Angular,
         [Description("Universal Windows Platform")]
         WindowsUniversal
+    }
+
+    public enum ServiceToTry
+    {
+        GetMessages,
+        GetEvents,
+        GetContacts,
+        GetFiles,
+        GetUsers,
+        GetGroups
     }
 
     public static class EnumExtension

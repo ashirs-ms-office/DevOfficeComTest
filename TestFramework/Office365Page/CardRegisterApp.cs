@@ -5,32 +5,6 @@ namespace TestFramework.Office365Page
 {
     public class CardRegisterApp : BasePage
     {
-        public void ChooseService(int serviceIndex)
-        {
-            var service = Browser.Driver.FindElement(By.Id("serviceOption"+serviceIndex));
-            service.Click();
-        }
-
-        public void ClickTry()
-        {
-            var tryBtn = Browser.Driver.FindElement(By.Id("invokeurlBtn"));
-            tryBtn.Click();
-
-            Browser.Wait(TimeSpan.FromSeconds(5));
-           // var wait = new WebDriverWait(Browser.Driver as IWebDriver, TimeSpan.FromSeconds(5));
-            //wait.Until(d => d.FindElement(By.Id("response-container")));
-            //WebDriverWait wait = new WebDriverWait((Browser.Driver as IWebDriver), TimeSpan.FromSeconds(10));
-            //IWebElement responseContainer = wait.Until(d =>
-            //{
-            //    return d.FindElement(By.Id("response-container"));
-            //});
-
-
-            //var responseContainer = Browser.Driver.FindElement(By.Id("response-container"));
-            //action.MoveToElement(responseContainer);
-            //action.Perform();
-        }
-
         public SigninCommand SigninAs(string userName)
         {
             if (!Browser.Url.Contains("/getting-started/office365apis"))
@@ -48,6 +22,7 @@ namespace TestFramework.Office365Page
             return registrationForm.Displayed;
         }
     }
+
     public class SigninCommand
     {
         private readonly string userName;

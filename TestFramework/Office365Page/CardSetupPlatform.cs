@@ -21,8 +21,6 @@ namespace TestFramework.Office365Page
 
         public bool IsShowingPlatformSetup(Platform platformName)
         {
-            //var setupPlatformDoc = Browser.Driver.FindElement(By.Id("ShowDocumentationDiv")).FindElement(By.TagName("h1"));
-            //var setupPlatformDoc = Browser.Driver.FindElement(By.CssSelector("#SetupPlatform>div>h1"));
             var setupPlatformDoc = Browser.Driver.FindElement(By.CssSelector("#ShowDocumentationDiv>h1"));
             string platformDescription = EnumExtension.GetDescription(platformName).ToLower();
             return setupPlatformDoc.Text.ToLower().Contains(platformDescription);

@@ -10,9 +10,9 @@ namespace Tests
         [TestMethod]
         public void Try_It_Out()
         {
-            Pages.CardTryItOut.ChooseService(4);
-            Pages.CardTryItOut.ClickTry();
-            Assert.IsTrue(Pages.CardTryItOut.CanGetResponse(4));
+            Pages.Office365Page.CardTryItOut.ChooseService(ServiceToTry.GetUsers);
+            Pages.Office365Page.CardTryItOut.ClickTry();
+            Assert.IsTrue(Pages.Office365Page.CardTryItOut.CanGetResponse(ServiceToTry.GetUsers));
         }
 
         [TestMethod]
@@ -20,18 +20,18 @@ namespace Tests
         {
             foreach (Platform item in Enum.GetValues(typeof(Platform)))
             {
-                Pages.CardSetupPlatform.ChoosePlatform(item);
-                Assert.IsTrue(Pages.CardSetupPlatform.IsShowingPlatformSetup(item), "Failed to choose platform {0}.", item.ToString());
+                Pages.Office365Page.CardSetupPlatform.ChoosePlatform(item);
+                Assert.IsTrue(Pages.Office365Page.CardSetupPlatform.IsShowingPlatformSetup(item), "Failed to choose platform {0}.", item.ToString());
             }
         }
 
         [TestMethod]
         public void Can_SignIn_OfficeDevAccount()
         {
-            Pages.CardRegisterApp.SigninAs("Tester@devexperience.onmicrosoft.com")
+            Pages.Office365Page.CardRegisterApp.SigninAs("Tester@devexperience.onmicrosoft.com")
                 .WithPassword("Password02@")
                 .Signin();
-            Assert.IsTrue(Pages.CardRegisterApp.IsSignedin("Tester@devexperience.onmicrosoft.com"), "Failed to sign in.");
+            Assert.IsTrue(Pages.Office365Page.CardRegisterApp.IsSignedin("Tester@devexperience.onmicrosoft.com"), "Failed to sign in.");
         }
 
         [ClassCleanup]

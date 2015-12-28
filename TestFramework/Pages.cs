@@ -1,7 +1,4 @@
-﻿using OpenQA.Selenium.Support.PageObjects;
-using TestFramework.Office365Page;
-
-namespace TestFramework
+﻿namespace TestFramework
 {
     public static class Pages
     {
@@ -20,26 +17,20 @@ namespace TestFramework
                 return new Navigation();
             }
         }
-        public static CardSetupPlatform CardSetupPlatform
+
+        public static Office365Page.Office365Page Office365Page
         {
             get
             {
-                return new CardSetupPlatform();
+                return new Office365Page.Office365Page();
             }
         }
 
-        public static CardTryItOut CardTryItOut
+        public static OfficeAddInPage.OfficeAddInPage OfficeAddInPage
         {
             get
             {
-                return new CardTryItOut();
-            }
-        }
-        public static CardRegisterApp CardRegisterApp
-        {
-            get
-            {
-                return new CardRegisterApp(); ;
+                return new OfficeAddInPage.OfficeAddInPage();
             }
         }
     }
