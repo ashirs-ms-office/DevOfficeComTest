@@ -1,0 +1,30 @@
+﻿
+namespace TestFramework.Office365Page
+{
+    public class Office365Page
+    {
+        public CardSetupPlatform CardSetupPlatform
+        {
+            get
+            {
+                return new CardSetupPlatform();
+            }
+        }
+
+        public CardTryItOut CardTryItOut
+        {
+            get
+            {
+                return new CardTryItOut();
+            }
+        }
+
+        public CardRegisterApp CardRegisterApp
+        {
+            get
+            {
+                return new CardRegisterApp(); ;
+            }
+        }
+    }
+}

@@ -34,8 +34,15 @@ namespace Tests
         [TestMethod]
         public void Can_Go_To_EventsPage()
         {
-            Pages.Navigation.Select("Resources", "App Registration Tool");
-            Assert.IsTrue(Pages.Navigation.IsAtResourcePage("Office 365 app registration tool"));
+            Pages.Navigation.Select("Resources", "Events");
+            Assert.IsTrue(Pages.Navigation.IsAtResourcePage("Events"));
+        }
+
+        [TestMethod]
+        public void Can_Go_To_MiniLabsPage()
+        {
+            Pages.Navigation.Select("Resources", "Mini-Labs");
+            Assert.IsTrue(Pages.Navigation.IsAtResourcePage("Office 365 Dev Program Mini Labs"));
         }
 
         [ClassCleanup]

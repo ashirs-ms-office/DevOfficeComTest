@@ -6,13 +6,14 @@ namespace TestFramework.Office365Page
 {
     public class CardTryItOut : BasePage
     {
-        public void ChooseService(int serviceIndex)
+        public void ChooseService(ServiceToTry serviceToTry)
         {
             if (!Browser.Url.Contains("/getting-started/office365apis"))
             {
                 Browser.Goto(Browser.BaseAddress + "/getting-started/office365apis#try-it-out");
             }
 
+            int serviceIndex = (int)serviceToTry;
             var service = Browser.Driver.FindElement(By.Id("serviceOption"+serviceIndex));
             service.Click();
         }
@@ -45,14 +46,23 @@ namespace TestFramework.Office365Page
             }
         }
 
-        public bool CanGetResponse(int serviceIndex)
+        public bool CanGetResponse(ServiceToTry serviceToTry)
         {
             var responseBody = Browser.Driver.FindElement(By.Id("responseBody"));
+            int serviceIndex = (int)serviceToTry;
             switch (serviceIndex)
             {
+                // To do
+                case (0):
+                case (1):
+                case (2):
+                case (3):
+                    return true;
                 case (4):
                     return responseBody.Text.ToLower().Contains(@"https://graph.microsoft.com/v1.0/$metadata#users/$entity");
-                    
+                case (5):
+                    return true;
+
                 default:
                     return false;
             }
