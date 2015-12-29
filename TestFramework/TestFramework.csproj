@@ -57,6 +57,7 @@
     <Compile Include="Office365Page\CardRegisterApp.cs" />
     <Compile Include="Office365Page\CardTryItOut.cs" />
     <Compile Include="Office365Page\Office365Page.cs" />
+    <Compile Include="OfficeAddInPage\CardBuild.cs" />
     <Compile Include="OfficeAddInPage\CardChooseProduct.cs" />
     <Compile Include="OfficeAddInPage\OfficeAddInPage.cs" />
     <Compile Include="Pages.cs">

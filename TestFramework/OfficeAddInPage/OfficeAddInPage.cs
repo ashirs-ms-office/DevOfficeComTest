@@ -15,5 +15,13 @@ namespace TestFramework.OfficeAddInPage
                 return new CardChooseProduct();
             }
         }
+
+        public CardBuild CardBuild
+        {
+            get
+            {
+                return new CardBuild();
+            }
+        }
     }
 }
