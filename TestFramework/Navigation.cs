@@ -1,6 +1,8 @@
-﻿using OpenQA.Selenium;
+﻿using System;
+using System.Collections.Generic;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
-
+using OpenQA.Selenium.Support.UI;
 namespace TestFramework
 {
     public class Navigation : BasePage
@@ -19,30 +21,30 @@ namespace TestFramework
 
         [FindsBy(How = How.LinkText, Using = "Documentation")]
         private IWebElement documentationLinkElement;
-     
+
         public void Select(string menuName, string itemName)
         {
             switch (menuName)
             {
-                case("Explore"):
+                case ("Explore"):
                     exploreLinkElement.Click();
                     break;
-                case("Resources"):
+                case ("Resources"):
                     resourceLinkElement.Click();
                     break;
-                case("Getting Started"):
+                case ("Getting Started"):
                     gettingstartedLinkElement.Click();
                     break;
-                case("Code Samples"):
+                case ("Code Samples"):
                     codesamplesLinkElement.Click();
                     break;
-                case("Documentaion"):
+                case ("Documentaion"):
                     documentationLinkElement.Click();
                     break;
                 default:
                     break;
             }
-            
+
             var item = Browser.Driver.FindElement(By.LinkText(itemName));
             item.Click();
         }
@@ -57,6 +59,59 @@ namespace TestFramework
         {
             var resourcePage = new ResourcePage();
             return resourcePage.ResourceName == resourceName;
+        }
+
+        /// <summary>
+        /// Set a search text
+        /// </summary>
+        /// <param name="value">The value to set</param>
+        public void InputSearchString(string value)
+        {
+            var inputElement = Browser.Driver.FindElement(By.XPath(@"//input[@ng-model=""searchText""]"));
+            inputElement.Clear();
+            inputElement.SendKeys(value);
+        }
+
+        /// <summary>
+        /// Get the count of selectable types
+        /// </summary>
+        public int GetSelectableTypeCount()
+        {
+            return Browser.Driver.FindElements(By.XPath(@"//a[@ng-model=""selectedTypes""]")).Count;
+        }
+
+        /// <summary>
+        /// Returns the displayed traings after inputting search text
+        /// </summary>
+        /// <param name="searchString">The search text to use</param>
+        /// <returns>The search result list. Each result contains the training title and description</returns>
+        public List<KeyValuePair<string, string>> GetSearchResults(string searchString)
+        {
+            this.InputSearchString(searchString);
+            var trainingList = Browser.Driver.FindElement(By.XPath(@"//div[@id=""training-page""]/div[@class=""row""]/div/ul"));
+            List<KeyValuePair<string, string>> resultList = new List<KeyValuePair<string, string>>();
+            foreach (IWebElement trainingItem in trainingList.FindElements(By.XPath("li")))
+            {
+                string trainingName = trainingItem.GetAttribute("aria-label");
+                string trainingDescription = trainingItem.FindElement(By.ClassName("description")).FindElement(By.TagName("span")).Text;
+                KeyValuePair<string, string> trainingInfo = new KeyValuePair<string, string>(trainingName, trainingDescription);
+                resultList.Add(trainingInfo);
+            }
+            return resultList;
+        }
+
+        /// <summary>
+        /// Choose a training type
+        /// </summary>
+        /// <param name="index">The index of the training type to select</param>
+        /// <returns>The selected training type</returns>
+        public string SelectTrainingType(int index)
+        {
+            var element = Browser.Driver.FindElements(By.XPath(@"//a[@ng-model=""selectedTypes""]"))[index];
+            //Use Javascript click() to avoid the known issue of chrome driver Click()
+            (Browser.webDriver as IJavaScriptExecutor).ExecuteScript("arguments[0].click();", element);
+            
+            return element.Text;
         }
     }
 }

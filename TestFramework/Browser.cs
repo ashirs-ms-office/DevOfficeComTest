@@ -7,7 +7,7 @@ namespace TestFramework
 {
     public static class Browser
     {
-        static IWebDriver webDriver = new ChromeDriver(@"d:\libraries");
+        public static IWebDriver webDriver = new ChromeDriver(@"e:\dev.office.com");
         public static string BaseAddress
         {
             get { return "http://officedevcentersite-orchard.azurewebsites.net"; }
