@@ -17,7 +17,13 @@ namespace Tests
         {
             Browser.Initialize();
         }
-        
+
+        [ClassCleanup]
+        public static void ClassCleanup()
+        {
+            Browser.Close();
+        }
+
         /// <summary>
         /// Verify whether the filters in Training page can navigate to correct results
         /// </summary>
