@@ -30,6 +30,7 @@ namespace TestFramework
                     exploreLinkElement.Click();
                     break;
                 case ("Resources"):
+                    //(Browser.webDriver as IJavaScriptExecutor).ExecuteScript("arguments[0].click();", resourceLinkElement);
                     resourceLinkElement.Click();
                     break;
                 case ("Getting Started"):
@@ -73,19 +74,19 @@ namespace TestFramework
         }
 
         /// <summary>
-        /// Get the count of selectable types
+        /// Get the count of filters
         /// </summary>
-        public int GetSelectableTypeCount()
+        public int GetFilterCount()
         {
             return Browser.Driver.FindElements(By.XPath(@"//a[@ng-model=""selectedTypes""]")).Count;
         }
 
         /// <summary>
-        /// Returns the displayed traings after inputting search text
+        /// Returns the filtered traings
         /// </summary>
         /// <param name="searchString">The search text to use</param>
         /// <returns>The search result list. Each result contains the training title and description</returns>
-        public List<KeyValuePair<string, string>> GetSearchResults(string searchString)
+        public List<KeyValuePair<string, string>> GetFilterResults(string searchString = "")
         {
             this.InputSearchString(searchString);
             var trainingList = Browser.Driver.FindElement(By.XPath(@"//div[@id=""training-page""]/div[@class=""row""]/div/ul"));
@@ -101,16 +102,16 @@ namespace TestFramework
         }
 
         /// <summary>
-        /// Choose a training type
+        /// Choose a filter type
         /// </summary>
-        /// <param name="index">The index of the training type to select</param>
-        /// <returns>The selected training type</returns>
-        public string SelectTrainingType(int index)
+        /// <param name="index">The index of the filter type to select</param>
+        /// <returns>The selected filter name</returns>
+        public string SelectFilter(int index)
         {
             var element = Browser.Driver.FindElements(By.XPath(@"//a[@ng-model=""selectedTypes""]"))[index];
             //Use Javascript click() to avoid the known issue of chrome driver Click()
             (Browser.webDriver as IJavaScriptExecutor).ExecuteScript("arguments[0].click();", element);
-            
+
             return element.Text;
         }
     }
