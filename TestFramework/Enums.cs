@@ -15,7 +15,7 @@ namespace TestFramework
     public enum Platform
     {
         Android,
-        [Description("ASP.NET MVC")] 
+        [Description("ASP.NET MVC")]
         DotNET,
         iOS,
         [Description("Node.js")]
@@ -36,6 +36,22 @@ namespace TestFramework
         GetFiles,
         GetUsers,
         GetGroups
+    }
+
+    /// <summary>
+    /// The sort type of trainings
+    /// </summary>
+    public enum TrainingSortType
+    {
+        /// <summary>
+        /// Sort by view count
+        /// </summary>
+        ViewCount,
+        
+        /// <summary>
+        /// Sort by date
+        /// </summary>
+        Date
     }
 
     public static class EnumExtension

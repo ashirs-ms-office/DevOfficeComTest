@@ -32,12 +32,12 @@ namespace Tests
         {
             Pages.Navigation.Select("Resources", "Training");
             int filterCount = Pages.Navigation.GetFilterCount();
-            
+
             for (int i = 0; i < filterCount; i++)
             {
                 string filterName = Pages.Navigation.SelectFilter(i);
 
-                List<KeyValuePair<string, string>> resultList = Pages.Navigation.GetFilterResults();
+                List<Training> resultList = Pages.Navigation.GetFilterResults();
                 Assert.AreNotEqual<int>(0,
                     resultList.Count,
                     "If select the filter {0}, there should be at least one training displayed",
@@ -46,7 +46,7 @@ namespace Tests
         }
 
         /// <summary>
-        /// Test for the search function in Resources->Training
+        /// Verify the search function in Resources->Training
         /// </summary>
         [TestMethod]
         public void Can_Search_CorrectTrainings()
@@ -58,17 +58,54 @@ namespace Tests
             {
                 string filterName = Pages.Navigation.SelectFilter(i);
 
-                List<KeyValuePair<string, string>> resultList = Pages.Navigation.GetFilterResults(searchString);
-                foreach (KeyValuePair<string, string> resultInfo in resultList)
+                List<Training> resultList = Pages.Navigation.GetFilterResults(searchString);
+                foreach (Training resultInfo in resultList)
                 {
-                    bool isNameMatched = resultInfo.Key.ToLower().Contains(searchString.ToLower());
-                    bool isDescriptionMatched = resultInfo.Value.ToLower().Contains(searchString.ToLower());
-                    Assert.IsTrue(isNameMatched || isDescriptionMatched, 
+                    bool isNameMatched = resultInfo.Name.ToLower().Contains(searchString.ToLower());
+                    bool isDescriptionMatched = resultInfo.Description.ToLower().Contains(searchString.ToLower());
+                    Assert.IsTrue(isNameMatched || isDescriptionMatched,
                         "Under {0} filter, the training:\n {1}:{2}\n should contain the search text: {3}",
                         filterName,
-                        resultInfo.Key, 
-                        resultInfo.Value,
+                        resultInfo.Name,
+                        resultInfo.Description,
                         searchString);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Verify whether the trainings can be sorted by view count correctly
+        /// </summary>
+        [TestMethod]
+        public void Can_Sort_Trainings_By_View_Count()
+        {
+            Pages.Navigation.Select("Resources", "Training");
+            int filterCount = Pages.Navigation.GetFilterCount();
+
+            for (int i = 0; i < filterCount; i++)
+            {
+                string filterName = Pages.Navigation.SelectFilter(i);
+                
+                // Set the sort order as descendent
+                Pages.Navigation.SetSortOrder(TrainingSortType.ViewCount, true);
+                List<Training> resultList = Pages.Navigation.GetFilterResults();
+                for (int j = 0; j < resultList.Count - 1; j++)
+                {
+                    Assert.IsTrue(resultList[j].ViewCount >= resultList[j + 1].ViewCount,
+                        @"The view count of ""{0}"" should be larger than or equal to its sibling ""{1}""'s", 
+                        resultList[j].Name,
+                        resultList[j+1].Name);
+                }
+
+                // Set the sort order as ascendent
+                Pages.Navigation.SetSortOrder(TrainingSortType.ViewCount, false);
+                resultList = Pages.Navigation.GetFilterResults();
+                for (int j = 0; j < resultList.Count - 1; j++)
+                {
+                    Assert.IsTrue(resultList[j].ViewCount <= resultList[j + 1].ViewCount,
+                        @"The view count of ""{0}"" should be smaller than or equal to its sibling ""{1}""'s",
+                        resultList[j].Name,
+                        resultList[j + 1].Name);
                 }
             }
         }

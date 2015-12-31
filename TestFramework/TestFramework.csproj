@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="BasePage.cs" />
     <Compile Include="Browser.cs" />
+    <Compile Include="DataStructure\Structures.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="Navigation.cs" />
     <Compile Include="Office365Page\CardSetupPlatform.cs" />

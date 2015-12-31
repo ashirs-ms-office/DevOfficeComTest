@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
-using OpenQA.Selenium.Support.UI;
+using System;
+using System.Collections.Generic;
+
 namespace TestFramework
 {
     public class Navigation : BasePage
@@ -30,7 +30,6 @@ namespace TestFramework
                     exploreLinkElement.Click();
                     break;
                 case ("Resources"):
-                    //(Browser.webDriver as IJavaScriptExecutor).ExecuteScript("arguments[0].click();", resourceLinkElement);
                     resourceLinkElement.Click();
                     break;
                 case ("Getting Started"):
@@ -86,16 +85,19 @@ namespace TestFramework
         /// </summary>
         /// <param name="searchString">The search text to use</param>
         /// <returns>The search result list. Each result contains the training title and description</returns>
-        public List<KeyValuePair<string, string>> GetFilterResults(string searchString = "")
+        public List<Training> GetFilterResults(string searchString = "")
         {
             this.InputSearchString(searchString);
             var trainingList = Browser.Driver.FindElement(By.XPath(@"//div[@id=""training-page""]/div[@class=""row""]/div/ul"));
-            List<KeyValuePair<string, string>> resultList = new List<KeyValuePair<string, string>>();
-            foreach (IWebElement trainingItem in trainingList.FindElements(By.XPath("li")))
+            List<Training> resultList = new List<Training>();
+            IReadOnlyList<IWebElement> listTrainingItems = trainingList.FindElements(By.XPath("li"));
+
+            for (int i = 0; i < listTrainingItems.Count; i++)
             {
-                string trainingName = trainingItem.GetAttribute("aria-label");
-                string trainingDescription = trainingItem.FindElement(By.ClassName("description")).FindElement(By.TagName("span")).Text;
-                KeyValuePair<string, string> trainingInfo = new KeyValuePair<string, string>(trainingName, trainingDescription);
+                Training trainingInfo = new Training();
+                trainingInfo.Name = listTrainingItems[i].GetAttribute("aria-label");
+                trainingInfo.Description = listTrainingItems[i].FindElement(By.ClassName("description")).FindElement(By.TagName("span")).Text;
+                trainingInfo.ViewCount = Convert.ToInt64((listTrainingItems[i].FindElement(By.ClassName("description")).FindElement(By.XPath("./div/span")).GetAttribute("innerHTML").Split(' '))[0]);
                 resultList.Add(trainingInfo);
             }
             return resultList;
@@ -113,6 +115,36 @@ namespace TestFramework
             (Browser.webDriver as IJavaScriptExecutor).ExecuteScript("arguments[0].click();", element);
 
             return element.Text;
+        }
+
+        /// <summary>
+        /// Set the displayed trainings' sort order
+        /// </summary>
+        /// <param name="trainingSortType">Specifies which sort type to use</param>
+        /// <param name="isDescendent">Specifies whether the trainings are sorted descendently. True means yes, False means no</param>
+        public void SetSortOrder(TrainingSortType trainingSortType, bool isDescendent)
+        {
+            string typeString;
+            if (trainingSortType.Equals(TrainingSortType.ViewCount))
+            {
+                typeString = "orderByViews()";
+            }
+            else
+            {
+                typeString = "orderByDate()";
+            }
+
+            var sortElement = Browser.Driver.FindElement(By.XPath("//a[@ng-click='" + typeString + "']"));
+            if (!sortElement.Selected)
+            {
+                sortElement.Click();
+            }
+
+            string orderString = isDescendent ? "sort_down" : "sort_up";
+            if (!sortElement.FindElement(By.Id("mostPopularIcon")).GetAttribute("src").Contains(orderString))
+            {
+                sortElement.Click();
+            }
         }
     }
 }
