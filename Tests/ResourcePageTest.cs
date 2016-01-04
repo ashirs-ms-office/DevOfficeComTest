@@ -37,7 +37,7 @@ namespace Tests
             {
                 string filterName = Pages.Navigation.SelectFilter(i);
 
-                List<Training> resultList = Pages.Navigation.GetFilterResults();
+                List<SearchedResult> resultList = Pages.Navigation.GetFilterResults();
                 Assert.AreNotEqual<int>(0,
                     resultList.Count,
                     "If select the filter {0}, there should be at least one training displayed",
@@ -58,8 +58,8 @@ namespace Tests
             {
                 string filterName = Pages.Navigation.SelectFilter(i);
 
-                List<Training> resultList = Pages.Navigation.GetFilterResults(searchString);
-                foreach (Training resultInfo in resultList)
+                List<SearchedResult> resultList = Pages.Navigation.GetFilterResults(searchString);
+                foreach (SearchedResult resultInfo in resultList)
                 {
                     bool isNameMatched = resultInfo.Name.ToLower().Contains(searchString.ToLower());
                     bool isDescriptionMatched = resultInfo.Description.ToLower().Contains(searchString.ToLower());
@@ -77,7 +77,7 @@ namespace Tests
         /// Verify whether the trainings can be sorted by view count correctly
         /// </summary>
         [TestMethod]
-        public void Can_Sort_Trainings_By_View_Count()
+        public void Can_Sort_Trainings_By_ViewCount()
         {
             Pages.Navigation.Select("Resources", "Training");
             int filterCount = Pages.Navigation.GetFilterCount();
@@ -87,8 +87,8 @@ namespace Tests
                 string filterName = Pages.Navigation.SelectFilter(i);
                 
                 // Set the sort order as descendent
-                Pages.Navigation.SetSortOrder(TrainingSortType.ViewCount, true);
-                List<Training> resultList = Pages.Navigation.GetFilterResults();
+                Pages.Navigation.SetSortOrder(SortType.ViewCount, true);
+                List<SearchedResult> resultList = Pages.Navigation.GetFilterResults();
                 for (int j = 0; j < resultList.Count - 1; j++)
                 {
                     Assert.IsTrue(resultList[j].ViewCount >= resultList[j + 1].ViewCount,
@@ -98,7 +98,7 @@ namespace Tests
                 }
 
                 // Set the sort order as ascendent
-                Pages.Navigation.SetSortOrder(TrainingSortType.ViewCount, false);
+                Pages.Navigation.SetSortOrder(SortType.ViewCount, false);
                 resultList = Pages.Navigation.GetFilterResults();
                 for (int j = 0; j < resultList.Count - 1; j++)
                 {

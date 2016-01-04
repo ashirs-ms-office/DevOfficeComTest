@@ -39,9 +39,9 @@ namespace TestFramework
     }
 
     /// <summary>
-    /// The sort type of trainings
+    /// The sort types
     /// </summary>
-    public enum TrainingSortType
+    public enum SortType
     {
         /// <summary>
         /// Sort by view count

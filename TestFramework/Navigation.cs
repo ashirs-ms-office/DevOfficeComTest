@@ -22,33 +22,33 @@ namespace TestFramework
         [FindsBy(How = How.LinkText, Using = "Documentation")]
         private IWebElement documentationLinkElement;
 
-        public void Select(string menuName, string itemName="")
+        public void Select(string menuName, string itemName = "")
         {
             switch (menuName)
             {
-                case("Explore"):
+                case ("Explore"):
                     Browser.Click(exploreLinkElement);
                     break;
-                case("Resources"):
+                case ("Resources"):
                     Browser.Click(resourceLinkElement);
                     break;
-                case("Getting Started"):
+                case ("Getting Started"):
                     Browser.Click(gettingstartedLinkElement);
                     break;
-                case("Code Samples"):
+                case ("Code Samples"):
                     Browser.Click(codesamplesLinkElement);
                     break;
-                case("Documentaion"):
+                case ("Documentaion"):
                     Browser.Click(documentationLinkElement);
                     break;
                 default:
                     break;
             }
 
-            if(!itemName.Equals(""))
+            if (!itemName.Equals(""))
             {
-            var item = Browser.Driver.FindElement(By.LinkText(itemName));
-            Browser.Click(item);
+                var item = Browser.Driver.FindElement(By.LinkText(itemName));
+                Browser.Click(item);
             }
         }
 
@@ -88,20 +88,23 @@ namespace TestFramework
         /// </summary>
         /// <param name="searchString">The search text to use</param>
         /// <returns>The search result list. Each result contains the training title and description</returns>
-        public List<Training> GetFilterResults(string searchString = "")
+        public List<SearchedResult> GetFilterResults(string searchString = "")
         {
             this.InputSearchString(searchString);
-            var trainingList = Browser.Driver.FindElement(By.XPath(@"//div[@id=""training-page""]/div[@class=""row""]/div/ul"));
-            List<Training> resultList = new List<Training>();
-            IReadOnlyList<IWebElement> listTrainingItems = trainingList.FindElements(By.XPath("li"));
+            var uList = Browser.Driver.FindElement(By.CssSelector(@"#OrderedResults+ul"));
+            List<SearchedResult> resultList = new List<SearchedResult>();
+            IReadOnlyList<IWebElement> listItems = uList.FindElements(By.XPath("li"));
 
-            for (int i = 0; i < listTrainingItems.Count; i++)
+            for (int i = 0; i < listItems.Count; i++)
             {
-                Training trainingInfo = new Training();
-                trainingInfo.Name = listTrainingItems[i].GetAttribute("aria-label");
-                trainingInfo.Description = listTrainingItems[i].FindElement(By.ClassName("description")).FindElement(By.TagName("span")).Text;
-                trainingInfo.ViewCount = Convert.ToInt64((listTrainingItems[i].FindElement(By.ClassName("description")).FindElement(By.XPath("./div/span")).GetAttribute("innerHTML").Split(' '))[0]);
-                resultList.Add(trainingInfo);
+                SearchedResult resultInfo = new SearchedResult();
+                resultInfo.Name = listItems[i].GetAttribute("aria-label");
+                
+                var descriptionElement = listItems[i].FindElement(By.ClassName("description"));
+                resultInfo.Description=descriptionElement.Text;
+                
+                resultInfo.ViewCount = Convert.ToInt64((listItems[i].FindElement(By.XPath("//span[contains(text(),' views')]")).GetAttribute("innerHTML").Split(' '))[0]);
+                resultList.Add(resultInfo);
             }
             return resultList;
         }
@@ -131,14 +134,14 @@ namespace TestFramework
         }
 
         /// <summary>
-        /// Set the displayed trainings' sort order
+        /// Set the displayed results' sort order
         /// </summary>
-        /// <param name="trainingSortType">Specifies which sort type to use</param>
-        /// <param name="isDescendent">Specifies whether the trainings are sorted descendently. True means yes, False means no</param>
-        public void SetSortOrder(TrainingSortType trainingSortType, bool isDescendent)
+        /// <param name="sortType">Specifies which sort type to use</param>
+        /// <param name="isDescendent">Specifies whether the results are sorted descendently. True means yes, False means no</param>
+        public void SetSortOrder(SortType sortType, bool isDescendent)
         {
             string typeString;
-            if (trainingSortType.Equals(TrainingSortType.ViewCount))
+            if (sortType.Equals(SortType.ViewCount))
             {
                 typeString = "orderByViews()";
             }
@@ -158,6 +161,36 @@ namespace TestFramework
             {
                 sortElement.Click();
             }
+        }
+
+        /// <summary>
+        /// Verify if none of the filters is checked
+        /// </summary>
+        /// <param name="unclearedFilter">The name of the first uncleared filter</param>
+        /// <returns>True if yes, else no.</returns>
+        public bool areFiltersCleared(out string unclearedFilter)
+        {
+            IReadOnlyList<IWebElement> elements = Browser.Driver.FindElements(By.XPath(@"//*[@ng-model=""selectedTypes""]"));
+            foreach (IWebElement element in elements)
+            {
+                if (element.GetAttribute("type").Equals("checkbox") && element.GetAttribute("checked") != null && element.GetAttribute("checked").Equals("checked"))
+                {
+
+                    unclearedFilter = element.GetAttribute("value");
+                    return false;
+                }
+            }
+            unclearedFilter = string.Empty;
+            return true;
+        }
+
+        /// <summary>
+        /// Clear the filters 
+        /// </summary>
+        public void ExecuteClearFilters()
+        {
+            var element = Browser.FindElement(By.CssSelector(".clearfilters.filter-button"));
+            Browser.Click(element);
         }
     }
 }

@@ -52,5 +52,76 @@ namespace Tests
                     filterName);
             }
         }
+
+        /// <summary>
+        /// Verify if all the checked filters can be cleared at one time
+        /// </summary>
+        [TestMethod]
+        public void Can_Filter_Cleared()
+        {
+            Pages.Navigation.Select("Code Samples");
+            int filterCount = Pages.Navigation.GetFilterCount();
+
+            //Generate the count of filters to check
+            int checkedRandomFilterCount = new Random().Next(filterCount);
+            //Generate the indexes of filters to check
+            List<int> indexList = new List<int>();
+            while (indexList.Count < checkedRandomFilterCount)
+            {
+                int randomIndex = new Random().Next(filterCount);
+                if (!indexList.Contains(randomIndex))
+                {
+                    indexList.Add(randomIndex);
+                    Pages.Navigation.SelectFilter(randomIndex);
+                }
+            }
+
+            Pages.Navigation.ExecuteClearFilters();
+            string unclearedFilter;
+            if(!Pages.Navigation.areFiltersCleared(out unclearedFilter))
+            {
+                Assert.Fail("The {0} filter should is not cleared!",
+                    unclearedFilter);
+            }
+        }
+
+        /// <summary>
+        /// Verify whether the code samples can be sorted by view count correctly
+        /// </summary>
+        [TestMethod]
+        public void Can_Sort_CodeSamples_By_ViewCount()
+        {
+            Pages.Navigation.Select("Code Samples");
+            int filterCount = Pages.Navigation.GetFilterCount();
+
+            for (int i = 0; i < filterCount; i++)
+            {
+                string filterName = Pages.Navigation.SelectFilter(i);
+
+                // Set the sort order as descendent
+                Pages.Navigation.SetSortOrder(SortType.ViewCount, true);
+                List<SearchedResult> resultList = Pages.Navigation.GetFilterResults();
+                for (int j = 0; j < resultList.Count - 1; j++)
+                {
+                    Assert.IsTrue(resultList[j].ViewCount >= resultList[j + 1].ViewCount,
+                        @"The view count of ""{0}"" should be larger than or equal to its sibling ""{1}""'s",
+                        resultList[j].Name,
+                        resultList[j + 1].Name);
+                }
+
+                // Set the sort order as ascendent
+                Pages.Navigation.SetSortOrder(SortType.ViewCount, false);
+                resultList = Pages.Navigation.GetFilterResults();
+                for (int j = 0; j < resultList.Count - 1; j++)
+                {
+                    Assert.IsTrue(resultList[j].ViewCount <= resultList[j + 1].ViewCount,
+                        @"The view count of ""{0}"" should be smaller than or equal to its sibling ""{1}""'s",
+                        resultList[j].Name,
+                        resultList[j + 1].Name);
+                }
+
+                Pages.Navigation.ExecuteClearFilters();
+            }
+        }
     }
 }
