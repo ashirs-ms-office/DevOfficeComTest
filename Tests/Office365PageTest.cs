@@ -6,7 +6,13 @@ namespace Tests
 {
     [TestClass]
     public class Office365PageTest
-    {      
+    {
+        [ClassInitialize]
+        public static void ClassInitialize(TestContext context)
+        {
+            Browser.SetWaitTime(TimeSpan.FromSeconds(10));
+        }
+
         [TestMethod]
         public void Try_It_Out()
         {

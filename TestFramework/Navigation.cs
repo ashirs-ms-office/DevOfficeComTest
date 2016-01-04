@@ -26,27 +26,27 @@ namespace TestFramework
         {
             switch (menuName)
             {
-                case ("Explore"):
-                    exploreLinkElement.Click();
+                case("Explore"):
+                    Browser.Click(exploreLinkElement);
                     break;
-                case ("Resources"):
-                    resourceLinkElement.Click();
+                case("Resources"):
+                    Browser.Click(resourceLinkElement);
                     break;
-                case ("Getting Started"):
-                    gettingstartedLinkElement.Click();
+                case("Getting Started"):
+                    Browser.Click(gettingstartedLinkElement);
                     break;
-                case ("Code Samples"):
-                    codesamplesLinkElement.Click();
+                case("Code Samples"):
+                    Browser.Click(codesamplesLinkElement);
                     break;
-                case ("Documentaion"):
-                    documentationLinkElement.Click();
+                case("Documentaion"):
+                    Browser.Click(documentationLinkElement);
                     break;
                 default:
                     break;
             }
 
             var item = Browser.Driver.FindElement(By.LinkText(itemName));
-            item.Click();
+            Browser.Click(item);
         }
 
         public bool IsAtProductPage(string productName)
