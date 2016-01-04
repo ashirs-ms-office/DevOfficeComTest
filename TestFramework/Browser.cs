@@ -148,6 +148,21 @@ namespace TestFramework
             (webDriver as IJavaScriptExecutor).ExecuteScript("arguments[0].click();", element);
         }
 
+        public static void SaveScreenShot(String PathAndFileName)
+        {
+            //ITakesScreenshot screenshot = (ITakesScreenshot)Driver;
+            //Screenshot s = screenshot.GetScreenshot();
+            //s.SaveAsFile(PathAndFileName, System.Drawing.Imaging.ImageFormat.Png);
+
+
+            Screenshot ss = ((ITakesScreenshot)webDriver).GetScreenshot();
+            string screenshot = ss.AsBase64EncodedString;
+            byte[] screenshotAsByteArray = ss.AsByteArray;
+
+            // Save the screenshot
+            ss.SaveAsFile(PathAndFileName, System.Drawing.Imaging.ImageFormat.Png);
+        }
+
         private static IWebElement FindFrame(string frameIdOrName)
         {
             IList<IWebElement> frames = webDriver.FindElements(By.TagName("iframe"));

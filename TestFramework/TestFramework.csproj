@@ -60,6 +60,11 @@
     <Compile Include="OfficeAddInPage\CardBuild.cs" />
     <Compile Include="OfficeAddInPage\CardChooseProduct.cs" />
     <Compile Include="OfficeAddInPage\CardExplore.cs" />
+    <Compile Include="OfficeAddInPage\CardExcel.cs" />
+    <Compile Include="OfficeAddInPage\CardWord.cs" />
+    <Compile Include="OfficeAddInPage\CardOutlook.cs" />
+    <Compile Include="OfficeAddInPage\CardPowerPoint.cs" />
+    <Compile Include="OfficeAddInPage\CardMoreResource.cs" />
     <Compile Include="OfficeAddInPage\OfficeAddInPage.cs" />
     <Compile Include="Pages.cs">
       <SubType>Code</SubType>
