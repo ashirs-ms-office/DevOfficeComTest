@@ -15,12 +15,32 @@ namespace TestFramework.OfficeAddInPage
                 return new CardChooseProduct();
             }
         }
-
-        public CardBuild CardBuild
+        public CardExcel CardExcel
         {
             get
             {
-                return new CardBuild();
+                return new CardExcel();
+            }
+        }
+        public CardOutlook CardOutlook
+        {
+            get
+            {
+                return new CardOutlook();
+            }
+        }
+        public CardPowerPoint CardPowerPoint
+        {
+            get
+            {
+                return new CardPowerPoint();
+            }
+        }
+        public CardWord CardWord
+        {
+            get
+            {
+                return new CardWord();
             }
         }
     }
