@@ -8,7 +8,7 @@ namespace TestFramework
 {
     public static class Browser
     {
-        static IWebDriver webDriver = new ChromeDriver(@"d:\libraries");
+        static IWebDriver webDriver = new ChromeDriver();
         static string defaultTitle;
         public static string BaseAddress
         {
@@ -17,6 +17,7 @@ namespace TestFramework
 
         public static void Initialize()
         {
+            SetWaitTime(TimeSpan.FromSeconds(10));
             webDriver.Navigate().GoToUrl(BaseAddress);
         }
         
@@ -41,7 +42,7 @@ namespace TestFramework
             //webDriver.Close();
         }
 
-        public static IWebDriver Driver
+        public static ISearchContext Driver
         {
             get { return webDriver; }
         }
@@ -50,6 +51,13 @@ namespace TestFramework
         {
             // need to replace with Framework wait methods: implicit wait, explicit wait
             Thread.Sleep((int) timeSpan.TotalSeconds*1000);
+        }
+
+        public static void SetWaitTime(TimeSpan timeSpan)
+        {
+            webDriver.Manage().Timeouts().ImplicitlyWait(timeSpan);
+            webDriver.Manage().Timeouts().SetPageLoadTimeout(TimeSpan.FromSeconds(timeSpan.TotalSeconds * 2));
+            webDriver.Manage().Timeouts().SetScriptTimeout(TimeSpan.FromSeconds(timeSpan.TotalSeconds * 2));
         }
 
         public static bool SwitchToWindow(string title)
@@ -80,6 +88,97 @@ namespace TestFramework
             bool canSwitchBack = SwitchToWindow(defaultTitle);
             defaultTitle = Title;
             return canSwitchBack;
+        }
+
+        public static IWebElement FindElementInFrame(string frameIdOrName, By by)
+        {
+            IWebElement frame = FindFrame(frameIdOrName);
+            if (frame != null)
+            {
+                webDriver.SwitchTo().Frame(frame);
+                IWebElement element = webDriver.FindElement(by);
+                webDriver.SwitchTo().DefaultContent();
+                return element;
+            }
+            else
+            {
+                throw new NoSuchFrameException(string.Format("Cannot find frame with name {0}", frameIdOrName));
+            }
+        }
+
+        public static IWebElement FindElement(By by, bool isRootElement = true)
+        {
+            try
+            {
+                return webDriver.FindElement(by);
+            }
+            catch (NoSuchElementException)
+            {
+                IList<IWebElement> frames = webDriver.FindElements(By.TagName("iframe"));
+                IWebElement element = null;
+                if (frames.Count > 0)
+                {
+                    for (int i = 0; i < frames.Count; i++)
+                    {
+                        webDriver.SwitchTo().Frame(frames[i]);
+                        element = FindElement(by, false);
+                        if (element != null)
+                        {
+                            if (isRootElement)
+                            {
+                                webDriver.SwitchTo().DefaultContent();
+                            }
+
+                            return element;
+                        }
+                    }
+                }
+
+                if (element == null)
+                {
+                    webDriver.SwitchTo().ParentFrame();
+                }
+
+                return element;
+            }
+        }
+
+        public static void Click(IWebElement element)
+        {
+            (webDriver as IJavaScriptExecutor).ExecuteScript("arguments[0].click();", element);
+        }
+
+        private static IWebElement FindFrame(string frameIdOrName)
+        {
+            IList<IWebElement> frames = webDriver.FindElements(By.TagName("iframe"));
+            IWebElement frame = null;
+            if (frames.Count > 0)
+            {
+                for (int i = 0; i< frames.Count; i++)
+                {
+                    if (frames[i].GetAttribute("id") == frameIdOrName || frames[i].GetAttribute("name") == frameIdOrName)
+                    {
+                        frame = frames[i];
+                        return frame;
+                    }
+                    else
+                    {
+                        webDriver.SwitchTo().Frame(frames[i]);
+                        frame = FindFrame(frameIdOrName);
+                        if (frame != null)
+                        {
+                            return frame;
+                        }
+                    }
+                }
+            }
+
+            if (frame == null)
+            {
+                webDriver.SwitchTo().ParentFrame();
+            }
+
+            return frame;
         }
     }
 }

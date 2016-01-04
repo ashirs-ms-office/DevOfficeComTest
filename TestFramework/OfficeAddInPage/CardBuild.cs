@@ -22,14 +22,14 @@ namespace TestFramework.OfficeAddInPage
                 case Product.Outlook:
                     {
                         var buildBtn = Browser.Driver.FindElement(By.Id("more-playground"));
-                        buildBtn.Click();
+                        Browser.Click(buildBtn);
                         break;
                     }
                 case Product.PowerPoint:
                 case Product.Word:
                     {
                         var buildBtn = Browser.Driver.FindElement(By.Id("build-downloadFromGithub"));
-                        buildBtn.Click();
+                        Browser.Click(buildBtn);
                         break;
                     }
             }

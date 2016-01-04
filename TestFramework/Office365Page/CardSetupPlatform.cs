@@ -13,10 +13,10 @@ namespace TestFramework.Office365Page
             }
 
             var platform = Browser.Driver.FindElement(By.Id("option-"+platformName.ToString().ToLower()));
-            platform.Click();
+            Browser.Click(platform);
 
             // Need refactor: Sometimes case failed for the platform setup text is not changed in time
-            Browser.Wait(TimeSpan.FromSeconds(1));
+            Browser.Wait(TimeSpan.FromSeconds(2));
         }
 
         public bool IsShowingPlatformSetup(Platform platformName)

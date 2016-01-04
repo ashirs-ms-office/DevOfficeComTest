@@ -15,13 +15,13 @@ namespace TestFramework.Office365Page
 
             int serviceIndex = (int)serviceToTry;
             var service = Browser.Driver.FindElement(By.Id("serviceOption"+serviceIndex));
-            service.Click();
+            Browser.Click(service);
         }
 
         public void ClickTry()
         {
             var tryBtn = Browser.Driver.FindElement(By.Id("invokeurlBtn"));
-            tryBtn.Click();
+            Browser.Click(tryBtn);
 
             Browser.Wait(TimeSpan.FromSeconds(3));
            // var wait = new WebDriverWait(Browser.Driver as IWebDriver, TimeSpan.FromSeconds(5));

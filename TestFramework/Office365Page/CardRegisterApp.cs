@@ -42,7 +42,7 @@ namespace TestFramework.Office365Page
         public void Signin()
         {
             var signinGoBtn = Browser.Driver.FindElement(By.Id("app-reg-signin"));
-            signinGoBtn.Click();
+            Browser.Click(signinGoBtn);
             Browser.Wait(TimeSpan.FromSeconds(1));
 
             var signinInput = Browser.Driver.FindElement(By.Name("login"));
@@ -52,7 +52,7 @@ namespace TestFramework.Office365Page
             var signinBtn = Browser.Driver.FindElement(By.Id("cred_sign_in_button"));
             Browser.Wait(TimeSpan.FromSeconds(1));
 
-            signinBtn.Click();
+            Browser.Click(signinBtn);
         }
     }
 }
