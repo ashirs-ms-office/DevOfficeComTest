@@ -9,7 +9,8 @@ namespace TestFramework.OfficeAddInPage
 {
     public class CardBuild : BasePage
     {
-        public void StartBuilding(Product product)
+        private Product product;
+        public void StartBuilding()
         {
             if (!Browser.Url.Contains("/getting-started/addins"))
             {
@@ -38,8 +39,7 @@ namespace TestFramework.OfficeAddInPage
             Browser.Wait(TimeSpan.FromSeconds(10));
 
         }
-
-        public bool IsShowingBuildPage(Product product)
+        public bool IsShowingBuildPage()
         {
             bool canSwitchWindow = false;
             switch (product)
@@ -65,6 +65,10 @@ namespace TestFramework.OfficeAddInPage
             Browser.SwitchBack();
             return canSwitchWindow;
 
+        }
+        public CardBuild(Product product)
+        {
+            this.product = product;
         }
     }
 }
