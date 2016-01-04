@@ -22,7 +22,7 @@ namespace TestFramework
         [FindsBy(How = How.LinkText, Using = "Documentation")]
         private IWebElement documentationLinkElement;
 
-        public void Select(string menuName, string itemName)
+        public void Select(string menuName, string itemName="")
         {
             switch (menuName)
             {
@@ -45,8 +45,11 @@ namespace TestFramework
                     break;
             }
 
+            if(!itemName.Equals(""))
+            {
             var item = Browser.Driver.FindElement(By.LinkText(itemName));
             Browser.Click(item);
+            }
         }
 
         public bool IsAtProductPage(string productName)
@@ -77,7 +80,7 @@ namespace TestFramework
         /// </summary>
         public int GetFilterCount()
         {
-            return Browser.Driver.FindElements(By.XPath(@"//a[@ng-model=""selectedTypes""]")).Count;
+            return Browser.Driver.FindElements(By.XPath(@"//*[@ng-model=""selectedTypes""]")).Count;
         }
 
         /// <summary>
@@ -110,11 +113,21 @@ namespace TestFramework
         /// <returns>The selected filter name</returns>
         public string SelectFilter(int index)
         {
-            var element = Browser.Driver.FindElements(By.XPath(@"//a[@ng-model=""selectedTypes""]"))[index];
-            //Use Javascript click() to avoid the known issue of chrome driver Click()
-            (Browser.webDriver as IJavaScriptExecutor).ExecuteScript("arguments[0].click();", element);
+            var element = Browser.Driver.FindElements(By.XPath(@"//*[@ng-model=""selectedTypes""]"))[index];
+            Browser.Click(element);
 
             return element.Text;
+        }
+
+        /// <summary>
+        /// Check whether a filter has an "ng-click" attribute with an updating seleted result function's name.
+        /// </summary>
+        /// <param name="index">The index of the filter type to select</param>
+        /// <returns>True if yes, else no.</returns>
+        public bool isFilterWorkable(int index)
+        {
+            var element = Browser.Driver.FindElements(By.XPath(@"//*[@ng-model=""selectedTypes""]"))[index];
+            return element.GetAttribute("ng-click").Contains("updateSelectedTypes(");
         }
 
         /// <summary>

@@ -51,6 +51,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="CodeSamplePageTest.cs" />
     <Compile Include="HomPageTest.cs" />
     <Compile Include="NavigationTest.cs" />
     <Compile Include="Office365PageTest.cs" />
