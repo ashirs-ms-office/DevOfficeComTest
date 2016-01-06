@@ -91,21 +91,50 @@ namespace TestFramework
         public List<SearchedResult> GetFilterResults(string searchString = "")
         {
             this.InputSearchString(searchString);
-            var uList = Browser.Driver.FindElement(By.CssSelector(@"#OrderedResults+ul"));
             List<SearchedResult> resultList = new List<SearchedResult>();
-            IReadOnlyList<IWebElement> listItems = uList.FindElements(By.XPath("li"));
 
-            for (int i = 0; i < listItems.Count; i++)
+            var nextElement = Browser.Driver.FindElement(By.ClassName("next-link"));
+            bool shouldReadFirstPage = true;
+            do
             {
-                SearchedResult resultInfo = new SearchedResult();
-                resultInfo.Name = listItems[i].GetAttribute("aria-label");
+                if (shouldReadFirstPage)
+                {
+                    shouldReadFirstPage = false;
+                }
+                else
+                {
+                    Browser.Click(nextElement);
+                }
+                var uList = Browser.Driver.FindElement(By.CssSelector(@"#OrderedResults+ul"));           
+                IReadOnlyList<IWebElement> listItems = uList.FindElements(By.XPath("li"));
+                for (int i = 0; i < listItems.Count; i++)
+                {
+                    SearchedResult resultInfo = new SearchedResult();
+                    resultInfo.Name = listItems[i].GetAttribute("aria-label");
 
-                var descriptionElement = listItems[i].FindElement(By.ClassName("description"));
-                resultInfo.Description = descriptionElement.Text;
+                    var descriptionElement = listItems[i].FindElement(By.ClassName("description"));
+                    resultInfo.Description = descriptionElement.Text;
 
-                resultInfo.ViewCount = Convert.ToInt64((listItems[i].FindElement(By.XPath("//span[contains(text(),' views')]")).GetAttribute("innerHTML").Split(' '))[0]);
-                resultList.Add(resultInfo);
-            }
+                    resultInfo.ViewCount = Convert.ToInt64((listItems[i].FindElement(By.XPath("//span[contains(text(),' views')]")).GetAttribute("innerHTML").Split(' '))[0]);
+                    resultList.Add(resultInfo);
+
+                    IWebElement updatedDateElement;
+                    try
+                    {
+                        updatedDateElement = listItems[i].FindElement(By.CssSelector(".date-updated"));
+                    }
+                    catch(NoSuchElementException)
+                    {
+                        updatedDateElement = null;
+                    }
+                    if (updatedDateElement != null)
+                    {
+                        resultInfo.UpdatedDate = DateTime.Parse(updatedDateElement.Text.Replace("Updated ", null));
+                    }
+                }
+            } while (nextElement.Displayed);
+
+
             return resultList;
         }
 
@@ -157,7 +186,7 @@ namespace TestFramework
             }
 
             string orderString = isDescendent ? "sort_down" : "sort_up";
-            if (!sortElement.FindElement(By.Id("mostPopularIcon")).GetAttribute("src").Contains(orderString))
+            if (!sortElement.FindElement(By.ClassName("sort-icon")).GetAttribute("src").Contains(orderString))
             {
                 sortElement.Click();
             }
@@ -176,12 +205,11 @@ namespace TestFramework
             {
                 if (element.GetAttribute("type").Equals("checkbox") && element.GetAttribute("checked") != null && element.GetAttribute("checked").Equals("checked"))
                 {
-
                     unclearedFilters.Add(element.GetAttribute("value"));
                     return false;
                 }
             }
-            
+
             return true;
         }
 
@@ -199,7 +227,7 @@ namespace TestFramework
         /// </summary>
         /// <param name="filterNames">The chosen filters</param>
         /// <returns>True if yes, else no.</returns>
-        public bool AreFiltersInURL(List<string> filterNames,out List<string> unContainedFilters)
+        public bool AreFiltersInURL(List<string> filterNames, out List<string> unContainedFilters)
         {
             bool allContained = true;
             unContainedFilters = new List<string>();

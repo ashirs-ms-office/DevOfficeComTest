@@ -130,6 +130,45 @@ namespace Tests
         }
 
         /// <summary>
+        /// Verify whether the code samples can be sorted by the updated date correctly
+        /// </summary>
+        [TestMethod]
+        public void Can_Sort_CodeSamples_By_UpdatedDate()
+        {
+            Pages.Navigation.Select("Code Samples");
+            int filterCount = Pages.Navigation.GetFilterCount();
+
+            for (int i = 0; i < filterCount; i++)
+            {
+                string filterName = Pages.Navigation.SelectFilter(i);
+
+                // Set the sort order as descendent
+                Pages.Navigation.SetSortOrder(SortType.Date, true);
+                List<SearchedResult> resultList = Pages.Navigation.GetFilterResults();
+                for (int j = 0; j < resultList.Count - 1; j++)
+                {
+                    Assert.IsTrue(resultList[j].UpdatedDate >= resultList[j + 1].UpdatedDate,
+                        @"The updated date of ""{0}"" should be later than or equal to its sibling ""{1}""'s",
+                        resultList[j].Name,
+                        resultList[j + 1].Name);
+                }
+
+                // Set the sort order as ascendent
+                Pages.Navigation.SetSortOrder(SortType.Date, false);
+                resultList = Pages.Navigation.GetFilterResults();
+                for (int j = 0; j < resultList.Count - 1; j++)
+                {
+                    Assert.IsTrue(resultList[j].UpdatedDate <= resultList[j + 1].UpdatedDate,
+                        @"The updated date of ""{0}"" should be earlier than or equal to its sibling ""{1}""'s",
+                        resultList[j].Name,
+                        resultList[j + 1].Name);
+                }
+
+                Pages.Navigation.ExecuteClearFilters();
+            }
+        }
+
+        /// <summary>
         /// Verify whether the URL can be updated accordingly when some filters are chosen
         /// </summary>
         [TestMethod]
