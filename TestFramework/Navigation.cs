@@ -99,10 +99,10 @@ namespace TestFramework
             {
                 SearchedResult resultInfo = new SearchedResult();
                 resultInfo.Name = listItems[i].GetAttribute("aria-label");
-                
+
                 var descriptionElement = listItems[i].FindElement(By.ClassName("description"));
-                resultInfo.Description=descriptionElement.Text;
-                
+                resultInfo.Description = descriptionElement.Text;
+
                 resultInfo.ViewCount = Convert.ToInt64((listItems[i].FindElement(By.XPath("//span[contains(text(),' views')]")).GetAttribute("innerHTML").Split(' '))[0]);
                 resultList.Add(resultInfo);
             }
@@ -166,21 +166,22 @@ namespace TestFramework
         /// <summary>
         /// Verify if none of the filters is checked
         /// </summary>
-        /// <param name="unclearedFilter">The name of the first uncleared filter</param>
+        /// <param name="unclearedFilters">The name of the uncleared filters</param>
         /// <returns>True if yes, else no.</returns>
-        public bool areFiltersCleared(out string unclearedFilter)
+        public bool areFiltersCleared(out List<string> unclearedFilters)
         {
             IReadOnlyList<IWebElement> elements = Browser.Driver.FindElements(By.XPath(@"//*[@ng-model=""selectedTypes""]"));
+            unclearedFilters = new List<string>();
             foreach (IWebElement element in elements)
             {
                 if (element.GetAttribute("type").Equals("checkbox") && element.GetAttribute("checked") != null && element.GetAttribute("checked").Equals("checked"))
                 {
 
-                    unclearedFilter = element.GetAttribute("value");
+                    unclearedFilters.Add(element.GetAttribute("value"));
                     return false;
                 }
             }
-            unclearedFilter = string.Empty;
+            
             return true;
         }
 
@@ -191,6 +192,26 @@ namespace TestFramework
         {
             var element = Browser.FindElement(By.CssSelector(".clearfilters.filter-button"));
             Browser.Click(element);
+        }
+
+        /// <summary>
+        /// Verify whether the url contains the chosen filters
+        /// </summary>
+        /// <param name="filterNames">The chosen filters</param>
+        /// <returns>True if yes, else no.</returns>
+        public bool AreFiltersInURL(List<string> filterNames,out List<string> unContainedFilters)
+        {
+            bool allContained = true;
+            unContainedFilters = new List<string>();
+            foreach (string filterName in filterNames)
+            {
+                if (!Browser.Url.Replace("%20", " ").ToLower().Contains(filterName.ToLower()))
+                {
+                    allContained = false;
+                    unContainedFilters.Add(filterName);
+                }
+            }
+            return allContained;
         }
     }
 }

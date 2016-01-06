@@ -85,16 +85,16 @@ namespace Tests
             for (int i = 0; i < filterCount; i++)
             {
                 string filterName = Pages.Navigation.SelectFilter(i);
-                
+
                 // Set the sort order as descendent
                 Pages.Navigation.SetSortOrder(SortType.ViewCount, true);
                 List<SearchedResult> resultList = Pages.Navigation.GetFilterResults();
                 for (int j = 0; j < resultList.Count - 1; j++)
                 {
                     Assert.IsTrue(resultList[j].ViewCount >= resultList[j + 1].ViewCount,
-                        @"The view count of ""{0}"" should be larger than or equal to its sibling ""{1}""'s", 
+                        @"The view count of ""{0}"" should be larger than or equal to its sibling ""{1}""'s",
                         resultList[j].Name,
-                        resultList[j+1].Name);
+                        resultList[j + 1].Name);
                 }
 
                 // Set the sort order as ascendent
@@ -108,6 +108,27 @@ namespace Tests
                         resultList[j + 1].Name);
                 }
             }
+        }
+
+        /// <summary>
+        /// Verify whether the URL can be updated accordingly when a filter is chosen
+        /// </summary>
+        [TestMethod]
+        public void Can_URL__Updated_By_TrainingFilter()
+        {
+            Pages.Navigation.Select("Resources", "Training");
+            int filterCount = Pages.Navigation.GetFilterCount();
+            string filterName;
+
+            //Generate the index of filters to select
+            int randomIndex = new Random().Next(filterCount);
+
+            filterName = Pages.Navigation.SelectFilter(randomIndex);
+
+            List<string> unContainedFilters;
+            Assert.IsTrue(Pages.Navigation.AreFiltersInURL(new List<string> { filterName }, out unContainedFilters),
+                "The filter {0} should be contained in URL!",
+                filterName);
         }
     }
 }

@@ -77,11 +77,16 @@ namespace Tests
             }
 
             Pages.Navigation.ExecuteClearFilters();
-            string unclearedFilter;
-            if(!Pages.Navigation.areFiltersCleared(out unclearedFilter))
+            List<string> unclearedFilters;
+            if(!Pages.Navigation.areFiltersCleared(out unclearedFilters))
             {
-                Assert.Fail("The {0} filter should is not cleared!",
-                    unclearedFilter);
+                StringBuilder stringBuilder=new StringBuilder();
+                foreach(string unClearedFilter in unclearedFilters)
+                {
+                stringBuilder.Append(unClearedFilter+";");
+                }
+                Assert.Fail("The following filters are not cleared: {0}",
+                    stringBuilder.ToString());
             }
         }
 
@@ -121,6 +126,43 @@ namespace Tests
                 }
 
                 Pages.Navigation.ExecuteClearFilters();
+            }
+        }
+
+        /// <summary>
+        /// Verify whether the URL can be updated accordingly when some filters are chosen
+        /// </summary>
+        [TestMethod]
+        public void Can_URL__Updated_By_CodeSampleFilters()
+        {
+            Pages.Navigation.Select("Code Samples");
+            int filterCount = Pages.Navigation.GetFilterCount();
+            List<string> filterNames = new List<string>();
+
+            //Generate the count of filters to select
+            int checkedRandomFilterCount = new Random().Next(filterCount);
+            //Generate the indexes of filters to select
+            List<int> indexList = new List<int>();
+            while (indexList.Count < checkedRandomFilterCount)
+            {
+                int randomIndex = new Random().Next(filterCount);
+                if (!indexList.Contains(randomIndex))
+                {
+                    indexList.Add(randomIndex);
+                    filterNames.Add(Pages.Navigation.SelectFilter(randomIndex));
+                }
+            }
+
+            List<string> unContainedFilters;
+            if (!Pages.Navigation.AreFiltersInURL(filterNames, out unContainedFilters))
+            {
+                StringBuilder stringBuilder = new StringBuilder();
+                foreach (string unContainedFilter in unContainedFilters)
+                {
+                    stringBuilder.Append(unContainedFilter + ";");
+                }
+                Assert.Fail("The following filters are not contained: {0}",
+                    stringBuilder.ToString());
             }
         }
     }
