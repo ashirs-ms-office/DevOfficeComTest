@@ -51,20 +51,19 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="CodeSamplePageTest.cs" />
     <Compile Include="HomPageTest.cs" />
     <Compile Include="NavigationTest.cs" />
     <Compile Include="Office365PageTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="OfficeAddInPageTest.cs" />
+    <Compile Include="ResourcePageTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TestFramework\TestFramework.csproj">
       <Project>{29b5141a-a93c-4e88-ad52-b6e38a54e770}</Project>
       <Name>TestFramework</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
