@@ -41,28 +41,12 @@ namespace TestFramework.OfficeAddInPage
         }
         public bool IsShowingBuildPage()
         {
-            bool canSwitchWindow = false;
-            switch (product)
+            bool canSwitchWindow = Browser.SwitchToNewWindow();
+            if (canSwitchWindow)
             {
-                case Product.Excel:
-                    {
-                        canSwitchWindow = Browser.SwitchToWindow("index.html - Task Pane Add-in Sample - Excel - Napa");
-                        break;
-                    }
-                case Product.Outlook:
-                    {
-                        canSwitchWindow = Browser.SwitchToWindow("index.html - Mail Read Sample - Napa");
-                        break;
-                    }
-                case Product.PowerPoint:
-                case Product.Word:
-                    {
-                        canSwitchWindow = Browser.SwitchToWindow("OfficeDev/Add-in-TaskPane-Sample");
-                        break;
-                    }
+                Browser.SwitchBack();
             }
 
-            Browser.SwitchBack();
             return canSwitchWindow;
 
         }

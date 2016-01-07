@@ -12,10 +12,21 @@ namespace TestFramework
         Word
     }
 
+    public enum OtherProduct
+    {
+        Access,
+        Project,
+        OneDrive,
+        OneNote,
+        SharePoint,
+        Skype,
+        Yammer
+    }
+
     public enum Platform
     {
         Android,
-        [Description("ASP.NET MVC")]
+        [Description("ASP.NET MVC")] 
         DotNET,
         iOS,
         [Description("Node.js")]
@@ -36,6 +47,105 @@ namespace TestFramework
         GetFiles,
         GetUsers,
         GetGroups
+    }
+
+    public enum MenuItemOfExplore
+    {
+        [Description("Why Office?")]
+        WhyOffice,
+        [Description("Office UI Fabric")]
+        OfficeUIFabric,
+        [Description("Microsoft Graph")]
+        MicrosoftGraph,
+        Word,
+        Excel,
+        [Description("Powerpoint")]
+        PowerPoint,
+        Access,
+        Project,
+        OneDrive,
+        OneNote,
+        Outlook,
+        SharePoint,
+        Skype,
+        Yammer,
+        Android,
+        [Description("ASP .NET")]
+        DotNET,
+        iOS,
+        JavaScript,
+        [Description("Node.js")]
+        Node,
+        [Description("PHP (coming soon)")]
+        PHP,
+        [Description("Python (coming soon)")]
+        Python,
+        [Description("Ruby (coming soon)")]
+        Ruby
+    }
+
+    public enum MenuItemOfResource
+    {
+        [Description("Patterns and Practices")]
+        PatternsAndPractices,
+        [Description("App Registration Tool")]
+        AppRegistrationTool,
+        Events,
+        Podcasts,
+        Training,
+        [Description("Mini-Labs")]
+        MiniLabs,
+        Videos,
+        [Description("Snack Demo Videos")]
+        SnackDemoVideos,
+        Showcase,
+        Transform,
+        [Description("API Sandbox")]
+        APISandbox
+    }
+
+    public enum MenuItemOfDocumentation
+    {
+        [Description("Office UI Fabric")]
+        OfficeUIFabricGettingStarted,
+        [Description("Office Add-ins")]
+        OfficeAddin,
+        [Description("SharePoint Add-ins")]
+        SharePointAddin,
+        [Description("Microsoft Graph API")]
+        MicrosoftGraphAPI,
+        [Description("Office 365 REST APIs")]
+        Office365RESTAPIs,
+        [Description("Previous Versions")]
+        PreviousVersions
+    }
+
+    public enum GetMessagesValue
+    {
+        Inbox,
+        SentItems,
+        Drafts,
+        DeletedItems
+    }
+
+    public enum GetFilesValue
+    {
+        drive_root_children,
+        me_drive
+    }
+    public enum GetUsersValue
+    {
+        me,
+        me_select_skills,
+        me_manager,
+        myOrganization_users
+    }
+    public enum GetGroupValue
+    {
+        me_memberOf,
+        members,
+        drive_root_children,
+        conversations
     }
 
     /// <summary>
@@ -65,4 +175,5 @@ namespace TestFramework
             return (attributes.Length > 0) ? attributes[0].Description : value.ToString();
         }
     }
+
 }

@@ -26,5 +26,13 @@ namespace TestFramework.Office365Page
                 return new CardRegisterApp(); ;
             }
         }
+
+        public CardDownloadCode CardDownloadCode
+        {
+            get
+            {
+                return new CardDownloadCode(); ;
+            }
+        }
     }
 }

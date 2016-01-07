@@ -10,7 +10,7 @@ namespace Tests
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
         {
-            Browser.SetWaitTime(TimeSpan.FromSeconds(10));
+            Browser.SetWaitTime(TimeSpan.FromSeconds(15));
         }
 
         [TestMethod]
@@ -40,6 +40,7 @@ namespace Tests
             Product product = Product.Excel;
             Pages.OfficeAddInPage.CardChooseProduct.ChooseProduct(product);
             Assert.IsTrue(Pages.OfficeAddInPage.CardChooseProduct.IsShowingProductExplore(product), "Failed to choose product {0}.", product.ToString());
+            Assert.IsTrue(Pages.OfficeAddInPage.CardChooseProduct.IsShowingExampleOrVideo(product), "Failed to choose product {0}.", product.ToString());
 
             Browser.SaveScreenShot(@"E:\\Excel.png");
             // Explore
@@ -65,6 +66,7 @@ namespace Tests
             Product product = Product.Outlook;
             Pages.OfficeAddInPage.CardChooseProduct.ChooseProduct(product);
             Assert.IsTrue(Pages.OfficeAddInPage.CardChooseProduct.IsShowingProductExplore(product), "Failed to choose product {0}.", product.ToString());
+            Assert.IsTrue(Pages.OfficeAddInPage.CardChooseProduct.IsShowingExampleOrVideo(product), "Failed to choose product {0}.", product.ToString());
 
             // Explore
             // Pages.OfficeAddInPage.CardOutlook.Explore.play();
@@ -89,6 +91,7 @@ namespace Tests
             Product product = Product.PowerPoint;
             Pages.OfficeAddInPage.CardChooseProduct.ChooseProduct(Product.PowerPoint);
             Assert.IsTrue(Pages.OfficeAddInPage.CardChooseProduct.IsShowingProductExplore(product), "Failed to choose product {0}.", product.ToString());
+            Assert.IsTrue(Pages.OfficeAddInPage.CardChooseProduct.IsShowingExampleOrVideo(product), "Failed to choose product {0}.", product.ToString());
             Browser.SaveScreenShot(@"E:\\PowerPoint.jpeg");
             // Explore
             // Pages.OfficeAddInPage.CardPowerPoint.Explore.play();
@@ -111,6 +114,7 @@ namespace Tests
             Product product = Product.Word;
             Pages.OfficeAddInPage.CardChooseProduct.ChooseProduct(Product.Word);
             Assert.IsTrue(Pages.OfficeAddInPage.CardChooseProduct.IsShowingProductExplore(product), "Failed to choose product {0}.", product.ToString());
+            Assert.IsTrue(Pages.OfficeAddInPage.CardChooseProduct.IsShowingExampleOrVideo(product), "Failed to choose product {0}.", product.ToString());
             Browser.SaveScreenShot(@"E:\\Word.jpeg");
             // Explore
             // Pages.OfficeAddInPage.CardWord.Explore.play();

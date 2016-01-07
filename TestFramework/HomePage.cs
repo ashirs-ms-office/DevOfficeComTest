@@ -19,24 +19,19 @@ namespace TestFramework
 
         public bool CanLoadImage(HomePageImages image)
         {
-            // should rewrite this case as use DOM element's URL to do the HTTP request, instead of pre-saved dictionary
-            Dictionary<HomePageImages, string> homePageImagesPaths = new Dictionary<HomePageImages, string>();
-            homePageImagesPaths.Add(HomePageImages.Banner, Browser.BaseAddress+"/Media/Default/Banners/Banners_300x1900/get-started-banner.png");
-
-            HttpWebRequest request = (HttpWebRequest) WebRequest.Create(homePageImagesPaths[image]);
-            request.Timeout = 15000;
-            request.Method = "HEAD";
-
-            try
+            switch (image)
             {
-                using (HttpWebResponse response = (HttpWebResponse) request.GetResponse())
-                {
-                    return response.StatusCode == HttpStatusCode.OK;
-                }
-            }
-            catch (Exception)
-            {
-                return false;
+                case (HomePageImages.Banner):
+                    IWebElement element = Browser.Driver.FindElement(By.CssSelector("#carousel>div>div"));
+                    string Url = element.GetAttribute("style");
+                    Url = Browser.BaseAddress + Url.Substring(Url.IndexOf('/'), Url.LastIndexOf('"') - Url.IndexOf('/'));
+                    return Browser.ImageExist(Url);
+                case (HomePageImages.AppAwards):
+                case (HomePageImages.Hackathons):
+                    // Todo
+                    return false;
+                default:
+                    return false;
             }
         }
     }

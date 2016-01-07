@@ -18,31 +18,47 @@ namespace Tests
         }
 
         [TestMethod]
-        public void Can_Go_To_AndroidPage()
+        public void Can_Go_To_GettingStartedPage()
         {
-            Pages.Navigation.Select("Explore","Android");
-            Assert.IsTrue(Pages.Navigation.IsAtProductPage("Android"));
+            Pages.Navigation.Select("Getting Started");
+            Assert.IsTrue(Pages.Navigation.IsAtOfficeGettingStartedPage("Getting Started"));
         }
 
         [TestMethod]
-        public void Can_Go_To_WordPage()
+        public void Can_Go_To_CodeSamplesPage()
         {
-            Pages.Navigation.Select("Explore","Word");
-            Assert.IsTrue(Pages.Navigation.IsAtProductPage("Word"));
+            Pages.Navigation.Select("Code Samples");
+            Assert.IsTrue(Pages.Navigation.IsAtOfficeGettingStartedPage("Code Samples"));
         }
 
         [TestMethod]
-        public void Can_Go_To_EventsPage()
+        public void Can_Go_To_ExploreSubPage()
         {
-            Pages.Navigation.Select("Resources", "Events");
-            Assert.IsTrue(Pages.Navigation.IsAtResourcePage("Events"));
+            foreach (MenuItemOfExplore item in Enum.GetValues(typeof(MenuItemOfExplore)))
+            {
+                Pages.Navigation.Select("Explore", item.ToString());
+                Assert.IsTrue(Pages.Navigation.IsAtExplorePage(item), string.Format("The menu item {0} is not opened currectly.", item.ToString()));
+            }
         }
 
         [TestMethod]
-        public void Can_Go_To_MiniLabsPage()
+        public void Can_Go_To_ResourceSubPage()
         {
-            Pages.Navigation.Select("Resources", "Mini-Labs");
-            Assert.IsTrue(Pages.Navigation.IsAtResourcePage("Office 365 Dev Program Mini Labs"));
+            foreach (MenuItemOfResource item in Enum.GetValues(typeof(MenuItemOfResource)))
+            {
+                Pages.Navigation.Select("Resources", item.ToString());
+                Assert.IsTrue(Pages.Navigation.IsAtResourcePage(item), string.Format("The menu item {0} is not opened currectly.", item.ToString()));
+            }
+        }
+
+        [TestMethod]
+        public void Can_Go_To_DocumentationSubPage()
+        {
+            foreach (MenuItemOfDocumentation item in Enum.GetValues(typeof(MenuItemOfDocumentation)))
+            {
+                Pages.Navigation.Select("Documentation", item.ToString());
+                Assert.IsTrue(Pages.Navigation.IsAtDocumentationPage(item), string.Format("The menu item {0} is not opened currectly.", item.ToString()));
+            }
         }
 
         [ClassCleanup]
