@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TestFramework.OfficeAddInPage
+﻿namespace TestFramework.OfficeAddInPage
 {
     public class OfficeAddInPage
     {
+        ///// <summary>
+        ///// The nav bar of the page
+        ///// </summary>
+        //public static NavBar OfficeAddInNavBar;
+    
         public CardChooseProduct CardChooseProduct
         {
             get

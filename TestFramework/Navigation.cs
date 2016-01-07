@@ -134,7 +134,6 @@ namespace TestFramework
                 }
             } while (nextElement.Displayed);
 
-
             return resultList;
         }
 

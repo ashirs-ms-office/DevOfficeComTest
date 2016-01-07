@@ -21,6 +21,15 @@ namespace TestFramework.Office365Page
             var registrationForm = Browser.Driver.FindElement(By.Id("registration-form"));
             return registrationForm.Displayed;
         }
+
+        /// <summary>
+        /// Choose to sign in later in the register app card
+        /// </summary>
+        public void SigninLater()
+        {
+            var signedinLater = Browser.Driver.FindElement(By.Id("app-reg-signin-later"));
+            Browser.Click(signedinLater);
+        }
     }
 
     public class SigninCommand

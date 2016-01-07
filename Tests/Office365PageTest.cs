@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using TestFramework;
+using TestFramework.DataStructure;
 
 namespace Tests
 {
@@ -13,6 +14,37 @@ namespace Tests
             Browser.SetWaitTime(TimeSpan.FromSeconds(10));
         }
 
+        /// <summary>
+        /// Verify whether the navigation item style can be updated when it is chosen or rejected.
+        /// </summary>
+        [TestMethod]
+        public void Can_NavItem_Style_Updated_Accordingly()
+        {
+            #region Make all the nav items selectable
+            //Randomly choose a platform
+            Platform[] platforms = Enum.GetValues(typeof(Platform)) as Platform[];
+            Random random = new Random();
+            Platform platform = platforms[random.Next(0, platforms.Length)];
+            Pages.Office365Page.CardSetupPlatform.ChoosePlatform(platform);
+            
+            //Choose to sign in later
+            Pages.Office365Page.CardRegisterApp.SigninLater();
+            #endregion Make all the nav items selectable
+
+            try
+            {
+                for (int i = 0; i < NavBar.NavItemCount; i++)
+                {
+                    NavBar.SelectNavItem(i);
+                    NavBar.VerifyItemStyleCorrect(i);
+                }
+            }
+            catch (Exception e)
+            {
+                Assert.Fail(e.Message);
+            }
+        }
+        
         [TestMethod]
         public void Try_It_Out()
         {
