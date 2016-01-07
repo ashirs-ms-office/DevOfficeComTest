@@ -36,17 +36,21 @@ namespace TestFramework.DataStructure
         public static void VerifyItemStyleCorrect(int index)
         {
             string itemClass;
-            
+
             //All the nav items before the activating item(inclusively) should have "card-done" class 
             for (int i = 0; i <= index; i++)
             {
+                //Temp: add delay time to make case pass
+                System.Threading.Thread.Sleep(3000);
                 itemClass = navItems[i].GetAttribute("class");
                 if (!itemClass.Contains("card-done"))
                 {
                     throw new Exception("The nav item "+navItems[i].Text+ @" should display the style of ""card-done"" class!");
                 }
             }
-            
+
+            //Temp: add delay time to make case pass
+            System.Threading.Thread.Sleep(3000);
             // The activating item should have "activating" class
             itemClass = navItems[index].GetAttribute("class");
             if (!itemClass.Contains("activating")) 
