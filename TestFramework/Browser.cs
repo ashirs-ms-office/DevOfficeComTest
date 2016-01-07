@@ -18,8 +18,8 @@ namespace TestFramework
         static string defaultHandle = webDriver.CurrentWindowHandle;
         public static string BaseAddress
         {
-            //get { return "http://officedevcenter-msprod-standby.azurewebsites.net"; }
-            get { return "http://officedevcentersite-orchard.azurewebsites.net"; }
+            get { return "http://officedevcenter-msprod-standby.azurewebsites.net"; }
+            //get { return "http://officedevcentersite-orchard.azurewebsites.net"; }
             //get { return "http://localhost"; }
         }
 
