@@ -34,5 +34,13 @@ namespace TestFramework.Office365Page
                 return new CardDownloadCode(); ;
             }
         }
+
+        public CardMoreResources CardMoreResources
+        {
+            get
+            {
+                return new CardMoreResources(); ;
+            }
+        }
     }
 }

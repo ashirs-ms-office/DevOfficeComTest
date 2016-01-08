@@ -48,7 +48,7 @@ namespace TestFramework.OfficeAddInPage
     }
     public class PowerPointMoreResources
     {
-        private CommonMoreResource resource = new CommonMoreResource();
+        private CommonMoreResources resource = new CommonMoreResources();
         public void OfficeAddInTypes()
         {
             resource.OfficeAddInTypes();

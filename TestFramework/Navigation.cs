@@ -79,7 +79,7 @@ namespace TestFramework
                     bool isAtOutlookPage = false;
                     if (canSwitchWindow)
                     {
-                        var outlookPage = new OtherProductPage();
+                        var outlookPage = new NewWindowPage();
                         isAtOutlookPage = outlookPage.IsAt(productName);
                         Browser.SwitchBack();
                     }
@@ -184,7 +184,7 @@ namespace TestFramework
                     bool canSwitchWindow = Browser.SwitchToNewWindow();
                     if (canSwitchWindow)
                     {
-                        var sandboxPage = new OtherProductPage();
+                        var sandboxPage = new NewWindowPage();
                         isAtResourcePage = sandboxPage.IsAt(EnumExtension.GetDescription(item));
                         Browser.SwitchBack();
                     }
@@ -234,7 +234,7 @@ namespace TestFramework
                 bool isAtOtherProductPage = false;
                 if (canSwitchWindow)
                 {
-                    var otherProductPage = new OtherProductPage();
+                    var otherProductPage = new NewWindowPage();
                     isAtOtherProductPage = otherProductPage.IsAt(item.ToString());
                     Browser.SwitchBack();
                 }

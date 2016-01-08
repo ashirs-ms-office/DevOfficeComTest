@@ -38,32 +38,32 @@ namespace TestFramework.OfficeAddInPage
     {      
         public void OfficeAddInTypes()
         {
-            CommonMoreResource resource = new CommonMoreResource();
+            CommonMoreResources resource = new CommonMoreResources();
             resource.OfficeAddInTypes();
         }
         public void DownLoadStarterSample()
         {
-            CommonMoreResource resource = new CommonMoreResource();
+            CommonMoreResources resource = new CommonMoreResources();
             resource.DownLoadStarterSample();
         }
         public void MoreCodeSamples()
         {
-            CommonMoreResource resource = new CommonMoreResource();
+            CommonMoreResources resource = new CommonMoreResources();
             resource.MoreCodeSamples(Product.Excel);
         }
         public void ReadTheDocs()
         {
-            CommonMoreResource resource = new CommonMoreResource();
+            CommonMoreResources resource = new CommonMoreResources();
             resource.ReadTheDocs();
         }
         public void DesignYourAddIn()
         {
-            CommonMoreResource resource = new CommonMoreResource();
+            CommonMoreResources resource = new CommonMoreResources();
             resource.DesignYourAddIn();
         }
         public void PublishYourAddIn()
         {
-            CommonMoreResource resource = new CommonMoreResource();
+            CommonMoreResources resource = new CommonMoreResources();
             resource.PublishYourAddIn();
         }
 

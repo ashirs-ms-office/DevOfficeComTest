@@ -24,7 +24,7 @@ namespace Tests
         }
 
         [TestMethod]
-        public void Load_Banner_Image()
+        public void Can_Load_Banner_Image()
         {
             Assert.IsTrue(Pages.HomePage.CanLoadImage(HomePageImages.Banner));
         }

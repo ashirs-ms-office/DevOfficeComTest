@@ -46,7 +46,7 @@ namespace Tests
         }
         
         [TestMethod]
-        public void Try_It_Out()
+        public void Can_Try_O365API()
         {
             Pages.Office365Page.CardTryItOut.ChooseService(ServiceToTry.GetUsers);
             Pages.Office365Page.CardTryItOut.ClickTry();
@@ -54,7 +54,7 @@ namespace Tests
         }
 		
         [TestMethod]
-        public void Try_It_Out_Value()
+        public void Can_Try_O365API_With_Parameter()
         {
             Pages.Office365Page.CardTryItOut.ChooseService(ServiceToTry.GetGroups);
             Pages.Office365Page.CardTryItOut.ChooseServiceValue(ServiceToTry.GetGroups, GetGroupValue.drive_root_children);
@@ -82,18 +82,45 @@ namespace Tests
         //}
 
         [TestMethod]
-        public void Can_DownloadCode()
+        public void Can_Download_Code()
         {
             Platform platform = Platform.Node;
             Pages.Office365Page.CardSetupPlatform.ChoosePlatform(platform);
             Assert.IsTrue(Pages.Office365Page.CardSetupPlatform.IsShowingPlatformSetup(platform), "Failed to choose platform {0}.", platform.ToString());
 
             Pages.Office365Page.CardRegisterApp.SigninLater();
-            Pages.Office365Page.CardRegisterApp.Register().WithAppName("Test_App");
-            Assert.IsTrue(Pages.Office365Page.CardRegisterApp.IsRegistered(), "Failed to register app.");
+            //Pages.Office365Page.CardRegisterApp.Register().WithAppName("Test_App");
+            //Assert.IsTrue(Pages.Office365Page.CardRegisterApp.IsRegistered(), "Failed to register app.");
 
             Pages.Office365Page.CardDownloadCode.DownloadCode();
             Assert.IsTrue(Pages.Office365Page.CardDownloadCode.IsCodeDownloaded(), "Failed to download code.");
+        }
+
+        [TestMethod]
+        public void Can_Go_Through_O365API()
+        {
+            Platform platform = Platform.Node;
+            Pages.Office365Page.CardSetupPlatform.ChoosePlatform(platform);
+            Assert.IsTrue(Pages.Office365Page.CardSetupPlatform.IsShowingPlatformSetup(platform), "Failed to choose platform {0}.", platform.ToString());
+
+            Pages.Office365Page.CardRegisterApp.SigninLater();
+            Pages.Office365Page.CardDownloadCode.DownloadCode();
+            Assert.IsTrue(Pages.Office365Page.CardDownloadCode.IsCodeDownloaded(), "Failed to download code.");
+
+            Pages.Office365Page.CardMoreResources.OutlookDevCenter();
+            Assert.IsTrue(Pages.Office365Page.CardMoreResources.IsShowingMoreResourcePage(), "Failed to open Outlook Dev Center page.");
+            Pages.Office365Page.CardMoreResources.Training();
+            Assert.IsTrue(Pages.Office365Page.CardMoreResources.IsShowingMoreResourcePage(), "Failed to open Training page.");
+            Pages.Office365Page.CardMoreResources.APIReferences();
+            Assert.IsTrue(Pages.Office365Page.CardMoreResources.IsShowingMoreResourcePage(), "Failed to open API References page.");
+            Pages.Office365Page.CardMoreResources.CodeSamples();
+            Assert.IsTrue(Pages.Office365Page.CardMoreResources.IsShowingMoreResourcePage(), "Failed to open Code Samples page.");
+            Pages.Office365Page.CardMoreResources.AzureAppAndPermissions();
+            Assert.IsTrue(Pages.Office365Page.CardMoreResources.IsShowingMoreResourcePage(), "Failed to open Azure app & Permissions page.");
+            Pages.Office365Page.CardMoreResources.AddToO365AppLauncher();
+            Assert.IsTrue(Pages.Office365Page.CardMoreResources.IsShowingMoreResourcePage(), "Failed to open O365 App Launcher page.");
+            Pages.Office365Page.CardMoreResources.SubmitToOfficeStore();
+            Assert.IsTrue(Pages.Office365Page.CardMoreResources.IsShowingMoreResourcePage(), "Failed to open Submit to Office Store page.");
         }
 
         [ClassCleanup]

@@ -114,7 +114,7 @@ namespace Tests
         /// Verify whether the URL can be updated accordingly when a filter is chosen
         /// </summary>
         [TestMethod]
-        public void Can_URL__Updated_By_TrainingFilter()
+        public void Can_URL_Updated_By_TrainingFilter()
         {
             Pages.Navigation.Select("Resources", "Training");
             int filterCount = Pages.Navigation.GetFilterCount();

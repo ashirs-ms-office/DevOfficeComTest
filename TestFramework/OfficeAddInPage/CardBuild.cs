@@ -42,12 +42,33 @@ namespace TestFramework.OfficeAddInPage
         public bool IsShowingBuildPage()
         {
             bool canSwitchWindow = Browser.SwitchToNewWindow();
+            bool isCorrectBuildPage = false;
             if (canSwitchWindow)
             {
+                switch (product)
+                {
+                    case Product.Excel:
+                        {
+                            isCorrectBuildPage = Browser.Title.Contains("Task Pane Add-in Sample - Excel - Napa");
+                            break;
+                        }
+                    case Product.Outlook:
+                        {
+                            isCorrectBuildPage = Browser.Title.Contains("Mail Read Sample - Napa");
+                            break;
+                        }
+                    case Product.PowerPoint:
+                    case Product.Word:
+                        {
+                            isCorrectBuildPage = Browser.Title.Contains("OfficeDev/Add-in-TaskPane-Sample");
+                            break;
+                        }
+                }
+
                 Browser.SwitchBack();
             }
 
-            return canSwitchWindow;
+            return isCorrectBuildPage;
 
         }
         public CardBuild(Product product)

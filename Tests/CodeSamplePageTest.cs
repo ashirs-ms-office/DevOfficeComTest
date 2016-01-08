@@ -172,7 +172,7 @@ namespace Tests
         /// Verify whether the URL can be updated accordingly when some filters are chosen
         /// </summary>
         [TestMethod]
-        public void Can_URL__Updated_By_CodeSampleFilters()
+        public void Can_URL_Updated_By_CodeSampleFilters()
         {
             Pages.Navigation.Select("Code Samples");
             int filterCount = Pages.Navigation.GetFilterCount();

@@ -61,6 +61,7 @@
     <Compile Include="GraphPage.cs" />
     <Compile Include="Navigation.cs" />
     <Compile Include="Office365Page\CardDownloadCode.cs" />
+    <Compile Include="Office365Page\CardMoreResources.cs" />
     <Compile Include="Office365Page\CardSetupPlatform.cs" />
     <Compile Include="HomePage.cs" />
     <Compile Include="Office365Page\CardRegisterApp.cs" />
@@ -73,11 +74,11 @@
     <Compile Include="OfficeAddInPage\CardWord.cs" />
     <Compile Include="OfficeAddInPage\CardOutlook.cs" />
     <Compile Include="OfficeAddInPage\CardPowerPoint.cs" />
-    <Compile Include="OfficeAddInPage\CardMoreResource.cs" />
+    <Compile Include="OfficeAddInPage\CardMoreResources.cs" />
     <Compile Include="OfficeAddInPage\OfficeAddInPage.cs" />
     <Compile Include="OfficeGettingStartedPage.cs" />
     <Compile Include="OpportunityPage.cs" />
-    <Compile Include="OtherProductPage.cs" />
+    <Compile Include="NewWindowPage.cs" />
     <Compile Include="Pages.cs">
       <SubType>Code</SubType>
     </Compile>
