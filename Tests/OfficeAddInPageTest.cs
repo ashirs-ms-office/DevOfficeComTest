@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using TestFramework;
+using TestFramework.DataStructure;
 
 namespace Tests
 {
@@ -11,6 +12,34 @@ namespace Tests
         public static void ClassInitialize(TestContext context)
         {
             Browser.SetWaitTime(TimeSpan.FromSeconds(10));
+        }
+
+        /// <summary>
+        /// Verify whether the navigation item style can be updated when it is chosen or rejected.
+        /// </summary>
+        [TestMethod]
+        public void Can_OfficeAddInNavItem_Style_Updated_Accordingly()
+        {
+            #region Make all the nav items selectable
+            //Randomly choose a product
+            Product[] products = Enum.GetValues(typeof(Product)) as Product[];
+            Random random = new Random();
+            Product product = products[random.Next(0, products.Length)];
+            Pages.OfficeAddInPage.CardChooseProduct.ChooseProduct(product);
+            #endregion Make all the nav items selectable
+
+            try
+            {
+                for (int i = 0; i < NavBar.NavItemCount; i++)
+                {
+                    NavBar.SelectNavItem(i);
+                    NavBar.VerifyItemStyleCorrect(i);
+                }
+            }
+            catch (Exception e)
+            {
+                Assert.Fail(e.Message);
+            }
         }
 
         [TestMethod]

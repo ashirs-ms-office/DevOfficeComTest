@@ -18,7 +18,7 @@ namespace Tests
         /// Verify whether the navigation item style can be updated when it is chosen or rejected.
         /// </summary>
         [TestMethod]
-        public void Can_NavItem_Style_Updated_Accordingly()
+        public void Can_Office365NavItem_Style_Updated_Accordingly()
         {
             #region Make all the nav items selectable
             //Randomly choose a platform
