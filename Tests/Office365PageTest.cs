@@ -11,7 +11,7 @@ namespace Tests
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
         {
-            Browser.SetWaitTime(TimeSpan.FromSeconds(10));
+            Browser.SetWaitTime(TimeSpan.FromSeconds(15));
         }
 
         /// <summary>
@@ -52,6 +52,15 @@ namespace Tests
             Pages.Office365Page.CardTryItOut.ClickTry();
             Assert.IsTrue(Pages.Office365Page.CardTryItOut.CanGetResponse(ServiceToTry.GetUsers));
         }
+		
+        [TestMethod]
+        public void Try_It_Out_Value()
+        {
+            Pages.Office365Page.CardTryItOut.ChooseService(ServiceToTry.GetGroups);
+            Pages.Office365Page.CardTryItOut.ChooseServiceValue(ServiceToTry.GetGroups, GetGroupValue.drive_root_children);
+            Pages.Office365Page.CardTryItOut.ClickTry();
+            Assert.IsTrue(Pages.Office365Page.CardTryItOut.CanGetResponse(ServiceToTry.GetGroups));
+        }
 
         [TestMethod]
         public void Can_Choose_Platform()
@@ -63,13 +72,28 @@ namespace Tests
             }
         }
 
+        //[TestMethod]
+        //public void Can_SignIn_OfficeDevAccount()
+        //{
+        //    Pages.Office365Page.CardRegisterApp.SigninAs("Tester@devexperience.onmicrosoft.com")
+        //        .WithPassword("Password02@")
+        //        .Signin();
+        //    Assert.IsTrue(Pages.Office365Page.CardRegisterApp.IsSignedin("Tester@devexperience.onmicrosoft.com"), "Failed to sign in.");
+        //}
+
         [TestMethod]
-        public void Can_SignIn_OfficeDevAccount()
+        public void Can_DownloadCode()
         {
-            Pages.Office365Page.CardRegisterApp.SigninAs("Tester@devexperience.onmicrosoft.com")
-                .WithPassword("Password02@")
-                .Signin();
-            Assert.IsTrue(Pages.Office365Page.CardRegisterApp.IsSignedin("Tester@devexperience.onmicrosoft.com"), "Failed to sign in.");
+            Platform platform = Platform.Node;
+            Pages.Office365Page.CardSetupPlatform.ChoosePlatform(platform);
+            Assert.IsTrue(Pages.Office365Page.CardSetupPlatform.IsShowingPlatformSetup(platform), "Failed to choose platform {0}.", platform.ToString());
+
+            Pages.Office365Page.CardRegisterApp.SigninLater();
+            Pages.Office365Page.CardRegisterApp.Register().WithAppName("Test_App");
+            Assert.IsTrue(Pages.Office365Page.CardRegisterApp.IsRegistered(), "Failed to register app.");
+
+            Pages.Office365Page.CardDownloadCode.DownloadCode();
+            Assert.IsTrue(Pages.Office365Page.CardDownloadCode.IsCodeDownloaded(), "Failed to download code.");
         }
 
         [ClassCleanup]

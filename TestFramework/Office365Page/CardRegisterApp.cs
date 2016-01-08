@@ -15,11 +15,9 @@ namespace TestFramework.Office365Page
             return new SigninCommand(userName);
         }
 
-        public bool IsSignedin(string userName)
+        public RegisterCommand Register()
         {
-            Browser.Wait(TimeSpan.FromSeconds(2));
-            var registrationForm = Browser.Driver.FindElement(By.Id("registration-form"));
-            return registrationForm.Displayed;
+            return new RegisterCommand();
         }
 
         /// <summary>
@@ -29,6 +27,43 @@ namespace TestFramework.Office365Page
         {
             var signedinLater = Browser.Driver.FindElement(By.Id("app-reg-signin-later"));
             Browser.Click(signedinLater);
+        }
+
+        public bool IsSignedin(string userName)
+        {
+            Browser.Wait(TimeSpan.FromSeconds(2));
+            var registrationForm = Browser.Driver.FindElement(By.Id("registration-form"));
+            return registrationForm.Displayed;
+        }
+
+        public bool IsRegistered()
+        {
+            Browser.Wait(TimeSpan.FromSeconds(2));
+            var registrationResult = Browser.Driver.FindElement(By.Id("registration-result"));
+            IWebElement resultText = registrationResult.FindElement(By.TagName("div"));
+            return (registrationResult.Displayed && resultText.Text.Equals("Registration Successful!"));
+        }
+    }
+
+    public class RegisterCommand
+    {
+        private string appName;
+
+        public RegisterCommand Register()
+        {
+            return this;
+        }
+
+        public void WithAppName(string name)
+        {
+            this.appName = name;
+            var appNameInput = Browser.Driver.FindElement(By.Id("appNameField"));
+            appNameInput.SendKeys(appName);
+            Browser.Wait(TimeSpan.FromSeconds(0.5));
+
+            var registerBtn = Browser.Driver.FindElement(By.Id("register-button"));
+            Browser.Click(registerBtn);
+            Browser.Wait(TimeSpan.FromSeconds(2));
         }
     }
 

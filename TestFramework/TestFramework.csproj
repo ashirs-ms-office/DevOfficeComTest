@@ -52,8 +52,15 @@
     <Compile Include="Browser.cs" />
     <Compile Include="DataStructure\NavBar.cs" />
     <Compile Include="DataStructure\Structures.cs" />
+    <Compile Include="ChoosingAPIEndpointPage.cs" />
+    <Compile Include="CodeSamplesPage.cs" />
+    <Compile Include="DocumentationPage.cs" />
     <Compile Include="Enums.cs" />
+    <Compile Include="FabricGettingStartedPage.cs" />
+    <Compile Include="FabricPage.cs" />
+    <Compile Include="GraphPage.cs" />
     <Compile Include="Navigation.cs" />
+    <Compile Include="Office365Page\CardDownloadCode.cs" />
     <Compile Include="Office365Page\CardSetupPlatform.cs" />
     <Compile Include="HomePage.cs" />
     <Compile Include="Office365Page\CardRegisterApp.cs" />
@@ -68,6 +75,9 @@
     <Compile Include="OfficeAddInPage\CardPowerPoint.cs" />
     <Compile Include="OfficeAddInPage\CardMoreResource.cs" />
     <Compile Include="OfficeAddInPage\OfficeAddInPage.cs" />
+    <Compile Include="OfficeGettingStartedPage.cs" />
+    <Compile Include="OpportunityPage.cs" />
+    <Compile Include="OtherProductPage.cs" />
     <Compile Include="Pages.cs">
       <SubType>Code</SubType>
     </Compile>

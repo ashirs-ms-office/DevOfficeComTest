@@ -17,6 +17,7 @@ namespace TestFramework
 
         public ResourcePage()
         {
+            Browser.SetWaitTime(TimeSpan.FromSeconds(5));
             try
             {
                 var bannerImage = Browser.Driver.FindElement(By.Id("banner-image"));
@@ -47,6 +48,8 @@ namespace TestFramework
                     }
                 }
             }
+
+            Browser.SetWaitTime(TimeSpan.FromSeconds(30));
         }
     }
 }
