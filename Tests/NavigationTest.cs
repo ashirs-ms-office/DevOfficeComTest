@@ -18,21 +18,21 @@ namespace Tests
         }
 
         [TestMethod]
-        public void Can_Go_To_GettingStartedPage()
+        public void S02_TC01_CanGoToGettingStartedPage()
         {
             Pages.Navigation.Select("Getting Started");
             Assert.IsTrue(Pages.Navigation.IsAtOfficeGettingStartedPage("Getting Started"));
         }
 
         [TestMethod]
-        public void Can_Go_To_CodeSamplesPage()
+        public void S02_TC02_CanGoToCodeSamplesPage()
         {
             Pages.Navigation.Select("Code Samples");
             Assert.IsTrue(Pages.Navigation.IsAtOfficeGettingStartedPage("Code Samples"));
         }
 
         [TestMethod]
-        public void Can_Go_To_ExploreSubPage()
+        public void S02_TC03_CanGoToExploreSubPage()
         {
             foreach (MenuItemOfExplore item in Enum.GetValues(typeof(MenuItemOfExplore)))
             {
@@ -42,7 +42,7 @@ namespace Tests
         }
 
         [TestMethod]
-        public void Can_Go_To_ResourceSubPage()
+        public void S02_TC04_CanGoToResourceSubPage()
         {
             foreach (MenuItemOfResource item in Enum.GetValues(typeof(MenuItemOfResource)))
             {
@@ -52,7 +52,7 @@ namespace Tests
         }
 
         [TestMethod]
-        public void Can_Go_To_DocumentationSubPage()
+        public void S02_TC05_CanGoToDocumentationSubPage()
         {
             foreach (MenuItemOfDocumentation item in Enum.GetValues(typeof(MenuItemOfDocumentation)))
             {

@@ -40,7 +40,7 @@ namespace Tests
         /// Verify if choosing the filters can cause the displayed results updated 
         /// </summary>
         [TestMethod]
-        public void Can_Filter_CheckedCorrectly()
+        public void S13_TC01_FilterCheckedWithCorrectEvent()
         {
             Pages.Navigation.Select("Code Samples");
             int filterCount = Pages.Navigation.GetFilterCount();
@@ -57,7 +57,7 @@ namespace Tests
         /// Verify if all the checked filters can be cleared at one time
         /// </summary>
         [TestMethod]
-        public void Can_Filter_Cleared()
+        public void S13_TC02_CanFilterCleared()
         {
             Pages.Navigation.Select("Code Samples");
             int filterCount = Pages.Navigation.GetFilterCount();
@@ -83,9 +83,45 @@ namespace Tests
                 StringBuilder stringBuilder=new StringBuilder();
                 foreach(string unClearedFilter in unclearedFilters)
                 {
-                stringBuilder.Append(unClearedFilter+";");
+                    stringBuilder.Append(unClearedFilter + ";");
                 }
-                Assert.Fail("The following filters are not cleared: {0}",
+                Assert.Fail("The following filters are not cleared: {0}", stringBuilder.ToString());
+            }
+        }
+
+        /// <summary>
+        /// Verify whether the URL can be updated accordingly when some filters are chosen
+        /// </summary>
+        [TestMethod]
+        public void S13_TC03_CanURLUpdatedByCodeSampleFilters()
+        {
+            Pages.Navigation.Select("Code Samples");
+            int filterCount = Pages.Navigation.GetFilterCount();
+            List<string> filterNames = new List<string>();
+
+            //Generate the count of filters to select
+            int checkedRandomFilterCount = new Random().Next(filterCount);
+            //Generate the indexes of filters to select
+            List<int> indexList = new List<int>();
+            while (indexList.Count < checkedRandomFilterCount)
+            {
+                int randomIndex = new Random().Next(filterCount);
+                if (!indexList.Contains(randomIndex))
+                {
+                    indexList.Add(randomIndex);
+                    filterNames.Add(Pages.Navigation.SelectFilter(randomIndex));
+                }
+            }
+
+            List<string> unContainedFilters;
+            if (!Pages.Navigation.AreFiltersInURL(filterNames, out unContainedFilters))
+            {
+                StringBuilder stringBuilder = new StringBuilder();
+                foreach (string unContainedFilter in unContainedFilters)
+                {
+                    stringBuilder.Append(unContainedFilter + ";");
+                }
+                Assert.Fail("The following filters are not contained: {0}",
                     stringBuilder.ToString());
             }
         }
@@ -94,7 +130,7 @@ namespace Tests
         /// Verify whether the code samples can be sorted by view count correctly
         /// </summary>
         [TestMethod]
-        public void Can_Sort_CodeSamples_By_ViewCount()
+        public void S13_TC04_CanSortCodeSamplesByViewCount()
         {
             Pages.Navigation.Select("Code Samples");
             int filterCount = Pages.Navigation.GetFilterCount();
@@ -133,7 +169,7 @@ namespace Tests
         /// Verify whether the code samples can be sorted by the updated date correctly
         /// </summary>
         [TestMethod]
-        public void Can_Sort_CodeSamples_By_UpdatedDate()
+        public void S13_TC05_CanSortCodeSamplesByUpdatedDate()
         {
             Pages.Navigation.Select("Code Samples");
             int filterCount = Pages.Navigation.GetFilterCount();
@@ -165,43 +201,6 @@ namespace Tests
                 }
 
                 Pages.Navigation.ExecuteClearFilters();
-            }
-        }
-
-        /// <summary>
-        /// Verify whether the URL can be updated accordingly when some filters are chosen
-        /// </summary>
-        [TestMethod]
-        public void Can_URL_Updated_By_CodeSampleFilters()
-        {
-            Pages.Navigation.Select("Code Samples");
-            int filterCount = Pages.Navigation.GetFilterCount();
-            List<string> filterNames = new List<string>();
-
-            //Generate the count of filters to select
-            int checkedRandomFilterCount = new Random().Next(filterCount);
-            //Generate the indexes of filters to select
-            List<int> indexList = new List<int>();
-            while (indexList.Count < checkedRandomFilterCount)
-            {
-                int randomIndex = new Random().Next(filterCount);
-                if (!indexList.Contains(randomIndex))
-                {
-                    indexList.Add(randomIndex);
-                    filterNames.Add(Pages.Navigation.SelectFilter(randomIndex));
-                }
-            }
-
-            List<string> unContainedFilters;
-            if (!Pages.Navigation.AreFiltersInURL(filterNames, out unContainedFilters))
-            {
-                StringBuilder stringBuilder = new StringBuilder();
-                foreach (string unContainedFilter in unContainedFilters)
-                {
-                    stringBuilder.Append(unContainedFilter + ";");
-                }
-                Assert.Fail("The following filters are not contained: {0}",
-                    stringBuilder.ToString());
             }
         }
     }

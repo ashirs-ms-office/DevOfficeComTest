@@ -17,33 +17,33 @@ namespace Tests
         /// <summary>
         /// Verify whether the navigation item style can be updated when it is chosen or rejected.
         /// </summary>
-        [TestMethod]
-        public void Can_OfficeAddInNavItem_Style_Updated_Accordingly()
-        {
-            #region Make all the nav items selectable
-            //Randomly choose a product
-            Product[] products = Enum.GetValues(typeof(Product)) as Product[];
-            Random random = new Random();
-            Product product = products[random.Next(0, products.Length)];
-            Pages.OfficeAddInPage.CardChooseProduct.ChooseProduct(product);
-            #endregion Make all the nav items selectable
+        //[TestMethod]
+        //public void Can_OfficeAddInNavItem_Style_Updated_Accordingly()
+        //{
+        //    #region Make all the nav items selectable
+        //    //Randomly choose a product
+        //    Product[] products = Enum.GetValues(typeof(Product)) as Product[];
+        //    Random random = new Random();
+        //    Product product = products[random.Next(0, products.Length)];
+        //    Pages.OfficeAddInPage.CardChooseProduct.ChooseProduct(product);
+        //    #endregion Make all the nav items selectable
 
-            try
-            {
-                for (int i = 0; i < NavBar.NavItemCount; i++)
-                {
-                    NavBar.SelectNavItem(i);
-                    NavBar.VerifyItemStyleCorrect(i);
-                }
-            }
-            catch (Exception e)
-            {
-                Assert.Fail(e.Message);
-            }
-        }
+        //    try
+        //    {
+        //        for (int i = 0; i < NavBar.NavItemCount; i++)
+        //        {
+        //            NavBar.SelectNavItem(i);
+        //            NavBar.VerifyItemStyleCorrect(i);
+        //        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Assert.Fail(e.Message);
+        //    }
+        //}
 
         [TestMethod]
-        public void Can_Choose_Product()
+        public void S10_TC01_CanChooseProduct_PowerPoint()
         {
             Product product = Product.PowerPoint;
             Pages.OfficeAddInPage.CardChooseProduct.ChooseProduct(product);
@@ -53,7 +53,7 @@ namespace Tests
         }
 
         [TestMethod]
-        public void Can_Start_Building()
+        public void S12_TC01_CanStartBuilding_Excel()
         {
             Product product = Product.Excel;
             Pages.OfficeAddInPage.CardChooseProduct.ChooseProduct(product);
@@ -63,7 +63,7 @@ namespace Tests
         }
 
         [TestMethod]
-        public void Can_Go_Through_Excel_Product()
+        public void S09_TC01_CanGoThroughAddinPage_Excel()
         {
             // Select app
             Product product = Product.Excel;
@@ -95,7 +95,7 @@ namespace Tests
         }
 
         [TestMethod]
-        public void Can_Go_Through_Outlook_Product()
+        public void S09_TC02_CanGoThroughAddinPage_Outlook()
         {
             // Select app
             Product product = Product.Outlook;
@@ -127,7 +127,7 @@ namespace Tests
             Assert.IsTrue(Pages.Office365Page.CardMoreResources.IsShowingMoreResourcePage(), "Failed to open Add-in overview page.");
         }
         [TestMethod]
-        public void Can_Go_Through_PowerPoint_Product()
+        public void S09_TC03_CanGoThroughAddinPage_PowerPoint()
         {
             // Select app
             Product product = Product.PowerPoint;
@@ -155,7 +155,7 @@ namespace Tests
             Assert.IsTrue(Pages.Office365Page.CardMoreResources.IsShowingMoreResourcePage(), "Failed to open Add-in overview page.");
         }
         [TestMethod]
-        public void Can_Go_Through_Word_Product()
+        public void S09_TC04_CanGoThroughAddinPage_Word()
         {
             // Select app
             Product product = Product.Word;

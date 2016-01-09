@@ -28,7 +28,7 @@ namespace Tests
         /// Verify whether the filters in Training page can navigate to correct results
         /// </summary>
         [TestMethod]
-        public void Can_Filter_Trainings()
+        public void S14_TC01_CanFilterTrainings()
         {
             Pages.Navigation.Select("Resources", "Training");
             int filterCount = Pages.Navigation.GetFilterCount();
@@ -49,7 +49,7 @@ namespace Tests
         /// Verify the search function in Resources->Training
         /// </summary>
         [TestMethod]
-        public void Can_Search_CorrectTrainings()
+        public void S14_TC02_CanSearchCorrectTrainings()
         {
             Pages.Navigation.Select("Resources", "Training");
             int filterCount = Pages.Navigation.GetFilterCount();
@@ -77,7 +77,7 @@ namespace Tests
         /// Verify whether the trainings can be sorted by view count correctly
         /// </summary>
         [TestMethod]
-        public void Can_Sort_Trainings_By_ViewCount()
+        public void S14_TC03_CanSortCodeSamplesByViewCount()
         {
             Pages.Navigation.Select("Resources", "Training");
             int filterCount = Pages.Navigation.GetFilterCount();
@@ -114,7 +114,7 @@ namespace Tests
         /// Verify whether the URL can be updated accordingly when a filter is chosen
         /// </summary>
         [TestMethod]
-        public void Can_URL_Updated_By_TrainingFilter()
+        public void S14_TC04_CanURLUpdatedByTrainingsFilters()
         {
             Pages.Navigation.Select("Resources", "Training");
             int filterCount = Pages.Navigation.GetFilterCount();
