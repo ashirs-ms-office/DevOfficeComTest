@@ -25,29 +25,20 @@ namespace Tests
         {
             Browser.Close();
         }
-        //
-        // Use TestInitialize to run code before running each test 
-        // [TestInitialize()]
-        // public void MyTestInitialize() { }
-        //
-        // Use TestCleanup to run code after each test has run
-        // [TestCleanup()]
-        // public void MyTestCleanup() { }
-        //
         #endregion
 
         /// <summary>
         /// Verify if choosing the filters can cause the displayed results updated 
         /// </summary>
         [TestMethod]
-        public void Can_Filter_CheckedCorrectly()
+        public void S13_TC01_FilterCheckedWithCorrectEvent()
         {
             Pages.Navigation.Select("Code Samples");
-            int filterCount = Pages.Navigation.GetFilterCount();
+            int filterCount = Browser.GetFilterCount();
             for (int i = 0; i < filterCount; i++)
             {
-                string filterName = Pages.Navigation.SelectFilter(i);
-                Assert.IsTrue(Pages.Navigation.isFilterWorkable(i),
+                string filterName = Browser.SelectFilter(i);
+                Assert.IsTrue(Browser.isFilterWorkable(i),
                     "The {0} filter should be valid to change displayed code samples",
                     filterName);
             }
@@ -57,10 +48,10 @@ namespace Tests
         /// Verify if all the checked filters can be cleared at one time
         /// </summary>
         [TestMethod]
-        public void Can_Filter_Cleared()
+        public void S13_TC02_CanFilterCleared()
         {
             Pages.Navigation.Select("Code Samples");
-            int filterCount = Pages.Navigation.GetFilterCount();
+            int filterCount = Browser.GetFilterCount();
 
             //Generate the count of filters to check
             int checkedRandomFilterCount = new Random().Next(filterCount);
@@ -72,13 +63,13 @@ namespace Tests
                 if (!indexList.Contains(randomIndex))
                 {
                     indexList.Add(randomIndex);
-                    Pages.Navigation.SelectFilter(randomIndex);
+                    Browser.SelectFilter(randomIndex);
                 }
             }
 
-            Pages.Navigation.ExecuteClearFilters();
+            Browser.ExecuteClearFilters();
             List<string> unclearedFilters;
-            if(!Pages.Navigation.areFiltersCleared(out unclearedFilters))
+            if (!Browser.areFiltersCleared(out unclearedFilters))
             {
                 StringBuilder stringBuilder=new StringBuilder();
                 foreach(string unClearedFilter in unclearedFilters)
@@ -91,91 +82,13 @@ namespace Tests
         }
 
         /// <summary>
-        /// Verify whether the code samples can be sorted by view count correctly
-        /// </summary>
-        [TestMethod]
-        public void Can_Sort_CodeSamples_By_ViewCount()
-        {
-            Pages.Navigation.Select("Code Samples");
-            int filterCount = Pages.Navigation.GetFilterCount();
-
-            for (int i = 0; i < filterCount; i++)
-            {
-                string filterName = Pages.Navigation.SelectFilter(i);
-
-                // Set the sort order as descendent
-                Pages.Navigation.SetSortOrder(SortType.ViewCount, true);
-                List<SearchedResult> resultList = Pages.Navigation.GetFilterResults();
-                for (int j = 0; j < resultList.Count - 1; j++)
-                {
-                    Assert.IsTrue(resultList[j].ViewCount >= resultList[j + 1].ViewCount,
-                        @"The view count of ""{0}"" should be larger than or equal to its sibling ""{1}""'s",
-                        resultList[j].Name,
-                        resultList[j + 1].Name);
-                }
-
-                // Set the sort order as ascendent
-                Pages.Navigation.SetSortOrder(SortType.ViewCount, false);
-                resultList = Pages.Navigation.GetFilterResults();
-                for (int j = 0; j < resultList.Count - 1; j++)
-                {
-                    Assert.IsTrue(resultList[j].ViewCount <= resultList[j + 1].ViewCount,
-                        @"The view count of ""{0}"" should be smaller than or equal to its sibling ""{1}""'s",
-                        resultList[j].Name,
-                        resultList[j + 1].Name);
-                }
-
-                Pages.Navigation.ExecuteClearFilters();
-            }
-        }
-
-        /// <summary>
-        /// Verify whether the code samples can be sorted by the updated date correctly
-        /// </summary>
-        [TestMethod]
-        public void Can_Sort_CodeSamples_By_UpdatedDate()
-        {
-            Pages.Navigation.Select("Code Samples");
-            int filterCount = Pages.Navigation.GetFilterCount();
-
-            for (int i = 0; i < filterCount; i++)
-            {
-                string filterName = Pages.Navigation.SelectFilter(i);
-
-                // Set the sort order as descendent
-                Pages.Navigation.SetSortOrder(SortType.Date, true);
-                List<SearchedResult> resultList = Pages.Navigation.GetFilterResults();
-                for (int j = 0; j < resultList.Count - 1; j++)
-                {
-                    Assert.IsTrue(resultList[j].UpdatedDate >= resultList[j + 1].UpdatedDate,
-                        @"The updated date of ""{0}"" should be later than or equal to its sibling ""{1}""'s",
-                        resultList[j].Name,
-                        resultList[j + 1].Name);
-                }
-
-                // Set the sort order as ascendent
-                Pages.Navigation.SetSortOrder(SortType.Date, false);
-                resultList = Pages.Navigation.GetFilterResults();
-                for (int j = 0; j < resultList.Count - 1; j++)
-                {
-                    Assert.IsTrue(resultList[j].UpdatedDate <= resultList[j + 1].UpdatedDate,
-                        @"The updated date of ""{0}"" should be earlier than or equal to its sibling ""{1}""'s",
-                        resultList[j].Name,
-                        resultList[j + 1].Name);
-                }
-
-                Pages.Navigation.ExecuteClearFilters();
-            }
-        }
-
-        /// <summary>
         /// Verify whether the URL can be updated accordingly when some filters are chosen
         /// </summary>
         [TestMethod]
-        public void Can_URL_Updated_By_CodeSampleFilters()
+        public void S13_TC03_CanURLUpdatedByCodeSampleFilters()
         {
             Pages.Navigation.Select("Code Samples");
-            int filterCount = Pages.Navigation.GetFilterCount();
+            int filterCount = Browser.GetFilterCount();
             List<string> filterNames = new List<string>();
 
             //Generate the count of filters to select
@@ -188,12 +101,12 @@ namespace Tests
                 if (!indexList.Contains(randomIndex))
                 {
                     indexList.Add(randomIndex);
-                    filterNames.Add(Pages.Navigation.SelectFilter(randomIndex));
+                    filterNames.Add(Browser.SelectFilter(randomIndex));
                 }
             }
 
             List<string> unContainedFilters;
-            if (!Pages.Navigation.AreFiltersInURL(filterNames, out unContainedFilters))
+            if (!Browser.AreFiltersInURL(filterNames, out unContainedFilters))
             {
                 StringBuilder stringBuilder = new StringBuilder();
                 foreach (string unContainedFilter in unContainedFilters)
@@ -204,5 +117,91 @@ namespace Tests
                     stringBuilder.ToString());
             }
         }
+
+        /// <summary>
+        /// Verify whether the code samples can be sorted by view count correctly
+        /// </summary>
+        [TestMethod]
+        public void S13_TC04_CanSortCodeSamplesByViewCount()
+        {
+            Pages.Navigation.Select("Code Samples");
+            int filterCount = Browser.GetFilterCount();
+            
+            //Randomly choose two filters to check
+            int randomIndex;
+            int usedIndex=filterCount;
+            for (int i = 0; i < 2; i++)
+            {
+                do{
+                randomIndex = new Random().Next(filterCount);
+                } while (randomIndex==usedIndex);
+                string filterName = Browser.SelectFilter(randomIndex);
+
+                // Set the sort order as descendent
+                Browser.SetSortOrder(SortType.ViewCount, true);
+                List<SearchedResult> resultList = Browser.GetFilterResults();
+                for (int j = 0; j < resultList.Count - 1; j++)
+                {
+                    Assert.IsTrue(resultList[j].ViewCount >= resultList[j + 1].ViewCount,
+                        @"The view count of ""{0}"" should be larger than or equal to its sibling ""{1}""'s",
+                        resultList[j].Name,
+                        resultList[j + 1].Name);
+                }
+
+                // Set the sort order as ascendent
+                Browser.SetSortOrder(SortType.ViewCount, false);
+                resultList = Browser.GetFilterResults();
+                for (int j = 0; j < resultList.Count - 1; j++)
+                {
+                    Assert.IsTrue(resultList[j].ViewCount <= resultList[j + 1].ViewCount,
+                        @"The view count of ""{0}"" should be smaller than or equal to its sibling ""{1}""'s",
+                        resultList[j].Name,
+                        resultList[j + 1].Name);
+                }
+
+                usedIndex = randomIndex;
+                Browser.ExecuteClearFilters();
+            }
+        }
+
+        /// <summary>
+        /// Verify whether the code samples can be sorted by the updated date correctly
+        /// </summary>
+        [TestMethod]
+        public void S13_TC05_CanSortCodeSamplesByUpdatedDate()
+        {
+            Pages.Navigation.Select("Code Samples");
+            int filterCount = Browser.GetFilterCount();
+
+            for (int i = 0; i < filterCount; i++)
+            {
+                string filterName = Browser.SelectFilter(i);
+
+                // Set the sort order as descendent
+                Browser.SetSortOrder(SortType.Date, true);
+                List<SearchedResult> resultList = Browser.GetFilterResults();
+                
+                for (int j = 0; j < resultList.Count - 1; j++)
+                {
+                    Assert.IsTrue(resultList[j].UpdatedDate >= resultList[j + 1].UpdatedDate,
+                        @"The updated date of ""{0}"" should be later than or equal to its sibling ""{1}""'s",
+                        resultList[j].Name,
+                        resultList[j + 1].Name);
+                }
+
+                // Set the sort order as ascendent
+                Browser.SetSortOrder(SortType.Date, false);
+                resultList = Browser.GetFilterResults();
+                for (int j = 0; j < resultList.Count - 1; j++)
+                {
+                    Assert.IsTrue(resultList[j].UpdatedDate <= resultList[j + 1].UpdatedDate,
+                        @"The updated date of ""{0}"" should be earlier than or equal to its sibling ""{1}""'s",
+                        resultList[j].Name,
+                        resultList[j + 1].Name);
+                }
+
+                Browser.ExecuteClearFilters();
+            }
+        }     
     }
 }
