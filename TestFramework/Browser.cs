@@ -16,6 +16,12 @@ namespace TestFramework
         static IWebDriver webDriver = new ChromeDriver();
         static string defaultTitle;
         static string defaultHandle = webDriver.CurrentWindowHandle;
+        
+        /// <summary>
+        /// Some typical search text
+        /// </summary>
+        public static readonly string[] typicalSearchText = new string[] { "Office 365", "API", "SharePoint", "Add-in", "Property Manager", "ios", "OneDrive" };
+        
         public static string BaseAddress
         {
             get { return "http://officedevcenter-msprod-standby.azurewebsites.net"; }

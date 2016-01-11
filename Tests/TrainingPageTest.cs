@@ -53,7 +53,9 @@ namespace Tests
         {
             Pages.Navigation.Select("Resources", "Training");
             int filterCount = Browser.GetFilterCount();
-            string searchString = "a";
+            int randomIndex = new Random().Next(Browser.typicalSearchText.Length);
+            string searchString = Browser.typicalSearchText[randomIndex];
+            
             for (int i = 0; i < filterCount; i++)
             {
                 string filterName = Browser.SelectFilter(i);
