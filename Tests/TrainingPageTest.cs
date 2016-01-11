@@ -7,10 +7,10 @@ using TestFramework;
 namespace Tests
 {
     /// <summary>
-    /// Test class for pages which are navigated to by the links under Resources
+    /// Test class for Resources-->Training page 
     /// </summary>
     [TestClass]
-    public class ResourcePageTest
+    public class TrainingPageTest
     {
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
@@ -28,16 +28,16 @@ namespace Tests
         /// Verify whether the filters in Training page can navigate to correct results
         /// </summary>
         [TestMethod]
-        public void S14_TC01_CanFilterTrainings()
+        public void S14_TC01_Can_Filter_Trainings()
         {
             Pages.Navigation.Select("Resources", "Training");
-            int filterCount = Pages.Navigation.GetFilterCount();
+            int filterCount = Browser.GetFilterCount();
 
             for (int i = 0; i < filterCount; i++)
             {
-                string filterName = Pages.Navigation.SelectFilter(i);
+                string filterName = Browser.SelectFilter(i);
 
-                List<SearchedResult> resultList = Pages.Navigation.GetFilterResults();
+                List<SearchedResult> resultList = Browser.GetFilterResults();
                 Assert.AreNotEqual<int>(0,
                     resultList.Count,
                     "If select the filter {0}, there should be at least one training displayed",
@@ -49,16 +49,18 @@ namespace Tests
         /// Verify the search function in Resources->Training
         /// </summary>
         [TestMethod]
-        public void S14_TC02_CanSearchCorrectTrainings()
+        public void S14_TC02_Can_Search_CorrectTrainings()
         {
             Pages.Navigation.Select("Resources", "Training");
-            int filterCount = Pages.Navigation.GetFilterCount();
-            string searchString = "a";
+            int filterCount = Browser.GetFilterCount();
+            int randomIndex = new Random().Next(Browser.typicalSearchText.Length);
+            string searchString = Browser.typicalSearchText[randomIndex];
+            
             for (int i = 0; i < filterCount; i++)
             {
-                string filterName = Pages.Navigation.SelectFilter(i);
+                string filterName = Browser.SelectFilter(i);
 
-                List<SearchedResult> resultList = Pages.Navigation.GetFilterResults(searchString);
+                List<SearchedResult> resultList = Browser.GetFilterResults(searchString);
                 foreach (SearchedResult resultInfo in resultList)
                 {
                     bool isNameMatched = resultInfo.Name.ToLower().Contains(searchString.ToLower());
@@ -77,18 +79,25 @@ namespace Tests
         /// Verify whether the trainings can be sorted by view count correctly
         /// </summary>
         [TestMethod]
-        public void S14_TC03_CanSortCodeSamplesByViewCount()
+        public void S14_TC03_Can_Sort_Trainings_By_ViewCount()
         {
             Pages.Navigation.Select("Resources", "Training");
-            int filterCount = Pages.Navigation.GetFilterCount();
+            int filterCount = Browser.GetFilterCount();
 
-            for (int i = 0; i < filterCount; i++)
+            //Randomly choose two filters to check
+            int randomIndex;
+            int usedIndex = filterCount;
+            for (int i = 0; i < 2; i++)
             {
-                string filterName = Pages.Navigation.SelectFilter(i);
-
+                do
+                {
+                    randomIndex = new Random().Next(filterCount);
+                } while (randomIndex == usedIndex);
+                string filterName = Browser.SelectFilter(randomIndex);
+                
                 // Set the sort order as descendent
-                Pages.Navigation.SetSortOrder(SortType.ViewCount, true);
-                List<SearchedResult> resultList = Pages.Navigation.GetFilterResults();
+                Browser.SetSortOrder(SortType.ViewCount, true);
+                List<SearchedResult> resultList = Browser.GetFilterResults();
                 for (int j = 0; j < resultList.Count - 1; j++)
                 {
                     Assert.IsTrue(resultList[j].ViewCount >= resultList[j + 1].ViewCount,
@@ -98,8 +107,8 @@ namespace Tests
                 }
 
                 // Set the sort order as ascendent
-                Pages.Navigation.SetSortOrder(SortType.ViewCount, false);
-                resultList = Pages.Navigation.GetFilterResults();
+                Browser.SetSortOrder(SortType.ViewCount, false);
+                resultList = Browser.GetFilterResults();
                 for (int j = 0; j < resultList.Count - 1; j++)
                 {
                     Assert.IsTrue(resultList[j].ViewCount <= resultList[j + 1].ViewCount,
@@ -107,6 +116,7 @@ namespace Tests
                         resultList[j].Name,
                         resultList[j + 1].Name);
                 }
+                usedIndex = randomIndex;
             }
         }
 
@@ -114,19 +124,19 @@ namespace Tests
         /// Verify whether the URL can be updated accordingly when a filter is chosen
         /// </summary>
         [TestMethod]
-        public void S14_TC04_CanURLUpdatedByTrainingsFilters()
+        public void S14_TC04_Can_URL_Updated_By_TrainingFilter()
         {
             Pages.Navigation.Select("Resources", "Training");
-            int filterCount = Pages.Navigation.GetFilterCount();
+            int filterCount = Browser.GetFilterCount();
             string filterName;
 
             //Generate the index of filters to select
             int randomIndex = new Random().Next(filterCount);
 
-            filterName = Pages.Navigation.SelectFilter(randomIndex);
+            filterName = Browser.SelectFilter(randomIndex);
 
             List<string> unContainedFilters;
-            Assert.IsTrue(Pages.Navigation.AreFiltersInURL(new List<string> { filterName }, out unContainedFilters),
+            Assert.IsTrue(Browser.AreFiltersInURL(new List<string> { filterName }, out unContainedFilters),
                 "The filter {0} should be contained in URL!",
                 filterName);
         }

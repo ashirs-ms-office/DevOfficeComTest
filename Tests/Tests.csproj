@@ -65,7 +65,7 @@
     <Compile Include="Office365PageTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="OfficeAddInPageTest.cs" />
-    <Compile Include="ResourcePageTest.cs" />
+    <Compile Include="TrainingPageTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TestFramework\TestFramework.csproj">
