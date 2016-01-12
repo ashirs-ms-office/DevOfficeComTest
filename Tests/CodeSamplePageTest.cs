@@ -1,7 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Text;
 using TestFramework;
 
@@ -207,13 +206,206 @@ namespace Tests
         }
 
         /// <summary>
+        /// Verify if choosing the filter SharePoint Add-ins can get any correct sample. 
+        /// </summary>
+        [TestMethod]
+        public void S13_TC06_CanFindSharePointAddInSamples()
+        {
+            Pages.Navigation.Select("Code Samples");
+            Utility.SelectFilter("SharePoint Add-ins");
+            bool hasFounded = false;
+
+            List<SearchedResult> resultList = Utility.GetFilterResults();
+            foreach (SearchedResult resultInfo in resultList)
+            {
+                bool isNameMatched = resultInfo.Name.ToLower().Contains("sharepoint add-ins");
+                bool isDescriptionMatched = resultInfo.Description.ToLower().Contains("sharepoint add-ins");
+                if (isNameMatched || isDescriptionMatched)
+                {
+                    hasFounded = true;
+                    break;
+                }
+            }
+            Assert.IsTrue(hasFounded, "There should be at least one sample which meets the filter SharePoint Add-ins");
+        }
+
+        /// <summary>
+        /// Verify if choosing the filter Office Add-ins can get any correct sample. 
+        /// </summary>
+        [TestMethod]
+        public void S13_TC07_CanFindOfficeAddInSamples()
+        {
+            Pages.Navigation.Select("Code Samples");
+            Utility.SelectFilter("Office Add-ins");
+            bool hasFounded = false;
+
+            List<SearchedResult> resultList = Utility.GetFilterResults();
+            foreach (SearchedResult resultInfo in resultList)
+            {
+                bool isNameMatched = resultInfo.Name.ToLower().Contains("office add-in");
+                bool isDescriptionMatched = resultInfo.Description.ToLower().Contains("office add-in");
+                if (isNameMatched || isDescriptionMatched)
+                {
+                    hasFounded = true;
+                    break;
+                }
+            }
+            Assert.IsTrue(hasFounded, "There should be at least one sample which meets the filter Office Add-in");
+        }
+
+        /// <summary>
+        /// Verify if choosing the filter Office 365 App can get any correct sample. 
+        /// </summary>
+        [TestMethod]
+        public void S13_TC08_CanFindOffice365AppSamples()
+        {
+            Pages.Navigation.Select("Code Samples");
+            Utility.SelectFilter("Office 365 App");
+            bool hasFounded = false;
+
+            List<SearchedResult> resultList = Utility.GetFilterResults();
+            foreach (SearchedResult resultInfo in resultList)
+            {
+                bool isNameMatched = resultInfo.Name.ToLower().Contains("office 365");
+                bool isDescriptionMatched = resultInfo.Description.ToLower().Contains("office 365");
+                if (isNameMatched || isDescriptionMatched)
+                {
+                    hasFounded = true;
+                    break;
+                }
+            }
+            Assert.IsTrue(hasFounded, "There should be at least one sample which meets the filter Office 365 App");
+        }
+
+        /// <summary>
+        /// Verify if choosing the filter AngularJS can get any correct sample. 
+        /// </summary>
+        [TestMethod]
+        public void S13_TC09_CanFindAngularJSSamples()
+        {
+            Pages.Navigation.Select("Code Samples");
+            Utility.SelectFilter("AngularJS");
+            bool hasFounded = false;
+
+            List<SearchedResult> resultList = Utility.GetFilterResults();
+            foreach (SearchedResult resultInfo in resultList)
+            {
+                bool isNameMatched = resultInfo.Name.ToLower().Contains("angularjs");
+                bool isDescriptionMatched = resultInfo.Description.ToLower().Contains("angularjs");
+                if (isNameMatched || isDescriptionMatched)
+                {
+                    hasFounded = true;
+                    break;
+                }
+            }
+            Assert.IsTrue(hasFounded, "There should be at least one sample which meets the filter AngularJS");
+        }
+
+        /// <summary>
+        /// Verify if choosing the filter C# can get any correct sample. 
+        /// </summary>
+        [TestMethod]
+        public void S13_TC10_CanFindCSharpSamples()
+        {
+            Pages.Navigation.Select("Code Samples");
+            Utility.SelectFilter("C#");
+            bool hasFounded = false;
+
+            List<SearchedResult> resultList = Utility.GetFilterResults();
+            foreach (SearchedResult resultInfo in resultList)
+            {
+                bool isNameMatched = resultInfo.Name.ToLower().Contains(".net");
+                bool isDescriptionMatched = resultInfo.Description.ToLower().Contains(".net");
+                if (isNameMatched || isDescriptionMatched)
+                {
+                    hasFounded = true;
+                    break;
+                }
+            }
+            Assert.IsTrue(hasFounded, "There should be at least one sample which meets the filter C#");
+        }
+
+        /// <summary>
+        /// Verify if choosing the filter Java can get any correct sample. 
+        /// </summary>
+        [TestMethod]
+        public void S13_TC11_CanFindJavaSamples()
+        {
+            Pages.Navigation.Select("Code Samples");
+            Utility.SelectFilter("Java");
+            bool hasFounded = false;
+
+            List<SearchedResult> resultList = Utility.GetFilterResults();
+            foreach (SearchedResult resultInfo in resultList)
+            {
+                bool isNameMatched = resultInfo.Name.ToLower().Contains("android");
+                bool isDescriptionMatched = resultInfo.Description.ToLower().Contains("android");
+                if (isNameMatched || isDescriptionMatched)
+                {
+                    hasFounded = true;
+                    break;
+                }
+            }
+            Assert.IsTrue(hasFounded, "There should be at least one sample which meets the filter Java");
+        }
+
+        /// <summary>
+        /// Verify if choosing the filter node.js can get any correct sample. 
+        /// </summary>
+        [TestMethod]
+        public void S13_TC12_CanFindNodejsSamples()
+        {
+            Pages.Navigation.Select("Code Samples");
+            Utility.SelectFilter("node.js");
+            bool hasFounded = false;
+
+            List<SearchedResult> resultList = Utility.GetFilterResults();
+            foreach (SearchedResult resultInfo in resultList)
+            {
+                bool isNameMatched = resultInfo.Name.ToLower().Contains("node.js");
+                bool isDescriptionMatched = resultInfo.Description.ToLower().Contains("node.js");
+                if (isNameMatched || isDescriptionMatched)
+                {
+                    hasFounded = true;
+                    break;
+                }
+            }
+            Assert.IsTrue(hasFounded, "There should be at least one sample which meets the filter node.js");
+        }
+
+        /// <summary>
+        /// Verify if choosing the filter Objective C can get any correct sample. 
+        /// </summary>
+        [TestMethod]
+        public void S13_TC13_CanFindObjectiveCSamples()
+        {
+            Pages.Navigation.Select("Code Samples");
+            Utility.SelectFilter("Objective C");
+            bool hasFounded = false;
+
+            List<SearchedResult> resultList = Utility.GetFilterResults();
+            foreach (SearchedResult resultInfo in resultList)
+            {
+                bool isNameMatched = resultInfo.Name.ToLower().Contains("ios");
+                bool isDescriptionMatched = resultInfo.Description.ToLower().Contains("ios");
+                if (isNameMatched || isDescriptionMatched)
+                {
+                    hasFounded = true;
+                    break;
+                }
+            }
+            Assert.IsTrue(hasFounded, "There should be at least one sample which meets the filter Objective C");
+        }
+
+        /// <summary>
         /// Verify if choosing the filter PHP can get any correct sample. 
         /// </summary>
         [TestMethod]
-        public void S13_TC06_CanFindPHPSamples()
+        public void S13_TC14_CanFindPHPSamples()
         {
             Pages.Navigation.Select("Code Samples");
             Utility.SelectFilter("PHP");
+            bool hasFounded = false;
 
             List<SearchedResult> resultList = Utility.GetFilterResults();
             foreach (SearchedResult resultInfo in resultList)
@@ -222,10 +414,35 @@ namespace Tests
                 bool isDescriptionMatched = resultInfo.Description.ToLower().Contains("php");
                 if (isNameMatched || isDescriptionMatched)
                 {
-                    Trace.Write("The sample {0} meets the filter PHP", resultInfo.Name);
+                    hasFounded = true;
                     break;
                 }
             }
+            Assert.IsTrue(hasFounded, "There should be at least one sample which meets the filter PHP");
+        }
+
+        /// <summary>
+        /// Verify if choosing the filter Python can get any correct sample. 
+        /// </summary>
+        [TestMethod]
+        public void S13_TC15_CanFindPHPSamples()
+        {
+            Pages.Navigation.Select("Code Samples");
+            Utility.SelectFilter("Python");
+            bool hasFounded = false;
+
+            List<SearchedResult> resultList = Utility.GetFilterResults();
+            foreach (SearchedResult resultInfo in resultList)
+            {
+                bool isNameMatched = resultInfo.Name.ToLower().Contains("python");
+                bool isDescriptionMatched = resultInfo.Description.ToLower().Contains("python");
+                if (isNameMatched || isDescriptionMatched)
+                {
+                    hasFounded = true;
+                    break;
+                }
+            }
+            Assert.IsTrue(hasFounded, "There should be at least one sample which meets the filter Python");
         }
     }
 }
