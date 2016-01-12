@@ -160,8 +160,7 @@ namespace TestFramework
                     resultInfo.Description = descriptionElement.Text;
 
                     resultInfo.ViewCount = Convert.ToInt64((listItems[i].FindElement(By.XPath("//span[contains(text(),' views')]")).GetAttribute("innerHTML").Split(' '))[0]);
-                    resultList.Add(resultInfo);
-
+                    
                     IWebElement updatedDateElement;
                     try
                     {
@@ -175,6 +174,11 @@ namespace TestFramework
                     {
                         resultInfo.UpdatedDate = DateTime.Parse(updatedDateElement.Text.Replace("Updated ", null));
                     }
+
+                    //resultInfo.DetailLink = Browser.BaseAddress+"/"+listItems[i].FindElement(By.XPath("//a[@role='link']")).GetAttribute("href");
+                    resultInfo.DetailLink = listItems[i].FindElement(By.XPath("//a[@role='link']")).GetAttribute("href");
+
+                    resultList.Add(resultInfo);
                 }
             } while (nextElement.Displayed);
 
@@ -208,6 +212,24 @@ namespace TestFramework
                     Browser.Click(element);
                     break;
                 }
+            }
+        }
+
+        /// <summary>
+        /// Verify whether a link of a specific source type can be found on the page 
+        /// </summary>
+        /// <param name="sourcePart">A string that contains the part of source link</param>
+        /// <returns>True if yes, else no</returns>
+        public static bool CanFindSourceLink(string sourcePart)
+        {
+            var element = Browser.FindElement(By.XPath("//a[contains(@href,'" + sourcePart + "')]"));
+            if (element != null)
+            {
+                return true;
+            }
+            else 
+            {
+                return false;
             }
         }
     }

@@ -733,5 +733,278 @@ namespace Tests
             //The specific sample Property Manager contains Video Portal part
             Assert.IsTrue(resultList[0].Name.Equals("Property Manager"), "There should be at least one sample which meets the filter Video Portal");
         }
+
+        /// <summary>
+        /// Verify if choosing the filter SharePoint Taxonomy can get any correct sample. 
+        /// </summary>
+        [TestMethod]
+        public void S13_TC29_CanFindSharePointTaxonomySamples()
+        {
+            Pages.Navigation.Select("Code Samples");
+            Utility.SelectFilter("SharePoint Taxonomy");
+            //Currently no samples for SharePoint Taxonomy
+        }
+
+        /// <summary>
+        /// Verify if choosing the filter Search can get any correct sample. 
+        /// </summary>
+        [TestMethod]
+        public void S13_TC30_CanFindSearchSamples()
+        {
+            Pages.Navigation.Select("Code Samples");
+            Utility.SelectFilter("Search");
+            //Currently no samples for Search
+        }
+
+        /// <summary>
+        /// Verify if choosing the filter SharePoint User Profiles can get any correct sample. 
+        /// </summary>
+        [TestMethod]
+        public void S13_TC31_CanFindSharePointUserProfilesSamples()
+        {
+            Pages.Navigation.Select("Code Samples");
+            Utility.SelectFilter("SharePoint User Profiles");
+            //Currently no samples for SharePoint User Profiles
+        }
+
+        /// <summary>
+        /// Verify if choosing the filter Business Connectivity Services can get any correct sample. 
+        /// </summary>
+        [TestMethod]
+        public void S13_TC32_CanFindBusinessConnectivityServicesSamples()
+        {
+            Pages.Navigation.Select("Code Samples");
+            Utility.SelectFilter("Business Connectivity Services");
+            //Currently no samples for Business Connectivity Services
+        }
+
+        /// <summary>
+        /// Verify if choosing the filter SharePoint Workflow Services can get any correct sample. 
+        /// </summary>
+        [TestMethod]
+        public void S13_TC33_CanFindSharePointWorkflowSamples()
+        {
+            Pages.Navigation.Select("Code Samples");
+            Utility.SelectFilter("SharePoint Workflow");
+            bool hasFounded = false;
+
+            List<SearchedResult> resultList = Utility.GetFilterResults();
+            foreach (SearchedResult resultInfo in resultList)
+            {
+                //The specifc sample Learning Path Manager AngularJS SharePoint Provider Hosted App includes workflow part
+                bool isNameMatched = resultInfo.Name.Equals("Learning Path Manager AngularJS SharePoint Provider Hosted App");
+                if (isNameMatched)
+                {
+                    hasFounded = true;
+                    break;
+                }
+            }
+            Assert.IsTrue(hasFounded, "There should be at least one sample which meets the filter SharePoint Workflow");
+        }
+
+        /// <summary>
+        /// Verify if choosing the filter Console application can get any correct sample. 
+        /// </summary>
+        [TestMethod]
+        public void S13_TC34_CanFindVideoPortalSamples()
+        {
+            Pages.Navigation.Select("Code Samples");
+            Utility.SelectFilter("Console application");
+            List<SearchedResult> resultList = Utility.GetFilterResults();
+
+            //The specific sample Office Dev P&P: OneDrive Provisioning contains Console application part
+            Assert.IsTrue(resultList[0].Name.Equals("Office Dev P&P: OneDrive Provisioning"), "There should be at least one sample which meets the filter Console application");
+        }
+
+        /// <summary>
+        /// Verify if choosing the filter Web can get any correct sample. 
+        /// </summary>
+        [TestMethod]
+        public void S13_TC35_CanFindWebSamples()
+        {
+            Pages.Navigation.Select("Code Samples");
+            Utility.SelectFilter("Web");
+            bool hasFounded = false;
+
+            List<SearchedResult> resultList = Utility.GetFilterResults();
+            foreach (SearchedResult resultInfo in resultList)
+            {
+                bool isNameMatched = resultInfo.Name.ToLower().Contains("web");
+                bool isDescriptionMatched = resultInfo.Description.ToLower().Contains("web");
+                if (isNameMatched || isDescriptionMatched)
+                {
+                    hasFounded = true;
+                    break;
+                }
+            }
+            Assert.IsTrue(hasFounded, "There should be at least one sample which meets the filter Web");
+        }
+
+        /// <summary>
+        /// Verify if choosing the filter Windows can get any correct sample. 
+        /// </summary>
+        [TestMethod]
+        public void S13_TC36_CanFindWindowsSamples()
+        {
+            Pages.Navigation.Select("Code Samples");
+            Utility.SelectFilter("Windows");
+            bool hasFounded = false;
+
+            List<SearchedResult> resultList = Utility.GetFilterResults();
+            foreach (SearchedResult resultInfo in resultList)
+            {
+                bool isNameMatched = resultInfo.Name.ToLower().Contains("windows");
+                bool isDescriptionMatched = resultInfo.Description.ToLower().Contains("windows");
+                if (isNameMatched || isDescriptionMatched)
+                {
+                    hasFounded = true;
+                    break;
+                }
+            }
+            Assert.IsTrue(hasFounded, "There should be at least one sample which meets the filter Windows");
+        }
+
+        /// <summary>
+        /// Verify if choosing the filter Windows Phone can get any correct sample. 
+        /// </summary>
+        [TestMethod]
+        public void S13_TC37_CanFindWindowsPhoneSamples()
+        {
+            Pages.Navigation.Select("Code Samples");
+            Utility.SelectFilter("Windows Phone");
+            bool hasFounded = false;
+
+            List<SearchedResult> resultList = Utility.GetFilterResults();
+            foreach (SearchedResult resultInfo in resultList)
+            {
+                bool isNameMatched = resultInfo.Name.ToLower().Contains("phone");
+                bool isDescriptionMatched = resultInfo.Description.ToLower().Contains("phone");
+                if (isNameMatched || isDescriptionMatched)
+                {
+                    hasFounded = true;
+                    break;
+                }
+            }
+            Assert.IsTrue(hasFounded, "There should be at least one sample which meets the filter Windows Phone");
+        }
+
+        /// <summary>
+        /// Verify if choosing the filter Android can get any correct sample. 
+        /// </summary>
+        [TestMethod]
+        public void S13_TC38_CanFindAndroidSamples()
+        {
+            Pages.Navigation.Select("Code Samples");
+            Utility.SelectFilter("Android");
+            bool hasFounded = false;
+
+            List<SearchedResult> resultList = Utility.GetFilterResults();
+            foreach (SearchedResult resultInfo in resultList)
+            {
+                bool isNameMatched = resultInfo.Name.ToLower().Contains("android");
+                bool isDescriptionMatched = resultInfo.Description.ToLower().Contains("android");
+                if (isNameMatched || isDescriptionMatched)
+                {
+                    hasFounded = true;
+                    break;
+                }
+            }
+            Assert.IsTrue(hasFounded, "There should be at least one sample which meets the filter Android");
+        }
+
+        /// <summary>
+        /// Verify if choosing the filter IOS can get any correct sample. 
+        /// </summary>
+        [TestMethod]
+        public void S13_TC39_CanFindIOSSamples()
+        {
+            Pages.Navigation.Select("Code Samples");
+            Utility.SelectFilter("IOS");
+            bool hasFounded = false;
+
+            List<SearchedResult> resultList = Utility.GetFilterResults();
+            foreach (SearchedResult resultInfo in resultList)
+            {
+                bool isNameMatched = resultInfo.Name.ToLower().Contains("ios");
+                bool isDescriptionMatched = resultInfo.Description.ToLower().Contains("ios");
+                if (isNameMatched || isDescriptionMatched)
+                {
+                    hasFounded = true;
+                    break;
+                }
+            }
+            Assert.IsTrue(hasFounded, "There should be at least one sample which meets the filter IOS");
+        }
+
+        /// <summary>
+        /// Verify if choosing the filter Cordova can get any correct sample. 
+        /// </summary>
+        [TestMethod]
+        public void S13_TC40_CanFindCordovaSamples()
+        {
+            Pages.Navigation.Select("Code Samples");
+            Utility.SelectFilter("Cordova");
+            bool hasFounded = false;
+
+            List<SearchedResult> resultList = Utility.GetFilterResults();
+            foreach (SearchedResult resultInfo in resultList)
+            {
+                bool isNameMatched = resultInfo.Name.ToLower().Contains("cordova");
+                bool isDescriptionMatched = resultInfo.Description.ToLower().Contains("cordova");
+                if (isNameMatched || isDescriptionMatched)
+                {
+                    hasFounded = true;
+                    break;
+                }
+            }
+            Assert.IsTrue(hasFounded, "There should be at least one sample which meets the filter Cordova");
+        }
+
+        /// <summary>
+        /// Verify if choosing the filter Xamarin can get any correct sample. 
+        /// </summary>
+        [TestMethod]
+        public void S13_TC41_CanFindXamarinSamples()
+        {
+            Pages.Navigation.Select("Code Samples");
+            Utility.SelectFilter("Xamarin");
+            bool hasFounded = false;
+
+            List<SearchedResult> resultList = Utility.GetFilterResults();
+            foreach (SearchedResult resultInfo in resultList)
+            {
+                bool isNameMatched = resultInfo.Name.ToLower().Contains("xamarin");
+                bool isDescriptionMatched = resultInfo.Description.ToLower().Contains("xamarin");
+                if (isNameMatched || isDescriptionMatched)
+                {
+                    hasFounded = true;
+                    break;
+                }
+            }
+            Assert.IsTrue(hasFounded, "There should be at least one sample which meets the filter Xamarin");
+        }
+
+        /// <summary>
+        /// Verify if choosing the filter GitHub can get any correct sample. 
+        /// </summary>
+        [TestMethod]
+        public void S13_TC42_CanFindGitHubSamples()
+        {
+            Pages.Navigation.Select("Code Samples");
+            Utility.SelectFilter("GitHub");
+            bool hasFounded = false;
+
+            List<SearchedResult> resultList = Utility.GetFilterResults();
+            foreach (SearchedResult resultInfo in resultList)
+            {
+                Browser.Goto(resultInfo.DetailLink);
+                if (Utility.CanFindSourceLink("github.com"))
+                {
+                    hasFounded = true;
+                    break;
+                }
+            }
+            Assert.IsTrue(hasFounded, "There should be at least one sample which meets the filter GitHub");
+        }
     }
 }
