@@ -54,7 +54,7 @@ namespace Tests
             int filterCount = Utility.GetFilterCount();
             int randomIndex = new Random().Next(Utility.TypicalSearchText.Length);
             string searchString = Utility.TypicalSearchText[randomIndex];
-            
+
             for (int i = 0; i < filterCount; i++)
             {
                 string filterName = Utility.SelectFilter(i);
@@ -93,7 +93,7 @@ namespace Tests
                     randomIndex = new Random().Next(filterCount);
                 } while (randomIndex == usedIndex);
                 string filterName = Utility.SelectFilter(randomIndex);
-                
+
                 // Set the sort order as descendent
                 Utility.SetSortOrder(SortType.ViewCount, true);
                 List<SearchedResult> resultList = Utility.GetFilterResults();

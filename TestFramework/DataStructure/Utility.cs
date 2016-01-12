@@ -203,7 +203,7 @@ namespace TestFramework
             IReadOnlyList<IWebElement> elements = Browser.Driver.FindElements(By.XPath(@"//*[@ng-model=""selectedTypes""]"));
             foreach (IWebElement element in elements)
             {
-                if (element.Text.Equals(filterName))
+                if (element.Text.Equals(filterName) || element.GetAttribute("value").Equals(filterName))
                 {
                     Browser.Click(element);
                     break;

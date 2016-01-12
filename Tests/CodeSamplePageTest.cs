@@ -564,5 +564,174 @@ namespace Tests
             }
             Assert.IsTrue(hasFounded, "There should be at least one sample which meets the filter ASP.NET MVC");
         }
+
+        /// <summary>
+        /// Verify if choosing the filter HTML / JS can get any correct sample. 
+        /// </summary>
+        [TestMethod]
+        public void S13_TC21_CanFindHTMLOrJSSamples()
+        {
+            Pages.Navigation.Select("Code Samples");
+            Utility.SelectFilter("HTML / JS");
+            bool hasFounded = false;
+
+            List<SearchedResult> resultList = Utility.GetFilterResults();
+            foreach (SearchedResult resultInfo in resultList)
+            {
+                bool isNameMatched = resultInfo.Name.ToLower().Contains("javascript");
+                bool isDescriptionMatched = resultInfo.Description.ToLower().Contains("javascript");
+                if (isNameMatched || isDescriptionMatched)
+                {
+                    hasFounded = true;
+                    break;
+                }
+            }
+            Assert.IsTrue(hasFounded, "There should be at least one sample which meets the filter HTML / JS");
+        }
+
+        /// <summary>
+        /// Verify if choosing the filter ASP.NET Forms can get any correct sample. 
+        /// </summary>
+        [TestMethod]
+        public void S13_TC22_CanFindFormSamples()
+        {
+            Pages.Navigation.Select("Code Samples");
+            Utility.SelectFilter("ASP.NET Forms");
+            bool hasFounded = false;
+
+            List<SearchedResult> resultList = Utility.GetFilterResults();
+            foreach (SearchedResult resultInfo in resultList)
+            {
+                bool isNameMatched = resultInfo.Name.ToLower().Contains("web page");
+                bool isDescriptionMatched = resultInfo.Description.ToLower().Contains("web page");
+                if (isNameMatched || isDescriptionMatched)
+                {
+                    hasFounded = true;
+                    break;
+                }
+            }
+            Assert.IsTrue(hasFounded, "There should be at least one sample which meets the filter ASP.NET Forms");
+        }
+
+        /// <summary>
+        /// Verify if choosing the filter Silverlight can get any correct sample. 
+        /// </summary>
+        [TestMethod]
+        public void S13_TC23_CanFindSilverlightSamples()
+        {
+            Pages.Navigation.Select("Code Samples");
+            Utility.SelectFilter("Silverlight");
+            //Currently no samples for Silverlight
+        }
+
+        /// <summary>
+        /// Verify if choosing the filter Azure AD Users and Groups can get any correct sample. 
+        /// </summary>
+        [TestMethod]
+        public void S13_TC24_CanFindAzureADSamples()
+        {
+            Pages.Navigation.Select("Code Samples");
+            Utility.SelectFilter("Azure AD Users and Groups");
+            bool hasFounded = false;
+
+            List<SearchedResult> resultList = Utility.GetFilterResults();
+            foreach (SearchedResult resultInfo in resultList)
+            {
+                bool isNameMatched = resultInfo.Name.ToLower().Contains("azure ad");
+                bool isDescriptionMatched = resultInfo.Description.ToLower().Contains("azure ad");
+                if (isNameMatched || isDescriptionMatched)
+                {
+                    hasFounded = true;
+                    break;
+                }
+            }
+            Assert.IsTrue(hasFounded, "There should be at least one sample which meets the filter Azure AD Users and Groups");
+        }
+
+        /// <summary>
+        /// Verify if choosing the filter Office 365 Groups can get any correct sample. 
+        /// </summary>
+        [TestMethod]
+        public void S13_TC25_CanFindOffice365GroupsSamples()
+        {
+            Pages.Navigation.Select("Code Samples");
+            Utility.SelectFilter("Office 365 Groups");
+            bool hasFounded = false;
+
+            List<SearchedResult> resultList = Utility.GetFilterResults();
+            foreach (SearchedResult resultInfo in resultList)
+            {
+                bool isNameMatched = resultInfo.Name.ToLower().Contains("office 365 groups");
+                bool isDescriptionMatched = resultInfo.Description.ToLower().Contains("office 365 groups");
+                if (isNameMatched || isDescriptionMatched)
+                {
+                    hasFounded = true;
+                    break;
+                }
+            }
+            Assert.IsTrue(hasFounded, "There should be at least one sample which meets the filter Office 365 Groups");
+        }
+
+        /// <summary>
+        /// Verify if choosing the filter Office Graph can get any correct sample. 
+        /// </summary>
+        [TestMethod]
+        public void S13_TC26_CanFindOfficeGraphSamples()
+        {
+            Pages.Navigation.Select("Code Samples");
+            Utility.SelectFilter("Office Graph");
+            bool hasFounded = false;
+
+            List<SearchedResult> resultList = Utility.GetFilterResults();
+            foreach (SearchedResult resultInfo in resultList)
+            {
+                bool isNameMatched = resultInfo.Name.ToLower().Contains("graph");
+                bool isDescriptionMatched = resultInfo.Description.ToLower().Contains("graph");
+                if (isNameMatched || isDescriptionMatched)
+                {
+                    hasFounded = true;
+                    break;
+                }
+            }
+            Assert.IsTrue(hasFounded, "There should be at least one sample which meets the filter Office Graph");
+        }
+
+        /// <summary>
+        /// Verify if choosing the filter OneNote can get any correct sample. 
+        /// </summary>
+        [TestMethod]
+        public void S13_TC27_CanFindOneNoteSamples()
+        {
+            Pages.Navigation.Select("Code Samples");
+            Utility.SelectFilter("OneNote");
+            bool hasFounded = false;
+
+            List<SearchedResult> resultList = Utility.GetFilterResults();
+            foreach (SearchedResult resultInfo in resultList)
+            {
+                bool isNameMatched = resultInfo.Name.ToLower().Contains("onenote");
+                bool isDescriptionMatched = resultInfo.Description.ToLower().Contains("onenote");
+                if (isNameMatched || isDescriptionMatched)
+                {
+                    hasFounded = true;
+                    break;
+                }
+            }
+            Assert.IsTrue(hasFounded, "There should be at least one sample which meets the filter OneNote");
+        }
+
+        /// <summary>
+        /// Verify if choosing the filter Video Portal can get any correct sample. 
+        /// </summary>
+        [TestMethod]
+        public void S13_TC28_CanFindVideoPortalSamples()
+        {
+            Pages.Navigation.Select("Code Samples");
+            Utility.SelectFilter("Video Portal");
+            List<SearchedResult> resultList = Utility.GetFilterResults();
+
+            //The specific sample Property Manager contains Video Portal part
+            Assert.IsTrue(resultList[0].Name.Equals("Property Manager"), "There should be at least one sample which meets the filter Video Portal");
+        }
     }
 }
