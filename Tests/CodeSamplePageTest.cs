@@ -1,7 +1,8 @@
-﻿using System;
-using System.Text;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Diagnostics;
+using System.Text;
 using TestFramework;
 
 namespace Tests
@@ -34,11 +35,11 @@ namespace Tests
         public void S13_TC01_FilterCheckedWithCorrectEvent()
         {
             Pages.Navigation.Select("Code Samples");
-            int filterCount = Browser.GetFilterCount();
+            int filterCount = Utility.GetFilterCount();
             for (int i = 0; i < filterCount; i++)
             {
-                string filterName = Browser.SelectFilter(i);
-                Assert.IsTrue(Browser.isFilterWorkable(i),
+                string filterName = Utility.SelectFilter(i);
+                Assert.IsTrue(Utility.isFilterWorkable(i),
                     "The {0} filter should be valid to change displayed code samples",
                     filterName);
             }
@@ -51,7 +52,7 @@ namespace Tests
         public void S13_TC02_CanFilterCleared()
         {
             Pages.Navigation.Select("Code Samples");
-            int filterCount = Browser.GetFilterCount();
+            int filterCount = Utility.GetFilterCount();
 
             //Generate the count of filters to check
             int checkedRandomFilterCount = new Random().Next(filterCount);
@@ -63,18 +64,18 @@ namespace Tests
                 if (!indexList.Contains(randomIndex))
                 {
                     indexList.Add(randomIndex);
-                    Browser.SelectFilter(randomIndex);
+                    Utility.SelectFilter(randomIndex);
                 }
             }
 
-            Browser.ExecuteClearFilters();
+            Utility.ExecuteClearFilters();
             List<string> unclearedFilters;
-            if (!Browser.areFiltersCleared(out unclearedFilters))
+            if (!Utility.areFiltersCleared(out unclearedFilters))
             {
-                StringBuilder stringBuilder=new StringBuilder();
-                foreach(string unClearedFilter in unclearedFilters)
+                StringBuilder stringBuilder = new StringBuilder();
+                foreach (string unClearedFilter in unclearedFilters)
                 {
-                stringBuilder.Append(unClearedFilter+";");
+                    stringBuilder.Append(unClearedFilter + ";");
                 }
                 Assert.Fail("The following filters are not cleared: {0}",
                     stringBuilder.ToString());
@@ -88,7 +89,7 @@ namespace Tests
         public void S13_TC03_CanURLUpdatedByCodeSampleFilters()
         {
             Pages.Navigation.Select("Code Samples");
-            int filterCount = Browser.GetFilterCount();
+            int filterCount = Utility.GetFilterCount();
             List<string> filterNames = new List<string>();
 
             //Generate the count of filters to select
@@ -101,12 +102,12 @@ namespace Tests
                 if (!indexList.Contains(randomIndex))
                 {
                     indexList.Add(randomIndex);
-                    filterNames.Add(Browser.SelectFilter(randomIndex));
+                    filterNames.Add(Utility.SelectFilter(randomIndex));
                 }
             }
 
             List<string> unContainedFilters;
-            if (!Browser.AreFiltersInURL(filterNames, out unContainedFilters))
+            if (!Utility.AreFiltersInURL(filterNames, out unContainedFilters))
             {
                 StringBuilder stringBuilder = new StringBuilder();
                 foreach (string unContainedFilter in unContainedFilters)
@@ -125,21 +126,22 @@ namespace Tests
         public void S13_TC04_CanSortCodeSamplesByViewCount()
         {
             Pages.Navigation.Select("Code Samples");
-            int filterCount = Browser.GetFilterCount();
-            
+            int filterCount = Utility.GetFilterCount();
+
             //Randomly choose two filters to check
             int randomIndex;
-            int usedIndex=filterCount;
+            int usedIndex = filterCount;
             for (int i = 0; i < 2; i++)
             {
-                do{
-                randomIndex = new Random().Next(filterCount);
-                } while (randomIndex==usedIndex);
-                string filterName = Browser.SelectFilter(randomIndex);
+                do
+                {
+                    randomIndex = new Random().Next(filterCount);
+                } while (randomIndex == usedIndex);
+                string filterName = Utility.SelectFilter(randomIndex);
 
                 // Set the sort order as descendent
-                Browser.SetSortOrder(SortType.ViewCount, true);
-                List<SearchedResult> resultList = Browser.GetFilterResults();
+                Utility.SetSortOrder(SortType.ViewCount, true);
+                List<SearchedResult> resultList = Utility.GetFilterResults();
                 for (int j = 0; j < resultList.Count - 1; j++)
                 {
                     Assert.IsTrue(resultList[j].ViewCount >= resultList[j + 1].ViewCount,
@@ -149,8 +151,8 @@ namespace Tests
                 }
 
                 // Set the sort order as ascendent
-                Browser.SetSortOrder(SortType.ViewCount, false);
-                resultList = Browser.GetFilterResults();
+                Utility.SetSortOrder(SortType.ViewCount, false);
+                resultList = Utility.GetFilterResults();
                 for (int j = 0; j < resultList.Count - 1; j++)
                 {
                     Assert.IsTrue(resultList[j].ViewCount <= resultList[j + 1].ViewCount,
@@ -160,7 +162,7 @@ namespace Tests
                 }
 
                 usedIndex = randomIndex;
-                Browser.ExecuteClearFilters();
+                Utility.ExecuteClearFilters();
             }
         }
 
@@ -171,16 +173,16 @@ namespace Tests
         public void S13_TC05_CanSortCodeSamplesByUpdatedDate()
         {
             Pages.Navigation.Select("Code Samples");
-            int filterCount = Browser.GetFilterCount();
+            int filterCount = Utility.GetFilterCount();
 
             for (int i = 0; i < filterCount; i++)
             {
-                string filterName = Browser.SelectFilter(i);
+                string filterName = Utility.SelectFilter(i);
 
                 // Set the sort order as descendent
-                Browser.SetSortOrder(SortType.Date, true);
-                List<SearchedResult> resultList = Browser.GetFilterResults();
-                
+                Utility.SetSortOrder(SortType.Date, true);
+                List<SearchedResult> resultList = Utility.GetFilterResults();
+
                 for (int j = 0; j < resultList.Count - 1; j++)
                 {
                     Assert.IsTrue(resultList[j].UpdatedDate >= resultList[j + 1].UpdatedDate,
@@ -190,8 +192,8 @@ namespace Tests
                 }
 
                 // Set the sort order as ascendent
-                Browser.SetSortOrder(SortType.Date, false);
-                resultList = Browser.GetFilterResults();
+                Utility.SetSortOrder(SortType.Date, false);
+                resultList = Utility.GetFilterResults();
                 for (int j = 0; j < resultList.Count - 1; j++)
                 {
                     Assert.IsTrue(resultList[j].UpdatedDate <= resultList[j + 1].UpdatedDate,
@@ -200,8 +202,30 @@ namespace Tests
                         resultList[j + 1].Name);
                 }
 
-                Browser.ExecuteClearFilters();
+                Utility.ExecuteClearFilters();
             }
-        }     
+        }
+
+        /// <summary>
+        /// Verify if choosing the filter PHP can get any correct sample. 
+        /// </summary>
+        [TestMethod]
+        public void S13_TC06_CanFindPHPSamples()
+        {
+            Pages.Navigation.Select("Code Samples");
+            Utility.SelectFilter("PHP");
+
+            List<SearchedResult> resultList = Utility.GetFilterResults();
+            foreach (SearchedResult resultInfo in resultList)
+            {
+                bool isNameMatched = resultInfo.Name.ToLower().Contains("php");
+                bool isDescriptionMatched = resultInfo.Description.ToLower().Contains("php");
+                if (isNameMatched || isDescriptionMatched)
+                {
+                    Trace.Write("The sample {0} meets the filter PHP", resultInfo.Name);
+                    break;
+                }
+            }
+        }
     }
 }

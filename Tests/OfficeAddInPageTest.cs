@@ -1,7 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using TestFramework;
-using TestFramework.DataStructure;
 
 namespace Tests
 {

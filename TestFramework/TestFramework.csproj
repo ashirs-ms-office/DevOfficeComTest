@@ -54,6 +54,7 @@
     <Compile Include="DataStructure\Structures.cs" />
     <Compile Include="ChoosingAPIEndpointPage.cs" />
     <Compile Include="CodeSamplesPage.cs" />
+    <Compile Include="DataStructure\Utility.cs" />
     <Compile Include="DocumentationPage.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="FabricGettingStartedPage.cs" />

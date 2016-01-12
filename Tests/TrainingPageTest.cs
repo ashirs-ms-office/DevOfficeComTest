@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TestFramework;
@@ -31,13 +30,13 @@ namespace Tests
         public void S14_TC01_Can_Filter_Trainings()
         {
             Pages.Navigation.Select("Resources", "Training");
-            int filterCount = Browser.GetFilterCount();
+            int filterCount = Utility.GetFilterCount();
 
             for (int i = 0; i < filterCount; i++)
             {
-                string filterName = Browser.SelectFilter(i);
+                string filterName = Utility.SelectFilter(i);
 
-                List<SearchedResult> resultList = Browser.GetFilterResults();
+                List<SearchedResult> resultList = Utility.GetFilterResults();
                 Assert.AreNotEqual<int>(0,
                     resultList.Count,
                     "If select the filter {0}, there should be at least one training displayed",
@@ -52,15 +51,15 @@ namespace Tests
         public void S14_TC02_Can_Search_CorrectTrainings()
         {
             Pages.Navigation.Select("Resources", "Training");
-            int filterCount = Browser.GetFilterCount();
-            int randomIndex = new Random().Next(Browser.typicalSearchText.Length);
-            string searchString = Browser.typicalSearchText[randomIndex];
+            int filterCount = Utility.GetFilterCount();
+            int randomIndex = new Random().Next(Utility.TypicalSearchText.Length);
+            string searchString = Utility.TypicalSearchText[randomIndex];
             
             for (int i = 0; i < filterCount; i++)
             {
-                string filterName = Browser.SelectFilter(i);
+                string filterName = Utility.SelectFilter(i);
 
-                List<SearchedResult> resultList = Browser.GetFilterResults(searchString);
+                List<SearchedResult> resultList = Utility.GetFilterResults(searchString);
                 foreach (SearchedResult resultInfo in resultList)
                 {
                     bool isNameMatched = resultInfo.Name.ToLower().Contains(searchString.ToLower());
@@ -82,7 +81,7 @@ namespace Tests
         public void S14_TC03_Can_Sort_Trainings_By_ViewCount()
         {
             Pages.Navigation.Select("Resources", "Training");
-            int filterCount = Browser.GetFilterCount();
+            int filterCount = Utility.GetFilterCount();
 
             //Randomly choose two filters to check
             int randomIndex;
@@ -93,11 +92,11 @@ namespace Tests
                 {
                     randomIndex = new Random().Next(filterCount);
                 } while (randomIndex == usedIndex);
-                string filterName = Browser.SelectFilter(randomIndex);
+                string filterName = Utility.SelectFilter(randomIndex);
                 
                 // Set the sort order as descendent
-                Browser.SetSortOrder(SortType.ViewCount, true);
-                List<SearchedResult> resultList = Browser.GetFilterResults();
+                Utility.SetSortOrder(SortType.ViewCount, true);
+                List<SearchedResult> resultList = Utility.GetFilterResults();
                 for (int j = 0; j < resultList.Count - 1; j++)
                 {
                     Assert.IsTrue(resultList[j].ViewCount >= resultList[j + 1].ViewCount,
@@ -107,8 +106,8 @@ namespace Tests
                 }
 
                 // Set the sort order as ascendent
-                Browser.SetSortOrder(SortType.ViewCount, false);
-                resultList = Browser.GetFilterResults();
+                Utility.SetSortOrder(SortType.ViewCount, false);
+                resultList = Utility.GetFilterResults();
                 for (int j = 0; j < resultList.Count - 1; j++)
                 {
                     Assert.IsTrue(resultList[j].ViewCount <= resultList[j + 1].ViewCount,
@@ -127,16 +126,16 @@ namespace Tests
         public void S14_TC04_Can_URL_Updated_By_TrainingFilter()
         {
             Pages.Navigation.Select("Resources", "Training");
-            int filterCount = Browser.GetFilterCount();
+            int filterCount = Utility.GetFilterCount();
             string filterName;
 
             //Generate the index of filters to select
             int randomIndex = new Random().Next(filterCount);
 
-            filterName = Browser.SelectFilter(randomIndex);
+            filterName = Utility.SelectFilter(randomIndex);
 
             List<string> unContainedFilters;
-            Assert.IsTrue(Browser.AreFiltersInURL(new List<string> { filterName }, out unContainedFilters),
+            Assert.IsTrue(Utility.AreFiltersInURL(new List<string> { filterName }, out unContainedFilters),
                 "The filter {0} should be contained in URL!",
                 filterName);
         }
