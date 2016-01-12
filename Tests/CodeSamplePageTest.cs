@@ -425,7 +425,7 @@ namespace Tests
         /// Verify if choosing the filter Python can get any correct sample. 
         /// </summary>
         [TestMethod]
-        public void S13_TC15_CanFindPHPSamples()
+        public void S13_TC15_CanFindPythonSamples()
         {
             Pages.Navigation.Select("Code Samples");
             Utility.SelectFilter("Python");
@@ -443,6 +443,126 @@ namespace Tests
                 }
             }
             Assert.IsTrue(hasFounded, "There should be at least one sample which meets the filter Python");
+        }
+
+        /// <summary>
+        /// Verify if choosing the filter Ruby on Rails can get any correct sample. 
+        /// </summary>
+        [TestMethod]
+        public void S13_TC16_CanFindRubyonRailsSamples()
+        {
+            Pages.Navigation.Select("Code Samples");
+            Utility.SelectFilter("Ruby on Rails");
+            bool hasFounded = false;
+
+            List<SearchedResult> resultList = Utility.GetFilterResults();
+            foreach (SearchedResult resultInfo in resultList)
+            {
+                bool isNameMatched = resultInfo.Name.ToLower().Contains("ruby on rails");
+                bool isDescriptionMatched = resultInfo.Description.ToLower().Contains("ruby on rails");
+                if (isNameMatched || isDescriptionMatched)
+                {
+                    hasFounded = true;
+                    break;
+                }
+            }
+            Assert.IsTrue(hasFounded, "There should be at least one sample which meets the filter Ruby on Rails");
+        }
+
+        /// <summary>
+        /// Verify if choosing the filter Swift can get any correct sample. 
+        /// </summary>
+        [TestMethod]
+        public void S13_TC17_CanFindSwiftSamples()
+        {
+            Pages.Navigation.Select("Code Samples");
+            Utility.SelectFilter("Swift");
+            bool hasFounded = false;
+
+            List<SearchedResult> resultList = Utility.GetFilterResults();
+            foreach (SearchedResult resultInfo in resultList)
+            {
+                bool isNameMatched = resultInfo.Name.ToLower().Contains("ios app");
+                bool isDescriptionMatched = resultInfo.Description.ToLower().Contains("ios");
+                if (isNameMatched || isDescriptionMatched)
+                {
+                    hasFounded = true;
+                    break;
+                }
+            }
+            Assert.IsTrue(hasFounded, "There should be at least one sample which meets the filter Swift");
+        }
+
+        /// <summary>
+        /// Verify if choosing the filter TypeScript can get any correct sample. 
+        /// </summary>
+        [TestMethod]
+        public void S13_TC18_CanFindTypeScriptSamples()
+        {
+            Pages.Navigation.Select("Code Samples");
+            Utility.SelectFilter("TypeScript");
+            bool hasFounded = false;
+
+            List<SearchedResult> resultList = Utility.GetFilterResults();
+            foreach (SearchedResult resultInfo in resultList)
+            {
+                bool isNameMatched = resultInfo.Name.ToLower().Contains("typescript");
+                bool isDescriptionMatched = resultInfo.Description.ToLower().Contains("typescript");
+                if (isNameMatched || isDescriptionMatched)
+                {
+                    hasFounded = true;
+                    break;
+                }
+            }
+            Assert.IsTrue(hasFounded, "There should be at least one sample which meets the filter TypeScript");
+        }
+
+        /// <summary>
+        /// Verify if choosing the filter XAML/C# can get any correct sample. 
+        /// </summary>
+        [TestMethod]
+        public void S13_TC19_CanFindXAMLOrCSharpSamples()
+        {
+            Pages.Navigation.Select("Code Samples");
+            Utility.SelectFilter("XAML/C#");
+            bool hasFounded = false;
+
+            List<SearchedResult> resultList = Utility.GetFilterResults();
+            foreach (SearchedResult resultInfo in resultList)
+            {
+                bool isNameMatched = resultInfo.Name.ToLower().Contains("api");
+                bool isDescriptionMatched = resultInfo.Description.ToLower().Contains("api");
+                if (isNameMatched || isDescriptionMatched)
+                {
+                    hasFounded = true;
+                    break;
+                }
+            }
+            Assert.IsTrue(hasFounded, "There should be at least one sample which meets the filter XAML/C#");
+        }
+
+        /// <summary>
+        /// Verify if choosing the filter ASP.NET MVC can get any correct sample. 
+        /// </summary>
+        [TestMethod]
+        public void S13_TC20_CanFindMVCSamples()
+        {
+            Pages.Navigation.Select("Code Samples");
+            Utility.SelectFilter("ASP.NET MVC");
+            bool hasFounded = false;
+
+            List<SearchedResult> resultList = Utility.GetFilterResults();
+            foreach (SearchedResult resultInfo in resultList)
+            {
+                bool isNameMatched = resultInfo.Name.ToLower().Contains("mvc");
+                bool isDescriptionMatched = resultInfo.Description.ToLower().Contains("mvc");
+                if (isNameMatched || isDescriptionMatched)
+                {
+                    hasFounded = true;
+                    break;
+                }
+            }
+            Assert.IsTrue(hasFounded, "There should be at least one sample which meets the filter ASP.NET MVC");
         }
     }
 }
