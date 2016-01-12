@@ -139,5 +139,101 @@ namespace Tests
                 "The filter {0} should be contained in URL!",
                 filterName);
         }
+
+        /// <summary>
+        /// Verify if choosing the filter Introduction to Office 365 Development can get any correct training. 
+        /// </summary>
+        [TestMethod]
+        public void S14_TC05_CanFindOffice365DevelopmentTrainings()
+        {
+            Pages.Navigation.Select("Resources", "Training");
+            Utility.SelectFilter("Introduction to Office 365 Development");
+            bool hasFounded = false;
+
+            List<SearchedResult> resultList = Utility.GetFilterResults();
+            foreach (SearchedResult resultInfo in resultList)
+            {
+                bool isNameMatched = resultInfo.Name.ToLower().Contains("office 365 development");
+                bool isDescriptionMatched = resultInfo.Description.ToLower().Contains("office 365 development");
+                if (isNameMatched || isDescriptionMatched)
+                {
+                    hasFounded = true;
+                    break;
+                }
+            }
+            Assert.IsTrue(hasFounded, "There should be at least one training which meets the filter Introduction to Office 365 Development");
+        }
+
+        /// <summary>
+        /// Verify if choosing the filter Transform SharePoint Customizations to SharePoint Add-in Model can get any correct training. 
+        /// </summary>
+        [TestMethod]
+        public void S14_TC06_CanFindSharePointAddinModelTrainings()
+        {
+            Pages.Navigation.Select("Resources", "Training");
+            Utility.SelectFilter("Transform SharePoint Customizations to SharePoint Add-in Model");
+            bool hasFounded = false;
+
+            List<SearchedResult> resultList = Utility.GetFilterResults();
+            foreach (SearchedResult resultInfo in resultList)
+            {
+                bool isNameMatched = resultInfo.Name.ToLower().Contains("sharepoint add-in model");
+                bool isDescriptionMatched = resultInfo.Description.ToLower().Contains("sharepoint add-in model");
+                if (isNameMatched || isDescriptionMatched)
+                {
+                    hasFounded = true;
+                    break;
+                }
+            }
+            Assert.IsTrue(hasFounded, "There should be at least one training which meets the filter Transform SharePoint Customizations to SharePoint Add-in Model");
+        }
+
+        /// <summary>
+        /// Verify if choosing the filter Deep Dive into the Office 365 Add-in Model can get any correct training. 
+        /// </summary>
+        [TestMethod]
+        public void S14_TC07_CanFindOffice365AddinModelTrainings()
+        {
+            Pages.Navigation.Select("Resources", "Training");
+            Utility.SelectFilter("Deep Dive into the Office 365 Add-in Model");
+            bool hasFounded = false;
+
+            List<SearchedResult> resultList = Utility.GetFilterResults();
+            foreach (SearchedResult resultInfo in resultList)
+            {
+                bool isNameMatched = resultInfo.Name.ToLower().Contains("office add-in");
+                bool isDescriptionMatched = resultInfo.Description.ToLower().Contains("office add-in");
+                if (isNameMatched || isDescriptionMatched)
+                {
+                    hasFounded = true;
+                    break;
+                }
+            }
+            Assert.IsTrue(hasFounded, "There should be at least one training which meets the filter Deep Dive into the Office 365 Add-in Model");
+        }
+
+        /// <summary>
+        /// Verify if choosing the filter Deep Dive Integrate Office 365 APIs in Your Web Apps can get any correct training. 
+        /// </summary>
+        [TestMethod]
+        public void S14_TC08_CanFindOffice365AddinModelTrainings()
+        {
+            Pages.Navigation.Select("Resources", "Training");
+            Utility.SelectFilter("Deep Dive Integrate Office 365 APIs in Your Web Apps");
+            bool hasFounded = false;
+
+            List<SearchedResult> resultList = Utility.GetFilterResults();
+            foreach (SearchedResult resultInfo in resultList)
+            {
+                bool isNameMatched = resultInfo.Name.ToLower().Contains("office 365 apis");
+                bool isDescriptionMatched = resultInfo.Description.ToLower().Contains("office 365 apis");
+                if (isNameMatched || isDescriptionMatched)
+                {
+                    hasFounded = true;
+                    break;
+                }
+            }
+            Assert.IsTrue(hasFounded, "There should be at least one training which meets the filter Deep Dive Integrate Office 365 APIs in Your Web Apps");
+        }
     }
 }

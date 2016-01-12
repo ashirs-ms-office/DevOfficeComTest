@@ -137,7 +137,7 @@ namespace TestFramework
             InputSearchString(searchString);
             List<SearchedResult> resultList = new List<SearchedResult>();
 
-            var nextElement = Browser.Driver.FindElement(By.ClassName("next-link"));
+            var nextElement = Browser.FindElement(By.ClassName("next-link"));
             bool shouldReadFirstPage = true;
             do
             {
@@ -149,7 +149,7 @@ namespace TestFramework
                 {
                     Browser.Click(nextElement);
                 }
-                var uList = Browser.Driver.FindElement(By.CssSelector(@"#OrderedResults+ul"));
+                var uList = Browser.FindElement(By.CssSelector(@"#OrderedResults+ul"));
                 IReadOnlyList<IWebElement> listItems = uList.FindElements(By.XPath("li"));
                 for (int i = 0; i < listItems.Count; i++)
                 {
@@ -160,22 +160,25 @@ namespace TestFramework
                     resultInfo.Description = descriptionElement.Text;
 
                     resultInfo.ViewCount = Convert.ToInt64((listItems[i].FindElement(By.XPath("//span[contains(text(),' views')]")).GetAttribute("innerHTML").Split(' '))[0]);
-                    
-                    IWebElement updatedDateElement;
-                    try
+
+                    // Add if() here to reduce the time cost searching for non-existent element of class date-updated
+                    if (!Browser.Url.Contains("dev.office.com/training"))
                     {
-                        updatedDateElement = listItems[i].FindElement(By.CssSelector(".date-updated"));
-                    }
-                    catch (NoSuchElementException)
-                    {
-                        updatedDateElement = null;
-                    }
-                    if (updatedDateElement != null)
-                    {
-                        resultInfo.UpdatedDate = DateTime.Parse(updatedDateElement.Text.Replace("Updated ", null));
+                        IWebElement updatedDateElement;
+                        try
+                        {
+                            updatedDateElement = listItems[i].FindElement(By.CssSelector(".date-updated"));
+                        }
+                        catch (NoSuchElementException)
+                        {
+                            updatedDateElement = null;
+                        }
+                        if (updatedDateElement != null)
+                        {
+                            resultInfo.UpdatedDate = DateTime.Parse(updatedDateElement.Text.Replace("Updated ", null));
+                        }
                     }
 
-                    //resultInfo.DetailLink = Browser.BaseAddress+"/"+listItems[i].FindElement(By.XPath("//a[@role='link']")).GetAttribute("href");
                     resultInfo.DetailLink = listItems[i].FindElement(By.XPath("//a[@role='link']")).GetAttribute("href");
 
                     resultList.Add(resultInfo);
@@ -227,7 +230,7 @@ namespace TestFramework
             {
                 return true;
             }
-            else 
+            else
             {
                 return false;
             }

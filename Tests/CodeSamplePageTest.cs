@@ -1006,5 +1006,323 @@ namespace Tests
             }
             Assert.IsTrue(hasFounded, "There should be at least one sample which meets the filter GitHub");
         }
+
+        /// <summary>
+        /// Verify if choosing the filter MSDN Code Gallery can get any correct sample. 
+        /// </summary>
+        [TestMethod]
+        public void S13_TC43_CanFindMSDNCodeGallerySamples()
+        {
+            Pages.Navigation.Select("Code Samples");
+            Utility.SelectFilter("MSDN Code Gallery");
+            bool hasFounded = false;
+
+            List<SearchedResult> resultList = Utility.GetFilterResults();
+            foreach (SearchedResult resultInfo in resultList)
+            {
+
+                if (resultInfo.DetailLink.Contains("code.msdn.microsoft.com"))
+                {
+                    hasFounded = true;
+                    break;
+                }
+            }
+            Assert.IsTrue(hasFounded, "There should be at least one sample which meets the filter MSDN Code Gallery");
+        }
+
+        /// <summary>
+        /// Verify if choosing the filter CodePlex can get any correct sample. 
+        /// </summary>
+        [TestMethod]
+        public void S13_TC44_CanFindCodePlexSamples()
+        {
+            Pages.Navigation.Select("Code Samples");
+            Utility.SelectFilter("CodePlex");
+            bool hasFounded = false;
+
+            List<SearchedResult> resultList = Utility.GetFilterResults();
+            foreach (SearchedResult resultInfo in resultList)
+            {
+
+                if (resultInfo.DetailLink.Contains("codeplex"))
+                {
+                    hasFounded = true;
+                    break;
+                }
+            }
+            Assert.IsTrue(hasFounded, "There should be at least one sample which meets the filter CodePlex");
+        }
+
+        /// <summary>
+        /// Verify if choosing the filter Other can get any correct sample. 
+        /// </summary>
+        [TestMethod]
+        public void S13_TC45_CanFindOtherSourceSamples()
+        {
+            Pages.Navigation.Select("Code Samples");
+            Utility.SelectFilter("Other");
+            //Currently no samples for Other
+        }
+
+        /// <summary>
+        /// Verify if choosing the filter Azure Active Directory can get any correct sample. 
+        /// </summary>
+        [TestMethod]
+        public void S13_TC46_CanFindAzureADSamples()
+        {
+            Pages.Navigation.Select("Code Samples");
+            Utility.SelectFilter("Azure Active Directory");
+            bool hasFounded = false;
+
+            List<SearchedResult> resultList = Utility.GetFilterResults();
+            foreach (SearchedResult resultInfo in resultList)
+            {
+                bool isNameMatched = resultInfo.Name.ToLower().Contains("azure ad");
+                bool isDescriptionMatched = resultInfo.Description.ToLower().Contains("azure ad");
+                if (isNameMatched || isDescriptionMatched)
+                {
+                    hasFounded = true;
+                    break;
+                }
+            }
+            Assert.IsTrue(hasFounded, "There should be at least one sample which meets the filter Azure Active Directory");
+        }
+
+        /// <summary>
+        /// Verify if choosing the filter OneDrive can get any correct sample. 
+        /// </summary>
+        [TestMethod]
+        public void S13_TC47_CanFindOneDriveSamples()
+        {
+            Pages.Navigation.Select("Code Samples");
+            Utility.SelectFilter("OneDrive");
+            bool hasFounded = false;
+
+            List<SearchedResult> resultList = Utility.GetFilterResults();
+            foreach (SearchedResult resultInfo in resultList)
+            {
+                // The specific sample Office 365 Profile Angular sample involves OneDrive
+                if (resultInfo.Name.Equals("Office 365 Profile Angular sample"))
+                {
+                    hasFounded = true;
+                    break;
+                }
+            }
+            Assert.IsTrue(hasFounded, "There should be at least one sample which meets the filter OneDrive");
+        }
+
+        /// <summary>
+        /// Verify if choosing the filter SharePoint can get any correct sample. 
+        /// </summary>
+        [TestMethod]
+        public void S13_TC48_CanFindSharePointSamples()
+        {
+            Pages.Navigation.Select("Code Samples");
+            Utility.SelectFilter("SharePoint");
+            bool hasFounded = false;
+
+            List<SearchedResult> resultList = Utility.GetFilterResults();
+            foreach (SearchedResult resultInfo in resultList)
+            {
+                bool isNameMatched = resultInfo.Name.ToLower().Contains("sharepoint");
+                bool isDescriptionMatched = resultInfo.Description.ToLower().Contains("sharepoint");
+                if (isNameMatched || isDescriptionMatched)
+                {
+                    hasFounded = true;
+                    break;
+                }
+            }
+            Assert.IsTrue(hasFounded, "There should be at least one sample which meets the filter SharePoint");
+        }
+
+        /// <summary>
+        /// Verify if choosing the filter Exchange can get any correct sample. 
+        /// </summary>
+        [TestMethod]
+        public void S13_TC49_CanFindExchangeSamples()
+        {
+            Pages.Navigation.Select("Code Samples");
+            Utility.SelectFilter("Exchange");
+            bool hasFounded = false;
+
+            List<SearchedResult> resultList = Utility.GetFilterResults();
+            foreach (SearchedResult resultInfo in resultList)
+            {
+                bool isNameMatched = resultInfo.Name.ToLower().Contains("mail");
+                bool isDescriptionMatched = resultInfo.Description.ToLower().Contains("mail");
+                if (isNameMatched || isDescriptionMatched)
+                {
+                    hasFounded = true;
+                    break;
+                }
+            }
+            Assert.IsTrue(hasFounded, "There should be at least one sample which meets the filter Exchange");
+        }
+
+        /// <summary>
+        /// Verify if choosing the filter Lync can get any correct sample. 
+        /// </summary>
+        [TestMethod]
+        public void S13_TC50_CanFindLyncSamples()
+        {
+            Pages.Navigation.Select("Code Samples");
+            Utility.SelectFilter("Lync");
+            //Currently no samples for Lync
+        }
+
+        /// <summary>
+        /// Verify if choosing the filter Skype can get any correct sample. 
+        /// </summary>
+        [TestMethod]
+        public void S13_TC51_CanFindSkypeSamples()
+        {
+            Pages.Navigation.Select("Code Samples");
+            Utility.SelectFilter("Skype");
+            //Currently no samples for Skype
+        }
+
+        /// <summary>
+        /// Verify if choosing the filter Word can get any correct sample. 
+        /// </summary>
+        [TestMethod]
+        public void S13_TC52_CanFindWordSamples()
+        {
+            Pages.Navigation.Select("Code Samples");
+            Utility.SelectFilter("Word");
+            bool hasFounded = false;
+
+            List<SearchedResult> resultList = Utility.GetFilterResults();
+            foreach (SearchedResult resultInfo in resultList)
+            {
+                bool isNameMatched = resultInfo.Name.ToLower().Contains("word");
+                bool isDescriptionMatched = resultInfo.Description.ToLower().Contains("word");
+                if (isNameMatched || isDescriptionMatched)
+                {
+                    hasFounded = true;
+                    break;
+                }
+            }
+            Assert.IsTrue(hasFounded, "There should be at least one sample which meets the filter Word");
+        }
+
+        /// <summary>
+        /// Verify if choosing the filter PowerPoint can get any correct sample. 
+        /// </summary>
+        [TestMethod]
+        public void S13_TC53_CanFindPowerPointSamples()
+        {
+            Pages.Navigation.Select("Code Samples");
+            Utility.SelectFilter("PowerPoint");
+            bool hasFounded = false;
+
+            List<SearchedResult> resultList = Utility.GetFilterResults();
+            foreach (SearchedResult resultInfo in resultList)
+            {
+                bool isNameMatched = resultInfo.Name.ToLower().Contains("powerpoint");
+                bool isDescriptionMatched = resultInfo.Description.ToLower().Contains("powerpoint");
+                if (isNameMatched || isDescriptionMatched)
+                {
+                    hasFounded = true;
+                    break;
+                }
+            }
+            Assert.IsTrue(hasFounded, "There should be at least one sample which meets the filter PowerPoint");
+        }
+
+        /// <summary>
+        /// Verify if choosing the filter Excel can get any correct sample. 
+        /// </summary>
+        [TestMethod]
+        public void S13_TC54_CanFindExcelSamples()
+        {
+            Pages.Navigation.Select("Code Samples");
+            Utility.SelectFilter("Excel");
+            bool hasFounded = false;
+
+            List<SearchedResult> resultList = Utility.GetFilterResults();
+            foreach (SearchedResult resultInfo in resultList)
+            {
+                bool isNameMatched = resultInfo.Name.ToLower().Contains("excel");
+                bool isDescriptionMatched = resultInfo.Description.ToLower().Contains("excel");
+                if (isNameMatched || isDescriptionMatched)
+                {
+                    hasFounded = true;
+                    break;
+                }
+            }
+            Assert.IsTrue(hasFounded, "There should be at least one sample which meets the filter Excel");
+        }
+
+        /// <summary>
+        /// Verify if choosing the filter Outlook can get any correct sample. 
+        /// </summary>
+        [TestMethod]
+        public void S13_TC55_CanFindOutlookSamples()
+        {
+            Pages.Navigation.Select("Code Samples");
+            Utility.SelectFilter("Outlook");
+            bool hasFounded = false;
+
+            List<SearchedResult> resultList = Utility.GetFilterResults();
+            foreach (SearchedResult resultInfo in resultList)
+            {
+                bool isNameMatched = resultInfo.Name.ToLower().Contains("outlook");
+                bool isDescriptionMatched = resultInfo.Description.ToLower().Contains("outlook");
+                if (isNameMatched || isDescriptionMatched)
+                {
+                    hasFounded = true;
+                    break;
+                }
+            }
+            Assert.IsTrue(hasFounded, "There should be at least one sample which meets the filter Outlook");
+        }
+
+        /// <summary>
+        /// Verify if choosing the filter Yammer can get any correct sample. 
+        /// </summary>
+        [TestMethod]
+        public void S13_TC56_CanFindYammerSamples()
+        {
+            Pages.Navigation.Select("Code Samples");
+            Utility.SelectFilter("Yammer");
+            bool hasFounded = false;
+
+            List<SearchedResult> resultList = Utility.GetFilterResults();
+            foreach (SearchedResult resultInfo in resultList)
+            {
+                bool isNameMatched = resultInfo.Name.ToLower().Contains("yammer");
+                bool isDescriptionMatched = resultInfo.Description.ToLower().Contains("yammer");
+                if (isNameMatched || isDescriptionMatched)
+                {
+                    hasFounded = true;
+                    break;
+                }
+            }
+            Assert.IsTrue(hasFounded, "There should be at least one sample which meets the filter Yammer");
+        }
+
+        /// <summary>
+        /// Verify if choosing the filter Delve can get any correct sample. 
+        /// </summary>
+        [TestMethod]
+        public void S13_TC57_CanFindDelveSamples()
+        {
+            Pages.Navigation.Select("Code Samples");
+            Utility.SelectFilter("Delve");
+            bool hasFounded = false;
+
+            List<SearchedResult> resultList = Utility.GetFilterResults();
+            foreach (SearchedResult resultInfo in resultList)
+            {
+                //The specifc sample Graph Organization Explorer Windows 10 (UWP) includes Delve part
+                bool isNameMatched = resultInfo.Name.Equals("Graph Organization Explorer Windows 10 (UWP)");
+                if (isNameMatched)
+                {
+                    hasFounded = true;
+                    break;
+                }
+            }
+            Assert.IsTrue(hasFounded, "There should be at least one sample which meets the filter Delve");
+        }
     }
 }
