@@ -19,7 +19,6 @@ namespace TestFramework
 
         public NewWindowPage()
         {
-            Browser.Wait(By.CssSelector("head>title"));
             title = (OpenQA.Selenium.Remote.RemoteWebElement)Browser.Driver.FindElement(By.CssSelector("head>title"));
         }
     }

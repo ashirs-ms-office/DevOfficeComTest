@@ -31,7 +31,7 @@ namespace TestFramework
 
         public static void Initialize()
         {
-            SetWaitTime(TimeSpan.FromSeconds(30));
+            SetWaitTime(TimeSpan.FromSeconds(15));
             webDriver.Navigate().GoToUrl(BaseAddress);
             defaultTitle = Title;
         }
@@ -55,7 +55,6 @@ namespace TestFramework
         public static void Close()
         {
             webDriver.Quit();
-            //webDriver.Close();
         }
 
         public static SelectElement SelectElement(IWebElement webElement)

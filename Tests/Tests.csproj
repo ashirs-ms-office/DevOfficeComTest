@@ -59,6 +59,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="CheckAllLinks.cs" />
     <Compile Include="CodeSamplePageTest.cs" />
     <Compile Include="HomPageTest.cs" />
     <Compile Include="NavigationTest.cs" />

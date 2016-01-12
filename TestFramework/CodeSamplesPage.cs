@@ -19,7 +19,6 @@ namespace TestFramework
 
         public CodeSamplesPage()
         {
-            Browser.Wait(By.CssSelector("head>title"));
             codeSamplesTitle = (OpenQA.Selenium.Remote.RemoteWebElement)Browser.Driver.FindElement(By.CssSelector("head>title"));
         }
     }

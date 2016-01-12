@@ -49,7 +49,7 @@ namespace TestFramework
                 }
             }
 
-            Browser.SetWaitTime(TimeSpan.FromSeconds(30));
+            Browser.SetWaitTime(TimeSpan.FromSeconds(15));
         }
     }
 }
