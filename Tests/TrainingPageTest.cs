@@ -235,5 +235,200 @@ namespace Tests
             }
             Assert.IsTrue(hasFounded, "There should be at least one training which meets the filter Deep Dive Integrate Office 365 APIs in Your Web Apps");
         }
+
+        /// <summary>
+        /// Verify if choosing the filter Deep Dive Building Blocks and Services of SharePoint can get any correct training. 
+        /// </summary>
+        [TestMethod]
+        public void S14_TC09_CanFindBuildingBlocksandServicesofSharePointTrainings()
+        {
+            Pages.Navigation.Select("Resources", "Training");
+            Utility.SelectFilter("Deep Dive Building Blocks and Services of SharePoint");
+            bool hasFounded = false;
+
+            List<SearchedResult> resultList = Utility.GetFilterResults();
+            foreach (SearchedResult resultInfo in resultList)
+            {
+                bool isNameMatched = resultInfo.Name.ToLower().Contains("sharepoint");
+                bool isDescriptionMatched = resultInfo.Description.ToLower().Contains("sharepoint");
+                if (isNameMatched || isDescriptionMatched)
+                {
+                    hasFounded = true;
+                    break;
+                }
+            }
+            Assert.IsTrue(hasFounded, "There should be at least one training which meets the filter Deep Dive Building Blocks and Services of SharePoint");
+        }
+
+        /// <summary>
+        /// Verify if choosing the filter Property Manager Hero Demo Deep Dive can get any correct training. 
+        /// </summary>
+        [TestMethod]
+        public void S14_TC10_CanFindPropertyManagerHeroDemoDeepDiveTrainings()
+        {
+            Pages.Navigation.Select("Resources", "Training");
+            Utility.SelectFilter("Property Manager Hero Demo Deep Dive");
+            bool hasFounded = false;
+
+            List<SearchedResult> resultList = Utility.GetFilterResults();
+            foreach (SearchedResult resultInfo in resultList)
+            {
+                bool isNameMatched = resultInfo.Name.ToLower().Contains("property management");
+                bool isDescriptionMatched = resultInfo.Description.ToLower().Contains("property management");
+                if (isNameMatched || isDescriptionMatched)
+                {
+                    hasFounded = true;
+                    break;
+                }
+            }
+            Assert.IsTrue(hasFounded, "There should be at least one training which meets the filter Property Manager Hero Demo Deep Dive");
+        }
+
+        /// <summary>
+        /// Verify if choosing the filter Shipping Your Office App to the Office Store can get any correct training. 
+        /// </summary>
+        [TestMethod]
+        public void S14_TC11_CanFindShippingYourOfficeApptotheOfficeStoreTrainings()
+        {
+            Pages.Navigation.Select("Resources", "Training");
+            Utility.SelectFilter("Shipping Your Office App to the Office Store");
+            bool hasFounded = false;
+
+            List<SearchedResult> resultList = Utility.GetFilterResults();
+            foreach (SearchedResult resultInfo in resultList)
+            {
+                bool isNameMatched = resultInfo.Name.ToLower().Contains("app store");
+                bool isDescriptionMatched = resultInfo.Description.ToLower().Contains("app store");
+                if (isNameMatched || isDescriptionMatched)
+                {
+                    hasFounded = true;
+                    break;
+                }
+            }
+            Assert.IsTrue(hasFounded, "There should be at least one training which meets the filter Shipping Your Office App to the Office Store");
+        }
+
+        /// <summary>
+        /// Verify if choosing the filter Independent Courses can get any correct training. 
+        /// </summary>
+        [TestMethod]
+        public void S14_TC12_CanFindIndependentCoursesTrainings()
+        {
+            Pages.Navigation.Select("Resources", "Training");
+            Utility.SelectFilter("Independent Courses");
+            
+            List<SearchedResult> resultList = Utility.GetFilterResults();
+
+            Assert.IsTrue(resultList.Count > 0, "There should be at least one training which meets the filter Independent Courses");
+        }
+
+        /// <summary>
+        /// Verify if choosing the filter Deep Dive into Office 365 Development on non-Microsoft Stack can get any correct training. 
+        /// </summary>
+        [TestMethod]
+        public void S14_TC13_CanFindIndependentCoursesTrainings()
+        {
+            Pages.Navigation.Select("Resources", "Training");
+            Utility.SelectFilter("Deep Dive into Office 365 Development on non-Microsoft Stack");
+
+            List<SearchedResult> resultList = Utility.GetFilterResults();
+
+            Assert.IsTrue(resultList.Count > 0, "There should be at least one training which meets the filter Deep Dive into Office 365 Development on non-Microsoft Stack");
+        }
+
+        /// <summary>
+        /// Verify if choosing the filter Deep Dive: Integrate Office 365 APIs in Your Mobile Device Apps can get any correct training. 
+        /// </summary>
+        [TestMethod]
+        public void S14_TC14_CanFindIntegrateOffice365APIsinMobileDeviceAppsTrainings()
+        {
+            Pages.Navigation.Select("Resources", "Training");
+            Utility.SelectFilter("Deep Dive: Integrate Office 365 APIs in Your Mobile Device Apps");
+            bool hasFounded = false;
+
+            List<SearchedResult> resultList = Utility.GetFilterResults();
+            foreach (SearchedResult resultInfo in resultList)
+            {
+                bool isNameMatched = resultInfo.Name.ToLower().Contains("mobile device");
+                bool isDescriptionMatched = resultInfo.Description.ToLower().Contains("mobile device");
+                if (isNameMatched || isDescriptionMatched)
+                {
+                    hasFounded = true;
+                    break;
+                }
+            }
+            Assert.IsTrue(hasFounded, "There should be at least one training which meets the filter Deep Dive: Integrate Office 365 APIs in Your Mobile Device Apps");
+        }
+
+        /// <summary>
+        /// Verify if choosing the filter Ignite 2015 can get any correct training. 
+        /// </summary>
+        [TestMethod]
+        public void S14_TC15_CanFindIgniteTrainings()
+        {
+            Pages.Navigation.Select("Resources", "Training");
+            Utility.SelectFilter("Ignite 2015");
+            bool hasFounded = false;
+
+            List<SearchedResult> resultList = Utility.GetFilterResults();
+            foreach (SearchedResult resultInfo in resultList)
+            {
+
+                if (resultInfo.DetailLink.Contains("myignite.microsoft.com"))
+                {
+                    hasFounded = true;
+                    break;
+                }
+            }
+            Assert.IsTrue(hasFounded, "There should be at least one training which meets the filter Ignite 2015");
+        }
+
+        /// <summary>
+        /// Verify if choosing the filter Build 2015 can get any correct training. 
+        /// </summary>
+        [TestMethod]
+        public void S14_TC16_CanFindBuildTrainings()
+        {
+            Pages.Navigation.Select("Resources", "Training");
+            Utility.SelectFilter("Build 2015");
+            bool hasFounded = false;
+
+            List<SearchedResult> resultList = Utility.GetFilterResults();
+            foreach (SearchedResult resultInfo in resultList)
+            {
+
+                if (resultInfo.DetailLink.Contains("Events/Build/2015"))
+                {
+                    hasFounded = true;
+                    break;
+                }
+            }
+            Assert.IsTrue(hasFounded, "There should be at least one training which meets the filter Build 2015");
+        }
+
+        /// <summary>
+        /// Verify if choosing the filter SAP Gateway for Microsoft can get any correct training. 
+        /// </summary>
+        [TestMethod]
+        public void S14_TC17_CanFindSAPGatewayforMicrosoftTrainings()
+        {
+            Pages.Navigation.Select("Resources", "Training");
+            Utility.SelectFilter("SAP Gateway for Microsoft");
+            bool hasFounded = false;
+
+            List<SearchedResult> resultList = Utility.GetFilterResults();
+            foreach (SearchedResult resultInfo in resultList)
+            {
+                bool isNameMatched = resultInfo.Name.Contains("SAP");
+                bool isDescriptionMatched = resultInfo.Description.Contains("SAP");
+                if (isNameMatched || isDescriptionMatched)
+                {
+                    hasFounded = true;
+                    break;
+                }
+            }
+            Assert.IsTrue(hasFounded, "There should be at least one training which meets the filter SAP Gateway for Microsoft");
+        }
+
     }
 }
