@@ -3,6 +3,7 @@ using System.Threading;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.IE;
+using OpenQA.Selenium.Firefox;
 using System.Collections.Generic;
 using System.Net;
 using OpenQA.Selenium.Remote;
@@ -12,8 +13,13 @@ namespace TestFramework
 {
     public static class Browser
     {
-        //static IWebDriver webDriver = new InternetExplorerDriver();
-        static IWebDriver webDriver = new ChromeDriver();
+        static IWebDriver webDriver = new ChromeDriver(System.IO.Directory.GetCurrentDirectory() + @"/Drivers/");
+
+        //static IWebDriver webDriver = new InternetExplorerDriver(System.IO.Directory.GetCurrentDirectory() + @"/Drivers/IE32/");
+        //static IWebDriver webDriver = new InternetExplorerDriver(System.IO.Directory.GetCurrentDirectory() + @"/Drivers/IE64/");
+        //static IWebDriver webDriver = new FirefoxDriver();
+
+
         static string defaultTitle;
         static string defaultHandle = webDriver.CurrentWindowHandle;
 
