@@ -31,7 +31,7 @@ namespace Tests
         /// Verify if choosing the filters can cause the displayed results updated 
         /// </summary>
         [TestMethod]
-        public void S13_TC01_FilterCheckedWithCorrectEvent()
+        public void BVT_S13_TC01_FilterCheckedWithCorrectEvent()
         {
             Pages.Navigation.Select("Code Samples");
             int filterCount = Utility.GetFilterCount();
@@ -48,7 +48,7 @@ namespace Tests
         /// Verify if all the checked filters can be cleared at one time
         /// </summary>
         [TestMethod]
-        public void S13_TC02_CanFilterCleared()
+        public void BVT_S13_TC02_CanFilterCleared()
         {
             Pages.Navigation.Select("Code Samples");
             int filterCount = Utility.GetFilterCount();
@@ -85,7 +85,7 @@ namespace Tests
         /// Verify whether the URL can be updated accordingly when some filters are chosen
         /// </summary>
         [TestMethod]
-        public void S13_TC03_CanURLUpdatedByCodeSampleFilters()
+        public void BVT_S13_TC03_CanURLUpdatedByCodeSampleFilters()
         {
             Pages.Navigation.Select("Code Samples");
             int filterCount = Utility.GetFilterCount();
