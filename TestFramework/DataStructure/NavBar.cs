@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace TestFramework.DataStructure
+namespace TestFramework
 {  
     public class NavBar
     {

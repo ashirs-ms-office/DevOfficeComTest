@@ -25,6 +25,11 @@
         /// <summary>
         /// The updated date
         /// </summary>
-        public DateTime UpdatedDate;
+        public DateTime? UpdatedDate;
+
+        /// <summary>
+        /// The detail link
+        /// </summary>
+        public string DetailLink;
     }
 }

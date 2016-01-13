@@ -20,6 +20,7 @@ namespace TestFramework
 
         public GraphPage()
         {
+            Browser.Wait(By.CssSelector("head>title"));
             graphTitle = (OpenQA.Selenium.Remote.RemoteWebElement)Browser.Driver.FindElement(By.CssSelector("head>title"));
         }
     }

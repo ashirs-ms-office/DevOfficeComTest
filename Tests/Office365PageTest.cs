@@ -1,7 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using TestFramework;
-using TestFramework.DataStructure;
 
 namespace Tests
 {
@@ -47,7 +46,7 @@ namespace Tests
         //}
 
         [TestMethod]
-        public void S04_TC01_CanGoThroughO365API()
+        public void BVT_S04_TC01_CanGoThroughO365API()
         {
             Platform platform = Platform.Node;
             Pages.Office365Page.CardSetupPlatform.ChoosePlatform(platform);
@@ -74,7 +73,7 @@ namespace Tests
         }
 
         [TestMethod]
-        public void S05_TC01_CanTryO365API_GetUsers()
+        public void BVT_S05_TC01_CanTryO365API_GetUsers()
         {
             Pages.Office365Page.CardTryItOut.ChooseService(ServiceToTry.GetUsers);
             Pages.Office365Page.CardTryItOut.ClickTry();
@@ -82,7 +81,7 @@ namespace Tests
         }
 		
         [TestMethod]
-        public void S05_TC02_Can_Try_O365API_GetGroups_DriverRootChildren()
+        public void BVT_S05_TC02_Can_Try_O365API_GetGroups_DriverRootChildren()
         {
             Pages.Office365Page.CardTryItOut.ChooseService(ServiceToTry.GetGroups);
             Pages.Office365Page.CardTryItOut.ChooseServiceValue(ServiceToTry.GetGroups, GetGroupValue.drive_root_children);
@@ -91,7 +90,7 @@ namespace Tests
         }
 
         [TestMethod]
-        public void S06_TC01_CanChoosePlatform()
+        public void BVT_S06_TC01_CanChoosePlatform()
         {
             foreach (Platform item in Enum.GetValues(typeof(Platform)))
             {
@@ -110,7 +109,7 @@ namespace Tests
         //}
 
         [TestMethod]
-        public void S08_TC01_CanDownloadCode_Node()
+        public void BVT_S08_TC01_CanDownloadCode_Node()
         {
             Platform platform = Platform.Node;
             Pages.Office365Page.CardSetupPlatform.ChoosePlatform(platform);

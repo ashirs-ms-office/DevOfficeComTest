@@ -14,7 +14,7 @@ namespace Tests
         [TestMethod]
         public void S15_TC01_CheckAllLinks()
         {
-            string linkCheckerPath = "D:\\Program Files (x86)\\LinkChecker\\LinkChecker.exe";
+            string linkCheckerPath = Utility.GetConfigurationValue("linkCheckerPath");
             System.Diagnostics.Process.Start(linkCheckerPath, "-r1 -t200 -Fhtml/result.html -v -q " + "http://dev.office.com" + " --check-extern --ignore-url=.*\\.js");
         }
     }

@@ -18,14 +18,14 @@ namespace Tests
         }
 
         [TestMethod]
-        public void S02_TC01_CanGoToGettingStartedPage()
+        public void BVT_S02_TC01_CanGoToGettingStartedPage()
         {
             Pages.Navigation.Select("Getting Started");
             Assert.IsTrue(Pages.Navigation.IsAtOfficeGettingStartedPage("Getting Started"));
         }
 
         [TestMethod]
-        public void S02_TC02_CanGoToCodeSamplesPage()
+        public void BVT_S02_TC02_CanGoToCodeSamplesPage()
         {
             Browser.SetWaitTime(TimeSpan.FromSeconds(30));
             Pages.Navigation.Select("Code Samples");
@@ -34,7 +34,7 @@ namespace Tests
         }
 
         [TestMethod]
-        public void S02_TC03_CanGoToExploreSubPage()
+        public void BVT_S02_TC03_CanGoToExploreSubPage()
         {
             foreach (MenuItemOfExplore item in Enum.GetValues(typeof(MenuItemOfExplore)))
             {
@@ -44,7 +44,7 @@ namespace Tests
         }
 
         [TestMethod]
-        public void S02_TC04_CanGoToResourceSubPage()
+        public void BVT_S02_TC04_CanGoToResourceSubPage()
         {
             foreach (MenuItemOfResource item in Enum.GetValues(typeof(MenuItemOfResource)))
             {
@@ -54,7 +54,7 @@ namespace Tests
         }
 
         [TestMethod]
-        public void S02_TC05_CanGoToDocumentationSubPage()
+        public void BVT_S02_TC05_CanGoToDocumentationSubPage()
         {
             foreach (MenuItemOfDocumentation item in Enum.GetValues(typeof(MenuItemOfDocumentation)))
             {

@@ -27,21 +27,18 @@ namespace TestFramework.Office365Page
         {
             var signedinLater = Browser.Driver.FindElement(By.Id("app-reg-signin-later"));
             Browser.Click(signedinLater);
-
-            // When the button to download code is displayed, the click event can be considered as finished.
-            Browser.Wait(By.Id("downloadCodeSampleButton"));
         }
 
         public bool IsSignedin(string userName)
         {
-            Browser.Wait(By.Id("registration-form"));
+            Browser.Wait(TimeSpan.FromSeconds(2));
             var registrationForm = Browser.Driver.FindElement(By.Id("registration-form"));
             return registrationForm.Displayed;
         }
 
         public bool IsRegistered()
         {
-            Browser.Wait(By.Id("registration-result"));
+            Browser.Wait(TimeSpan.FromSeconds(2));
             var registrationResult = Browser.Driver.FindElement(By.Id("registration-result"));
             IWebElement resultText = registrationResult.FindElement(By.TagName("div"));
             return (registrationResult.Displayed && resultText.Text.Equals("Registration Successful!"));
@@ -62,9 +59,11 @@ namespace TestFramework.Office365Page
             this.appName = name;
             var appNameInput = Browser.Driver.FindElement(By.Id("appNameField"));
             appNameInput.SendKeys(appName);
+            Browser.Wait(TimeSpan.FromSeconds(0.5));
 
             var registerBtn = Browser.Driver.FindElement(By.Id("register-button"));
             Browser.Click(registerBtn);
+            Browser.Wait(TimeSpan.FromSeconds(2));
         }
     }
 
@@ -88,12 +87,14 @@ namespace TestFramework.Office365Page
         {
             var signinGoBtn = Browser.Driver.FindElement(By.Id("app-reg-signin"));
             Browser.Click(signinGoBtn);
+            Browser.Wait(TimeSpan.FromSeconds(1));
 
             var signinInput = Browser.Driver.FindElement(By.Name("login"));
             signinInput.SendKeys(userName);
             var passwordInput = Browser.Driver.FindElement(By.Name("passwd"));
             passwordInput.SendKeys(password);
             var signinBtn = Browser.Driver.FindElement(By.Id("cred_sign_in_button"));
+            Browser.Wait(TimeSpan.FromSeconds(1));
 
             Browser.Click(signinBtn);
         }

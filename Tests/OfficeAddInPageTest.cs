@@ -1,7 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using TestFramework;
-using TestFramework.DataStructure;
 
 namespace Tests
 {
@@ -71,7 +70,7 @@ namespace Tests
             Assert.IsTrue(Pages.OfficeAddInPage.CardChooseProduct.IsShowingProductExplore(product), "Failed to choose product {0}.", product.ToString());
             Assert.IsTrue(Pages.OfficeAddInPage.CardChooseProduct.IsShowingExampleOrVideo(product), "Failed to choose product {0}.", product.ToString());
 
-            Browser.SaveScreenShot(@"E:\\Excel.png");
+            //Browser.SaveScreenShot(@"E:\\Excel.png");
             // Explore
             // Pages.OfficeAddInPage.CardExcel.Explore.play();
 
@@ -95,7 +94,7 @@ namespace Tests
         }
 
         [TestMethod]
-        public void S09_TC02_CanGoThroughAddinPage_Outlook()
+        public void BVT_S09_TC02_CanGoThroughAddinPage_Outlook()
         {
             // Select app
             Product product = Product.Outlook;

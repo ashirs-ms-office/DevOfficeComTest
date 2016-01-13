@@ -49,6 +49,7 @@ namespace TestFramework
 
         public OfficeGettingStartedPage()
         {
+            Browser.Wait(By.CssSelector("head>title"));
             gettingStartedTitle = (OpenQA.Selenium.Remote.RemoteWebElement)Browser.Driver.FindElement(By.CssSelector("head>title"));
         }
     }
