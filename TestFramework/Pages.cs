@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.NetworkInformation;
-using System.Text;
-using System.Threading.Tasks;
-using OpenQA.Selenium.Support.PageObjects;
-using TestFramework.Office365Page;
-
-namespace TestFramework
+﻿namespace TestFramework
 {
     public static class Pages
     {
@@ -15,9 +6,7 @@ namespace TestFramework
         {
             get
             {
-                var homePage = new HomePage();
-                PageFactory.InitElements(Browser.Driver, homePage);
-                return homePage;
+                return new HomePage();
             }
         }
 
@@ -25,37 +14,23 @@ namespace TestFramework
         {
             get
             {
-                var navigation = new Navigation();
-                PageFactory.InitElements(Browser.Driver, navigation);
-                return navigation;
-            }
-        }
-        public static CardSetupPlatform CardSetupPlatform
-        {
-            get
-            {
-                var cardSetupPlatform = new CardSetupPlatform();
-                PageFactory.InitElements(Browser.Driver, cardSetupPlatform);
-                return cardSetupPlatform;
+                return new Navigation();
             }
         }
 
-        public static CardTryItOut CardTryItOut
+        public static Office365Page.Office365Page Office365Page
         {
             get
             {
-                var cardTryItOut = new CardTryItOut();
-                PageFactory.InitElements(Browser.Driver, cardTryItOut);
-                return cardTryItOut;
+                return new Office365Page.Office365Page();
             }
         }
-        public static CardRegisterApp CardRegisterApp
+
+        public static OfficeAddInPage.OfficeAddInPage OfficeAddInPage
         {
             get
             {
-                var cardRegisterApp = new CardRegisterApp();
-                PageFactory.InitElements(Browser.Driver, cardRegisterApp);
-                return cardRegisterApp;
+                return new OfficeAddInPage.OfficeAddInPage();
             }
         }
     }

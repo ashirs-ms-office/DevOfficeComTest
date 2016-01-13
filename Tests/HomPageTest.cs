@@ -18,13 +18,13 @@ namespace Tests
         }
 
         [TestMethod]
-        public void Can_Go_To_HomePage()
+        public void S03_TC01_CanGoToHomePage()
         {
             Assert.IsTrue(Pages.HomePage.IsAt());
         }
 
         [TestMethod]
-        public void Load_Banner_Image()
+        public void S03_TC02_CanLoadBannerImage()
         {
             Assert.IsTrue(Pages.HomePage.CanLoadImage(HomePageImages.Banner));
         }

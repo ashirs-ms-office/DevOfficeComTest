@@ -18,17 +18,47 @@ namespace Tests
         }
 
         [TestMethod]
-        public void Can_Go_To_AndroidPage()
+        public void S02_TC01_CanGoToGettingStartedPage()
         {
-            Pages.Navigation.Select("Explore","Android");
-            Assert.IsTrue(Pages.Navigation.IsAtProductPage("Android"));
+            Pages.Navigation.Select("Getting Started");
+            Assert.IsTrue(Pages.Navigation.IsAtOfficeGettingStartedPage("Getting Started"));
         }
 
         [TestMethod]
-        public void Can_Go_To_WordPage()
+        public void S02_TC02_CanGoToCodeSamplesPage()
         {
-            Pages.Navigation.Select("Explore","Word");
-            Assert.IsTrue(Pages.Navigation.IsAtProductPage("Word"));
+            Pages.Navigation.Select("Code Samples");
+            Assert.IsTrue(Pages.Navigation.IsAtOfficeGettingStartedPage("Code Samples"));
+        }
+
+        [TestMethod]
+        public void S02_TC03_CanGoToExploreSubPage()
+        {
+            foreach (MenuItemOfExplore item in Enum.GetValues(typeof(MenuItemOfExplore)))
+            {
+                Pages.Navigation.Select("Explore", item.ToString());
+                Assert.IsTrue(Pages.Navigation.IsAtExplorePage(item), string.Format("The menu item {0} is not opened currectly.", item.ToString()));
+            }
+        }
+
+        [TestMethod]
+        public void S02_TC04_CanGoToResourceSubPage()
+        {
+            foreach (MenuItemOfResource item in Enum.GetValues(typeof(MenuItemOfResource)))
+            {
+                Pages.Navigation.Select("Resources", item.ToString());
+                Assert.IsTrue(Pages.Navigation.IsAtResourcePage(item), string.Format("The menu item {0} is not opened currectly.", item.ToString()));
+            }
+        }
+
+        [TestMethod]
+        public void S02_TC05_CanGoToDocumentationSubPage()
+        {
+            foreach (MenuItemOfDocumentation item in Enum.GetValues(typeof(MenuItemOfDocumentation)))
+            {
+                Pages.Navigation.Select("Documentation", item.ToString());
+                Assert.IsTrue(Pages.Navigation.IsAtDocumentationPage(item), string.Format("The menu item {0} is not opened currectly.", item.ToString()));
+            }
         }
 
         [ClassCleanup]

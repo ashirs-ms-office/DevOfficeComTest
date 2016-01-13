@@ -3,28 +3,27 @@ using OpenQA.Selenium;
 
 namespace TestFramework.Office365Page
 {
-    public class CardSetupPlatform
+    public class CardSetupPlatform : BasePage
     {
-        public void ChoosePlatform(string platformName)
+        public void ChoosePlatform(Platform platformName)
         {
-            var platform = Browser.Driver.FindElement(By.Id("option-"+platformName));
-            platform.Click();
+            if (!Browser.Url.Contains("/getting-started/office365apis"))
+            {
+                Browser.Goto(Browser.BaseAddress + "/getting-started/office365apis#setup");
+            }
 
-            Browser.Wait(TimeSpan.FromSeconds(1));
+            var platform = Browser.Driver.FindElement(By.Id("option-"+platformName.ToString().ToLower()));
+            Browser.Click(platform);
+
+            // Need refactor: Sometimes case failed for the platform setup text is not changed in time
+            Browser.Wait(TimeSpan.FromSeconds(2));
         }
 
-        public bool IsShowingPlatformSetup(string platformName)
+        public bool IsShowingPlatformSetup(Platform platformName)
         {
-            var setupPlatformDoc = Browser.Driver.FindElement(By.Id("get-setup"));
-
-            switch (platformName)
-            {
-                case ("android"):
-                case("ios"):
-                    return setupPlatformDoc.Text.ToLower().Contains(platformName);
-                default:
-                    return false;
-            }
+            var setupPlatformDoc = Browser.Driver.FindElement(By.CssSelector("#ShowDocumentationDiv>h1"));
+            string platformDescription = EnumExtension.GetDescription(platformName).ToLower();
+            return setupPlatformDoc.Text.ToLower().Contains(platformDescription);
         }
     }
 }

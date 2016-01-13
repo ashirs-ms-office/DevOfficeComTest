@@ -3,37 +3,30 @@ using OpenQA.Selenium;
 
 namespace TestFramework.Office365Page
 {
-    public class CardRegisterApp
+    public class CardRegisterApp : BasePage
     {
-        public void ChooseService(int serviceIndex)
-        {
-            var service = Browser.Driver.FindElement(By.Id("serviceOption"+serviceIndex));
-            service.Click();
-        }
-
-        public void ClickTry()
-        {
-            var tryBtn = Browser.Driver.FindElement(By.Id("invokeurlBtn"));
-            tryBtn.Click();
-
-            Browser.Wait(TimeSpan.FromSeconds(5));
-           // var wait = new WebDriverWait(Browser.Driver as IWebDriver, TimeSpan.FromSeconds(5));
-            //wait.Until(d => d.FindElement(By.Id("response-container")));
-            //WebDriverWait wait = new WebDriverWait((Browser.Driver as IWebDriver), TimeSpan.FromSeconds(10));
-            //IWebElement responseContainer = wait.Until(d =>
-            //{
-            //    return d.FindElement(By.Id("response-container"));
-            //});
-
-
-            //var responseContainer = Browser.Driver.FindElement(By.Id("response-container"));
-            //action.MoveToElement(responseContainer);
-            //action.Perform();
-        }
-
         public SigninCommand SigninAs(string userName)
         {
+            if (!Browser.Url.Contains("/getting-started/office365apis"))
+            {
+                Browser.Goto(Browser.BaseAddress + "/Getting-Started/office365Apis#register-app");
+            }
+
             return new SigninCommand(userName);
+        }
+
+        public RegisterCommand Register()
+        {
+            return new RegisterCommand();
+        }
+
+        /// <summary>
+        /// Choose to sign in later in the register app card
+        /// </summary>
+        public void SigninLater()
+        {
+            var signedinLater = Browser.Driver.FindElement(By.Id("app-reg-signin-later"));
+            Browser.Click(signedinLater);
         }
 
         public bool IsSignedin(string userName)
@@ -42,7 +35,38 @@ namespace TestFramework.Office365Page
             var registrationForm = Browser.Driver.FindElement(By.Id("registration-form"));
             return registrationForm.Displayed;
         }
+
+        public bool IsRegistered()
+        {
+            Browser.Wait(TimeSpan.FromSeconds(2));
+            var registrationResult = Browser.Driver.FindElement(By.Id("registration-result"));
+            IWebElement resultText = registrationResult.FindElement(By.TagName("div"));
+            return (registrationResult.Displayed && resultText.Text.Equals("Registration Successful!"));
+        }
     }
+
+    public class RegisterCommand
+    {
+        private string appName;
+
+        public RegisterCommand Register()
+        {
+            return this;
+        }
+
+        public void WithAppName(string name)
+        {
+            this.appName = name;
+            var appNameInput = Browser.Driver.FindElement(By.Id("appNameField"));
+            appNameInput.SendKeys(appName);
+            Browser.Wait(TimeSpan.FromSeconds(0.5));
+
+            var registerBtn = Browser.Driver.FindElement(By.Id("register-button"));
+            Browser.Click(registerBtn);
+            Browser.Wait(TimeSpan.FromSeconds(2));
+        }
+    }
+
     public class SigninCommand
     {
         private readonly string userName;
@@ -62,7 +86,7 @@ namespace TestFramework.Office365Page
         public void Signin()
         {
             var signinGoBtn = Browser.Driver.FindElement(By.Id("app-reg-signin"));
-            signinGoBtn.Click();
+            Browser.Click(signinGoBtn);
             Browser.Wait(TimeSpan.FromSeconds(1));
 
             var signinInput = Browser.Driver.FindElement(By.Name("login"));
@@ -72,7 +96,7 @@ namespace TestFramework.Office365Page
             var signinBtn = Browser.Driver.FindElement(By.Id("cred_sign_in_button"));
             Browser.Wait(TimeSpan.FromSeconds(1));
 
-            signinBtn.Click();
+            Browser.Click(signinBtn);
         }
     }
 }
