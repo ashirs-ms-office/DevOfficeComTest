@@ -25,18 +25,28 @@ namespace TestFramework
 
         public static string BaseAddress
         {
-            get { return "http://officedevcenter-msprod-standby.azurewebsites.net"; }
+            get { return Utility.GetConfigurationValue("BaseAddress"); }
+            //get { return "http://officedevcenter-msprod-standby.azurewebsites.net"; }
             //get { return "http://officedevcentersite-orchard.azurewebsites.net"; }
             //get { return "http://localhost"; }
         }
 
         public static void Initialize()
         {
-            SetWaitTime(TimeSpan.FromSeconds(30));
+            SetWaitTime(TimeSpan.FromSeconds(15));
             webDriver.Navigate().GoToUrl(BaseAddress);
             defaultTitle = Title;
         }
 
+        public static void InitializeGoogle()
+        {
+            webDriver.Navigate().GoToUrl("https://www.google.com");
+        }
+
+        public static void InitializeBing()
+        {
+            webDriver.Navigate().GoToUrl("https://www.bing.com/");
+        }
         public static void Goto(string url)
         {
             webDriver.Navigate().GoToUrl(url);
@@ -56,7 +66,6 @@ namespace TestFramework
         public static void Close()
         {
             webDriver.Quit();
-            //webDriver.Close();
         }
 
         public static SelectElement SelectElement(IWebElement webElement)

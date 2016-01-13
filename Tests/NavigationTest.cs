@@ -27,8 +27,10 @@ namespace Tests
         [TestMethod]
         public void BVT_S02_TC02_CanGoToCodeSamplesPage()
         {
+            Browser.SetWaitTime(TimeSpan.FromSeconds(30));
             Pages.Navigation.Select("Code Samples");
-            Assert.IsTrue(Pages.Navigation.IsAtOfficeGettingStartedPage("Code Samples"));
+            Assert.IsTrue(Pages.Navigation.IsAtCodeSamplesPage("Code Samples"));
+            Browser.SetWaitTime(TimeSpan.FromSeconds(15));
         }
 
         [TestMethod]

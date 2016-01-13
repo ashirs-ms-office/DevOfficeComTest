@@ -12,6 +12,18 @@ namespace TestFramework
         Word
     }
 
+    public enum KeyWord
+    {
+        [Description("Microsoft Graph")]
+        MicrosoftGraph,
+        [Description("Microsoft Graph API")]
+        MicrosoftGraphAPI,
+        [Description("Graph API")]
+        GraphAPI,
+        [Description("Graph Microsoft")]
+        GraphMicrosoft
+    }
+	
     public enum OtherProduct
     {
         Access,
