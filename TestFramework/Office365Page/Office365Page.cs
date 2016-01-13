@@ -23,7 +23,7 @@ namespace TestFramework.Office365Page
         {
             get
             {
-                return new CardRegisterApp(); ;
+                return new CardRegisterApp(); 
             }
         }
 
@@ -31,7 +31,7 @@ namespace TestFramework.Office365Page
         {
             get
             {
-                return new CardDownloadCode(); ;
+                return new CardDownloadCode();
             }
         }
 
@@ -39,7 +39,7 @@ namespace TestFramework.Office365Page
         {
             get
             {
-                return new CardMoreResources(); ;
+                return new CardMoreResources(); 
             }
         }
     }

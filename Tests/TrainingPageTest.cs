@@ -123,7 +123,7 @@ namespace Tests
         /// Verify whether the URL can be updated accordingly when a filter is chosen
         /// </summary>
         [TestMethod]
-        public void S14_TC04_Can_URL_Updated_By_TrainingFilter()
+        public void BVT_S14_TC04_Can_URL_Updated_By_TrainingFilter()
         {
             Pages.Navigation.Select("Resources", "Training");
             int filterCount = Utility.GetFilterCount();

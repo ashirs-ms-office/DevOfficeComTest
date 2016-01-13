@@ -14,7 +14,8 @@ namespace TestFramework.Office365Page
             var downloadBtn = Browser.Driver.FindElement(By.Id("downloadCodeSampleButton"));
             Browser.Click(downloadBtn);
 
-            Browser.Wait(TimeSpan.FromSeconds(2));
+            // When the card indicates all thing is done is displayed, the click event can be considered as finished.
+            Browser.Wait(By.Id("AllSet"));
         }
 
         public bool IsCodeDownloaded()

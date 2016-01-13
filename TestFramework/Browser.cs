@@ -3,6 +3,7 @@ using System.Threading;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.IE;
+using OpenQA.Selenium.Firefox;
 using System.Collections.Generic;
 using System.Net;
 using OpenQA.Selenium.Remote;
@@ -12,25 +13,40 @@ namespace TestFramework
 {
     public static class Browser
     {
-        //static IWebDriver webDriver = new InternetExplorerDriver();
-        static IWebDriver webDriver = new ChromeDriver();
+        static IWebDriver webDriver = new ChromeDriver(System.IO.Directory.GetCurrentDirectory() + @"/Drivers/");
+
+        //static IWebDriver webDriver = new InternetExplorerDriver(System.IO.Directory.GetCurrentDirectory() + @"/Drivers/IE32/");
+        //static IWebDriver webDriver = new InternetExplorerDriver(System.IO.Directory.GetCurrentDirectory() + @"/Drivers/IE64/");
+        //static IWebDriver webDriver = new FirefoxDriver();
+
+
         static string defaultTitle;
         static string defaultHandle = webDriver.CurrentWindowHandle;
 
         public static string BaseAddress
         {
-            get { return "http://officedevcenter-msprod-standby.azurewebsites.net"; }
+            get { return Utility.GetConfigurationValue("BaseAddress"); }
+            //get { return "http://officedevcenter-msprod-standby.azurewebsites.net"; }
             //get { return "http://officedevcentersite-orchard.azurewebsites.net"; }
             //get { return "http://localhost"; }
         }
 
         public static void Initialize()
         {
-            SetWaitTime(TimeSpan.FromSeconds(30));
+            SetWaitTime(TimeSpan.FromSeconds(15));
             webDriver.Navigate().GoToUrl(BaseAddress);
             defaultTitle = Title;
         }
 
+        public static void InitializeGoogle()
+        {
+            webDriver.Navigate().GoToUrl("https://www.google.com");
+        }
+
+        public static void InitializeBing()
+        {
+            webDriver.Navigate().GoToUrl("https://www.bing.com/");
+        }
         public static void Goto(string url)
         {
             webDriver.Navigate().GoToUrl(url);
@@ -50,7 +66,6 @@ namespace TestFramework
         public static void Close()
         {
             webDriver.Quit();
-            //webDriver.Close();
         }
 
         public static SelectElement SelectElement(IWebElement webElement)
