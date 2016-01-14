@@ -56,7 +56,7 @@
     <Compile Include="CodeSamplesPage.cs" />
     <Compile Include="DataStructure\Utility.cs" />
     <Compile Include="DocumentationPage.cs" />
-    <Compile Include="Enums.cs" />
+    <Compile Include="DataStructure\Enums.cs" />
     <Compile Include="FabricGettingStartedPage.cs" />
     <Compile Include="FabricPage.cs" />
     <Compile Include="GraphPage.cs" />
