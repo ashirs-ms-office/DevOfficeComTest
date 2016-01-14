@@ -23,7 +23,7 @@ namespace TestFramework.Office365Page
         }
         public void CodeSamples()
         {
-            Browser.Click(Browser.Driver.FindElement(By.XPath("//div[@onclick=\"window.open('http://dev.office.com/codesamples#?filters=office%20365%20app');\"]")));
+            Browser.Click(Browser.Driver.FindElement(By.XPath("//div[@onclick=\"window.open('http://dev.office.com/code-samples#?filters=office%20365%20app');\"]")));
         }
         public void AzureAppAndPermissions()
         {
