@@ -27,16 +27,16 @@ namespace TestFramework.OfficeAddInPage
             switch (product)
             {
                 case Product.Excel:
-                    Browser.Click(Browser.Driver.FindElement(By.XPath("//div[@onclick=\"window.open('http://dev.office.com/codesamples#?filters=excel,office%20add-ins')\"]")));
+                    Browser.Click(Browser.Driver.FindElement(By.XPath("//div[@onclick=\"window.open('http://dev.office.com/code-samples#?filters=excel,office%20add-ins')\"]")));
                     break;
                 case Product.Outlook:
-                    Browser.Click(Browser.Driver.FindElement(By.XPath("//div[@onclick=\"window.open('http://dev.office.com/codesamples#?filters=office%20add-ins,outlook')\"]")));
+                    Browser.Click(Browser.Driver.FindElement(By.XPath("//div[@onclick=\"window.open('http://dev.office.com/code-samples#?filters=office%20add-ins,outlook')\"]")));
                     break;
                 case Product.PowerPoint:
-                    Browser.Click(Browser.Driver.FindElement(By.XPath("//div[@onclick=\"window.open('http://dev.office.com/codesamples#?filters=office%20add-ins,powerpoint')\"]")));
+                    Browser.Click(Browser.Driver.FindElement(By.XPath("//div[@onclick=\"window.open('http://dev.office.com/code-samples#?filters=office%20add-ins,powerpoint')\"]")));
                     break;
                 case Product.Word:
-                    Browser.Click(Browser.Driver.FindElement(By.XPath("//div[@onclick=\"window.open('http://dev.office.com/codesamples#?filters=office%20add-ins,word')\"]")));
+                    Browser.Click(Browser.Driver.FindElement(By.XPath("//div[@onclick=\"window.open('http://dev.office.com/code-samples#?filters=office%20add-ins,word')\"]")));
                     break;
                 default:
                     break;
