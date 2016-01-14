@@ -173,10 +173,16 @@ namespace Tests
         {
             Pages.Navigation.Select("Code Samples");
             int filterCount = Utility.GetFilterCount();
-
-            for (int i = 0; i < filterCount; i++)
+            //Randomly choose two filters to check
+            int randomIndex;
+            int usedIndex = filterCount;
+            for (int i = 0; i < 2; i++)
             {
-                string filterName = Utility.SelectFilter(i);
+                do
+                {
+                    randomIndex = new Random().Next(filterCount);
+                } while (randomIndex == usedIndex);
+                string filterName = Utility.SelectFilter(randomIndex);
 
                 // Set the sort order as descendent
                 Utility.SetSortOrder(SortType.Date, true);
@@ -200,7 +206,6 @@ namespace Tests
                         resultList[j].Name,
                         resultList[j + 1].Name);
                 }
-
                 Utility.ExecuteClearFilters();
             }
         }
