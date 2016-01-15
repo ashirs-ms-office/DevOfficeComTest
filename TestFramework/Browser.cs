@@ -33,7 +33,7 @@ namespace TestFramework
 
         public static void Initialize()
         {
-            SetWaitTime(TimeSpan.FromSeconds(15));
+            SetWaitTime(TimeSpan.FromSeconds(30));
             webDriver.Navigate().GoToUrl(BaseAddress);
             defaultTitle = Title;
         }

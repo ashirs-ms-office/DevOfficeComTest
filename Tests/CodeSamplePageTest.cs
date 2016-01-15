@@ -25,6 +25,15 @@ namespace Tests
         {
             Browser.Close();
         }
+
+        [TestCleanup]
+        public void TestCleanup()
+        {
+            if (!Browser.Url.Contains("code-samples-detail"))
+            {
+                Utility.ExecuteClearFilters();
+            }
+        }
         #endregion
 
         /// <summary>
@@ -169,44 +178,36 @@ namespace Tests
         /// Verify whether the code samples can be sorted by the updated date correctly
         /// </summary>
         [TestMethod]
-        public void S13_TC05_CanSortCodeSamplesByUpdatedDate()
+        public void BVT_S13_TC05_CanSortCodeSamplesByUpdatedDate()
         {
             Pages.Navigation.Select("Code Samples");
             int filterCount = Utility.GetFilterCount();
-            //Randomly choose two filters to check
-            int randomIndex;
             int usedIndex = filterCount;
-            for (int i = 0; i < 2; i++)
+
+            int randomIndex = new Random().Next(filterCount);
+            string filterName = Utility.SelectFilter(randomIndex);
+
+            // Set the sort order as descendent
+            Utility.SetSortOrder(SortType.Date, true);
+            List<SearchedResult> resultList = Utility.GetFilterResults();
+
+            for (int j = 0; j < resultList.Count - 1; j++)
             {
-                do
-                {
-                    randomIndex = new Random().Next(filterCount);
-                } while (randomIndex == usedIndex);
-                string filterName = Utility.SelectFilter(randomIndex);
+                Assert.IsTrue(resultList[j].UpdatedDate >= resultList[j + 1].UpdatedDate,
+                    @"The updated date of ""{0}"" should be later than or equal to its sibling ""{1}""'s",
+                    resultList[j].Name,
+                    resultList[j + 1].Name);
+            }
 
-                // Set the sort order as descendent
-                Utility.SetSortOrder(SortType.Date, true);
-                List<SearchedResult> resultList = Utility.GetFilterResults();
-
-                for (int j = 0; j < resultList.Count - 1; j++)
-                {
-                    Assert.IsTrue(resultList[j].UpdatedDate >= resultList[j + 1].UpdatedDate,
-                        @"The updated date of ""{0}"" should be later than or equal to its sibling ""{1}""'s",
-                        resultList[j].Name,
-                        resultList[j + 1].Name);
-                }
-
-                // Set the sort order as ascendent
-                Utility.SetSortOrder(SortType.Date, false);
-                resultList = Utility.GetFilterResults();
-                for (int j = 0; j < resultList.Count - 1; j++)
-                {
-                    Assert.IsTrue(resultList[j].UpdatedDate <= resultList[j + 1].UpdatedDate,
-                        @"The updated date of ""{0}"" should be earlier than or equal to its sibling ""{1}""'s",
-                        resultList[j].Name,
-                        resultList[j + 1].Name);
-                }
-                Utility.ExecuteClearFilters();
+            // Set the sort order as ascendent
+            Utility.SetSortOrder(SortType.Date, false);
+            resultList = Utility.GetFilterResults();
+            for (int j = 0; j < resultList.Count - 1; j++)
+            {
+                Assert.IsTrue(resultList[j].UpdatedDate <= resultList[j + 1].UpdatedDate,
+                    @"The updated date of ""{0}"" should be earlier than or equal to its sibling ""{1}""'s",
+                    resultList[j].Name,
+                    resultList[j + 1].Name);
             }
         }
 
