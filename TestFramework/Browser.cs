@@ -19,9 +19,9 @@ namespace TestFramework
 
         public static string BaseAddress
         {
-            //get { return Utility.GetConfigurationValue("BaseAddress"); }
+            get { return Utility.GetConfigurationValue("BaseAddress"); }
             //get { return "http://officedevcenter-msprod-standby.azurewebsites.net"; }
-            get { return "http://officedevcentersite-orchard.azurewebsites.net"; }
+            //get { return "http://officedevcentersite-orchard.azurewebsites.net"; }
             //get { return "http://localhost"; }
         }
 
