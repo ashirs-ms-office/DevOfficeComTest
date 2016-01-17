@@ -18,6 +18,14 @@
             }
         }
 
+        public static OfficeGettingStartedPage OfficeGettingStartedPage
+        {
+            get
+            {
+                return new OfficeGettingStartedPage();
+            }
+        }
+
         public static Office365Page.Office365Page Office365Page
         {
             get

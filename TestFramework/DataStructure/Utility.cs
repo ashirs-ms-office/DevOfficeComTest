@@ -163,7 +163,7 @@ namespace TestFramework
                     resultInfo.ViewCount = Convert.ToInt64((listItems[i].FindElement(By.XPath("//span[contains(text(),' views')]")).GetAttribute("innerHTML").Split(' '))[0]);
 
                     // Add if() here to reduce the time cost searching for non-existent element of class date-updated
-                    if (!Browser.Url.Contains("dev.office.com/training"))
+                    if (!Browser.Url.Contains("/training"))
                     {
                         IWebElement updatedDateElement;
                         try

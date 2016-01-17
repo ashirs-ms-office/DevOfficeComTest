@@ -15,6 +15,7 @@ namespace Tests
         public static void ClassInitialize(TestContext context)
         {
             Browser.Initialize();
+            Browser.SetWaitTime(TimeSpan.FromSeconds(30));
         }
 
         [ClassCleanup]
