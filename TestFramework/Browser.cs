@@ -13,27 +13,21 @@ namespace TestFramework
 {
     public static class Browser
     {
-        static IWebDriver webDriver = new ChromeDriver(System.IO.Directory.GetCurrentDirectory() + @"/Drivers/");
-
-        //static IWebDriver webDriver = new InternetExplorerDriver(System.IO.Directory.GetCurrentDirectory() + @"/Drivers/IE32/");
-        //static IWebDriver webDriver = new InternetExplorerDriver(System.IO.Directory.GetCurrentDirectory() + @"/Drivers/IE64/");
-        //static IWebDriver webDriver = new FirefoxDriver();
-
-
+        static IWebDriver webDriver;
         static string defaultTitle;
-        static string defaultHandle = webDriver.CurrentWindowHandle;
+        static string defaultHandle;
 
         public static string BaseAddress
         {
-            get { return Utility.GetConfigurationValue("BaseAddress"); }
+            //get { return Utility.GetConfigurationValue("BaseAddress"); }
             //get { return "http://officedevcenter-msprod-standby.azurewebsites.net"; }
-            //get { return "http://officedevcentersite-orchard.azurewebsites.net"; }
+            get { return "http://officedevcentersite-orchard.azurewebsites.net"; }
             //get { return "http://localhost"; }
         }
 
         public static void Initialize()
         {
-            SetWaitTime(TimeSpan.FromSeconds(30));
+            SetWaitTime(TimeSpan.FromSeconds(15));
             webDriver.Navigate().GoToUrl(BaseAddress);
             defaultTitle = Title;
         }
@@ -233,11 +227,12 @@ namespace TestFramework
             (webDriver as IJavaScriptExecutor).ExecuteScript("arguments[0].click();", element);
         }
 
-        public static void SaveScreenShot(string PathAndFileName)
+        public static void SaveScreenShot(string fileName)
         {
             ITakesScreenshot screenshot = (ITakesScreenshot)webDriver;
+            fileName = string.Format("{0}\\{1}.png", Utility.GetConfigurationValue("ScreenShotSavePath"), fileName);
             Screenshot s = screenshot.GetScreenshot();
-            s.SaveAsFile(PathAndFileName, System.Drawing.Imaging.ImageFormat.Png);
+            s.SaveAsFile(fileName, System.Drawing.Imaging.ImageFormat.Png);
 
             //Screenshot ss = ((ITakesScreenshot)webDriver).GetScreenshot();
             //string screenshot = ss.AsBase64EncodedString;
@@ -297,6 +292,28 @@ namespace TestFramework
             }
 
             return frame;
+        }
+
+        static Browser()
+        {
+            switch (Utility.GetConfigurationValue("Browser"))
+            {
+                case ("Chrome"):
+                    webDriver = new ChromeDriver();
+                    break;
+                case ("IE32"):
+                    webDriver = new InternetExplorerDriver(System.IO.Directory.GetCurrentDirectory() + @"/Drivers/IE32/");
+                    break;
+                case ("IE64"):
+                    webDriver = new InternetExplorerDriver(System.IO.Directory.GetCurrentDirectory() + @"/Drivers/IE64/");
+                    break;
+                case ("Firefox"):
+                default:
+                    webDriver = new FirefoxDriver();
+                    break;
+            }
+
+            defaultHandle = webDriver.CurrentWindowHandle;
         }
     }
 }

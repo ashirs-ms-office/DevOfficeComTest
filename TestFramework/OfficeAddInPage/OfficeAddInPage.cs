@@ -1,4 +1,6 @@
-﻿namespace TestFramework.OfficeAddInPage
+﻿using OpenQA.Selenium;
+
+namespace TestFramework.OfficeAddInPage
 {
     public class OfficeAddInPage
     {
@@ -41,6 +43,11 @@
             {
                 return new CardWord();
             }
+        }
+
+        public bool IsAtAddinPage()
+        {
+            return Browser.Driver.FindElement(By.CssSelector("#content>div>article.widget-AddinsWidget.widget-content.widget-addins-widget.widget>title")).Text.Equals("Getting Started with Office Add-ins");
         }
     }
 }

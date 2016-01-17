@@ -138,25 +138,57 @@ namespace TestFramework.Office365Page
             }
         }
 
-        public bool CanGetResponse(ServiceToTry serviceToTry)
+        public bool CanGetResponse(ServiceToTry serviceToTry, object value)
         {
             var responseBody = Browser.Driver.FindElement(By.Id("responseBody"));
             int serviceIndex = (int)serviceToTry;
             switch (serviceIndex)
             {
-                // To do
+                // To do: finish all services and parameters
                 case (0):
+                    switch ((GetMessagesValue)value)
+                    {
+                        case GetMessagesValue.Inbox:
+                            return responseBody.Text.Contains(@"https://graph.microsoft.com/v1.0/$metadata#users('alexd%40a830edad9050849NDA1.onmicrosoft.com')/mailFolders('Inbox')/messages");
+                        case GetMessagesValue.Drafts:
+                        case GetMessagesValue.DeletedItems:
+                        case GetMessagesValue.SentItems:
+                            return false;
+                        default:
+                            return false;
+                    }
                 case (1):
                 case (2):
                 case (3):
-                    return true;
+                    return false;
                 case (4):
-                    return responseBody.Text.ToLower().Contains(@"https://graph.microsoft.com/v1.0/$metadata#users/$entity");
+                    switch ((GetUsersValue)value)
+                    {
+                        case GetUsersValue.me:
+                            return responseBody.Text.ToLower().Contains(@"https://graph.microsoft.com/v1.0/$metadata#users/$entity");
+                        case GetUsersValue.me_manager:
+                        case GetUsersValue.me_select_skills:
+                        case GetUsersValue.myOrganization_users:
+                            return false;
+                        default:
+                            return false;
+                    }
                 case (5):
-                    return true;
+                    switch ((GetGroupValue)value)
+                    {
+                        case GetGroupValue.me_memberOf:
+                        case GetGroupValue.members:
+                            return false;
+                        case GetGroupValue.drive_root_children:
+                            return responseBody.Text.ToLower().Contains(@"https://graph.microsoft.com/v1.0/$metadata#groups('41525360-8eca-49ce-bcee-b205cd0aa747')/drive/root/children");
+                        case GetGroupValue.conversations:
+                            return false;
+                        default:
+                            return false;
+                    }
 
                 default:
-                    return false;
+                    return false; 
             }
         }
     }
