@@ -1,4 +1,6 @@
 ﻿
+using OpenQA.Selenium;
+
 namespace TestFramework.Office365Page
 {
     public class Office365Page
@@ -41,6 +43,11 @@ namespace TestFramework.Office365Page
             {
                 return new CardMoreResources(); 
             }
+        }
+
+        public bool IsAtOffice365Page()
+        {
+            return Browser.Driver.FindElement(By.CssSelector("#content>div>article.widget-ApiWidget.widget-content.widget-api-widget.widget>title")).Text.Equals("Getting started with Office 365 REST APIs");
         }
     }
 }

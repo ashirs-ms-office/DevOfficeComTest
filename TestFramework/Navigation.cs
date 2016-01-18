@@ -102,7 +102,6 @@ namespace TestFramework
                     Enum.TryParse(productName, out platformResult);
                     var platform = new Office365Page.CardSetupPlatform();
                     bool isShownPlatformSetup = platform.IsShowingPlatformSetup(platformResult);
-                    Browser.GoBack();
                     return isShownPlatformSetup;
                 default:
                     var productPage = new ProductPage();
@@ -114,7 +113,6 @@ namespace TestFramework
         {
             var opportunityPage = new OpportunityPage();
             bool canLoadImage = opportunityPage.CanLoadImage();
-            Browser.GoBack();
             return canLoadImage;
         }
 
@@ -138,7 +136,6 @@ namespace TestFramework
         {
             var endpointPage = new ChoosingAPIEndpointPage();
             string title = endpointPage.EndpointPageTitle;
-            Browser.GoBack();
             return title == Title;
         }
 
@@ -155,7 +152,6 @@ namespace TestFramework
         {
             var gettingStartedPage = new OfficeGettingStartedPage();
             string pageTitle = gettingStartedPage.GettingStartedPageTitle;
-            Browser.GoBack();
             return pageTitle.Contains(Title);
         }
 
@@ -163,7 +159,6 @@ namespace TestFramework
         {
             var codeSamplesPage = new CodeSamplesPage();
             string pageTitle = codeSamplesPage.CodeSamplesPageTitle;
-            Browser.GoBack();
             return pageTitle.Contains(Title);
         }
 
@@ -213,7 +208,7 @@ namespace TestFramework
                 case (MenuItemOfDocumentation.PreviousVersions):
                     return IsAtDocumentationPage("Office developer documentation");
                 default:
-                    return IsAtDocumentationPage(EnumExtension.GetDescription(item).ToString());
+                    return IsAtDocumentationPage(EnumExtension.GetDescription(item));
             }
         }
 

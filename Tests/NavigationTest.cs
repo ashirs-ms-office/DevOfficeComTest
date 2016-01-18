@@ -48,8 +48,19 @@ namespace Tests
         {
             foreach (MenuItemOfResource item in Enum.GetValues(typeof(MenuItemOfResource)))
             {
-                Pages.Navigation.Select("Resources", item.ToString());
-                Assert.IsTrue(Pages.Navigation.IsAtResourcePage(item), string.Format("The menu item {0} is not opened currectly.", item.ToString()));
+                switch (item)
+                {
+                    case (MenuItemOfResource.Training):
+                        Browser.SetWaitTime(TimeSpan.FromSeconds(30));
+                        Pages.Navigation.Select("Resources", item.ToString());
+                        Assert.IsTrue(Pages.Navigation.IsAtResourcePage(item), string.Format("The menu item {0} is not opened currectly.", item.ToString()));
+                        Browser.SetWaitTime(TimeSpan.FromSeconds(15));
+                        break;
+                    default:
+                        Pages.Navigation.Select("Resources", item.ToString());
+                        Assert.IsTrue(Pages.Navigation.IsAtResourcePage(item), string.Format("The menu item {0} is not opened currectly.", item.ToString()));
+                        break;
+                }
             }
         }
 

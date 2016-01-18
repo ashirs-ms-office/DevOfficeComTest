@@ -48,6 +48,13 @@ namespace Tests
         [TestMethod]
         public void BVT_S04_TC01_CanGoThroughO365API()
         {
+            Pages.OfficeGettingStartedPage.Office365APIGetStarted();
+            Assert.IsTrue(Pages.Office365Page.IsAtOffice365Page(), "Failed to open Office 365 APIs Getting started page.");
+
+            Pages.Office365Page.CardTryItOut.ChooseService(ServiceToTry.GetMessages);
+            Pages.Office365Page.CardTryItOut.ClickTry();
+            Assert.IsTrue(Pages.Office365Page.CardTryItOut.CanGetResponse(ServiceToTry.GetMessages, GetMessagesValue.Inbox));
+
             Platform platform = Platform.Node;
             Pages.Office365Page.CardSetupPlatform.ChoosePlatform(platform);
             Assert.IsTrue(Pages.Office365Page.CardSetupPlatform.IsShowingPlatformSetup(platform), "Failed to choose platform {0}.", platform.ToString());
@@ -77,7 +84,7 @@ namespace Tests
         {
             Pages.Office365Page.CardTryItOut.ChooseService(ServiceToTry.GetUsers);
             Pages.Office365Page.CardTryItOut.ClickTry();
-            Assert.IsTrue(Pages.Office365Page.CardTryItOut.CanGetResponse(ServiceToTry.GetUsers));
+            Assert.IsTrue(Pages.Office365Page.CardTryItOut.CanGetResponse(ServiceToTry.GetUsers, GetUsersValue.me));
         }
 		
         [TestMethod]
@@ -86,7 +93,7 @@ namespace Tests
             Pages.Office365Page.CardTryItOut.ChooseService(ServiceToTry.GetGroups);
             Pages.Office365Page.CardTryItOut.ChooseServiceValue(ServiceToTry.GetGroups, GetGroupValue.drive_root_children);
             Pages.Office365Page.CardTryItOut.ClickTry();
-            Assert.IsTrue(Pages.Office365Page.CardTryItOut.CanGetResponse(ServiceToTry.GetGroups));
+            Assert.IsTrue(Pages.Office365Page.CardTryItOut.CanGetResponse(ServiceToTry.GetGroups, GetGroupValue.drive_root_children));
         }
 
         [TestMethod]
