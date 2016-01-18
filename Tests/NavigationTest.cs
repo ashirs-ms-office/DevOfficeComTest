@@ -30,7 +30,7 @@ namespace Tests
             Browser.SetWaitTime(TimeSpan.FromSeconds(30));
             Pages.Navigation.Select("Code Samples");
             Assert.IsTrue(Pages.Navigation.IsAtCodeSamplesPage("Code Samples"));
-            Browser.SetWaitTime(TimeSpan.FromSeconds(15));
+            Browser.SetWaitTime(TimeSpan.FromSeconds(Utility.DefaultWaitTime));
         }
 
         [TestMethod]
@@ -54,7 +54,7 @@ namespace Tests
                         Browser.SetWaitTime(TimeSpan.FromSeconds(30));
                         Pages.Navigation.Select("Resources", item.ToString());
                         Assert.IsTrue(Pages.Navigation.IsAtResourcePage(item), string.Format("The menu item {0} is not opened currectly.", item.ToString()));
-                        Browser.SetWaitTime(TimeSpan.FromSeconds(15));
+                        Browser.SetWaitTime(TimeSpan.FromSeconds(Utility.DefaultWaitTime));
                         break;
                     default:
                         Pages.Navigation.Select("Resources", item.ToString());

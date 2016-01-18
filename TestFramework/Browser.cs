@@ -27,7 +27,7 @@ namespace TestFramework
 
         public static void Initialize()
         {
-            SetWaitTime(TimeSpan.FromSeconds(15));
+            SetWaitTime(TimeSpan.FromSeconds(Utility.DefaultWaitTime));
             webDriver.Navigate().GoToUrl(BaseAddress);
             defaultTitle = Title;
         }
@@ -305,6 +305,19 @@ namespace TestFramework
             }
 
             defaultHandle = webDriver.CurrentWindowHandle;
+        }
+
+        /// <summary>
+        /// Adjust the window siae
+        /// </summary>
+        /// <param name="width">The new window width to set</param>
+        /// <param name="height">The new window height to set</param>
+        public static void SetWindowSize(int width, int height)
+        {
+            System.Drawing.Size windowSize = new System.Drawing.Size();
+            windowSize.Width = width;
+            windowSize.Height = height;
+            webDriver.Manage().Window.Size = windowSize;
         }
     }
 }

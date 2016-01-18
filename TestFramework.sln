@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestFramework", "TestFramew
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{B13CCC3C-04D9-41A7-B2F2-DD5E7F2DA689}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MSGraphTest", "MSGraphTest\MSGraphTest.csproj", "{3EA02E7F-B6F3-4097-81E2-D22D2F123E52}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{B13CCC3C-04D9-41A7-B2F2-DD5E7F2DA689}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B13CCC3C-04D9-41A7-B2F2-DD5E7F2DA689}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B13CCC3C-04D9-41A7-B2F2-DD5E7F2DA689}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3EA02E7F-B6F3-4097-81E2-D22D2F123E52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3EA02E7F-B6F3-4097-81E2-D22D2F123E52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3EA02E7F-B6F3-4097-81E2-D22D2F123E52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3EA02E7F-B6F3-4097-81E2-D22D2F123E52}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

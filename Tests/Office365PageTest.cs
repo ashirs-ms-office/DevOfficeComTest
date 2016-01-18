@@ -10,7 +10,7 @@ namespace Tests
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
         {
-            Browser.SetWaitTime(TimeSpan.FromSeconds(15));
+            Browser.SetWaitTime(TimeSpan.FromSeconds(Utility.DefaultWaitTime));
         }
 
         // Design changed. No NavBar for now. So disable this case for the moment.
