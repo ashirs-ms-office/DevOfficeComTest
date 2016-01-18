@@ -32,15 +32,6 @@ namespace TestFramework
             defaultTitle = Title;
         }
 
-        public static void InitializeGoogle()
-        {
-            webDriver.Navigate().GoToUrl("https://www.google.com");
-        }
-
-        public static void InitializeBing()
-        {
-            webDriver.Navigate().GoToUrl("https://www.bing.com/");
-        }
         public static void Goto(string url)
         {
             webDriver.Navigate().GoToUrl(url);
