@@ -42,6 +42,7 @@ namespace TestFramework
                     Browser.Click(documentationLinkElement);
                     break;
                 default:
+                    Browser.Click(Browser.Driver.FindElement(By.LinkText(menuName)));
                     break;
             }
 
@@ -147,7 +148,7 @@ namespace TestFramework
             string title = graphPage.GraphTitle.Replace(" ", "");
 
             Browser.GoBack();
-            return title.Contains(graphTitle);
+            return title.Contains(graphTitle.Replace(" ", ""));
         }
 
         public bool IsAtOfficeGettingStartedPage(string Title)

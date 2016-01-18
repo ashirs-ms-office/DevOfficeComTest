@@ -298,5 +298,18 @@ namespace TestFramework
 
             return frame;
         }
+
+        /// <summary>
+        /// Adjust the window siae
+        /// </summary>
+        /// <param name="width">The new window width to set</param>
+        /// <param name="height">The new window height to set</param>
+        public static void SetWindowSize(int width, int height)
+        {
+            System.Drawing.Size windowSize=new System.Drawing.Size();
+            windowSize.Width = width;
+            windowSize.Height = height;
+            webDriver.Manage().Window.Size = windowSize;
+        }
     }
 }
