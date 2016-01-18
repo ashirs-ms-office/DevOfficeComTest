@@ -5,12 +5,6 @@ namespace TestFramework
 {
     public class OfficeGettingStartedPage : BasePage
     {
-        private OpenQA.Selenium.Remote.RemoteWebElement gettingStartedTitle;
-        public string GettingStartedPageTitle
-        {
-            get { return gettingStartedTitle.WrappedDriver.Title; }
-        }
-
         public void Office365APIGetStarted()
         {
             var o365GetStarted = Browser.Driver.FindElement(By.CssSelector("#body-content>div:nth-child(2)>a"));
@@ -39,13 +33,10 @@ namespace TestFramework
 
         public OfficeGettingStartedPage()
         {
-            if (!Browser.Url.Contains("/getting-started"))
+            if (!Browser.Url.EndsWith("/getting-started"))
             {
                 Browser.Goto(Browser.BaseAddress + "/getting-started");
             }
-
-            Browser.Wait(By.CssSelector("head>title"));
-            gettingStartedTitle = (OpenQA.Selenium.Remote.RemoteWebElement)Browser.Driver.FindElement(By.CssSelector("head>title"));
         }
     }
 }

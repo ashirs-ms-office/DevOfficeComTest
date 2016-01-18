@@ -47,7 +47,7 @@ namespace TestFramework.Office365Page
 
         public bool IsAtOffice365Page()
         {
-            return Browser.Driver.FindElement(By.CssSelector("#content>div>article.widget-ApiWidget.widget-content.widget-api-widget.widget>title")).Text.Equals("Getting started with Office 365 REST APIs");
+            return Browser.Title.Contains("Getting started with Office 365 REST APIs");
         }
     }
 }

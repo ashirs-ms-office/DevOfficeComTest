@@ -290,7 +290,7 @@ namespace TestFramework
             switch (Utility.GetConfigurationValue("Browser"))
             {
                 case ("Chrome"):
-                    webDriver = new ChromeDriver();
+                    webDriver = new ChromeDriver(System.IO.Directory.GetCurrentDirectory() + @"/Drivers/");
                     break;
                 case ("IE32"):
                     webDriver = new InternetExplorerDriver(System.IO.Directory.GetCurrentDirectory() + @"/Drivers/IE32/");
