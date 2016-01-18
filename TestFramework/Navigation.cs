@@ -149,9 +149,7 @@ namespace TestFramework
 
         public bool IsAtOfficeGettingStartedPage(string Title)
         {
-            var gettingStartedPage = new OfficeGettingStartedPage();
-            string pageTitle = gettingStartedPage.GettingStartedPageTitle;
-            return pageTitle.Contains(Title);
+            return Browser.Title.Contains(Title);
         }
 
         public bool IsAtCodeSamplesPage(string Title)
