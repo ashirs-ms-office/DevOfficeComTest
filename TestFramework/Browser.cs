@@ -135,7 +135,8 @@ namespace TestFramework
             //bool canSwitchBack = SwitchToWindow(defaultTitle);
             //defaultTitle = Title;
             //return canSwitchBack;
-            if (!webDriver.CurrentWindowHandle.Equals(defaultHandle))
+            string currentHandle = webDriver.CurrentWindowHandle;
+            if (!currentHandle.Equals(defaultHandle))
             {
                 webDriver.Close();
                 webDriver.SwitchTo().Window(defaultHandle);

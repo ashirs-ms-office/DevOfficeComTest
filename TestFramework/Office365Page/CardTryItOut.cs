@@ -115,8 +115,11 @@ namespace TestFramework.Office365Page
             var tryBtn = Browser.Driver.FindElement(By.Id("invokeurlBtn"));
             Browser.Click(tryBtn);
 
-            Browser.Wait(TimeSpan.FromSeconds(3));
-           // var wait = new WebDriverWait(Browser.Driver as IWebDriver, TimeSpan.FromSeconds(5));
+            if (Browser.Driver.FindElement(By.Id("responseBody")) != null)
+            {
+                Browser.Wait(TimeSpan.FromSeconds(3));
+            }
+            // var wait = new WebDriverWait(Browser.Driver as IWebDriver, TimeSpan.FromSeconds(5));
             //wait.Until(d => d.FindElement(By.Id("response-container")));
             //WebDriverWait wait = new WebDriverWait((Browser.Driver as IWebDriver), TimeSpan.FromSeconds(10));
             //IWebElement responseContainer = wait.Until(d =>
@@ -149,7 +152,8 @@ namespace TestFramework.Office365Page
                     switch ((GetMessagesValue)value)
                     {
                         case GetMessagesValue.Inbox:
-                            return responseBody.Text.Contains(@"https://graph.microsoft.com/v1.0/$metadata#users('alexd%40a830edad9050849NDA1.onmicrosoft.com')/mailFolders('Inbox')/messages");
+                            string responseText = responseBody.Text;
+                            return responseText.Contains(@"https://graph.microsoft.com/v1.0/$metadata#users('alexd%40a830edad9050849NDA1.onmicrosoft.com')/mailFolders('Inbox')/messages");
                         case GetMessagesValue.Drafts:
                         case GetMessagesValue.DeletedItems:
                         case GetMessagesValue.SentItems:

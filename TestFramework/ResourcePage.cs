@@ -10,9 +10,10 @@ namespace TestFramework
     public class ResourcePage : BasePage
     {
         private IWebElement resourceName;
+        private string resourceTitle;
         public string ResourceName
         {
-            get { return resourceName.Text; }
+            get { return resourceTitle; }
         }
 
         public ResourcePage()
@@ -49,6 +50,7 @@ namespace TestFramework
                 }
             }
 
+            resourceTitle = resourceName.Text;
             Browser.SetWaitTime(TimeSpan.FromSeconds(Utility.DefaultWaitTime));
         }
     }
