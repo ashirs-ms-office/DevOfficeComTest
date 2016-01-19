@@ -271,5 +271,14 @@ namespace TestFramework
             Browser.Click(element);
             Browser.Wait(TimeSpan.FromSeconds(2));
         }
+
+        /// <summary>
+        /// Click the branding image on the page
+        /// </summary>
+        public static void ClickBranding()
+        {
+            var element = Browser.FindElement(By.CssSelector("#branding>a"));
+            Browser.Click(element);
+        }
     }
 }
