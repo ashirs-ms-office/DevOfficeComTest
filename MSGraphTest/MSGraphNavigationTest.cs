@@ -22,6 +22,9 @@ namespace MSGraphTest
             Browser.Close();
         }
 
+        /// <summary>
+        /// Verify whether Get started page can be navigated to.
+        /// </summary>
         [TestMethod]
         public void CanGoToGetstartedPage()
         {
@@ -32,6 +35,9 @@ namespace MSGraphTest
                 @"The opened page should be ""Get started""");
         }
 
+        /// <summary>
+        /// Verify whether Documentation page can be navigated to.
+        /// </summary>
         [TestMethod]
         public void CanGoToDocumentationPage()
         {
@@ -41,6 +47,9 @@ namespace MSGraphTest
                 @"The opened page should be ""Documentation""");
         }
 
+        /// <summary>
+        /// Verify whether Graph explorer page can be navigated to.
+        /// </summary>
         [TestMethod]
         public void CanGoToGraphExplorerPage()
         {
@@ -50,6 +59,9 @@ namespace MSGraphTest
                 @"The opened page should be ""Graph explorer""");
         }
 
+        /// <summary>
+        /// Verify whether App Registration page can be navigated to.
+        /// </summary>        
         [TestMethod]
         public void CanGoToAppRegistrationPage()
         {
@@ -59,6 +71,9 @@ namespace MSGraphTest
                 @"The opened page should be ""App registration""");
         }
 
+        /// <summary>
+        /// Verify whether Samples and SDKs page can be navigated to.
+        /// </summary>
         [TestMethod]
         public void CanGoToSamplesAndSDKsPage()
         {
@@ -66,6 +81,55 @@ namespace MSGraphTest
             Assert.IsTrue(
                 Pages.Navigation.IsAtGraphPage("Samples & SDKs"),
                 @"The opened page should be ""Samples & SDKs""");
+        }
+
+        /// <summary>
+        /// Verify whether Changelog page can be navigated to.
+        /// </summary>        
+        [TestMethod]
+        public void CanGoToChangelogPage()
+        {
+            Pages.Navigation.Select("Changelog");
+            Assert.IsTrue(
+                Pages.Navigation.IsAtGraphPage("Changelog"),
+                @"The opened page should be ""Changelog""");
+        }
+
+        /// <summary>
+        /// Verify whether there is a toggle arrow when the window is small.
+        /// </summary>
+        [TestMethod]
+        public void CanFindArrowInSmallDocumentaionPage()
+        {
+             Pages.Navigation.Select("Documentation");
+             int currentWidth = 0;
+             int currentHeight = 0;
+             Browser.GetWindowSize(out currentWidth, out currentHeight);
+
+             int threshholdWidth=int.Parse(Utility.GetConfigurationValue("ThreshholdWindowWidth"))+1;
+             int threshholdHeight = int.Parse(Utility.GetConfigurationValue("ThreshholdWindowHeight")) + 1;
+
+             int randomWidth = new Random().Next(threshholdWidth);
+             int randomHeight = new Random().Next(threshholdHeight);
+
+             // Change the width of the window
+             Browser.SetWindowSize(randomWidth, currentHeight);
+             bool isDisplayed = Utility.IsToggledDisplayed();
+             Assert.IsTrue(
+                 isDisplayed, 
+                 "The toogle arrow should appear when the width is smaller than or equal to {0}", 
+                 threshholdWidth);
+
+             //Recover the orignal width, then change the height 
+             Browser.SetWindowSize(currentWidth, randomHeight);
+             isDisplayed = Utility.IsToggledDisplayed();
+             Assert.IsTrue(
+                 isDisplayed,
+                 "The toogle arrow should appear when the height is smaller than or equal to {0}",
+                 threshholdHeight);
+
+            //Recover the the whole window size
+             Browser.SetWindowSize(currentWidth, currentHeight);
         }
     }
 }

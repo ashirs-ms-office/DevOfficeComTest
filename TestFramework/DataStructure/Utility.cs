@@ -243,5 +243,14 @@ namespace TestFramework
         {
             return ConfigurationManager.AppSettings[propertyName];
         }
+
+        /// <summary>
+        /// Verify if the toggle arrow can be found 
+        /// </summary>
+        /// <returns>Trye if yes, else no.</returns>
+        public static bool IsToggledDisplayed()
+        {
+            return Browser.FindElement(By.Id("toggleLeftPanelContainer")).Displayed;
+        }
     }
 }

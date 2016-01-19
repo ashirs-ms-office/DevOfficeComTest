@@ -317,7 +317,19 @@ namespace TestFramework
             System.Drawing.Size windowSize = new System.Drawing.Size();
             windowSize.Width = width;
             windowSize.Height = height;
+
             webDriver.Manage().Window.Size = windowSize;
+        }
+
+        /// <summary>
+        /// Get current window size
+        /// </summary>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        public static void GetWindowSize(out int width, out int height)
+        {
+            width = webDriver.Manage().Window.Size.Width;
+            height = webDriver.Manage().Window.Size.Height;
         }
     }
 }
