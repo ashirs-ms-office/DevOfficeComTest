@@ -245,12 +245,31 @@ namespace TestFramework
         }
 
         /// <summary>
-        /// Verify if the toggle arrow can be found 
+        /// Verify if the toggle arrow is found on the page 
         /// </summary>
         /// <returns>Trye if yes, else no.</returns>
-        public static bool IsToggledDisplayed()
+        public static bool IsToggleArrowDisplayed()
         {
             return Browser.FindElement(By.Id("toggleLeftPanelContainer")).Displayed;
+        }
+
+        /// <summary>
+        /// Verify if the menu-content is found on the page
+        /// </summary>
+        /// <returns>Trye if yes, else no.</returns>
+        public static bool IsMenuContentDisplayed()
+        {
+            return Browser.FindElement(By.CssSelector("#menu-content")).Displayed;
+        }
+
+        /// <summary>
+        /// Execute the menu display toggle
+        /// </summary>
+        public static void ToggleMenu()
+        {
+            var element = Browser.FindElement(By.Id("toggleLeftPanelContainer"));
+            Browser.Click(element);
+            Browser.Wait(TimeSpan.FromSeconds(2));
         }
     }
 }
