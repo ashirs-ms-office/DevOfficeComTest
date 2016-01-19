@@ -214,7 +214,7 @@ namespace TestFramework
             }
         }
 
-        public static void Click(IWebElement element)
+        internal static void Click(IWebElement element)
         {
             (webDriver as IJavaScriptExecutor).ExecuteScript("arguments[0].click();", element);
         }
@@ -318,7 +318,24 @@ namespace TestFramework
             System.Drawing.Size windowSize = new System.Drawing.Size();
             windowSize.Width = width;
             windowSize.Height = height;
+
             webDriver.Manage().Window.Size = windowSize;
+        }
+
+        /// <summary>
+        /// Get current window size
+        /// </summary>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <param name="maxSize">whether maxsize the window and return the size</param>
+        public static void GetWindowSize(out int width, out int height, bool maxSize = false)
+        {
+            if (maxSize) 
+            {
+                webDriver.Manage().Window.Maximize();
+            }
+            width = webDriver.Manage().Window.Size.Width;
+            height = webDriver.Manage().Window.Size.Height;
         }
     }
 }
