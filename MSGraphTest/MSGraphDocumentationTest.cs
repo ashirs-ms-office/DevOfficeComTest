@@ -10,7 +10,7 @@ namespace MSGraphTest
     /// Summary description for DocumentationTest
     /// </summary>
     [TestClass]
-    public class DocumentationTest
+    public class MSGraphDocumentationTest
     {
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
