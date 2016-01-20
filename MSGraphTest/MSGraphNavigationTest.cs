@@ -50,6 +50,30 @@ namespace MSGraphTest
         }
 
         /// <summary>
+        /// Verify whether the default banner image can be loaded.
+        /// </summary>
+        [TestMethod]
+        public void CanLoadBannerImage()
+        {
+            //Currently ignore Graph explorer and Documentation, since these pages don't have banner image
+            //Graph branding image
+            string[] navOptions = new string[] { 
+                "Home",
+                "Get started", 
+                //"Documentation", 
+                //"Graph explorer", 
+                "App registration", 
+                "Samples & SDKs", 
+                "Changelog" };
+
+            string navPage = navOptions[new Random().Next(navOptions.Length)];
+            Pages.Navigation.Select(navPage);
+
+            string imageUrl = Utility.GetGraphBannerImageUrl();
+            Assert.IsTrue(Browser.ImageExist(Utility.GetConfigurationValue("MSGraphBaseAddress") + imageUrl), "The banner image should be valid to load");
+        }
+
+        /// <summary>
         /// Verify whether Home page can be navigated to.
         /// </summary>
         [TestMethod]

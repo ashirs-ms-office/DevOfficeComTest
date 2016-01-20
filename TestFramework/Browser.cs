@@ -161,14 +161,15 @@ namespace TestFramework
             }
         }
 
-        public static IWebElement FindElementInFrame(string frameIdOrName, By by)
+        public static IWebElement FindElementInFrame(string frameIdOrName, By by,out string innerText)
         {
             IWebElement frame = FindFrame(frameIdOrName);
             if (frame != null)
             {
                 webDriver.SwitchTo().Frame(frame);
                 IWebElement element = webDriver.FindElement(by);
-                webDriver.SwitchTo().DefaultContent();
+                innerText = element.Text;
+                webDriver.SwitchTo().DefaultContent();               
                 return element;
             }
             else
@@ -234,6 +235,11 @@ namespace TestFramework
             //ss.SaveAsFile(PathAndFileName, System.Drawing.Imaging.ImageFormat.Png);
         }
 
+        /// <summary>
+        /// Verify whether a url refer to a valid image
+        /// </summary>
+        /// <param name="Url">The image url</param>
+        /// <returns>True if yes, else no</returns>
         public static bool ImageExist(string Url)
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(Url);
@@ -253,6 +259,11 @@ namespace TestFramework
             }
         }
 
+        /// <summary>
+        /// Find an iframe element
+        /// </summary>
+        /// <param name="frameIdOrName">Id or name of the iframe</param>
+        /// <returns>The found iframe</returns>
         private static IWebElement FindFrame(string frameIdOrName)
         {
             IList<IWebElement> frames = webDriver.FindElements(By.TagName("iframe"));

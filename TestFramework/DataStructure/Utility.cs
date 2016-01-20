@@ -280,5 +280,42 @@ namespace TestFramework
             var element = Browser.FindElement(By.CssSelector("#branding>a"));
             Browser.Click(element);
         }
+
+        /// <summary>
+        /// Get the document title in the current doc page
+        /// </summary>
+        /// <returns>The title of document</returns>
+        public static string GetDocTitle()
+        {
+            string docTitle;
+            var title = Browser.FindElementInFrame("docframe", By.TagName("h1"), out docTitle);
+            return docTitle;
+        }
+
+        /// <summary>
+        /// Get the banner image url of MS Graph site
+        /// </summary>
+        /// <returns>The url of the banner image</returns>
+        public static string GetGraphBannerImageUrl()
+        {
+            var element = Browser.FindElement(By.Id("banner-image"));
+            string styleString = element.GetAttribute("style");
+            string[] styles = styleString.Split(';');
+            //string prefix = @"background-image:url('";
+            //int startIndex = style.IndexOf(prefix) + prefix.Length;
+            ////2 is the length of )'
+            string url = string.Empty;
+            foreach (string style in styles)
+            {
+                if (style.Contains("background-image"))
+                {
+                    int startIndex = style.IndexOf("/");
+                    //2 is the length of ")
+                    url = style.Substring(startIndex).Substring(0, style.Substring(startIndex).Length-2);
+                    break;
+                }
+            }
+            return url;
+        }
     }
 }

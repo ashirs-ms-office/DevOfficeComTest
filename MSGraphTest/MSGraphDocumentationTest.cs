@@ -31,6 +31,11 @@ namespace MSGraphTest
         public void CanSeeOverviewOnDocumentaionPage()
         {
             Pages.Navigation.Select("Documentation");
+            string docTitle = Utility.GetDocTitle();
+            Assert.AreEqual(
+                "Overview of Microsoft Graph",
+                docTitle,
+                "The documentation should be Overview when navigating to Documentation page");
         }
         
         /// <summary>
