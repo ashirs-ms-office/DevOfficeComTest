@@ -22,6 +22,12 @@ namespace MSGraphTest
             Browser.Close();
         }
 
+        [TestCleanup]
+        public void TestCleanup()
+        {
+            Browser.Goto(Utility.GetConfigurationValue("MSGraphBaseAddress"));
+        }
+
         /// <summary>
         /// Verify whether Home page can be navigated to by clicking the branding image.
         /// </summary>
@@ -71,41 +77,6 @@ namespace MSGraphTest
 
             string imageUrl = Utility.GetGraphBannerImageUrl();
             Assert.IsTrue(Browser.ImageExist(Utility.GetConfigurationValue("MSGraphBaseAddress") + imageUrl), "The banner image should be valid to load");
-        }
-
-        /// <summary>
-        /// Verify whether Home page can be navigated to.
-        /// </summary>
-        [TestMethod]
-        public void CanGoToHomePage()
-        {
-            Assert.IsTrue(
-                Pages.Navigation.IsAtGraphPage("Home"),
-                @"The opened page should be ""Home"" when go to the base url");
-            
-            Pages.Navigation.Select("Home");
-            Assert.IsTrue(
-                Pages.Navigation.IsAtGraphPage("Home"),
-                @"The opened page should be ""Home"" when clicking it");
-
-            //Currently ignore the Graph explorer, since this page desn't have Microsoft
-            //Graph branding image
-            string[] navOptions = new string[] { 
-                "Get started", 
-                "Documentation", 
-                //"Graph explorer", 
-                "App registration", 
-                "Samples & SDKs", 
-                "Changelog" };
-
-            //Go to the other page to click Home
-            string navPage = navOptions[new Random().Next(navOptions.Length)];
-            Pages.Navigation.Select(navPage);
-
-            Pages.Navigation.Select("Home");
-            Assert.IsTrue(
-                Pages.Navigation.IsAtGraphPage("Home"),
-                @"The opened page should be ""Home"" when clicking it on the other page");
         }
 
         /// <summary>

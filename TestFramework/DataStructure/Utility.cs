@@ -317,5 +317,15 @@ namespace TestFramework
             }
             return url;
         }
+
+        /// <summary>
+        /// Find an element according to the specific text and click it
+        /// </summary>
+        /// <param name="text">The text of the element</param>
+        public static void Click(string text)
+        {
+            var element=Browser.FindElement(By.LinkText(text));
+            Browser.Click(element);
+        }
     }
 }

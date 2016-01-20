@@ -16,7 +16,7 @@ namespace TestFramework
         static IWebDriver webDriver;
         static string defaultTitle;
         static string defaultHandle;
-
+        
         public static string BaseAddress
         {
             get { return Utility.GetConfigurationValue("BaseAddress"); }
@@ -82,6 +82,11 @@ namespace TestFramework
             webDriver.Manage().Timeouts().SetScriptTimeout(TimeSpan.FromSeconds(timeSpan.TotalSeconds * 2));
         }
 
+        /// <summary>
+        /// Switch to a specific window
+        /// </summary>
+        /// <param name="title">The keyword of the window title</param>
+        /// <returns>True if switching succeeds. If cannot find the window, returns false</returns>
         public static bool SwitchToWindow(string title)
         {
             webDriver.SwitchTo().DefaultContent();

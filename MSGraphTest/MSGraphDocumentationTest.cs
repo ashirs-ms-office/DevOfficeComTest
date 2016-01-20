@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Text;
-using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TestFramework;
 
@@ -24,20 +22,12 @@ namespace MSGraphTest
             Browser.Close();
         }
 
-        /// <summary>
-        /// Verify whether Overview is shown when Documentation page is navigated to.
-        /// </summary>
-        [TestMethod]
-        public void CanSeeOverviewOnDocumentaionPage()
+        [TestCleanup]
+        public void TestCleanup()
         {
-            Pages.Navigation.Select("Documentation");
-            string docTitle = Utility.GetDocTitle();
-            Assert.AreEqual(
-                "Overview of Microsoft Graph",
-                docTitle,
-                "The documentation should be Overview when navigating to Documentation page");
+            Browser.Goto(Utility.GetConfigurationValue("MSGraphBaseAddress"));
         }
-        
+       
         /// <summary>
         /// Verify whether there is a toggle arrow which work correctly when the window is small.
         /// </summary>
