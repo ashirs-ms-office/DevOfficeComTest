@@ -239,93 +239,14 @@ namespace TestFramework
             }
         }
 
+        /// <summary>
+        /// Get a property's value from App.config
+        /// </summary>
+        /// <param name="propertyName">The property's key</param>
+        /// <returns>The property's value</returns>
         public static string GetConfigurationValue(string propertyName)
         {
             return ConfigurationManager.AppSettings[propertyName];
-        }
-
-        /// <summary>
-        /// Verify if the toggle arrow is found on the page 
-        /// </summary>
-        /// <returns>Trye if yes, else no.</returns>
-        public static bool IsToggleArrowDisplayed()
-        {
-            return Browser.FindElement(By.Id("toggleLeftPanelContainer")).Displayed;
-        }
-
-        /// <summary>
-        /// Verify if the menu-content is found on the page
-        /// </summary>
-        /// <returns>Trye if yes, else no.</returns>
-        public static bool IsMenuContentDisplayed()
-        {
-            return Browser.FindElement(By.CssSelector("#menu-content")).Displayed;
-        }
-
-        /// <summary>
-        /// Execute the menu display toggle
-        /// </summary>
-        public static void ToggleMenu()
-        {
-            var element = Browser.FindElement(By.Id("toggleLeftPanelContainer"));
-            Browser.Click(element);
-            Browser.Wait(TimeSpan.FromSeconds(2));
-        }
-
-        /// <summary>
-        /// Click the branding image on the page
-        /// </summary>
-        public static void ClickBranding()
-        {
-            var element = Browser.FindElement(By.CssSelector("#branding>a"));
-            Browser.Click(element);
-        }
-
-        /// <summary>
-        /// Get the document title in the current doc page
-        /// </summary>
-        /// <returns>The title of document</returns>
-        public static string GetDocTitle()
-        {
-            string docTitle;
-            var title = Browser.FindElementInFrame("docframe", By.TagName("h1"), out docTitle);
-            return docTitle;
-        }
-
-        /// <summary>
-        /// Get the banner image url of MS Graph site
-        /// </summary>
-        /// <returns>The url of the banner image</returns>
-        public static string GetGraphBannerImageUrl()
-        {
-            var element = Browser.FindElement(By.Id("banner-image"));
-            string styleString = element.GetAttribute("style");
-            string[] styles = styleString.Split(';');
-            //string prefix = @"background-image:url('";
-            //int startIndex = style.IndexOf(prefix) + prefix.Length;
-            ////2 is the length of )'
-            string url = string.Empty;
-            foreach (string style in styles)
-            {
-                if (style.Contains("background-image"))
-                {
-                    int startIndex = style.IndexOf("/");
-                    //2 is the length of ")
-                    url = style.Substring(startIndex).Substring(0, style.Substring(startIndex).Length-2);
-                    break;
-                }
-            }
-            return url;
-        }
-
-        /// <summary>
-        /// Find an element according to the specific text and click it
-        /// </summary>
-        /// <param name="text">The text of the element</param>
-        public static void Click(string text)
-        {
-            var element=Browser.FindElement(By.LinkText(text));
-            Browser.Click(element);
         }
     }
 }

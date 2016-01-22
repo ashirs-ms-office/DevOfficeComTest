@@ -59,7 +59,13 @@
     <Compile Include="DataStructure\Enums.cs" />
     <Compile Include="FabricGettingStartedPage.cs" />
     <Compile Include="FabricPage.cs" />
-    <Compile Include="GraphPage.cs" />
+    <Compile Include="Graph\GraphBasePage.cs" />
+    <Compile Include="Graph\GraphBrowser.cs" />
+    <Compile Include="Graph\GraphHomePage.cs" />
+    <Compile Include="Graph\GraphNavigation.cs" />
+    <Compile Include="Graph\GraphPage.cs" />
+    <Compile Include="Graph\GraphPages.cs" />
+    <Compile Include="Graph\GraphUtility.cs" />
     <Compile Include="Navigation.cs" />
     <Compile Include="Office365Page\CardDownloadCode.cs" />
     <Compile Include="Office365Page\CardMoreResources.cs" />

@@ -51,6 +51,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="MSGraphDocumentationTest.cs" />
+    <Compile Include="MSGraphGetstartedTest.cs" />
     <Compile Include="MSGraphHomePageTest.cs" />
     <Compile Include="MSGraphNavigationTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

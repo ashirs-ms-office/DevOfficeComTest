@@ -11,18 +11,15 @@ using OpenQA.Selenium.Support.UI;
 
 namespace TestFramework
 {
-    public static class Browser
+    public static class GraphBrowser
     {
-        static IWebDriver webDriver;
+        internal static IWebDriver webDriver;
         static string defaultTitle;
         static string defaultHandle;
-        
+
         public static string BaseAddress
         {
-            get { return Utility.GetConfigurationValue("BaseAddress"); }
-            //get { return "http://officedevcenter-msprod-standby.azurewebsites.net"; }
-            //get { return "http://officedevcentersite-orchard.azurewebsites.net"; }
-            //get { return "http://localhost"; }
+            get { return Utility.GetConfigurationValue("MSGraphBaseAddress"); }
         }
 
         public static void Initialize()
@@ -105,53 +102,7 @@ namespace TestFramework
                     webDriver.SwitchTo().DefaultContent();
                 }
             }
-
             return false;
-        }
-
-        public static bool SwitchToNewWindow()
-        {
-            // get all window handles
-            IList<string> handlers = webDriver.WindowHandles;
-            string newWindowHandle = string.Empty;
-            foreach (var winHandler in handlers)
-            {
-                if (!winHandler.Equals(webDriver.CurrentWindowHandle))
-                {
-                    newWindowHandle = winHandler;
-                    break;
-                }
-            }
-
-            if (!newWindowHandle.Equals(string.Empty))
-            {
-                webDriver.SwitchTo().Window(newWindowHandle);
-                return true;
-            }
-            else
-            {
-                webDriver.SwitchTo().DefaultContent();
-                return false;
-            }
-        }
-
-        public static bool SwitchBack()
-        {
-            //bool canSwitchBack = SwitchToWindow(defaultTitle);
-            //defaultTitle = Title;
-            //return canSwitchBack;
-            string currentHandle = webDriver.CurrentWindowHandle;
-            if (!currentHandle.Equals(defaultHandle))
-            {
-                webDriver.Close();
-                webDriver.SwitchTo().Window(defaultHandle);
-                return true;
-            }
-            else
-            {
-                webDriver.SwitchTo().DefaultContent();
-                return false;
-            }
         }
 
         public static void GoBack()
@@ -166,7 +117,7 @@ namespace TestFramework
             }
         }
 
-        public static IWebElement FindElementInFrame(string frameIdOrName, By by,out string innerText)
+        public static IWebElement FindElementInFrame(string frameIdOrName, By by, out string innerText)
         {
             IWebElement frame = FindFrame(frameIdOrName);
             if (frame != null)
@@ -174,7 +125,7 @@ namespace TestFramework
                 webDriver.SwitchTo().Frame(frame);
                 IWebElement element = webDriver.FindElement(by);
                 innerText = element.Text;
-                webDriver.SwitchTo().DefaultContent();               
+                webDriver.SwitchTo().DefaultContent();
                 return element;
             }
             else
@@ -231,13 +182,6 @@ namespace TestFramework
             fileName = string.Format("{0}\\{1}.png", Utility.GetConfigurationValue("ScreenShotSavePath"), fileName);
             Screenshot s = screenshot.GetScreenshot();
             s.SaveAsFile(fileName, System.Drawing.Imaging.ImageFormat.Png);
-
-            //Screenshot ss = ((ITakesScreenshot)webDriver).GetScreenshot();
-            //string screenshot = ss.AsBase64EncodedString;
-            //byte[] screenshotAsByteArray = ss.AsByteArray;
-
-            // Save the screenshot
-            //ss.SaveAsFile(PathAndFileName, System.Drawing.Imaging.ImageFormat.Png);
         }
 
         /// <summary>
@@ -302,7 +246,7 @@ namespace TestFramework
             return frame;
         }
 
-        static Browser()
+        static GraphBrowser()
         {
             switch (Utility.GetConfigurationValue("Browser"))
             {
@@ -322,6 +266,36 @@ namespace TestFramework
             }
 
             defaultHandle = webDriver.CurrentWindowHandle;
+        }
+
+        /// <summary>
+        /// Adjust the window siae
+        /// </summary>
+        /// <param name="width">The new window width to set</param>
+        /// <param name="height">The new window height to set</param>
+        public static void SetWindowSize(int width, int height)
+        {
+            System.Drawing.Size windowSize = new System.Drawing.Size();
+            windowSize.Width = width;
+            windowSize.Height = height;
+
+            webDriver.Manage().Window.Size = windowSize;
+        }
+
+        /// <summary>
+        /// Get current window size
+        /// </summary>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <param name="maxSize">whether maxsize the window and return the size</param>
+        public static void GetWindowSize(out int width, out int height, bool maxSize = false)
+        {
+            if (maxSize)
+            {
+                webDriver.Manage().Window.Maximize();
+            }
+            width = webDriver.Manage().Window.Size.Width;
+            height = webDriver.Manage().Window.Size.Height;
         }
     }
 }

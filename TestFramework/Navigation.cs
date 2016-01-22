@@ -42,7 +42,6 @@ namespace TestFramework
                     Browser.Click(documentationLinkElement);
                     break;
                 default:
-                    Browser.Click(Browser.Driver.FindElement(By.LinkText(menuName)));
                     break;
             }
 

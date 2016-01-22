@@ -13,26 +13,26 @@ namespace MSGraphTest
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
         {
-            Browser.Goto(Utility.GetConfigurationValue("MSGraphBaseAddress"));
+            GraphBrowser.Initialize();
         }
 
         [ClassCleanup]
         public static void ClassCleanup()
         {
-            Browser.Close();
+            GraphBrowser.Close();
         }
 
         [TestCleanup]
         public void TestCleanup()
         {
-            Browser.Goto(Utility.GetConfigurationValue("MSGraphBaseAddress"));
+            GraphBrowser.Goto(Utility.GetConfigurationValue("MSGraphBaseAddress"));
         }
 
         /// <summary>
         /// Verify whether Home page can be navigated to by clicking the branding image.
         /// </summary>
         [TestMethod]
-        public void CanBrandingNavToHomePage()
+        public void BVT_Graph_S01_TC01_CanBrandingNavToHomePage()
         {
             //Currently ignore the Graph explorer, since this page desn't have Microsoft
             //Graph branding image
@@ -46,20 +46,92 @@ namespace MSGraphTest
                 "Changelog" };
 
             string navPage = navOptions[new Random().Next(navOptions.Length)];
-            Pages.Navigation.Select(navPage);
+            GraphPages.Navigation.Select(navPage);
 
-            Utility.ClickBranding();
+            GraphUtility.ClickBranding();
 
             Assert.IsTrue(
-                Pages.Navigation.IsAtGraphPage("Home"),
+                GraphPages.Navigation.IsAtGraphPage("Home"),
                 @"Clicking the branding image should navigate to Graph Home Page");
+        }
+
+        /// <summary>
+        /// Verify whether Get started page can be navigated to.
+        /// </summary>
+        [TestMethod]
+        public void BVT_Graph_S01_TC02_CanGoToGetstartedPage()
+        {
+            GraphPages.Navigation.Select("Get started");
+            Assert.IsTrue(
+                GraphPages.Navigation.IsAtGraphPage("Get started"),
+                @"The opened page should be ""Get started""");
+        }
+
+        /// <summary>
+        /// Verify whether Documentation page can be navigated to.
+        /// </summary>
+        [TestMethod]
+        public void BVT_Graph_S01_TC03_CanGoToDocumentationPage()
+        {
+            GraphPages.Navigation.Select("Documentation");
+            Assert.IsTrue(
+                GraphPages.Navigation.IsAtGraphPage("Documentation"),
+                @"The opened page should be ""Documentation""");
+        }
+
+        /// <summary>
+        /// Verify whether Graph explorer page can be navigated to.
+        /// </summary>
+        [TestMethod]
+        public void BVT_Graph_S01_TC04_CanGoToGraphExplorerPage()
+        {
+            GraphPages.Navigation.Select("Graph explorer");
+            Assert.IsTrue(
+                GraphPages.Navigation.IsAtGraphPage("Graph Explorer"),
+                @"The opened page should be ""Graph explorer""");
+        }
+
+        /// <summary>
+        /// Verify whether App Registration page can be navigated to.
+        /// </summary>        
+        [TestMethod]
+        public void BVT_Graph_S01_TC05_CanGoToAppRegistrationPage()
+        {
+            GraphPages.Navigation.Select("App registration");
+            Assert.IsTrue(
+                GraphPages.Navigation.IsAtGraphPage("App registration"),
+                @"The opened page should be ""App registration""");
+        }
+
+        /// <summary>
+        /// Verify whether Samples and SDKs page can be navigated to.
+        /// </summary>
+        [TestMethod]
+        public void BVT_Graph_S01_TC06_CanGoToSamplesAndSDKsPage()
+        {
+            GraphPages.Navigation.Select("Samples & SDKs");
+            Assert.IsTrue(
+                GraphPages.Navigation.IsAtGraphPage("Samples & SDKs"),
+                @"The opened page should be ""Samples & SDKs""");
+        }
+
+        /// <summary>
+        /// Verify whether Changelog page can be navigated to.
+        /// </summary>        
+        [TestMethod]
+        public void BVT_Graph_S01_TC07_CanGoToChangelogPage()
+        {
+            GraphPages.Navigation.Select("Changelog");
+            Assert.IsTrue(
+                GraphPages.Navigation.IsAtGraphPage("Changelog"),
+                @"The opened page should be ""Changelog""");
         }
 
         /// <summary>
         /// Verify whether the default banner image can be loaded.
         /// </summary>
         [TestMethod]
-        public void CanLoadBannerImage()
+        public void BVT_Graph_S01_TC08_CanLoadBannerImage()
         {
             //Currently ignore Graph explorer and Documentation, since these pages don't have banner image
             //Graph branding image
@@ -73,82 +145,10 @@ namespace MSGraphTest
                 "Changelog" };
 
             string navPage = navOptions[new Random().Next(navOptions.Length)];
-            Pages.Navigation.Select(navPage);
+            GraphPages.Navigation.Select(navPage);
 
-            string imageUrl = Utility.GetGraphBannerImageUrl();
-            Assert.IsTrue(Browser.ImageExist(Utility.GetConfigurationValue("MSGraphBaseAddress") + imageUrl), "The banner image should be valid to load");
-        }
-
-        /// <summary>
-        /// Verify whether Get started page can be navigated to.
-        /// </summary>
-        [TestMethod]
-        public void CanGoToGetstartedPage()
-        {
-            Pages.Navigation.Select("Get started");
-            Assert.IsTrue(
-                Pages.Navigation.IsAtGraphPage("Get started"),
-                @"The opened page should be ""Get started""");
-        }
-
-        /// <summary>
-        /// Verify whether Documentation page can be navigated to.
-        /// </summary>
-        [TestMethod]
-        public void CanGoToDocumentationPage()
-        {
-            Pages.Navigation.Select("Documentation");
-            Assert.IsTrue(
-                Pages.Navigation.IsAtGraphPage("Documentation"),
-                @"The opened page should be ""Documentation""");
-        }
-
-        /// <summary>
-        /// Verify whether Graph explorer page can be navigated to.
-        /// </summary>
-        [TestMethod]
-        public void CanGoToGraphExplorerPage()
-        {
-            Pages.Navigation.Select("Graph explorer");
-            Assert.IsTrue(
-                Pages.Navigation.IsAtGraphPage("Graph Explorer"),
-                @"The opened page should be ""Graph explorer""");
-        }
-
-        /// <summary>
-        /// Verify whether App Registration page can be navigated to.
-        /// </summary>        
-        [TestMethod]
-        public void CanGoToAppRegistrationPage()
-        {
-            Pages.Navigation.Select("App registration");
-            Assert.IsTrue(
-                Pages.Navigation.IsAtGraphPage("App registration"),
-                @"The opened page should be ""App registration""");
-        }
-
-        /// <summary>
-        /// Verify whether Samples and SDKs page can be navigated to.
-        /// </summary>
-        [TestMethod]
-        public void CanGoToSamplesAndSDKsPage()
-        {
-            Pages.Navigation.Select("Samples & SDKs");
-            Assert.IsTrue(
-                Pages.Navigation.IsAtGraphPage("Samples & SDKs"),
-                @"The opened page should be ""Samples & SDKs""");
-        }
-
-        /// <summary>
-        /// Verify whether Changelog page can be navigated to.
-        /// </summary>        
-        [TestMethod]
-        public void CanGoToChangelogPage()
-        {
-            Pages.Navigation.Select("Changelog");
-            Assert.IsTrue(
-                Pages.Navigation.IsAtGraphPage("Changelog"),
-                @"The opened page should be ""Changelog""");
+            string imageUrl = GraphUtility.GetGraphBannerImageUrl();
+            Assert.IsTrue(GraphBrowser.ImageExist(Utility.GetConfigurationValue("MSGraphBaseAddress") + imageUrl), "The banner image should be valid to load");
         }
     }
 }
