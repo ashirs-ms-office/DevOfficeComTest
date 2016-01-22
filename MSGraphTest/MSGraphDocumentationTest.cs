@@ -115,5 +115,75 @@ namespace MSGraphTest
             //Recover the the whole window size
             GraphBrowser.SetWindowSize(currentWidth, currentHeight);
         }
+
+        /// <summary>
+        /// Verify whether Paging content can be displayed.
+        /// </summary>
+        [TestMethod]
+        public void BVT_Graph_S04_TC03_CanDisplayPagingOnDocumentaionPage()
+        {
+            GraphPages.Navigation.Select("Documentation");
+            //If the table of content is replaced by the toggle arrow, click the arrow to display table of content
+            if (GraphUtility.IsToggleArrowDisplayed())
+            {
+                GraphUtility.ToggleMenu();
+            }
+            GraphUtility.Click("OVERVIEW");
+            GraphUtility.Click("Paging");
+            GraphBrowser.Wait(TimeSpan.FromSeconds(2));
+            string docTitle = GraphUtility.GetDocTitle();
+
+            Assert.AreEqual(
+                "Paging Microsoft Graph data in your app",
+                docTitle,
+                @"Paging content should be shown when ""OVERVIEW""->""Paging"" is chosen in the table of content on Documentation page");
+        }
+
+        /// <summary>
+        /// Verify whether Associate Office 365 account content can be displayed.
+        /// </summary>
+        [TestMethod]
+        public void BVT_Graph_S04_TC04_CanDisplayAssociateOffice365accountOnDocumentaionPage()
+        {
+            GraphPages.Navigation.Select("Documentation");
+            //If the table of content is replaced by the toggle arrow, click the arrow to display table of content
+            if (GraphUtility.IsToggleArrowDisplayed())
+            {
+                GraphUtility.ToggleMenu();
+            }
+            GraphUtility.Click("AUTHORIZATION");
+            GraphUtility.Click("Associate Office 365 account");
+            GraphBrowser.Wait(TimeSpan.FromSeconds(2));
+            string docTitle = GraphUtility.GetDocTitle();
+
+            Assert.AreEqual(
+                "Associate your Office 365 account with Azure AD to create and manage apps",
+                docTitle,
+                @"Associate Office 365 account content should be shown when ""AUTHORIZATION""->""Associate Office 365 account"" is chosen in the table of content on Documentation page");
+        }
+
+        /// <summary>
+        /// Verify whether EVENT content can be displayed.
+        /// </summary>
+        [TestMethod]
+        public void BVT_Graph_S04_TC05_CanDisplayEVENTOnDocumentaionPage()
+        {
+            GraphPages.Navigation.Select("Documentation");
+            //If the table of content is replaced by the toggle arrow, click the arrow to display table of content
+            if (GraphUtility.IsToggleArrowDisplayed())
+            {
+                GraphUtility.ToggleMenu();
+            }
+            GraphUtility.Click("/V1.0 REFERENCE");
+            GraphUtility.Click("OUTLOOK CALENDAR");
+            GraphUtility.Click("EVENT");
+            GraphBrowser.Wait(TimeSpan.FromSeconds(2));
+            string docTitle = GraphUtility.GetDocTitle();
+
+            Assert.AreEqual(
+                "event resource type",
+                docTitle,
+                @"Event resource type content should be shown when ""/V1.0 REFERENCE""->""OUTLOOK CALENDAR""->""EVENT"" is chosen in the table of content on Documentation page");
+        }
     }
 }
