@@ -185,5 +185,27 @@ namespace MSGraphTest
                 docTitle,
                 @"Event resource type content should be shown when ""/V1.0 REFERENCE""->""OUTLOOK CALENDAR""->""EVENT"" is chosen in the table of content on Documentation page");
         }
+
+        /// <summary>
+        /// Verify whether WALKTHROUGHS content can be displayed.
+        /// </summary>
+        [TestMethod]
+        public void BVT_Graph_S04_TC06_CanDisplayWALKTHROUGHSOnDocumentaionPage()
+        {
+            GraphPages.Navigation.Select("Documentation");
+            //If the table of content is replaced by the toggle arrow, click the arrow to display table of content
+            if (GraphUtility.IsToggleArrowDisplayed())
+            {
+                GraphUtility.ToggleMenu();
+            }
+            GraphUtility.Click("WALKTHROUGHS");
+            GraphBrowser.Wait(TimeSpan.FromSeconds(2));
+            string docTitle = GraphUtility.GetDocTitle();
+
+            Assert.AreEqual(
+                "Platform specific walkthroughs",
+                docTitle,
+                @"Platform specific walkthroughs content should be shown when ""WALKTHROUGHS"" is chosen in the table of content on Documentation page");
+        }
     }
 }
