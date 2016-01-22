@@ -207,5 +207,53 @@ namespace MSGraphTest
                 docTitle,
                 @"Platform specific walkthroughs content should be shown when ""WALKTHROUGHS"" is chosen in the table of content on Documentation page");
         }
+
+        /// <summary>
+        /// Verify whether POST content can be displayed.
+        /// </summary>
+        [TestMethod]
+        public void BVT_Graph_S04_TC07_CanDisplayPOSTOnDocumentaionPage()
+        {
+            GraphPages.Navigation.Select("Documentation");
+            //If the table of content is replaced by the toggle arrow, click the arrow to display table of content
+            if (GraphUtility.IsToggleArrowDisplayed())
+            {
+                GraphUtility.ToggleMenu();
+            }
+            GraphUtility.Click("/V1.0 REFERENCE");
+            GraphUtility.Click("GROUPS");
+            GraphUtility.Click("POST");
+            GraphBrowser.Wait(TimeSpan.FromSeconds(2));
+            string docTitle = GraphUtility.GetDocTitle();
+
+            Assert.AreEqual(
+                "post resource type",
+                docTitle,
+                @"post resource type content should be shown when ""/V1.0 REFERENCE""->""GROUPS""->""POST"" is chosen in the table of content on Documentation page");
+        }
+
+        /// <summary>
+        /// Verify whether PERSON content can be displayed.
+        /// </summary>
+        [TestMethod]
+        public void BVT_Graph_S04_TC08_CanDisplayPERSONOnDocumentaionPage()
+        {
+            GraphPages.Navigation.Select("Documentation");
+            //If the table of content is replaced by the toggle arrow, click the arrow to display table of content
+            if (GraphUtility.IsToggleArrowDisplayed())
+            {
+                GraphUtility.ToggleMenu();
+            }
+            GraphUtility.Click("/BETA REFERENCE");
+            GraphUtility.Click("PEOPLE");
+            GraphUtility.Click("PERSON");
+            GraphBrowser.Wait(TimeSpan.FromSeconds(2));
+            string docTitle = GraphUtility.GetDocTitle();
+
+            Assert.AreEqual(
+                "person resource type",
+                docTitle,
+                @"person resource type content should be shown when ""/BETA REFERENCE""->""PEOPLE""->""PERSON"" is chosen in the table of content on Documentation page");
+        }
     }
 }
