@@ -255,5 +255,105 @@ namespace MSGraphTest
                 docTitle,
                 @"person resource type content should be shown when ""/BETA REFERENCE""->""PEOPLE""->""PERSON"" is chosen in the table of content on Documentation page");
         }
+
+        /// <summary>
+        /// Verify whether Update photo content can be displayed.
+        /// </summary>
+        [TestMethod]
+        public void BVT_Graph_S04_TC09_CanDisplayUpdatephotoOnDocumentaionPage()
+        {
+            GraphPages.Navigation.Select("Documentation");
+            //If the table of content is replaced by the toggle arrow, click the arrow to display table of content
+            if (GraphUtility.IsToggleArrowDisplayed())
+            {
+                GraphUtility.ToggleMenu();
+            }
+            GraphUtility.Click("/V1.0 REFERENCE");
+            GraphUtility.Click("USERS");
+            GraphUtility.Click("PHOTO");
+            GraphUtility.Click("Update photo");
+            GraphBrowser.Wait(TimeSpan.FromSeconds(2));
+            string docTitle = GraphUtility.GetDocTitle();
+
+            Assert.AreEqual(
+                "Update profilephoto",
+                docTitle,
+                @"Update profilephoto content should be shown when ""/V1.0 REFERENCE""->""USERS""->""PHOTO""->""Update photo"" is chosen in the table of content on Documentation page");
+        }
+
+        /// <summary>
+        /// Verify whether List devices content can be displayed.
+        /// </summary>
+        [TestMethod]
+        public void BVT_Graph_S04_TC10_CanDisplayListdevicesOnDocumentaionPage()
+        {
+            GraphPages.Navigation.Select("Documentation");
+            //If the table of content is replaced by the toggle arrow, click the arrow to display table of content
+            if (GraphUtility.IsToggleArrowDisplayed())
+            {
+                GraphUtility.ToggleMenu();
+            }
+            GraphUtility.Click("/V1.0 REFERENCE");
+            GraphUtility.Click("DIRECTORY");
+            GraphUtility.Click("DEVICE");
+            GraphUtility.Click("List devices");
+            GraphBrowser.Wait(TimeSpan.FromSeconds(2));
+            string docTitle = GraphUtility.GetDocTitle();
+
+            Assert.AreEqual(
+                "List devices",
+                docTitle,
+                @"List devices content should be shown when ""/V1.0 REFERENCE""->""DIRECTORY""->""DEVICE""->""List devices"" is chosen in the table of content on Documentation page");
+        }
+
+        /// <summary>
+        /// Verify whether Delete openTypeExtension content can be displayed.
+        /// </summary>
+        [TestMethod]
+        public void BVT_Graph_S04_TC11_CanDisplayDeleteopenTypeExtensionOnDocumentaionPage()
+        {
+            GraphPages.Navigation.Select("Documentation");
+            //If the table of content is replaced by the toggle arrow, click the arrow to display table of content
+            if (GraphUtility.IsToggleArrowDisplayed())
+            {
+                GraphUtility.ToggleMenu();
+            }
+            GraphUtility.Click("/BETA REFERENCE");
+            GraphUtility.Click("OUTLOOK EXTENSIONS");
+            GraphUtility.Click("OPENTYPEEXTENSION");
+            GraphUtility.Click("Delete openTypeExtension");
+            GraphBrowser.Wait(TimeSpan.FromSeconds(2));
+            string docTitle = GraphUtility.GetDocTitle();
+
+            Assert.AreEqual(
+                "Delete extension",
+                docTitle,
+                @"Delete extension content should be shown when ""/BETA REFERENCE""->""OUTLOOK EXTENSIONS""->""OPENTYPEEXTENSION""->""Delete openTypeExtension"" is chosen in the table of content on Documentation page");
+        }
+
+        /// <summary>
+        /// Verify whether Create item content can be displayed.
+        /// </summary>
+        [TestMethod]
+        public void BVT_Graph_S04_TC12_CanDisplayCreateitemOnDocumentaionPage()
+        {
+            GraphPages.Navigation.Select("Documentation");
+            //If the table of content is replaced by the toggle arrow, click the arrow to display table of content
+            if (GraphUtility.IsToggleArrowDisplayed())
+            {
+                GraphUtility.ToggleMenu();
+            }
+            GraphUtility.Click("/BETA REFERENCE");
+            GraphUtility.Click("ONEDRIVE");
+            GraphUtility.Click("ITEM");
+            GraphUtility.Click("Create item");
+            GraphBrowser.Wait(TimeSpan.FromSeconds(2));
+            string docTitle = GraphUtility.GetDocTitle();
+
+            Assert.AreEqual(
+                "Create an item in a collection",
+                docTitle,
+                @"Create an item in a collection content should be shown when ""/BETA REFERENCE""->""ONEDRIVE""->""ITEM""->""Create item"" is chosen in the table of content on Documentation page");
+        }
     }
 }
