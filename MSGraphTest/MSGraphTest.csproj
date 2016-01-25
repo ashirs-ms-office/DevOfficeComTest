@@ -71,6 +71,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="GraphBVTCases.playlist" />
     <None Include="packages.config" />
   </ItemGroup>
   <Choose>

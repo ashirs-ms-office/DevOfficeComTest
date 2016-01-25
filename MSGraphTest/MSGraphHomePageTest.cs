@@ -44,7 +44,7 @@ namespace MSGraphTest
                 @"The opened page should be ""Home"" when clicking it");
 
             //Currently ignore the Graph explorer, since this page desn't have Microsoft
-            //Graph branding image
+            //MS Graph nav bar
             string[] navOptions = new string[] { 
                 "Get started", 
                 "Documentation", 
@@ -53,21 +53,22 @@ namespace MSGraphTest
                 "Samples & SDKs", 
                 "Changelog" };
 
-            //Go to the other page to click Home
+            //Go to the other page to click "Home" on nav bar
             string navPage = navOptions[new Random().Next(navOptions.Length)];
             GraphPages.Navigation.Select(navPage);
 
             GraphPages.Navigation.Select("Home");
             Assert.IsTrue(
                 GraphPages.Navigation.IsAtGraphPage("Home"),
-                @"The opened page should be ""Home"" when clicking it on the other page");
+                @"The opened page should be ""Home"" when clicking it {0} page's nav bar", 
+                navPage);
         }
 
         /// <summary>
         /// Verify whether Overview is shown when "See overview" is clicked.
         /// </summary>
         [TestMethod]
-        public void BVT_Graph_S02_TC02_CanSeeOverviewOnDocumentaionPage()
+        public void BVT_Graph_S02_TC02_ClickSeeOverviewCanShowDocumentaionPage()
         {
             GraphUtility.Click("See overview");
             string docTitle = GraphUtility.GetDocTitle();
@@ -81,7 +82,7 @@ namespace MSGraphTest
         /// Verify whether Overview is shown when "Try the API" is clicked.
         /// </summary>
         [TestMethod]
-        public void BVT_Graph_S02_TC03_CanTryAPIOnExplorerPage()
+        public void BVT_Graph_S02_TC03_ClickTryAPIOnExplorerCanShowPage()
         {
             GraphUtility.Click("Try the API");
             Assert.IsTrue(
