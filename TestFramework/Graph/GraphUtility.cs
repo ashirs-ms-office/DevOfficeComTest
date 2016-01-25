@@ -68,6 +68,10 @@ namespace TestFramework
         public static string GetGraphBannerImageUrl()
         {
             var element = GraphBrowser.FindElement(By.Id("banner-image"));
+            if(element==null)
+            {
+                element = GraphBrowser.FindElement(By.CssSelector("div#layout-featured>div>article>div>div>div>div"));
+            }
             string styleString = element.GetAttribute("style");
             string[] styles = styleString.Split(';');
 
