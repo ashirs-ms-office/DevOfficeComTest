@@ -53,7 +53,7 @@ namespace Tests
 
             Pages.Office365Page.CardTryItOut.ChooseService(ServiceToTry.GetMessages);
             Pages.Office365Page.CardTryItOut.ClickTry();
-            Assert.IsTrue(Pages.Office365Page.CardTryItOut.CanGetResponse(ServiceToTry.GetMessages, GetMessagesValue.Inbox));
+            Assert.IsTrue(Pages.Office365Page.CardTryItOut.CanGetResponse(ServiceToTry.GetMessages, GetMessagesValue.Inbox), "Failed to get the response for the serivce to try.");
 
             Platform platform = Platform.Node;
             Pages.Office365Page.CardSetupPlatform.ChoosePlatform(platform);

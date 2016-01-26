@@ -34,16 +34,17 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="WebDriver">
-      <HintPath>..\packages\Selenium.WebDriver.2.48.2\lib\net40\WebDriver.dll</HintPath>
+      <HintPath>..\packages\Selenium.WebDriver.2.49.0\lib\net40\WebDriver.dll</HintPath>
     </Reference>
-    <Reference Include="WebDriver.Support, Version=2.48.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Selenium.Support.2.48.2\lib\net40\WebDriver.Support.dll</HintPath>
+    <Reference Include="WebDriver.Support, Version=2.49.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Selenium.Support.2.49.0\lib\net40\WebDriver.Support.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
@@ -59,7 +60,13 @@
     <Compile Include="DataStructure\Enums.cs" />
     <Compile Include="FabricGettingStartedPage.cs" />
     <Compile Include="FabricPage.cs" />
-    <Compile Include="GraphPage.cs" />
+    <Compile Include="Graph\GraphBasePage.cs" />
+    <Compile Include="Graph\GraphBrowser.cs" />
+    <Compile Include="Graph\GraphHomePage.cs" />
+    <Compile Include="Graph\GraphNavigation.cs" />
+    <Compile Include="Graph\GraphPage.cs" />
+    <Compile Include="Graph\GraphPages.cs" />
+    <Compile Include="Graph\GraphUtility.cs" />
     <Compile Include="Navigation.cs" />
     <Compile Include="Office365Page\CardDownloadCode.cs" />
     <Compile Include="Office365Page\CardMoreResources.cs" />

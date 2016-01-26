@@ -42,7 +42,6 @@ namespace TestFramework
                     Browser.Click(documentationLinkElement);
                     break;
                 default:
-                    Browser.Click(Browser.Driver.FindElement(By.LinkText(menuName)));
                     break;
             }
 
@@ -150,7 +149,8 @@ namespace TestFramework
 
         public bool IsAtOfficeGettingStartedPage(string Title)
         {
-            return Browser.Title.Contains(Title);
+            string pageTitle = Browser.Title;
+            return pageTitle.Contains(Title);
         }
 
         public bool IsAtCodeSamplesPage(string Title)

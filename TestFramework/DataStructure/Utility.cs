@@ -239,6 +239,11 @@ namespace TestFramework
             }
         }
 
+        /// <summary>
+        /// Get a property's value from App.config
+        /// </summary>
+        /// <param name="propertyName">The property's key</param>
+        /// <returns>The property's value</returns>
         public static string GetConfigurationValue(string propertyName)
         {
             return ConfigurationManager.AppSettings[propertyName];

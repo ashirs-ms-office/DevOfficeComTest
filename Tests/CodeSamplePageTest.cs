@@ -154,7 +154,8 @@ namespace Tests
                 for (int j = 0; j < resultList.Count - 1; j++)
                 {
                     Assert.IsTrue(resultList[j].ViewCount >= resultList[j + 1].ViewCount,
-                        @"The view count of ""{0}"" should be larger than or equal to its sibling ""{1}""'s",
+                        @"When {0} filter is chosen and the sort order is descendent, the view count of ""{1}"" should be larger than or equal to its sibling ""{2}""'s",
+                        filterName,
                         resultList[j].Name,
                         resultList[j + 1].Name);
                 }
@@ -165,7 +166,8 @@ namespace Tests
                 for (int j = 0; j < resultList.Count - 1; j++)
                 {
                     Assert.IsTrue(resultList[j].ViewCount <= resultList[j + 1].ViewCount,
-                        @"The view count of ""{0}"" should be smaller than or equal to its sibling ""{1}""'s",
+                        @"When {0} filter is chosen and the sort order is ascendent, the view count of ""{1}"" should be smaller than or equal to its sibling ""{2}""'s",
+                        filterName, 
                         resultList[j].Name,
                         resultList[j + 1].Name);
                 }
@@ -195,7 +197,8 @@ namespace Tests
             for (int j = 0; j < resultList.Count - 1; j++)
             {
                 Assert.IsTrue(resultList[j].UpdatedDate >= resultList[j + 1].UpdatedDate,
-                    @"The updated date of ""{0}"" should be later than or equal to its sibling ""{1}""'s",
+                    @"When {0} filter is chosen and the sort order is descendent, the updated date of ""{1}"" should be later than or equal to its sibling ""{2}""'s",
+                    filterName, 
                     resultList[j].Name,
                     resultList[j + 1].Name);
             }
@@ -206,10 +209,12 @@ namespace Tests
             for (int j = 0; j < resultList.Count - 1; j++)
             {
                 Assert.IsTrue(resultList[j].UpdatedDate <= resultList[j + 1].UpdatedDate,
-                    @"The updated date of ""{0}"" should be earlier than or equal to its sibling ""{1}""'s",
+                    @"When {0} filter is chosen and the sort order is ascendent, the updated date of ""{1}"" should be earlier than or equal to its sibling ""{2}""'s",
+                    filterName,
                     resultList[j].Name,
                     resultList[j + 1].Name);
             }
+            Utility.ExecuteClearFilters();
         }
 
         /// <summary>
