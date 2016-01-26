@@ -34,41 +34,45 @@ namespace MSGraphTest
         [TestMethod]
         public void BVT_Graph_S04_TC01_CanToggleArrowWorkInSmallDocumentaionPage()
         {
-            GraphPages.Navigation.Select("Documentation");
-            
             int currentWidth = 0;
             int currentHeight = 0;
             GraphBrowser.GetWindowSize(out currentWidth, out currentHeight);
+            GraphPages.Navigation.Select("Documentation");
 
-            if (GraphUtility.IsToggleArrowDisplayed())
-            {
-                //Assert a value that must be true, just to log the window size,
-                Assert.IsTrue(GraphUtility.IsToggleArrowDisplayed(),
-                    "{0}*{1} is small enough for browser window to show the arrow on Documentation page",
-                    currentWidth,
-                    currentHeight);
-                VerifyArrowAvailability();
-            }
-            else
-            {
-                //The arrow doesn't exist means currently the window is big. 
-                //Try setting a smaller window size to make it appear.
-                int randomWidth;
-                int randomHeight;
-                long retryTime = currentWidth * currentHeight - 1;
-                do
-                {
-                    retryTime--;
-                    randomWidth = new Random().Next(1, currentWidth + 1);
-                    randomHeight = new Random().Next(1, currentHeight + 1);
-                    GraphBrowser.SetWindowSize(randomWidth, randomHeight);
-                } while (retryTime > 0 && !GraphUtility.IsToggleArrowDisplayed());
-                Assert.IsTrue(GraphUtility.IsToggleArrowDisplayed(),
-                    "{0}*{1} is small enough for browser window to show the arrow on Documentation page",
-                    randomWidth,
-                    randomHeight);
-                VerifyArrowAvailability();
-            }
+            //Set as the screen size of IPad2
+            double deviceScreenSize = double.Parse(Utility.GetConfigurationValue("IPad2Size"));
+            int actualWidth = 0;
+            int actualHeight = 0;
+            GraphBrowser.TransferPhysicalSizeToPixelSize(deviceScreenSize, out actualWidth, out actualHeight);
+            GraphBrowser.SetWindowSize(actualWidth, actualHeight);
+            
+            Assert.IsTrue(
+                GraphUtility.IsToggleArrowDisplayed(),
+                "An IPad2 window size ({0} inches) can make table of content arrow appear.",
+                deviceScreenSize);
+            Assert.IsFalse(GraphUtility.IsMenuContentDisplayed(),
+                "When the arrows exists, table of content should be hidden.");
+
+            GraphUtility.ToggleMenu();
+            Assert.IsTrue(GraphUtility.IsMenuContentDisplayed(),
+                "When the arrows exists and table of content is hidden,clicking the arrow should show table of content.");
+
+            GraphUtility.ToggleMenu();
+            Assert.IsFalse(GraphUtility.IsMenuContentDisplayed(),
+                "When the arrows exists and table of content is shown,clicking the arrow should hide table of content.");
+
+            //Set as the screen size of IPhone6 plus
+            deviceScreenSize = double.Parse(Utility.GetConfigurationValue("IPhone6PlusSize"));
+            //Since mobile phone width<Height, invert the output values
+            GraphBrowser.TransferPhysicalSizeToPixelSize(deviceScreenSize, out actualHeight, out actualWidth);
+            GraphBrowser.SetWindowSize(actualWidth, actualHeight);
+
+            Assert.IsTrue(
+                GraphUtility.IsToggleArrowDisplayed(),
+                "An IPhone6 Plus window size ({0} inches) can make table of content arrow appear.",
+                deviceScreenSize);
+
+            //Recover the window size
             GraphBrowser.SetWindowSize(currentWidth, currentHeight);
         }
 
@@ -78,42 +82,25 @@ namespace MSGraphTest
         [TestMethod]
         public void BVT_Graph_S04_TC02_CanToggleArrowHideInLargeDocumentaionPage()
         {
-            GraphPages.Navigation.Select("Documentation");
-
             int currentWidth = 0;
             int currentHeight = 0;
             GraphBrowser.GetWindowSize(out currentWidth, out currentHeight);
+            GraphPages.Navigation.Select("Documentation");
 
-            if (GraphUtility.IsToggleArrowDisplayed())
-            {
-                //The arrow exists means currently the window is small. 
-                //Try setting a bigger window size to make it appear.
-                int maxWidth = 0;
-                int maxHeight = 0;
-                GraphBrowser.GetWindowSize(out maxWidth, out maxHeight, true);
-                int retryTime = (maxWidth * maxHeight) - (currentWidth*currentHeight);
-                int randomWidth=0;
-                int randomHeight = 0;
-                do
-                {
-                    retryTime--;
-                    randomWidth = new Random().Next(randomWidth, maxWidth + 1);
-                    randomHeight = new Random().Next(currentHeight, maxHeight + 1);
-                    GraphBrowser.SetWindowSize(randomWidth, randomHeight);
-                } while (retryTime >=0 && GraphUtility.IsToggleArrowDisplayed());
-                Assert.IsFalse(GraphUtility.IsToggleArrowDisplayed(),
-                    "{0}*{1} is big enough for browser window to hide the arrow on Documentation page",
-                    currentWidth,
-                    currentHeight);
-            }
-            else
-            {
-                //Assert a value that must be false, just to log the window size,
-                Assert.IsFalse(GraphUtility.IsToggleArrowDisplayed(),
-                    "{0}*{1} is big enough for browser window to hide the arrow on Documentation page",
-                    currentWidth,
-                    currentHeight);
-            }
+            //Set as 17, a common screen size of laptop
+            double deviceScreenSize = 17;
+            int actualWidth = 0;
+            int actualHeight = 0;
+            GraphBrowser.TransferPhysicalSizeToPixelSize(deviceScreenSize, out actualWidth, out actualHeight);
+            GraphBrowser.SetWindowSize(actualWidth, actualHeight);
+
+            Assert.IsFalse(
+                GraphUtility.IsToggleArrowDisplayed(),
+                "An large window size ({0} inches) can make table of content arrow hide.",
+                deviceScreenSize);
+            
+            //Recover the window size
+            GraphBrowser.SetWindowSize(currentWidth, currentHeight);
         }
 
         /// <summary>
@@ -271,5 +258,6 @@ namespace MSGraphTest
                  GraphUtility.IsMenuContentDisplayed(),
                  "After clicking the toogle arrow for the second time, the menu content should disappear.");
         }
+
     }
 }

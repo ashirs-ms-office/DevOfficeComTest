@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Net;
+using System.Runtime.InteropServices;
 using System.Threading;
+using System.Windows.Forms;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.IE;
 using OpenQA.Selenium.Firefox;
-using System.Collections.Generic;
-using System.Net;
+using OpenQA.Selenium.IE;
 using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Support.UI;
 
@@ -273,13 +276,21 @@ namespace TestFramework
         /// </summary>
         /// <param name="width">The new window width to set</param>
         /// <param name="height">The new window height to set</param>
-        public static void SetWindowSize(int width, int height)
+        /// <param name="maxSize">whether maxsize the window and return the size</param>
+        public static void SetWindowSize(int width, int height, bool maxSize = false)
         {
-            System.Drawing.Size windowSize = new System.Drawing.Size();
-            windowSize.Width = width;
-            windowSize.Height = height;
+            if (maxSize)
+            {
+                webDriver.Manage().Window.Maximize();
+            }
+            else
+            {
+                System.Drawing.Size windowSize = new System.Drawing.Size();
 
-            webDriver.Manage().Window.Size = windowSize;
+                windowSize.Width = width;
+                windowSize.Height = height;
+                webDriver.Manage().Window.Size = windowSize;
+            }
         }
 
         /// <summary>
@@ -287,15 +298,43 @@ namespace TestFramework
         /// </summary>
         /// <param name="width"></param>
         /// <param name="height"></param>
-        /// <param name="maxSize">whether maxsize the window and return the size</param>
-        public static void GetWindowSize(out int width, out int height, bool maxSize = false)
+        public static void GetWindowSize(out int width, out int height)
         {
-            if (maxSize)
-            {
-                webDriver.Manage().Window.Maximize();
-            }
             width = webDriver.Manage().Window.Size.Width;
             height = webDriver.Manage().Window.Size.Height;
         }
+
+        /// <summary>
+        /// Transfer the device screen size (in inches) to the pixel size on current screen(in pixels)
+        /// </summary>
+        /// <param name="deviceSize">The device Size. Commonly it is the diagonal length (in inches) of device screen</param>
+        /// <param name="width">The width (in pixels) of current screen</param>
+        /// <param name="height">The height (in pixels) of current screen</param>
+        /// <returns>The size on current screen(in pixels)</returns>
+        public static void TransferPhysicalSizeToPixelSize(double deviceSize, out int width, out int height)
+        {
+            //Get the current screen resolution in pixels
+            Rectangle rect = SystemInformation.VirtualScreen;
+            int pWidth = rect.Width;
+            int pHeight = rect.Height;
+
+            Panel panel = new System.Windows.Forms.Panel();
+            Graphics g = System.Drawing.Graphics.FromHwnd(panel.Handle);
+            IntPtr hdc = g.GetHdc();
+
+            //Get ppi
+            int ppi = GetDeviceCaps(hdc, 88);
+            g.ReleaseHdc(hdc);
+            
+            double ratio = (double)pWidth / (double)pHeight;
+            //According to capulating formula, ppi=Math.Sqrt(1+Math.Pow(ratio,2))*height/deviceSize
+            double dHeight = ppi * deviceSize / Math.Sqrt(1 + Math.Pow(ratio, 2));
+            double dWidth = dHeight * ratio;
+            height = (int)dHeight;
+            width = (int)dWidth;
+        }
+
+        [DllImport("gdi32.dll")]
+        private static extern int GetDeviceCaps(IntPtr hdc, int Index);
     }
 }
