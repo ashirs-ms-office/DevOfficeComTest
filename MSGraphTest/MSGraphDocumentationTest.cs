@@ -87,17 +87,16 @@ namespace MSGraphTest
             GraphBrowser.GetWindowSize(out currentWidth, out currentHeight);
             GraphPages.Navigation.Select("Documentation");
 
-            //Set as 17, a common screen size of laptop
-            double deviceScreenSize = 17;
             int actualWidth = 0;
             int actualHeight = 0;
-            GraphBrowser.TransferPhysicalSizeToPixelSize(deviceScreenSize, out actualWidth, out actualHeight);
-            GraphBrowser.SetWindowSize(actualWidth, actualHeight);
-
+            GraphBrowser.SetWindowSize(actualWidth, actualHeight,true);
+            GraphBrowser.GetWindowSize(out actualWidth, out actualHeight);
+            
             Assert.IsFalse(
                 GraphUtility.IsToggleArrowDisplayed(),
-                "An large window size ({0} inches) can make table of content arrow hide.",
-                deviceScreenSize);
+                "A max window size ({0}*{1}) can make table of content arrow hide.",
+                actualWidth,
+                actualHeight);
             
             //Recover the window size
             GraphBrowser.SetWindowSize(currentWidth, currentHeight);
