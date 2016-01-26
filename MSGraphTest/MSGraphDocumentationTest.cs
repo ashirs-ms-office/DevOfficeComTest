@@ -89,15 +89,28 @@ namespace MSGraphTest
 
             int actualWidth = 0;
             int actualHeight = 0;
+            //Maxsize the window to see if it is possible to hide the arrow
             GraphBrowser.SetWindowSize(actualWidth, actualHeight,true);
             GraphBrowser.GetWindowSize(out actualWidth, out actualHeight);
-            
-            Assert.IsFalse(
-                GraphUtility.IsToggleArrowDisplayed(),
-                "A max window size ({0}*{1}) can make table of content arrow hide.",
-                actualWidth,
-                actualHeight);
-            
+            if (GraphUtility.IsToggleArrowDisplayed())
+            {
+                Assert.Inconclusive(
+                    "A window size ({0}*{1}) is not big enough to hide table of content arrow",
+                    actualWidth,
+                    actualHeight);
+            }
+            else
+            {
+                //Set a common laptop size: 17
+                double deviceScreenSize = 17;
+                GraphBrowser.TransferPhysicalSizeToPixelSize(deviceScreenSize, out actualWidth, out actualHeight);
+                GraphBrowser.SetWindowSize(actualWidth, actualHeight);
+
+                Assert.IsFalse(
+                    GraphUtility.IsToggleArrowDisplayed(),
+                    "An large window size ({0} inches) can make table of content arrow hide.",
+                    deviceScreenSize);
+            }
             //Recover the window size
             GraphBrowser.SetWindowSize(currentWidth, currentHeight);
         }
