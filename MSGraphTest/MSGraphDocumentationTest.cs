@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TestFramework;
 using System.Drawing;
+using System.Collections.Generic;
 
 namespace MSGraphTest
 {
@@ -270,6 +271,39 @@ namespace MSGraphTest
                 "Create an item in a collection",
                 docTitle,
                 @"Create an item in a collection content should be shown when ""/BETA REFERENCE""->""ONEDRIVE""->""ITEM""->""Create item"" is chosen in the table of content on Documentation page");
+        }
+
+        /// <summary>
+        /// Verify whether a sub menu can appear by clicking its parent layer.
+        /// </summary>
+        [TestMethod]
+        public void BVT_Graph_S04_TC04_CanShowTOCSubLayer()
+        {
+            GraphPages.Navigation.Select("Documentation");
+            if (!GraphUtility.IsMenuContentDisplayed())
+            {
+                GraphUtility.ToggleMenu();
+            }
+
+            int tocLayerCount = GraphUtility.GetTOCLayer();
+            //Random generate a layer index, check a menu item at this layer from its top layers          
+            //Because the last layer menu item doesn't have sub menu, use tocLayerCount-1 as the max value
+            int index = new Random().Next(tocLayerCount - 1);
+
+            List<string> tocPath = GraphUtility.FindTOCParentItems(index);
+            string itemPath = string.Empty;
+            for (int j = 0; j < tocPath.Count; j++)
+            {
+                GraphUtility.Click(tocPath[j]);
+                itemPath += (j == 0 ? string.Empty : "->");
+                itemPath += tocPath[j];
+                Assert.IsTrue(GraphUtility.SubLayerDisplayed(tocPath[j]), "Clicking {0} can display its sub layer");
+            }
+            //Unfold the menu back
+            for (int k = tocPath.Count - 1; k >= 0; k--)
+            {
+                GraphUtility.Click(tocPath[k]);
+            }
         }
 
         /// <summary>
