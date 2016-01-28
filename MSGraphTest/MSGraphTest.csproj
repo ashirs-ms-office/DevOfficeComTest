@@ -59,6 +59,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="MSGraphAppregistrationTest.cs" />
     <Compile Include="MSGraphDocumentationTest.cs" />
     <Compile Include="MSGraphGetstartedTest.cs" />
     <Compile Include="MSGraphHomePageTest.cs" />
