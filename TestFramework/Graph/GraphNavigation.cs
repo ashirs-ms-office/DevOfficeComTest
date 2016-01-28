@@ -7,6 +7,9 @@ namespace TestFramework
 {
     public class GraphNavigation : GraphBasePage
     {
+        public GraphNavigation()
+            : base(true)
+        { }
         [FindsBy(How = How.LinkText, Using = "Home")]
         private IWebElement homeLinkElement;
 
@@ -65,7 +68,7 @@ namespace TestFramework
         /// <returns>True if yes, else no.</returns>
         public bool IsAtGraphPage(string graphTitle)
         {
-            var graphPage = new GraphPage();
+            var graphPage = new GraphPage(true);
             string title = graphPage.GraphTitle.Replace(" ", "");
 
             GraphBrowser.GoBack();

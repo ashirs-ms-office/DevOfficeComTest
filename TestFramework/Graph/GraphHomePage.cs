@@ -8,6 +8,9 @@ namespace TestFramework
 {
     public class GraphHomePage : GraphBasePage
     {
+        public GraphHomePage() :
+            base(true)
+        { }
         private static string PageTitle = "Microsoft Graph - Home";
 
         [FindsBy(How = How.LinkText, Using = "Explore")]

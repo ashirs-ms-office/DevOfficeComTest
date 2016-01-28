@@ -140,7 +140,7 @@ namespace TestFramework
 
         public bool IsAtGraphPage(string graphTitle)
         {
-            var graphPage = new GraphPage();
+            var graphPage = new GraphPage(false);
             string title = graphPage.GraphTitle.Replace(" ", "");
 
             Browser.GoBack();
