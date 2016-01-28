@@ -1,6 +1,8 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TestFramework;
+using System.Drawing;
+using System.Collections.Generic;
 
 namespace MSGraphTest
 {
@@ -39,13 +41,19 @@ namespace MSGraphTest
             GraphBrowser.GetWindowSize(out currentWidth, out currentHeight);
             GraphPages.Navigation.Select("Documentation");
 
+            Size windowSize;
             //Set as the screen size of IPad2
             double deviceScreenSize = double.Parse(Utility.GetConfigurationValue("IPad2Size"));
-            int actualWidth = 0;
-            int actualHeight = 0;
-            GraphBrowser.TransferPhysicalSizeToPixelSize(deviceScreenSize, out actualWidth, out actualHeight);
-            GraphBrowser.SetWindowSize(actualWidth, actualHeight);
-            
+            GraphBrowser.TransferPhysicalSizeToPixelSize(
+                deviceScreenSize,
+                new Size
+                {
+                    Width = int.Parse(Utility.GetConfigurationValue("IPad2ScreenResolutionWidth")),
+                    Height = int.Parse(Utility.GetConfigurationValue("IPad2ScreenResolutionHeight"))
+                },
+                out windowSize);
+            GraphBrowser.SetWindowSize(windowSize.Width, windowSize.Height);
+
             Assert.IsTrue(
                 GraphUtility.IsToggleArrowDisplayed(),
                 "An IPad2 window size ({0} inches) can make table of content arrow appear.",
@@ -64,8 +72,16 @@ namespace MSGraphTest
             //Set as the screen size of IPhone6 plus
             deviceScreenSize = double.Parse(Utility.GetConfigurationValue("IPhone6PlusSize"));
             //Since mobile phone width<Height, invert the output values
-            GraphBrowser.TransferPhysicalSizeToPixelSize(deviceScreenSize, out actualHeight, out actualWidth);
-            GraphBrowser.SetWindowSize(actualWidth, actualHeight);
+            GraphBrowser.TransferPhysicalSizeToPixelSize(
+               deviceScreenSize,
+               new Size
+               {
+                   Width = int.Parse(Utility.GetConfigurationValue("IPhone6PlusScreenResolutionWidth")),
+                   Height = int.Parse(Utility.GetConfigurationValue("IPhone6PlusScreenResolutionHeight"))
+               },
+               out windowSize);
+            //Since mobile phone widh<height, invert height and width
+            GraphBrowser.SetWindowSize(windowSize.Height, windowSize.Width);
 
             Assert.IsTrue(
                 GraphUtility.IsToggleArrowDisplayed(),
@@ -90,7 +106,7 @@ namespace MSGraphTest
             int actualWidth = 0;
             int actualHeight = 0;
             //Maxsize the window to see if it is possible to hide the arrow
-            GraphBrowser.SetWindowSize(actualWidth, actualHeight,true);
+            GraphBrowser.SetWindowSize(actualWidth, actualHeight, true);
             GraphBrowser.GetWindowSize(out actualWidth, out actualHeight);
             if (GraphUtility.IsToggleArrowDisplayed())
             {
@@ -101,10 +117,18 @@ namespace MSGraphTest
             }
             else
             {
-                //Set a common laptop size: 17
-                double deviceScreenSize = 17;
-                GraphBrowser.TransferPhysicalSizeToPixelSize(deviceScreenSize, out actualWidth, out actualHeight);
-                GraphBrowser.SetWindowSize(actualWidth, actualHeight);
+                //Set a common laptop size: 17.3 and a common screen resolution:1024*768
+                double deviceScreenSize = 17.3;
+                Size windowSize;
+                GraphBrowser.TransferPhysicalSizeToPixelSize(
+                    deviceScreenSize,
+                    new Size
+                    {
+                        Width = 1024,
+                        Height = 768
+                    },
+                    out windowSize);
+                GraphBrowser.SetWindowSize(windowSize.Width, windowSize.Height);
 
                 Assert.IsFalse(
                     GraphUtility.IsToggleArrowDisplayed(),
@@ -247,6 +271,39 @@ namespace MSGraphTest
                 "Create an item in a collection",
                 docTitle,
                 @"Create an item in a collection content should be shown when ""/BETA REFERENCE""->""ONEDRIVE""->""ITEM""->""Create item"" is chosen in the table of content on Documentation page");
+        }
+
+        /// <summary>
+        /// Verify whether a sub menu can appear by clicking its parent layer.
+        /// </summary>
+        [TestMethod]
+        public void BVT_Graph_S04_TC04_CanShowTOCSubLayer()
+        {
+            GraphPages.Navigation.Select("Documentation");
+            if (!GraphUtility.IsMenuContentDisplayed())
+            {
+                GraphUtility.ToggleMenu();
+            }
+
+            int tocLayerCount = GraphUtility.GetTOCLayer();
+            //Random generate a layer index, check a menu item at this layer from its top layers          
+            //Because the last layer menu item doesn't have sub menu, use tocLayerCount-1 as the max value
+            int index = new Random().Next(tocLayerCount - 1);
+
+            List<string> tocPath = GraphUtility.FindTOCParentItems(index);
+            string itemPath = string.Empty;
+            for (int j = 0; j < tocPath.Count; j++)
+            {
+                GraphUtility.Click(tocPath[j]);
+                itemPath += (j == 0 ? string.Empty : "->");
+                itemPath += tocPath[j];
+                Assert.IsTrue(GraphUtility.SubLayerDisplayed(tocPath[j]), "Clicking {0} can display its sub layer");
+            }
+            //Unfold the menu back
+            for (int k = tocPath.Count - 1; k >= 0; k--)
+            {
+                GraphUtility.Click(tocPath[k]);
+            }
         }
 
         /// <summary>

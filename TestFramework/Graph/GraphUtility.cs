@@ -68,7 +68,7 @@ namespace TestFramework
         public static string GetGraphBannerImageUrl()
         {
             var element = GraphBrowser.FindElement(By.Id("banner-image"));
-            if(element==null)
+            if (element == null)
             {
                 element = GraphBrowser.FindElement(By.CssSelector("div#layout-featured>div>article>div>div>div>div"));
             }
@@ -96,7 +96,7 @@ namespace TestFramework
         public static void Click(string text)
         {
             var element = GraphBrowser.FindElement(By.LinkText(text));
-            if (element != null)
+            if (element != null && element.Displayed)
             {
                 GraphBrowser.Click(element);
             }
@@ -105,13 +105,90 @@ namespace TestFramework
                 IReadOnlyList<IWebElement> elements = GraphBrowser.webDriver.FindElements(By.TagName("button"));
                 foreach (IWebElement elementToClick in elements)
                 {
-                    if (elementToClick.GetAttribute("innerHTML").Contains(text))
+                    if (elementToClick.GetAttribute("innerHTML").Contains(text) && element.Displayed)
                     {
                         GraphBrowser.Click(elementToClick);
                         break;
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Randomly find a TOC item, which has a sub content menu, at a specific layer.
+        /// </summary>
+        /// <param name="layerIndex">The layer index. Starts from 0.</param>
+        /// <returns>A list including the names of path items</returns>
+        public static List<string> FindTOCParentItems(int layerIndex)
+        {
+            List<string> tocPath = new List<string>();
+            string xpath = @"//nav[@id='home-nav-blade']";
+
+            for (int i = 0; i <= layerIndex; i++)
+            {
+                xpath += "/ul/li";
+            }
+            var elements = GraphBrowser.webDriver.FindElements(By.XPath(xpath + "/a[@data-target]"));
+            int randomIndex = new Random().Next(elements.Count);
+            var element = elements[randomIndex];
+            string title = element.GetAttribute("innerHTML");
+            if (element.GetAttribute("style").Contains("text-transform: uppercase"))
+            {
+                title = title.ToUpper();
+            }
+
+            var ancestorElements = element.FindElements(By.XPath("ancestor::li/a")); //parent relative to current element
+            for (int j = 0; j < ancestorElements.Count - 1; j++)
+            {
+                string ancestorTitle = ancestorElements[j].GetAttribute("innerHTML");
+                if (ancestorElements[j].GetAttribute("style").Contains("text-transform: uppercase"))
+                {
+                    ancestorTitle = ancestorTitle.ToUpper();
+                }
+                tocPath.Add(ancestorTitle);
+            }
+
+            tocPath.Add(title);
+            return tocPath;
+        }
+
+        /// <summary>
+        /// Verify whether a TOC item's related sub layer is shown 
+        /// </summary>
+        /// <param name="item">The TOC item</param>
+        /// <returns>True if yes, else no.</returns>
+        public static bool SubLayerDisplayed(string item)
+        {
+            string xpath = @"//nav[@id='home-nav-blade']";
+            var element = GraphBrowser.FindElement(By.XPath(xpath));
+            var menuItem = element.FindElement(By.LinkText(item));
+            string subMenuId = menuItem.GetAttribute("data-target");
+            var subMenu = element.FindElement(By.XPath("//ul[@id='" + subMenuId.Replace("#", string.Empty) + "']"));
+            return subMenu.Displayed;
+        }
+
+        /// <summary>
+        /// Get The layer count of TOC
+        /// </summary>
+        /// <returns>The layer count</returns>
+        public static int GetTOCLayer()
+        {
+            string xpath = "//nav[@id='home-nav-blade']";
+            var menuElement = GraphBrowser.FindElement(By.XPath(xpath));
+            int layer = 0;
+            try
+            {
+                do
+                {
+                    layer++;
+                    xpath += "/ul/li";
+                    var element = menuElement.FindElement(By.XPath(xpath + "/a"));
+                } while (true);
+            }
+            catch (NoSuchElementException)
+            {
+            }
+            return layer - 1;
         }
     }
 }

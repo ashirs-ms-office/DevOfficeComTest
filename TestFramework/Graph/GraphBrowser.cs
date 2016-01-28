@@ -308,16 +308,12 @@ namespace TestFramework
         /// Transfer the device screen size (in inches) to the pixel size on current screen(in pixels)
         /// </summary>
         /// <param name="deviceSize">The device Size. Commonly it is the diagonal length (in inches) of device screen</param>
-        /// <param name="width">The width (in pixels) of current screen</param>
-        /// <param name="height">The height (in pixels) of current screen</param>
+        ///<param name="deviceResolution">Screen resolution of the device</param>
+        ///<param name="windowSize">The size, in pixels, on the current screen.</param>
         /// <returns>The size on current screen(in pixels)</returns>
-        public static void TransferPhysicalSizeToPixelSize(double deviceSize, out int width, out int height)
+        public static void TransferPhysicalSizeToPixelSize(double deviceSize, Size deviceResolution, out Size windowSize)
         {
-            //Get the current screen resolution in pixels
-            Rectangle rect = SystemInformation.VirtualScreen;
-            int pWidth = rect.Width;
-            int pHeight = rect.Height;
-
+            
             Panel panel = new System.Windows.Forms.Panel();
             Graphics g = System.Drawing.Graphics.FromHwnd(panel.Handle);
             IntPtr hdc = g.GetHdc();
@@ -325,13 +321,14 @@ namespace TestFramework
             //Get ppi
             int ppi = GetDeviceCaps(hdc, 88);
             g.ReleaseHdc(hdc);
-            
-            double ratio = (double)pWidth / (double)pHeight;
+
+            double ratio = (double)deviceResolution.Width / (double)deviceResolution.Height;
             //According to capulating formula, ppi=Math.Sqrt(1+Math.Pow(ratio,2))*height/deviceSize
             double dHeight = ppi * deviceSize / Math.Sqrt(1 + Math.Pow(ratio, 2));
             double dWidth = dHeight * ratio;
-            height = (int)dHeight;
-            width = (int)dWidth;
+            windowSize = new Size();
+            windowSize.Height = (int)dHeight;
+            windowSize.Width = (int)dWidth;
         }
 
         [DllImport("gdi32.dll")]

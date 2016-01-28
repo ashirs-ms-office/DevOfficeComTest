@@ -4,9 +4,20 @@ namespace TestFramework
 {
     public class GraphBasePage
     {
-        public GraphBasePage()
+        /// <summary>
+        /// The constructor method
+        /// </summary>
+        /// <param name="atGraphSite">Indicates whether it is during the testing of ms graph or dev.office.com</param>
+        public GraphBasePage(bool atGraphSite)
         {
-            PageFactory.InitElements(GraphBrowser.Driver, this);
+            if (atGraphSite)
+            {
+                PageFactory.InitElements(GraphBrowser.Driver, this);
+            }
+            else
+            {
+                PageFactory.InitElements(Browser.Driver, this);
+            }
         }
     }
 }

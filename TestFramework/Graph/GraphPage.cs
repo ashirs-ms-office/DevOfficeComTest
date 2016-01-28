@@ -21,10 +21,23 @@ namespace TestFramework
             return GraphBrowser.ImageExist(Url);
         }
 
-        public GraphPage()
+        /// <summary>
+        /// The constructor method
+        /// </summary>
+        /// <param name="atGraphSite">Indicates whether it is during the testing of ms graph or dev.office.com</param>
+        public GraphPage(bool atGraphSite)
+            : base(atGraphSite)
         {
-            GraphBrowser.Wait(By.CssSelector("head>title"));
-            graphTitle = (OpenQA.Selenium.Remote.RemoteWebElement)GraphBrowser.Driver.FindElement(By.CssSelector("head>title"));
-        }
+            if (atGraphSite)
+            {
+                GraphBrowser.Wait(By.CssSelector("head>title"));
+                graphTitle = (OpenQA.Selenium.Remote.RemoteWebElement)GraphBrowser.Driver.FindElement(By.CssSelector("head>title"));
+            }
+            else
+            {
+                Browser.Wait(By.CssSelector("head>title"));
+                graphTitle = (OpenQA.Selenium.Remote.RemoteWebElement)Browser.Driver.FindElement(By.CssSelector("head>title"));
+            }
+            }
     }
 }
