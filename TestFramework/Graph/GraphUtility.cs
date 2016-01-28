@@ -105,7 +105,7 @@ namespace TestFramework
                 IReadOnlyList<IWebElement> elements = GraphBrowser.webDriver.FindElements(By.TagName("button"));
                 foreach (IWebElement elementToClick in elements)
                 {
-                    if (elementToClick.GetAttribute("innerHTML").Contains(text) && element.Displayed)
+                    if (elementToClick.GetAttribute("innerHTML").Contains(text) && elementToClick.Displayed)
                     {
                         GraphBrowser.Click(elementToClick);
                         break;
