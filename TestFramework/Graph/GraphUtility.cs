@@ -14,6 +14,14 @@ namespace TestFramework
     public static class GraphUtility
     {
         /// <summary>
+        /// Clear all the cookies of the current page
+        /// </summary>
+        public static void ClearCookies()
+        {
+            GraphBrowser.webDriver.Manage().Cookies.DeleteAllCookies();
+        }
+
+        /// <summary>
         /// Verify if the toggle arrow is found on the page 
         /// </summary>
         /// <returns>Trye if yes, else no.</returns>
@@ -90,25 +98,43 @@ namespace TestFramework
         }
 
         /// <summary>
-        /// Find an link or a button according to the specific text and click it
+        /// Find an link, a button role span or a button according to the specific text and click it
         /// </summary>
         /// <param name="text">The text of the element</param>
         public static void Click(string text)
         {
             var element = GraphBrowser.FindElement(By.LinkText(text));
+            //a link
             if (element != null && element.Displayed)
             {
                 GraphBrowser.Click(element);
             }
             else
             {
+                bool isButton = false;
                 IReadOnlyList<IWebElement> elements = GraphBrowser.webDriver.FindElements(By.TagName("button"));
+
                 foreach (IWebElement elementToClick in elements)
                 {
-                    if (elementToClick.GetAttribute("innerHTML").Contains(text) && element.Displayed)
+                    //a button
+                    if (elementToClick.GetAttribute("innerHTML").Contains(text) && elementToClick.Displayed)
                     {
                         GraphBrowser.Click(elementToClick);
+                        isButton = true;
                         break;
+                    }
+                }
+                if (!isButton)
+                {
+                    elements = GraphBrowser.webDriver.FindElements(By.XPath("//*[@role='button']"));
+                    foreach (IWebElement elementToClick in elements)
+                    {
+                        //a button role span
+                        if (elementToClick.GetAttribute("innerHTML").Equals(text) && (elementToClick.Displayed))
+                        {
+                            GraphBrowser.Click(elementToClick);
+                            break;
+                        }
                     }
                 }
             }
@@ -189,6 +215,38 @@ namespace TestFramework
             {
             }
             return layer - 1;
+        }
+
+        /// <summary>
+        /// Login on a sign-in page 
+        /// </summary>
+        /// <param name="userName">The userName to input</param>
+        /// <param name="password">The password to input</param>
+        public static void Login(string userName, string password)
+        {
+            var userIdElement = GraphBrowser.FindElement(By.XPath("//input[@id='cred_userid_inputtext']"));
+            userIdElement.SendKeys(userName);
+            var passwordElement = GraphBrowser.FindElement(By.XPath("//input[@id='cred_password_inputtext']"));
+            passwordElement.SendKeys(password);
+            Click("Sign in");
+        }
+
+        /// <summary>
+        /// Verify whether the logged in user is correct
+        /// </summary>
+        /// <param name="expectedUserName">The expected logged in user</param>
+        /// <returns>True if yes, else no.</returns>
+        public static bool IsLoggedIn(string expectedUserName)
+        {
+            var element = GraphBrowser.FindElement(By.XPath("//a[@ng-show='userInfo.isAuthenticated']"));
+            if (element.Displayed && element.Text.Equals(expectedUserName))
+            {
+            return true;
+            }
+            else
+            {
+            return false;
+            }
         }
     }
 }

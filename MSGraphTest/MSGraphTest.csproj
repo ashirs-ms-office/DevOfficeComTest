@@ -61,6 +61,7 @@
   <ItemGroup>
     <Compile Include="MSGraphAppregistrationTest.cs" />
     <Compile Include="MSGraphDocumentationTest.cs" />
+    <Compile Include="MSGraphExplorerTest.cs" />
     <Compile Include="MSGraphGetstartedTest.cs" />
     <Compile Include="MSGraphHomePageTest.cs" />
     <Compile Include="MSGraphNavigationTest.cs" />
