@@ -58,7 +58,7 @@ namespace Tests
         /// Verify if all the checked filters can be cleared at one time
         /// </summary>
         [TestMethod]
-        public void BVT_S13_TC02_CanFilterCleared()
+        public void Acceptance_S13_TC02_CanFilterCleared()
         {
             Pages.Navigation.Select("Code Samples");
             int filterCount = Utility.GetFilterCount();
@@ -95,7 +95,7 @@ namespace Tests
         /// Verify whether the URL can be updated accordingly when some filters are chosen
         /// </summary>
         [TestMethod]
-        public void BVT_S13_TC03_CanURLUpdatedByCodeSampleFilters()
+        public void Acceptance_S13_TC03_CanURLUpdatedByCodeSampleFilters()
         {
             Pages.Navigation.Select("Code Samples");
             int filterCount = Utility.GetFilterCount();
@@ -132,7 +132,7 @@ namespace Tests
         /// Verify whether the code samples can be sorted by view count correctly
         /// </summary>
         [TestMethod]
-        public void S13_TC04_CanSortCodeSamplesByViewCount()
+        public void Acceptance_S13_TC04_CanSortCodeSamplesByViewCount()
         {
             Pages.Navigation.Select("Code Samples");
             int filterCount = Utility.GetFilterCount();
@@ -181,7 +181,7 @@ namespace Tests
         /// Verify whether the code samples can be sorted by the updated date correctly
         /// </summary>
         [TestMethod]
-        public void BVT_S13_TC05_CanSortCodeSamplesByUpdatedDate()
+        public void Acceptance_S13_TC05_CanSortCodeSamplesByUpdatedDate()
         {
             Pages.Navigation.Select("Code Samples");
             int filterCount = Utility.GetFilterCount();
@@ -221,7 +221,7 @@ namespace Tests
         /// Verify if choosing the filter SharePoint Add-ins can get any correct sample. 
         /// </summary>
         [TestMethod]
-        public void S13_TC06_CanFindSharePointAddInSamples()
+        public void Comps_S13_TC06_CanFindSharePointAddInSamples()
         {
             Pages.Navigation.Select("Code Samples");
             Utility.SelectFilter("SharePoint Add-ins");
@@ -245,7 +245,7 @@ namespace Tests
         /// Verify if choosing the filter Office Add-ins can get any correct sample. 
         /// </summary>
         [TestMethod]
-        public void S13_TC07_CanFindOfficeAddInSamples()
+        public void Comps_S13_TC07_CanFindOfficeAddInSamples()
         {
             Pages.Navigation.Select("Code Samples");
             Utility.SelectFilter("Office Add-ins");
@@ -269,7 +269,7 @@ namespace Tests
         /// Verify if choosing the filter Office 365 App can get any correct sample. 
         /// </summary>
         [TestMethod]
-        public void S13_TC08_CanFindOffice365AppSamples()
+        public void Comps_S13_TC08_CanFindOffice365AppSamples()
         {
             Pages.Navigation.Select("Code Samples");
             Utility.SelectFilter("Office 365 App");
@@ -293,7 +293,7 @@ namespace Tests
         /// Verify if choosing the filter AngularJS can get any correct sample. 
         /// </summary>
         [TestMethod]
-        public void S13_TC09_CanFindAngularJSSamples()
+        public void Comps_S13_TC09_CanFindAngularJSSamples()
         {
             Pages.Navigation.Select("Code Samples");
             Utility.SelectFilter("AngularJS");
@@ -317,7 +317,7 @@ namespace Tests
         /// Verify if choosing the filter C# can get any correct sample. 
         /// </summary>
         [TestMethod]
-        public void S13_TC10_CanFindCSharpSamples()
+        public void Comps_S13_TC10_CanFindCSharpSamples()
         {
             Pages.Navigation.Select("Code Samples");
             Utility.SelectFilter("C#");
@@ -341,7 +341,7 @@ namespace Tests
         /// Verify if choosing the filter Java can get any correct sample. 
         /// </summary>
         [TestMethod]
-        public void S13_TC11_CanFindJavaSamples()
+        public void Comps_S13_TC11_CanFindJavaSamples()
         {
             Pages.Navigation.Select("Code Samples");
             Utility.SelectFilter("Java");
@@ -365,7 +365,7 @@ namespace Tests
         /// Verify if choosing the filter node.js can get any correct sample. 
         /// </summary>
         [TestMethod]
-        public void S13_TC12_CanFindNodejsSamples()
+        public void Comps_S13_TC12_CanFindNodejsSamples()
         {
             Pages.Navigation.Select("Code Samples");
             Utility.SelectFilter("node.js");
@@ -389,7 +389,7 @@ namespace Tests
         /// Verify if choosing the filter Objective C can get any correct sample. 
         /// </summary>
         [TestMethod]
-        public void S13_TC13_CanFindObjectiveCSamples()
+        public void Comps_S13_TC13_CanFindObjectiveCSamples()
         {
             Pages.Navigation.Select("Code Samples");
             Utility.SelectFilter("Objective C");
@@ -413,7 +413,7 @@ namespace Tests
         /// Verify if choosing the filter PHP can get any correct sample. 
         /// </summary>
         [TestMethod]
-        public void S13_TC14_CanFindPHPSamples()
+        public void Comps_S13_TC14_CanFindPHPSamples()
         {
             Pages.Navigation.Select("Code Samples");
             Utility.SelectFilter("PHP");
@@ -437,7 +437,7 @@ namespace Tests
         /// Verify if choosing the filter Python can get any correct sample. 
         /// </summary>
         [TestMethod]
-        public void S13_TC15_CanFindPythonSamples()
+        public void Comps_S13_TC15_CanFindPythonSamples()
         {
             Pages.Navigation.Select("Code Samples");
             Utility.SelectFilter("Python");
@@ -461,7 +461,7 @@ namespace Tests
         /// Verify if choosing the filter Ruby on Rails can get any correct sample. 
         /// </summary>
         [TestMethod]
-        public void S13_TC16_CanFindRubyonRailsSamples()
+        public void Comps_S13_TC16_CanFindRubyonRailsSamples()
         {
             Pages.Navigation.Select("Code Samples");
             Utility.SelectFilter("Ruby on Rails");
@@ -485,7 +485,7 @@ namespace Tests
         /// Verify if choosing the filter Swift can get any correct sample. 
         /// </summary>
         [TestMethod]
-        public void S13_TC17_CanFindSwiftSamples()
+        public void Comps_S13_TC17_CanFindSwiftSamples()
         {
             Pages.Navigation.Select("Code Samples");
             Utility.SelectFilter("Swift");
@@ -509,7 +509,7 @@ namespace Tests
         /// Verify if choosing the filter TypeScript can get any correct sample. 
         /// </summary>
         [TestMethod]
-        public void S13_TC18_CanFindTypeScriptSamples()
+        public void Comps_S13_TC18_CanFindTypeScriptSamples()
         {
             Pages.Navigation.Select("Code Samples");
             Utility.SelectFilter("TypeScript");
@@ -533,7 +533,7 @@ namespace Tests
         /// Verify if choosing the filter XAML/C# can get any correct sample. 
         /// </summary>
         [TestMethod]
-        public void S13_TC19_CanFindXAMLOrCSharpSamples()
+        public void Comps_S13_TC19_CanFindXAMLOrCSharpSamples()
         {
             Pages.Navigation.Select("Code Samples");
             Utility.SelectFilter("XAML/C#");
@@ -557,7 +557,7 @@ namespace Tests
         /// Verify if choosing the filter ASP.NET MVC can get any correct sample. 
         /// </summary>
         [TestMethod]
-        public void S13_TC20_CanFindMVCSamples()
+        public void Comps_S13_TC20_CanFindMVCSamples()
         {
             Pages.Navigation.Select("Code Samples");
             Utility.SelectFilter("ASP.NET MVC");
@@ -581,7 +581,7 @@ namespace Tests
         /// Verify if choosing the filter HTML / JS can get any correct sample. 
         /// </summary>
         [TestMethod]
-        public void S13_TC21_CanFindHTMLOrJSSamples()
+        public void Comps_S13_TC21_CanFindHTMLOrJSSamples()
         {
             Pages.Navigation.Select("Code Samples");
             Utility.SelectFilter("HTML / JS");
@@ -605,7 +605,7 @@ namespace Tests
         /// Verify if choosing the filter ASP.NET Forms can get any correct sample. 
         /// </summary>
         [TestMethod]
-        public void S13_TC22_CanFindFormSamples()
+        public void Comps_S13_TC22_CanFindFormSamples()
         {
             Pages.Navigation.Select("Code Samples");
             Utility.SelectFilter("ASP.NET Forms");
@@ -629,7 +629,7 @@ namespace Tests
         /// Verify if choosing the filter Silverlight can get any correct sample. 
         /// </summary>
         [TestMethod]
-        public void S13_TC23_CanFindSilverlightSamples()
+        public void Comps_S13_TC23_CanFindSilverlightSamples()
         {
             Pages.Navigation.Select("Code Samples");
             Utility.SelectFilter("Silverlight");
@@ -640,7 +640,7 @@ namespace Tests
         /// Verify if choosing the filter Azure AD Users and Groups can get any correct sample. 
         /// </summary>
         [TestMethod]
-        public void S13_TC24_CanFindAzureADSamples()
+        public void Comps_S13_TC24_CanFindAzureADSamples()
         {
             Pages.Navigation.Select("Code Samples");
             Utility.SelectFilter("Azure AD Users and Groups");
@@ -664,7 +664,7 @@ namespace Tests
         /// Verify if choosing the filter Office 365 Groups can get any correct sample. 
         /// </summary>
         [TestMethod]
-        public void S13_TC25_CanFindOffice365GroupsSamples()
+        public void Comps_S13_TC25_CanFindOffice365GroupsSamples()
         {
             Pages.Navigation.Select("Code Samples");
             Utility.SelectFilter("Office 365 Groups");
@@ -688,7 +688,7 @@ namespace Tests
         /// Verify if choosing the filter Office Graph can get any correct sample. 
         /// </summary>
         [TestMethod]
-        public void S13_TC26_CanFindOfficeGraphSamples()
+        public void Comps_S13_TC26_CanFindOfficeGraphSamples()
         {
             Pages.Navigation.Select("Code Samples");
             Utility.SelectFilter("Office Graph");
@@ -712,7 +712,7 @@ namespace Tests
         /// Verify if choosing the filter OneNote can get any correct sample. 
         /// </summary>
         [TestMethod]
-        public void S13_TC27_CanFindOneNoteSamples()
+        public void Comps_S13_TC27_CanFindOneNoteSamples()
         {
             Pages.Navigation.Select("Code Samples");
             Utility.SelectFilter("OneNote");
@@ -736,7 +736,7 @@ namespace Tests
         /// Verify if choosing the filter Video Portal can get any correct sample. 
         /// </summary>
         [TestMethod]
-        public void S13_TC28_CanFindVideoPortalSamples()
+        public void Comps_S13_TC28_CanFindVideoPortalSamples()
         {
             Pages.Navigation.Select("Code Samples");
             Utility.SelectFilter("Video Portal");
@@ -750,7 +750,7 @@ namespace Tests
         /// Verify if choosing the filter SharePoint Taxonomy can get any correct sample. 
         /// </summary>
         [TestMethod]
-        public void S13_TC29_CanFindSharePointTaxonomySamples()
+        public void Comps_S13_TC29_CanFindSharePointTaxonomySamples()
         {
             Pages.Navigation.Select("Code Samples");
             Utility.SelectFilter("SharePoint Taxonomy");
@@ -761,7 +761,7 @@ namespace Tests
         /// Verify if choosing the filter Search can get any correct sample. 
         /// </summary>
         [TestMethod]
-        public void S13_TC30_CanFindSearchSamples()
+        public void Comps_S13_TC30_CanFindSearchSamples()
         {
             Pages.Navigation.Select("Code Samples");
             Utility.SelectFilter("Search");
@@ -772,7 +772,7 @@ namespace Tests
         /// Verify if choosing the filter SharePoint User Profiles can get any correct sample. 
         /// </summary>
         [TestMethod]
-        public void S13_TC31_CanFindSharePointUserProfilesSamples()
+        public void Comps_S13_TC31_CanFindSharePointUserProfilesSamples()
         {
             Pages.Navigation.Select("Code Samples");
             Utility.SelectFilter("SharePoint User Profiles");
@@ -783,7 +783,7 @@ namespace Tests
         /// Verify if choosing the filter Business Connectivity Services can get any correct sample. 
         /// </summary>
         [TestMethod]
-        public void S13_TC32_CanFindBusinessConnectivityServicesSamples()
+        public void Comps_S13_TC32_CanFindBusinessConnectivityServicesSamples()
         {
             Pages.Navigation.Select("Code Samples");
             Utility.SelectFilter("Business Connectivity Services");
@@ -794,7 +794,7 @@ namespace Tests
         /// Verify if choosing the filter SharePoint Workflow Services can get any correct sample. 
         /// </summary>
         [TestMethod]
-        public void S13_TC33_CanFindSharePointWorkflowSamples()
+        public void Comps_S13_TC33_CanFindSharePointWorkflowSamples()
         {
             Pages.Navigation.Select("Code Samples");
             Utility.SelectFilter("SharePoint Workflow");
@@ -818,7 +818,7 @@ namespace Tests
         /// Verify if choosing the filter Console application can get any correct sample. 
         /// </summary>
         [TestMethod]
-        public void S13_TC34_CanFindVideoPortalSamples()
+        public void Comps_S13_TC34_CanFindVideoPortalSamples()
         {
             Pages.Navigation.Select("Code Samples");
             Utility.SelectFilter("Console application");
@@ -832,7 +832,7 @@ namespace Tests
         /// Verify if choosing the filter Web can get any correct sample. 
         /// </summary>
         [TestMethod]
-        public void S13_TC35_CanFindWebSamples()
+        public void Comps_S13_TC35_CanFindWebSamples()
         {
             Pages.Navigation.Select("Code Samples");
             Utility.SelectFilter("Web");
@@ -856,7 +856,7 @@ namespace Tests
         /// Verify if choosing the filter Windows can get any correct sample. 
         /// </summary>
         [TestMethod]
-        public void S13_TC36_CanFindWindowsSamples()
+        public void Comps_S13_TC36_CanFindWindowsSamples()
         {
             Pages.Navigation.Select("Code Samples");
             Utility.SelectFilter("Windows");
@@ -880,7 +880,7 @@ namespace Tests
         /// Verify if choosing the filter Windows Phone can get any correct sample. 
         /// </summary>
         [TestMethod]
-        public void S13_TC37_CanFindWindowsPhoneSamples()
+        public void Comps_S13_TC37_CanFindWindowsPhoneSamples()
         {
             Pages.Navigation.Select("Code Samples");
             Utility.SelectFilter("Windows Phone");
@@ -904,7 +904,7 @@ namespace Tests
         /// Verify if choosing the filter Android can get any correct sample. 
         /// </summary>
         [TestMethod]
-        public void S13_TC38_CanFindAndroidSamples()
+        public void Comps_S13_TC38_CanFindAndroidSamples()
         {
             Pages.Navigation.Select("Code Samples");
             Utility.SelectFilter("Android");
@@ -928,7 +928,7 @@ namespace Tests
         /// Verify if choosing the filter IOS can get any correct sample. 
         /// </summary>
         [TestMethod]
-        public void S13_TC39_CanFindIOSSamples()
+        public void Comps_S13_TC39_CanFindIOSSamples()
         {
             Pages.Navigation.Select("Code Samples");
             Utility.SelectFilter("IOS");
@@ -952,7 +952,7 @@ namespace Tests
         /// Verify if choosing the filter Cordova can get any correct sample. 
         /// </summary>
         [TestMethod]
-        public void S13_TC40_CanFindCordovaSamples()
+        public void Comps_S13_TC40_CanFindCordovaSamples()
         {
             Pages.Navigation.Select("Code Samples");
             Utility.SelectFilter("Cordova");
@@ -976,7 +976,7 @@ namespace Tests
         /// Verify if choosing the filter Xamarin can get any correct sample. 
         /// </summary>
         [TestMethod]
-        public void S13_TC41_CanFindXamarinSamples()
+        public void Comps_S13_TC41_CanFindXamarinSamples()
         {
             Pages.Navigation.Select("Code Samples");
             Utility.SelectFilter("Xamarin");
@@ -1000,7 +1000,7 @@ namespace Tests
         /// Verify if choosing the filter GitHub can get any correct sample. 
         /// </summary>
         [TestMethod]
-        public void S13_TC42_CanFindGitHubSamples()
+        public void Comps_S13_TC42_CanFindGitHubSamples()
         {
             Pages.Navigation.Select("Code Samples");
             Utility.SelectFilter("GitHub");
@@ -1023,7 +1023,7 @@ namespace Tests
         /// Verify if choosing the filter MSDN Code Gallery can get any correct sample. 
         /// </summary>
         [TestMethod]
-        public void S13_TC43_CanFindMSDNCodeGallerySamples()
+        public void Comps_S13_TC43_CanFindMSDNCodeGallerySamples()
         {
             Pages.Navigation.Select("Code Samples");
             Utility.SelectFilter("MSDN Code Gallery");
@@ -1046,7 +1046,7 @@ namespace Tests
         /// Verify if choosing the filter CodePlex can get any correct sample. 
         /// </summary>
         [TestMethod]
-        public void S13_TC44_CanFindCodePlexSamples()
+        public void Comps_S13_TC44_CanFindCodePlexSamples()
         {
             Pages.Navigation.Select("Code Samples");
             Utility.SelectFilter("CodePlex");
@@ -1069,7 +1069,7 @@ namespace Tests
         /// Verify if choosing the filter Other can get any correct sample. 
         /// </summary>
         [TestMethod]
-        public void S13_TC45_CanFindOtherSourceSamples()
+        public void Comps_S13_TC45_CanFindOtherSourceSamples()
         {
             Pages.Navigation.Select("Code Samples");
             Utility.SelectFilter("Other");
@@ -1080,7 +1080,7 @@ namespace Tests
         /// Verify if choosing the filter Azure Active Directory can get any correct sample. 
         /// </summary>
         [TestMethod]
-        public void S13_TC46_CanFindAzureADSamples()
+        public void Comps_S13_TC46_CanFindAzureADSamples()
         {
             Pages.Navigation.Select("Code Samples");
             Utility.SelectFilter("Azure Active Directory");
@@ -1104,7 +1104,7 @@ namespace Tests
         /// Verify if choosing the filter OneDrive can get any correct sample. 
         /// </summary>
         [TestMethod]
-        public void S13_TC47_CanFindOneDriveSamples()
+        public void Comps_S13_TC47_CanFindOneDriveSamples()
         {
             Pages.Navigation.Select("Code Samples");
             Utility.SelectFilter("OneDrive");
@@ -1127,7 +1127,7 @@ namespace Tests
         /// Verify if choosing the filter SharePoint can get any correct sample. 
         /// </summary>
         [TestMethod]
-        public void S13_TC48_CanFindSharePointSamples()
+        public void Comps_S13_TC48_CanFindSharePointSamples()
         {
             Pages.Navigation.Select("Code Samples");
             Utility.SelectFilter("SharePoint");
@@ -1151,7 +1151,7 @@ namespace Tests
         /// Verify if choosing the filter Exchange can get any correct sample. 
         /// </summary>
         [TestMethod]
-        public void S13_TC49_CanFindExchangeSamples()
+        public void Comps_S13_TC49_CanFindExchangeSamples()
         {
             Pages.Navigation.Select("Code Samples");
             Utility.SelectFilter("Exchange");
@@ -1175,7 +1175,7 @@ namespace Tests
         /// Verify if choosing the filter Lync can get any correct sample. 
         /// </summary>
         [TestMethod]
-        public void S13_TC50_CanFindLyncSamples()
+        public void Comps_S13_TC50_CanFindLyncSamples()
         {
             Pages.Navigation.Select("Code Samples");
             Utility.SelectFilter("Lync");
@@ -1186,7 +1186,7 @@ namespace Tests
         /// Verify if choosing the filter Skype can get any correct sample. 
         /// </summary>
         [TestMethod]
-        public void S13_TC51_CanFindSkypeSamples()
+        public void Comps_S13_TC51_CanFindSkypeSamples()
         {
             Pages.Navigation.Select("Code Samples");
             Utility.SelectFilter("Skype");
@@ -1197,7 +1197,7 @@ namespace Tests
         /// Verify if choosing the filter Word can get any correct sample. 
         /// </summary>
         [TestMethod]
-        public void S13_TC52_CanFindWordSamples()
+        public void Comps_S13_TC52_CanFindWordSamples()
         {
             Pages.Navigation.Select("Code Samples");
             Utility.SelectFilter("Word");
@@ -1221,7 +1221,7 @@ namespace Tests
         /// Verify if choosing the filter PowerPoint can get any correct sample. 
         /// </summary>
         [TestMethod]
-        public void S13_TC53_CanFindPowerPointSamples()
+        public void Comps_S13_TC53_CanFindPowerPointSamples()
         {
             Pages.Navigation.Select("Code Samples");
             Utility.SelectFilter("PowerPoint");
@@ -1245,7 +1245,7 @@ namespace Tests
         /// Verify if choosing the filter Excel can get any correct sample. 
         /// </summary>
         [TestMethod]
-        public void S13_TC54_CanFindExcelSamples()
+        public void Comps_S13_TC54_CanFindExcelSamples()
         {
             Pages.Navigation.Select("Code Samples");
             Utility.SelectFilter("Excel");
@@ -1269,7 +1269,7 @@ namespace Tests
         /// Verify if choosing the filter Outlook can get any correct sample. 
         /// </summary>
         [TestMethod]
-        public void S13_TC55_CanFindOutlookSamples()
+        public void Comps_S13_TC55_CanFindOutlookSamples()
         {
             Pages.Navigation.Select("Code Samples");
             Utility.SelectFilter("Outlook");
@@ -1293,7 +1293,7 @@ namespace Tests
         /// Verify if choosing the filter Yammer can get any correct sample. 
         /// </summary>
         [TestMethod]
-        public void S13_TC56_CanFindYammerSamples()
+        public void Comps_S13_TC56_CanFindYammerSamples()
         {
             Pages.Navigation.Select("Code Samples");
             Utility.SelectFilter("Yammer");
@@ -1317,7 +1317,7 @@ namespace Tests
         /// Verify if choosing the filter Delve can get any correct sample. 
         /// </summary>
         [TestMethod]
-        public void S13_TC57_CanFindDelveSamples()
+        public void Comps_S13_TC57_CanFindDelveSamples()
         {
             Pages.Navigation.Select("Code Samples");
             Utility.SelectFilter("Delve");

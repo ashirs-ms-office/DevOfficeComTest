@@ -46,7 +46,7 @@ namespace Tests
         //}
 
         [TestMethod]
-        public void BVT_S04_TC01_CanGoThroughO365API()
+        public void Acceptance_S04_TC01_CanGoThroughO365API()
         {
             Pages.OfficeGettingStartedPage.Office365APIGetStarted();
             Assert.IsTrue(Pages.Office365Page.IsAtOffice365Page(), "Failed to open Office 365 APIs Getting started page.");
@@ -80,7 +80,17 @@ namespace Tests
         }
 
         [TestMethod]
-        public void BVT_S05_TC01_CanTryO365API_GetUsers()
+        public void BVT_S04_TC02_ShowThreeCardsByDefault()
+        {
+            Pages.OfficeGettingStartedPage.Office365APIGetStarted();
+            Assert.IsTrue(Pages.Office365Page.IsAtOffice365Page(), "Failed to open Office 365 APIs Getting started page.");
+
+            // should show and only show first 3 cards
+
+        }
+
+        [TestMethod]
+        public void Acceptance_S05_TC01_CanTryO365API_GetUsers()
         {
             Pages.Office365Page.CardTryItOut.ChooseService(ServiceToTry.GetUsers);
             Pages.Office365Page.CardTryItOut.ClickTry();
@@ -88,7 +98,7 @@ namespace Tests
         }
 		
         [TestMethod]
-        public void BVT_S05_TC02_Can_Try_O365API_GetGroups_DriverRootChildren()
+        public void Comps_S05_TC02_CanTryO365API_GetGroups_DriverRootChildren()
         {
             Pages.Office365Page.CardTryItOut.ChooseService(ServiceToTry.GetGroups);
             Pages.Office365Page.CardTryItOut.ChooseServiceValue(ServiceToTry.GetGroups, GetGroupValue.drive_root_children);
@@ -116,15 +126,13 @@ namespace Tests
         //}
 
         [TestMethod]
-        public void BVT_S08_TC01_CanDownloadCode_Node()
+        public void Acceptance_S08_TC01_CanDownloadCode_Node()
         {
             Platform platform = Platform.Node;
             Pages.Office365Page.CardSetupPlatform.ChoosePlatform(platform);
             Assert.IsTrue(Pages.Office365Page.CardSetupPlatform.IsShowingPlatformSetup(platform), "Failed to choose platform {0}.", platform.ToString());
 
-            Pages.Office365Page.CardRegisterApp.SigninLater();
-            //Pages.Office365Page.CardRegisterApp.Register().WithAppName("Test_App");
-            //Assert.IsTrue(Pages.Office365Page.CardRegisterApp.IsRegistered(), "Failed to register app.");
+            Pages.Office365Page.CardRegisterApp.SigninLater();            
 
             Pages.Office365Page.CardDownloadCode.DownloadCode();
             Assert.IsTrue(Pages.Office365Page.CardDownloadCode.IsCodeDownloaded(), "Failed to download code.");
