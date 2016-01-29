@@ -34,7 +34,7 @@ namespace MSGraphTest
         /// Verify whether there is a toggle arrow which work correctly when the window is small.
         /// </summary>
         [TestMethod]
-        public void BVT_Graph_S04_TC01_CanToggleArrowWorkInSmallDocumentaionPage()
+        public void Comps_Graph_S04_TC01_CanToggleArrowWorkInSmallDocumentaionPage()
         {
             int currentWidth = 0;
             int currentHeight = 0;
@@ -96,7 +96,7 @@ namespace MSGraphTest
         /// Verify whether toggle arrow hides when the window is large.
         /// </summary>
         [TestMethod]
-        public void BVT_Graph_S04_TC02_CanToggleArrowHideInLargeDocumentaionPage()
+        public void Acceptance_Graph_S04_TC02_CanToggleArrowHideInLargeDocumentaionPage()
         {
             int currentWidth = 0;
             int currentHeight = 0;
@@ -144,7 +144,7 @@ namespace MSGraphTest
         /// table of content will show the correct duc content.
         /// </summary>
         [TestMethod]
-        public void BVT_Graph_S04_TC03_CanDisplayAppropriateContentOnDocumentaionPage()
+        public void Comps_Graph_S04_TC03_CanDisplayCorrectContentOnDocumentaionPage()
         {
             GraphPages.Navigation.Select("Documentation");
             //If the table of content is replaced by the toggle arrow, click the arrow to display table of content
@@ -277,7 +277,7 @@ namespace MSGraphTest
         /// Verify whether a sub menu can appear by clicking its parent layer.
         /// </summary>
         [TestMethod]
-        public void BVT_Graph_S04_TC04_CanShowTOCSubLayer()
+        public void Acceptance_Graph_S04_TC04_CanShowTOCSubLayer()
         {
             GraphPages.Navigation.Select("Documentation");
             if (!GraphUtility.IsMenuContentDisplayed())

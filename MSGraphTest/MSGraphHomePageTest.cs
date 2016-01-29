@@ -68,7 +68,7 @@ namespace MSGraphTest
         /// Verify whether Overview is shown when "See overview" is clicked.
         /// </summary>
         [TestMethod]
-        public void BVT_Graph_S02_TC02_ClickSeeOverviewCanShowDocumentaionPage()
+        public void Acceptance_Graph_S02_TC02_ClickSeeOverviewCanShowDocumentaionPage()
         {
             GraphUtility.Click("See overview");
             string docTitle = GraphUtility.GetDocTitle();
@@ -82,7 +82,7 @@ namespace MSGraphTest
         /// Verify whether Overview is shown when "Try the API" is clicked.
         /// </summary>
         [TestMethod]
-        public void BVT_Graph_S02_TC03_ClickTryAPIOnExplorerCanShowPage()
+        public void Acceptance_Graph_S02_TC03_ClickTryAPIOnExplorerCanShowPage()
         {
             GraphUtility.Click("Try the API");
             Assert.IsTrue(
