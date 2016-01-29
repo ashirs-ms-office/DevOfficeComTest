@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -247,6 +248,55 @@ namespace TestFramework
         public static string GetConfigurationValue(string propertyName)
         {
             return ConfigurationManager.AppSettings[propertyName];
+        }
+
+        /// <summary>
+        /// Verify whether a url refer to a valid image
+        /// </summary>
+        /// <param name="Url">The image url</param>
+        /// <returns>True if yes, else no</returns>
+        public static bool ImageExist(string Url)
+        {
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(Url);
+            request.Timeout = 15000;
+            request.Method = "HEAD";
+
+            try
+            {
+                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                {
+                    return (response.StatusCode == HttpStatusCode.OK || response.StatusCode == HttpStatusCode.NotModified);
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Verify whether a url refer to a valid image
+        /// </summary>
+        /// <param name="Url">The image url</param>
+        /// <returns>True if yes, else no</returns>
+        public static bool IsUrlRedirected(string Url)
+        {
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(Url);
+            request.Timeout = 15000;
+            request.Method = "GET";
+            request.AllowAutoRedirect = false;
+
+            try
+            {
+                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                {
+                    return (response.StatusCode == HttpStatusCode.Moved || response.StatusCode == HttpStatusCode.Redirect);
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
     }
 }

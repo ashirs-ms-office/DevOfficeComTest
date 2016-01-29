@@ -39,14 +39,14 @@ namespace TestFramework.OfficeAddInPage
             }
         }
 
-        public bool IsShowingExampleOrVideo(Product productName)
+        public bool IsShowingVideo(Product productName)
         {
             var videoIframe = Browser.FindElement(By.CssSelector("#embedContents>iframe"));
-            string videoUrl = videoIframe.GetAttribute("src");
+            string videoUrl = videoIframe.GetAttribute("src"); 
             switch (productName)
             {
                 case Product.Excel:
-                    return false;
+                    return videoUrl == "https://www.youtube.com/embed/aNHPSGUfZq0";
                 case Product.Outlook:
                     return videoUrl == "https://www.youtube.com/embed/Hov8f_VniCc";
                 case Product.PowerPoint:

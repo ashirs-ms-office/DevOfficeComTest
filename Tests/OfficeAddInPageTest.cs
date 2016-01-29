@@ -47,7 +47,7 @@ namespace Tests
             Product product = Product.PowerPoint;
             Pages.OfficeAddInPage.CardChooseProduct.ChooseProduct(product);
             Assert.IsTrue(Pages.OfficeAddInPage.CardChooseProduct.IsShowingProductExplore(product), "Failed to choose product {0}.", product.ToString());
-            Assert.IsTrue(Pages.OfficeAddInPage.CardChooseProduct.IsShowingExampleOrVideo(product), "Failed to choose product {0}.", product.ToString());
+            Assert.IsTrue(Pages.OfficeAddInPage.CardChooseProduct.IsShowingVideo(product), "Failed to show video about product {0}.", product.ToString());
 
         }
 
@@ -68,7 +68,7 @@ namespace Tests
             Product product = Product.Excel;
             Pages.OfficeAddInPage.CardChooseProduct.ChooseProduct(product);
             Assert.IsTrue(Pages.OfficeAddInPage.CardChooseProduct.IsShowingProductExplore(product), "Failed to choose product {0}.", product.ToString());
-            //Assert.IsTrue(Pages.OfficeAddInPage.CardChooseProduct.IsShowingExampleOrVideo(product), "Failed to choose product {0}.", product.ToString());
+            Assert.IsTrue(Pages.OfficeAddInPage.CardChooseProduct.IsShowingVideo(product), "Failed to show video about product {0}.", product.ToString());
 
             Browser.SaveScreenShot(product.ToString());
             // Explore
@@ -103,7 +103,7 @@ namespace Tests
             Product product = Product.Outlook;
             Pages.OfficeAddInPage.CardChooseProduct.ChooseProduct(product);
             Assert.IsTrue(Pages.OfficeAddInPage.CardChooseProduct.IsShowingProductExplore(product), "Failed to choose product {0}.", product.ToString());
-            Assert.IsTrue(Pages.OfficeAddInPage.CardChooseProduct.IsShowingExampleOrVideo(product), "Failed to choose product {0}.", product.ToString());
+            Assert.IsTrue(Pages.OfficeAddInPage.CardChooseProduct.IsShowingVideo(product), "Failed to choose product {0}.", product.ToString());
 
             // Explore
             // Pages.OfficeAddInPage.CardOutlook.Explore.play();
@@ -136,7 +136,7 @@ namespace Tests
             Product product = Product.PowerPoint;
             Pages.OfficeAddInPage.CardChooseProduct.ChooseProduct(product);
             Assert.IsTrue(Pages.OfficeAddInPage.CardChooseProduct.IsShowingProductExplore(product), "Failed to choose product {0}.", product.ToString());
-            Assert.IsTrue(Pages.OfficeAddInPage.CardChooseProduct.IsShowingExampleOrVideo(product), "Failed to choose product {0}.", product.ToString());
+            Assert.IsTrue(Pages.OfficeAddInPage.CardChooseProduct.IsShowingVideo(product), "Failed to choose product {0}.", product.ToString());
             //Browser.SaveScreenShot(@"E:\\PowerPoint.jpeg");
             Browser.SaveScreenShot(product.ToString());
             // Explore

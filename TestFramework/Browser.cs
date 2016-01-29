@@ -241,30 +241,6 @@ namespace TestFramework
         }
 
         /// <summary>
-        /// Verify whether a url refer to a valid image
-        /// </summary>
-        /// <param name="Url">The image url</param>
-        /// <returns>True if yes, else no</returns>
-        public static bool ImageExist(string Url)
-        {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(Url);
-            request.Timeout = 15000;
-            request.Method = "HEAD";
-
-            try
-            {
-                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
-                {
-                    return response.StatusCode == HttpStatusCode.OK;
-                }
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-
-        /// <summary>
         /// Find an iframe element
         /// </summary>
         /// <param name="frameIdOrName">Id or name of the iframe</param>
