@@ -31,7 +31,7 @@ namespace MSGraphTest
         /// Verify whether "Office 365 Getting Started" on Get started page can navigate to devofficecom, getting started page.
         /// </summary>
         [TestMethod]
-        public void BVT_Graph_S03_TC01_CanGoToOffice365GettingStartedPage()
+        public void Acceptance_Graph_S03_TC01_CanGoToOffice365GettingStartedPage()
         {
             GraphPages.Navigation.Select("Get started");
             GraphUtility.ClickButton("Office 365 Getting Started");
