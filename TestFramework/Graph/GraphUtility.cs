@@ -98,7 +98,7 @@ namespace TestFramework
         }
 
         /// <summary>
-        /// Find an link, a button role span or a button according to the specific text and click it
+        /// Find an link or a button role span according to the specific text and click it
         /// </summary>
         /// <param name="text">The text of the element</param>
         public static void Click(string text)
@@ -111,31 +111,32 @@ namespace TestFramework
             }
             else
             {
-                bool isButton = false;
-                IReadOnlyList<IWebElement> elements = GraphBrowser.webDriver.FindElements(By.TagName("button"));
-
+                IReadOnlyList<IWebElement> elements = GraphBrowser.webDriver.FindElements(By.XPath("//*[@role='button']"));
                 foreach (IWebElement elementToClick in elements)
                 {
-                    //a button
-                    if (elementToClick.GetAttribute("innerHTML").Contains(text) && elementToClick.Displayed)
+                    if (elementToClick.GetAttribute("innerHTML").Equals(text) && (elementToClick.Displayed))
                     {
                         GraphBrowser.Click(elementToClick);
-                        isButton = true;
                         break;
                     }
                 }
-                if (!isButton)
+            }
+        }
+
+        /// <summary>
+        /// Find a button according to the specific text and click it
+        /// </summary>
+        /// <param name="text">The text of the element</param>
+        public static void ClickButton(string text)
+        {
+            IReadOnlyList<IWebElement> elements = GraphBrowser.webDriver.FindElements(By.TagName("button"));
+
+            foreach (IWebElement elementToClick in elements)
+            {
+                if (elementToClick.GetAttribute("innerHTML").Trim().Contains(text) && elementToClick.Displayed)
                 {
-                    elements = GraphBrowser.webDriver.FindElements(By.XPath("//*[@role='button']"));
-                    foreach (IWebElement elementToClick in elements)
-                    {
-                        //a button role span
-                        if (elementToClick.GetAttribute("innerHTML").Equals(text) && (elementToClick.Displayed))
-                        {
-                            GraphBrowser.Click(elementToClick);
-                            break;
-                        }
-                    }
+                    GraphBrowser.Click(elementToClick);
+                    break;
                 }
             }
         }
@@ -241,11 +242,11 @@ namespace TestFramework
             var element = GraphBrowser.FindElement(By.XPath("//a[@ng-show='userInfo.isAuthenticated']"));
             if (element.Displayed && element.Text.Equals(expectedUserName))
             {
-            return true;
+                return true;
             }
             else
             {
-            return false;
+                return false;
             }
         }
     }

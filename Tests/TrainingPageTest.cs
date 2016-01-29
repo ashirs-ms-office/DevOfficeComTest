@@ -52,26 +52,19 @@ namespace Tests
         public void S14_TC02_Can_Search_CorrectTrainings()
         {
             Pages.Navigation.Select("Resources", "Training");
-            int filterCount = Utility.GetFilterCount();
             int randomIndex = new Random().Next(Utility.TypicalSearchText.Length);
             string searchString = Utility.TypicalSearchText[randomIndex];
 
-            for (int i = 0; i < filterCount; i++)
+            List<SearchedResult> resultList = Utility.GetFilterResults(searchString);
+            foreach (SearchedResult resultInfo in resultList)
             {
-                string filterName = Utility.SelectFilter(i);
-
-                List<SearchedResult> resultList = Utility.GetFilterResults(searchString);
-                foreach (SearchedResult resultInfo in resultList)
-                {
-                    bool isNameMatched = resultInfo.Name.ToLower().Contains(searchString.ToLower());
-                    bool isDescriptionMatched = resultInfo.Description.ToLower().Contains(searchString.ToLower());
-                    Assert.IsTrue(isNameMatched || isDescriptionMatched,
-                        "Under {0} filter, the training:\n {1}:{2}\n should contain the search text: {3}",
-                        filterName,
-                        resultInfo.Name,
-                        resultInfo.Description,
-                        searchString);
-                }
+                bool isNameMatched = resultInfo.Name.ToLower().Contains(searchString.ToLower());
+                bool isDescriptionMatched = resultInfo.Description.ToLower().Contains(searchString.ToLower());
+                Assert.IsTrue(isNameMatched || isDescriptionMatched,
+                    "The training:\n {0}:{1}\n should contain the search text: {2}",
+                    resultInfo.Name,
+                    resultInfo.Description,
+                    searchString);
             }
         }
 
@@ -319,7 +312,7 @@ namespace Tests
         {
             Pages.Navigation.Select("Resources", "Training");
             Utility.SelectFilter("Independent Courses");
-            
+
             List<SearchedResult> resultList = Utility.GetFilterResults();
 
             Assert.IsTrue(resultList.Count > 0, "There should be at least one training which meets the filter Independent Courses");

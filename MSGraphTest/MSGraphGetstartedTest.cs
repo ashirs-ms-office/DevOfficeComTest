@@ -34,7 +34,7 @@ namespace MSGraphTest
         public void BVT_Graph_S03_TC01_CanGoToOffice365GettingStartedPage()
         {
             GraphPages.Navigation.Select("Get started");
-            GraphUtility.Click("Office 365 Getting Started");
+            GraphUtility.ClickButton("Office 365 Getting Started");
             Assert.IsTrue(
                 GraphBrowser.SwitchToWindow("Office Dev Center - Getting started with Office 365 REST APIs"),
                 @"Clicking ""Office 365 Getting Started"" on Get started page can navigate to devofficecom, getting started page");
