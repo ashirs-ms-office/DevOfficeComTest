@@ -14,14 +14,6 @@ namespace TestFramework
     public static class GraphUtility
     {
         /// <summary>
-        /// Clear all the cookies of the current page
-        /// </summary>
-        public static void ClearCookies()
-        {
-            GraphBrowser.webDriver.Manage().Cookies.DeleteAllCookies();
-        }
-
-        /// <summary>
         /// Verify if the toggle arrow is found on the page 
         /// </summary>
         /// <returns>Trye if yes, else no.</returns>
