@@ -48,7 +48,9 @@ namespace TestFramework.OfficeAddInPage
     }
     public class PowerPointMoreResources
     {
+        private bool isAtCorrectResourcePage;
         private CommonMoreResources resource = new CommonMoreResources();
+
         public void OfficeAddInTypes()
         {
             resource.OfficeAddInTypes();
@@ -70,5 +72,9 @@ namespace TestFramework.OfficeAddInPage
             resource.PublishYourAddIn();
         }
 
+        public bool IsShowingCorrectResourcePage()
+        {
+            return resource.IsShowingCorrectResourcePage(Product.PowerPoint);
+        }
     }
 }

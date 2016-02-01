@@ -80,17 +80,17 @@ namespace Tests
 
             // More Resource
             Pages.OfficeAddInPage.CardExcel.MoreResouces.DownLoadStarterSample();
-            Assert.IsTrue(Pages.Office365Page.CardMoreResources.IsShowingMoreResourcePage(), "Failed to open DownLoad Sample page.");
+            Assert.IsTrue(Pages.OfficeAddInPage.CardExcel.MoreResouces.IsShowingCorrectResourcePage(), "Failed to open DownLoad Sample page.");
             Pages.OfficeAddInPage.CardExcel.MoreResouces.DesignYourAddIn();
-            Assert.IsTrue(Pages.Office365Page.CardMoreResources.IsShowingMoreResourcePage(), "Failed to open Design guidelines page.");
+            Assert.IsTrue(Pages.OfficeAddInPage.CardExcel.MoreResouces.IsShowingCorrectResourcePage(), "Failed to open Design guidelines page.");
             Pages.OfficeAddInPage.CardExcel.MoreResouces.MoreCodeSamples();
-            Assert.IsTrue(Pages.Office365Page.CardMoreResources.IsShowingMoreResourcePage(), "Failed to open Code Samples page.");
+            Assert.IsTrue(Pages.OfficeAddInPage.CardExcel.MoreResouces.IsShowingCorrectResourcePage(), "Failed to open Code Samples page.");
             Pages.OfficeAddInPage.CardExcel.MoreResouces.OfficeAddInTypes();
-            Assert.IsTrue(Pages.Office365Page.CardMoreResources.IsShowingMoreResourcePage(), "Failed to open Add-in Types page.");
+            Assert.IsTrue(Pages.OfficeAddInPage.CardExcel.MoreResouces.IsShowingCorrectResourcePage(), "Failed to open Add-in Types page.");
             Pages.OfficeAddInPage.CardExcel.MoreResouces.PublishYourAddIn();
-            Assert.IsTrue(Pages.Office365Page.CardMoreResources.IsShowingMoreResourcePage(), "Failed to open Publish AddIn page.");
+            Assert.IsTrue(Pages.OfficeAddInPage.CardExcel.MoreResouces.IsShowingCorrectResourcePage(), "Failed to open Publish AddIn page.");
             Pages.OfficeAddInPage.CardExcel.MoreResouces.ReadTheDocs();
-            Assert.IsTrue(Pages.Office365Page.CardMoreResources.IsShowingMoreResourcePage(), "Failed to open Add-in overview page.");
+            Assert.IsTrue(Pages.OfficeAddInPage.CardExcel.MoreResouces.IsShowingCorrectResourcePage(), "Failed to open Add-in overview page.");
         }
 
         [TestMethod]
@@ -114,19 +114,19 @@ namespace Tests
 
             // More Resource
             Pages.OfficeAddInPage.CardOutlook.MoreResouces.OutlookDevCenter();
-            Assert.IsTrue(Pages.Office365Page.CardMoreResources.IsShowingMoreResourcePage(), "Failed to open Outlook Dev Center page.");
+            Assert.IsTrue(Pages.OfficeAddInPage.CardOutlook.MoreResouces.IsShowingCorrectResourcePage(), "Failed to open Outlook Dev Center page.");
             Pages.OfficeAddInPage.CardOutlook.MoreResouces.DownLoadStarterSample();
-            Assert.IsTrue(Pages.Office365Page.CardMoreResources.IsShowingMoreResourcePage(), "Failed to open DownLoad Sample page.");
+            Assert.IsTrue(Pages.OfficeAddInPage.CardOutlook.MoreResouces.IsShowingCorrectResourcePage(), "Failed to open DownLoad Sample page.");
             Pages.OfficeAddInPage.CardOutlook.MoreResouces.DesignYourAddIn();
-            Assert.IsTrue(Pages.Office365Page.CardMoreResources.IsShowingMoreResourcePage(), "Failed to open Design guidelines page.");
+            Assert.IsTrue(Pages.OfficeAddInPage.CardOutlook.MoreResouces.IsShowingCorrectResourcePage(), "Failed to open Design guidelines page.");
             Pages.OfficeAddInPage.CardOutlook.MoreResouces.MoreCodeSamples();
-            Assert.IsTrue(Pages.Office365Page.CardMoreResources.IsShowingMoreResourcePage(), "Failed to open Code Samples page.");
+            Assert.IsTrue(Pages.OfficeAddInPage.CardOutlook.MoreResouces.IsShowingCorrectResourcePage(), "Failed to open Code Samples page.");
             Pages.OfficeAddInPage.CardOutlook.MoreResouces.OfficeAddInTypes();
-            Assert.IsTrue(Pages.Office365Page.CardMoreResources.IsShowingMoreResourcePage(), "Failed to open Add-in Types page.");
+            Assert.IsTrue(Pages.OfficeAddInPage.CardOutlook.MoreResouces.IsShowingCorrectResourcePage(), "Failed to open Add-in Types page.");
             Pages.OfficeAddInPage.CardOutlook.MoreResouces.PublishYourAddIn();
-            Assert.IsTrue(Pages.Office365Page.CardMoreResources.IsShowingMoreResourcePage(), "Failed to open Publish AddIn page.");
+            Assert.IsTrue(Pages.OfficeAddInPage.CardOutlook.MoreResouces.IsShowingCorrectResourcePage(), "Failed to open Publish AddIn page.");
             Pages.OfficeAddInPage.CardOutlook.MoreResouces.ReadTheDocs();
-            Assert.IsTrue(Pages.Office365Page.CardMoreResources.IsShowingMoreResourcePage(), "Failed to open Add-in overview page.");
+            Assert.IsTrue(Pages.OfficeAddInPage.CardOutlook.MoreResouces.IsShowingCorrectResourcePage(), "Failed to open Add-in overview page.");
         }
 
         [TestMethod]
@@ -148,15 +148,15 @@ namespace Tests
 
             // More Resource
             Pages.OfficeAddInPage.CardPowerPoint.MoreResouces.DesignYourAddIn();
-            Assert.IsTrue(Pages.Office365Page.CardMoreResources.IsShowingMoreResourcePage(), "Failed to open Design guidelines page.");
+            Assert.IsTrue(Pages.OfficeAddInPage.CardPowerPoint.MoreResouces.IsShowingCorrectResourcePage(), "Failed to open Design guidelines page.");
             Pages.OfficeAddInPage.CardPowerPoint.MoreResouces.MoreCodeSamples();
-            Assert.IsTrue(Pages.Office365Page.CardMoreResources.IsShowingMoreResourcePage(), "Failed to open Code Samples page.");
+            Assert.IsTrue(Pages.OfficeAddInPage.CardPowerPoint.MoreResouces.IsShowingCorrectResourcePage(), "Failed to open Code Samples page.");
             Pages.OfficeAddInPage.CardPowerPoint.MoreResouces.OfficeAddInTypes();
-            Assert.IsTrue(Pages.Office365Page.CardMoreResources.IsShowingMoreResourcePage(), "Failed to open Add-in Types page.");
+            Assert.IsTrue(Pages.OfficeAddInPage.CardPowerPoint.MoreResouces.IsShowingCorrectResourcePage(), "Failed to open Add-in Types page.");
             Pages.OfficeAddInPage.CardPowerPoint.MoreResouces.PublishYourAddIn();
-            Assert.IsTrue(Pages.Office365Page.CardMoreResources.IsShowingMoreResourcePage(), "Failed to open Publish AddIn page.");
+            Assert.IsTrue(Pages.OfficeAddInPage.CardPowerPoint.MoreResouces.IsShowingCorrectResourcePage(), "Failed to open Publish AddIn page.");
             Pages.OfficeAddInPage.CardPowerPoint.MoreResouces.ReadTheDocs();
-            Assert.IsTrue(Pages.Office365Page.CardMoreResources.IsShowingMoreResourcePage(), "Failed to open Add-in overview page.");
+            Assert.IsTrue(Pages.OfficeAddInPage.CardPowerPoint.MoreResouces.IsShowingCorrectResourcePage(), "Failed to open Add-in overview page.");
         }
 
         [TestMethod]
@@ -177,15 +177,15 @@ namespace Tests
 
             // More Resource
             Pages.OfficeAddInPage.CardWord.MoreResouces.DesignYourAddIn();
-            Assert.IsTrue(Pages.Office365Page.CardMoreResources.IsShowingMoreResourcePage(), "Failed to open Design guidelines page.");
+            Assert.IsTrue(Pages.OfficeAddInPage.CardWord.MoreResouces.IsShowingCorrectResourcePage(), "Failed to open Design guidelines page.");
             Pages.OfficeAddInPage.CardWord.MoreResouces.MoreCodeSamples();
-            Assert.IsTrue(Pages.Office365Page.CardMoreResources.IsShowingMoreResourcePage(), "Failed to open Code Samples page.");
+            Assert.IsTrue(Pages.OfficeAddInPage.CardWord.MoreResouces.IsShowingCorrectResourcePage(), "Failed to open Code Samples page.");
             Pages.OfficeAddInPage.CardWord.MoreResouces.OfficeAddInTypes();
-            Assert.IsTrue(Pages.Office365Page.CardMoreResources.IsShowingMoreResourcePage(), "Failed to open Add-in Types page.");
+            Assert.IsTrue(Pages.OfficeAddInPage.CardWord.MoreResouces.IsShowingCorrectResourcePage(), "Failed to open Add-in Types page.");
             Pages.OfficeAddInPage.CardWord.MoreResouces.PublishYourAddIn();
-            Assert.IsTrue(Pages.Office365Page.CardMoreResources.IsShowingMoreResourcePage(), "Failed to open Publish AddIn page.");
+            Assert.IsTrue(Pages.OfficeAddInPage.CardWord.MoreResouces.IsShowingCorrectResourcePage(), "Failed to open Publish AddIn page.");
             Pages.OfficeAddInPage.CardWord.MoreResouces.ReadTheDocs();
-            Assert.IsTrue(Pages.Office365Page.CardMoreResources.IsShowingMoreResourcePage(), "Failed to open Add-in overview page.");
+            Assert.IsTrue(Pages.OfficeAddInPage.CardWord.MoreResouces.IsShowingCorrectResourcePage(), "Failed to open Add-in overview page.");
         }
 
         [TestMethod]
@@ -195,10 +195,9 @@ namespace Tests
             Assert.IsTrue(Pages.OfficeAddInPage.IsAtAddinPage(), "Failed to open Office Add-in Getting started page.");
 
             // Should show and only show two cards by default 
-
-
-
+            Assert.IsTrue(Pages.OfficeAddInPage.OnlyDefaultCardsDisplayed(), "Cards in Add-in page are not displayed correctly.");
         }
+
         [ClassCleanup]
         public static void ClassCleanup()
         {

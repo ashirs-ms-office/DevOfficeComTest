@@ -64,19 +64,19 @@ namespace Tests
             Assert.IsTrue(Pages.Office365Page.CardDownloadCode.IsCodeDownloaded(), "Failed to download code.");
 
             Pages.Office365Page.CardMoreResources.OutlookDevCenter();
-            Assert.IsTrue(Pages.Office365Page.CardMoreResources.IsShowingMoreResourcePage(), "Failed to open Outlook Dev Center page.");
+            Assert.IsTrue(Pages.Office365Page.CardMoreResources.IsShowingCorrectResourcePage(), "Failed to open Outlook Dev Center page.");
             Pages.Office365Page.CardMoreResources.Training();
-            Assert.IsTrue(Pages.Office365Page.CardMoreResources.IsShowingMoreResourcePage(), "Failed to open Training page.");
+            Assert.IsTrue(Pages.Office365Page.CardMoreResources.IsShowingCorrectResourcePage(), "Failed to open Training page.");
             Pages.Office365Page.CardMoreResources.APIReferences();
-            Assert.IsTrue(Pages.Office365Page.CardMoreResources.IsShowingMoreResourcePage(), "Failed to open API References page.");
+            Assert.IsTrue(Pages.Office365Page.CardMoreResources.IsShowingCorrectResourcePage(), "Failed to open API References page.");
             Pages.Office365Page.CardMoreResources.CodeSamples();
-            Assert.IsTrue(Pages.Office365Page.CardMoreResources.IsShowingMoreResourcePage(), "Failed to open Code Samples page.");
+            Assert.IsTrue(Pages.Office365Page.CardMoreResources.IsShowingCorrectResourcePage(), "Failed to open Code Samples page.");
             Pages.Office365Page.CardMoreResources.AzureAppAndPermissions();
-            Assert.IsTrue(Pages.Office365Page.CardMoreResources.IsShowingMoreResourcePage(), "Failed to open Azure app & Permissions page.");
+            Assert.IsTrue(Pages.Office365Page.CardMoreResources.IsShowingCorrectResourcePage(), "Failed to open Azure app & Permissions page.");
             Pages.Office365Page.CardMoreResources.AddToO365AppLauncher();
-            Assert.IsTrue(Pages.Office365Page.CardMoreResources.IsShowingMoreResourcePage(), "Failed to open O365 App Launcher page.");
+            Assert.IsTrue(Pages.Office365Page.CardMoreResources.IsShowingCorrectResourcePage(), "Failed to open O365 App Launcher page.");
             Pages.Office365Page.CardMoreResources.SubmitToOfficeStore();
-            Assert.IsTrue(Pages.Office365Page.CardMoreResources.IsShowingMoreResourcePage(), "Failed to open Submit to Office Store page.");
+            Assert.IsTrue(Pages.Office365Page.CardMoreResources.IsShowingCorrectResourcePage(), "Failed to open Submit to Office Store page.");
         }
 
         [TestMethod]
@@ -86,7 +86,7 @@ namespace Tests
             Assert.IsTrue(Pages.Office365Page.IsAtOffice365Page(), "Failed to open Office 365 APIs Getting started page.");
 
             // should show and only show first 3 cards
-
+            Assert.IsTrue(Pages.Office365Page.OnlyDefaultCardsDisplayed(), "Cards in Office 365 page are not displayed correctly.");
         }
 
         [TestMethod]

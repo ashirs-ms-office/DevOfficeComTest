@@ -275,9 +275,9 @@ namespace TestFramework
         }
 
         /// <summary>
-        /// Verify whether a url refer to a valid image
+        /// Verify whether a url is redirected.
         /// </summary>
-        /// <param name="Url">The image url</param>
+        /// <param name="Url">The url to be verified</param>
         /// <returns>True if yes, else no</returns>
         public static bool IsUrlRedirected(string Url)
         {
