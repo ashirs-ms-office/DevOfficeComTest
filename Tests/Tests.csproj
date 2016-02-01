@@ -74,9 +74,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="BVT Tests.playlist">
+    <None Include="Dev-Acceptances.playlist" />
+    <None Include="Dev-BVTs.playlist">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Dev-Comps.playlist" />
     <None Include="packages.config" />
   </ItemGroup>
   <Choose>

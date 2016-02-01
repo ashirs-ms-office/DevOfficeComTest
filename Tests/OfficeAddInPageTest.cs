@@ -42,7 +42,7 @@ namespace Tests
         //}
 
         [TestMethod]
-        public void S10_TC01_CanChooseProduct_PowerPoint()
+        public void Comps_S10_TC01_CanChooseProduct_PowerPoint()
         {
             Product product = Product.PowerPoint;
             Pages.OfficeAddInPage.CardChooseProduct.ChooseProduct(product);
@@ -52,7 +52,7 @@ namespace Tests
         }
 
         [TestMethod]
-        public void S12_TC01_CanStartBuilding_Excel()
+        public void Comps_S12_TC01_CanStartBuilding_Excel()
         {
             Product product = Product.Excel;
             Pages.OfficeAddInPage.CardChooseProduct.ChooseProduct(product);
@@ -62,7 +62,7 @@ namespace Tests
         }
 
         [TestMethod]
-        public void S09_TC01_CanGoThroughAddinPage_Excel()
+        public void Acceptance_S09_TC01_CanGoThroughAddinPage_Excel()
         {
             // Select app
             Product product = Product.Excel;
@@ -70,7 +70,7 @@ namespace Tests
             Assert.IsTrue(Pages.OfficeAddInPage.CardChooseProduct.IsShowingProductExplore(product), "Failed to choose product {0}.", product.ToString());
             Assert.IsTrue(Pages.OfficeAddInPage.CardChooseProduct.IsShowingVideo(product), "Failed to show video about product {0}.", product.ToString());
 
-            Browser.SaveScreenShot(product.ToString());
+            //Browser.SaveScreenShot(product.ToString());
             // Explore
             // Pages.OfficeAddInPage.CardExcel.Explore.play();
 
@@ -94,7 +94,7 @@ namespace Tests
         }
 
         [TestMethod]
-        public void BVT_S09_TC02_CanGoThroughAddinPage_Outlook()
+        public void Acceptance_S09_TC02_CanGoThroughAddinPage_Outlook()
         {
             Pages.OfficeGettingStartedPage.OfficeAddInGetStarted();
             Assert.IsTrue(Pages.OfficeAddInPage.IsAtAddinPage(), "Failed to open Office Add-in Getting started page.");
@@ -130,7 +130,7 @@ namespace Tests
         }
 
         [TestMethod]
-        public void S09_TC03_CanGoThroughAddinPage_PowerPoint()
+        public void Acceptance_S09_TC03_CanGoThroughAddinPage_PowerPoint()
         {
             // Select app
             Product product = Product.PowerPoint;
@@ -138,7 +138,7 @@ namespace Tests
             Assert.IsTrue(Pages.OfficeAddInPage.CardChooseProduct.IsShowingProductExplore(product), "Failed to choose product {0}.", product.ToString());
             Assert.IsTrue(Pages.OfficeAddInPage.CardChooseProduct.IsShowingVideo(product), "Failed to choose product {0}.", product.ToString());
             //Browser.SaveScreenShot(@"E:\\PowerPoint.jpeg");
-            Browser.SaveScreenShot(product.ToString());
+            //Browser.SaveScreenShot(product.ToString());
             // Explore
             // Pages.OfficeAddInPage.CardPowerPoint.Explore.play();
 
@@ -160,14 +160,14 @@ namespace Tests
         }
 
         [TestMethod]
-        public void S09_TC04_CanGoThroughAddinPage_Word()
+        public void Acceptance_S09_TC04_CanGoThroughAddinPage_Word()
         {
             // Select app
             Product product = Product.Word;
             Pages.OfficeAddInPage.CardChooseProduct.ChooseProduct(product);
             Assert.IsTrue(Pages.OfficeAddInPage.CardChooseProduct.IsShowingProductExplore(product), "Failed to choose product {0}.", product.ToString());
             //Assert.IsTrue(Pages.OfficeAddInPage.CardChooseProduct.IsShowingExampleOrVideo(product), "Failed to choose product {0}.", product.ToString());
-            Browser.SaveScreenShot(product.ToString());
+            //Browser.SaveScreenShot(product.ToString());
             // Explore
             // Pages.OfficeAddInPage.CardWord.Explore.play();
 
@@ -188,10 +188,21 @@ namespace Tests
             Assert.IsTrue(Pages.Office365Page.CardMoreResources.IsShowingMoreResourcePage(), "Failed to open Add-in overview page.");
         }
 
+        [TestMethod]
+        public void BVT_S09_TC05_ShowTwoCardsByDefault()
+        {
+            Pages.OfficeGettingStartedPage.OfficeAddInGetStarted();
+            Assert.IsTrue(Pages.OfficeAddInPage.IsAtAddinPage(), "Failed to open Office Add-in Getting started page.");
+
+            // Should show and only show two cards by default 
+
+
+
+        }
         [ClassCleanup]
         public static void ClassCleanup()
         {
-            Browser.Close(); 
+            Browser.Close();
         }
     }
 }

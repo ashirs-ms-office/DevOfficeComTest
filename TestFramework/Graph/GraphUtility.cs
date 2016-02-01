@@ -14,14 +14,6 @@ namespace TestFramework
     public static class GraphUtility
     {
         /// <summary>
-        /// Clear all the cookies of the current page
-        /// </summary>
-        public static void ClearCookies()
-        {
-            GraphBrowser.webDriver.Manage().Cookies.DeleteAllCookies();
-        }
-
-        /// <summary>
         /// Verify if the toggle arrow is found on the page 
         /// </summary>
         /// <returns>Trye if yes, else no.</returns>
@@ -237,10 +229,14 @@ namespace TestFramework
         /// </summary>
         /// <param name="expectedUserName">The expected logged in user</param>
         /// <returns>True if yes, else no.</returns>
-        public static bool IsLoggedIn(string expectedUserName)
+        public static bool IsLoggedIn(string expectedUserName = "")
         {
             var element = GraphBrowser.FindElement(By.XPath("//a[@ng-show='userInfo.isAuthenticated']"));
-            if (element.Displayed && element.Text.Equals(expectedUserName))
+            if (element.Displayed && expectedUserName != "" && element.Text.Equals(expectedUserName))
+            {
+                return true;
+            }
+            else if (expectedUserName == "" && element.Displayed)
             {
                 return true;
             }
@@ -248,6 +244,46 @@ namespace TestFramework
             {
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Input a query string on Graph explorer page
+        /// </summary>
+        /// <param name="queryString">The query string to input</param>
+        public static void InputExplorerQueryString(string queryString)
+        {
+            var inputElement = GraphBrowser.Driver.FindElement(By.XPath(@"//input[@id=""queryBar""]"));
+            inputElement.Clear();
+            inputElement.SendKeys(queryString);
+        }
+
+        public static void InputRequestBody(string p)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Get the response on Graph explorer page
+        /// </summary>
+        /// <returns>The composed response string</returns>
+        public static string GetExplorerResponse()
+        {
+            var textElements = GraphBrowser.webDriver.FindElements(By.ClassName("ace_text-layer"));
+
+            var reseponseTextElement = textElements[0];
+            if (textElements.Count > 1)
+            {
+                reseponseTextElement = textElements[1];
+            }
+
+            StringBuilder responseBuilder = new StringBuilder();
+
+            IReadOnlyList<IWebElement> responseElements = reseponseTextElement.FindElements(By.TagName("span"));
+            for (int i = 0; i < responseElements.Count; i++)
+            {
+                responseBuilder.Append(responseElements[i].Text);
+            }
+            return responseBuilder.ToString();
         }
     }
 }

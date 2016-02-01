@@ -107,8 +107,8 @@ namespace TestFramework.Office365Page
                     break;
             }
 
-            //Browser.SelectElement(Browser.Driver.FindElement(By.Id("valueSelection"))).SelectByText(serviceValue);
-            Browser.SelectElement(Browser.Driver.FindElement(By.Id("valueSelection"))).SelectByValue(serviceValue);
+            //Browser.SelectElement(Browser.Driver.FindElement(By.Id("valueSelection"))).SelectByValue(serviceValue);
+            Browser.SelectElement(Browser.Driver.FindElement(By.Id("valueSelection"))).SelectByText(serviceValue);
             bool isValue = Browser.Driver.FindElement(By.Id("urlValue")).Text.Contains(serviceValue);
         }
 

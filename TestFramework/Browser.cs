@@ -16,7 +16,7 @@ namespace TestFramework
         static IWebDriver webDriver;
         static string defaultTitle;
         static string defaultHandle;
-        
+
         public static string BaseAddress
         {
             get { return Utility.GetConfigurationValue("BaseAddress"); }
@@ -25,10 +25,15 @@ namespace TestFramework
             //get { return "http://localhost"; }
         }
 
-        public static void Initialize()
+        public static void Initialize(string postfix = "")
         {
             SetWaitTime(TimeSpan.FromSeconds(Utility.DefaultWaitTime));
-            webDriver.Navigate().GoToUrl(BaseAddress);
+            string address = BaseAddress;
+            if (postfix != "")
+            {
+                address = BaseAddress + "/" + postfix;
+            }
+            webDriver.Navigate().GoToUrl(address);
             defaultTitle = Title;
         }
 
@@ -166,7 +171,7 @@ namespace TestFramework
             }
         }
 
-        public static IWebElement FindElementInFrame(string frameIdOrName, By by,out string innerText)
+        public static IWebElement FindElementInFrame(string frameIdOrName, By by, out string innerText)
         {
             IWebElement frame = FindFrame(frameIdOrName);
             if (frame != null)
@@ -174,7 +179,7 @@ namespace TestFramework
                 webDriver.SwitchTo().Frame(frame);
                 IWebElement element = webDriver.FindElement(by);
                 innerText = element.Text;
-                webDriver.SwitchTo().DefaultContent();               
+                webDriver.SwitchTo().DefaultContent();
                 return element;
             }
             else

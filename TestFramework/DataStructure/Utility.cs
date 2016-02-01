@@ -17,7 +17,7 @@ namespace TestFramework
         /// <summary>
         /// Some typical search text
         /// </summary>
-        public static readonly string[] TypicalSearchText = new string[] { "Office 365", "API", "SharePoint", "Add-in", "Property Manager", "ios", "OneDrive" };
+        public static readonly string[] TypicalSearchText = new string[] { "Office", "API", "SharePoint", "Add-in", "Property Manager", "ios", "OneDrive" };
 
         public static int DefaultWaitTime = int.Parse(GetConfigurationValue("DefaultWaitTime"));
 
@@ -229,7 +229,7 @@ namespace TestFramework
         /// <returns>True if yes, else no</returns>
         public static bool CanFindSourceLink(string sourcePart)
         {
-            var element = Browser.FindElement(By.XPath("//a[contains(@href,'" + sourcePart + "')]"));
+            var element = Browser.FindElement(By.XPath("//a[contains(@href,'"+sourcePart+"')]"));
             if (element != null)
             {
                 return true;

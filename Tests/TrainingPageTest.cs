@@ -28,7 +28,7 @@ namespace Tests
         /// Verify whether the filters in Training page can navigate to correct results
         /// </summary>
         [TestMethod]
-        public void S14_TC01_Can_Filter_Trainings()
+        public void Acceptance_S14_TC01_Can_Filter_Trainings()
         {
             Pages.Navigation.Select("Resources", "Training");
             int filterCount = Utility.GetFilterCount();
@@ -72,7 +72,7 @@ namespace Tests
         /// Verify whether the trainings can be sorted by view count correctly
         /// </summary>
         [TestMethod]
-        public void S14_TC03_Can_Sort_Trainings_By_ViewCount()
+        public void Acceptance_S14_TC03_Can_Sort_Trainings_By_ViewCount()
         {
             Pages.Navigation.Select("Resources", "Training");
             int filterCount = Utility.GetFilterCount();
@@ -140,7 +140,7 @@ namespace Tests
         /// Verify if choosing the filter Introduction to Office 365 Development can get any correct training. 
         /// </summary>
         [TestMethod]
-        public void S14_TC05_CanFindOffice365DevelopmentTrainings()
+        public void Comps_S14_TC05_CanFindOffice365DevelopmentTrainings()
         {
             Pages.Navigation.Select("Resources", "Training");
             Utility.SelectFilter("Introduction to Office 365 Development");
@@ -164,7 +164,7 @@ namespace Tests
         /// Verify if choosing the filter Transform SharePoint Customizations to SharePoint Add-in Model can get any correct training. 
         /// </summary>
         [TestMethod]
-        public void S14_TC06_CanFindSharePointAddinModelTrainings()
+        public void Comps_S14_TC06_CanFindSharePointAddinModelTrainings()
         {
             Pages.Navigation.Select("Resources", "Training");
             Utility.SelectFilter("Transform SharePoint Customizations to SharePoint Add-in Model");
@@ -188,7 +188,7 @@ namespace Tests
         /// Verify if choosing the filter Deep Dive into the Office 365 Add-in Model can get any correct training. 
         /// </summary>
         [TestMethod]
-        public void S14_TC07_CanFindOffice365AddinModelTrainings()
+        public void Comps_S14_TC07_CanFindOffice365AddinModelTrainings()
         {
             Pages.Navigation.Select("Resources", "Training");
             Utility.SelectFilter("Deep Dive into the Office 365 Add-in Model");
@@ -212,7 +212,7 @@ namespace Tests
         /// Verify if choosing the filter Deep Dive Integrate Office 365 APIs in Your Web Apps can get any correct training. 
         /// </summary>
         [TestMethod]
-        public void S14_TC08_CanFindOffice365AddinModelTrainings()
+        public void Comps_S14_TC08_CanFindIntegrateOffice365APIsTrainings()
         {
             Pages.Navigation.Select("Resources", "Training");
             Utility.SelectFilter("Deep Dive Integrate Office 365 APIs in Your Web Apps");
@@ -236,7 +236,7 @@ namespace Tests
         /// Verify if choosing the filter Deep Dive Building Blocks and Services of SharePoint can get any correct training. 
         /// </summary>
         [TestMethod]
-        public void S14_TC09_CanFindBuildingBlocksandServicesofSharePointTrainings()
+        public void Comps_S14_TC09_CanFindBuildingBlocksandServicesofSharePointTrainings()
         {
             Pages.Navigation.Select("Resources", "Training");
             Utility.SelectFilter("Deep Dive Building Blocks and Services of SharePoint");
@@ -260,7 +260,7 @@ namespace Tests
         /// Verify if choosing the filter Property Manager Hero Demo Deep Dive can get any correct training. 
         /// </summary>
         [TestMethod]
-        public void S14_TC10_CanFindPropertyManagerHeroDemoDeepDiveTrainings()
+        public void Comps_S14_TC10_CanFindPropertyManagerHeroDemoDeepDiveTrainings()
         {
             Pages.Navigation.Select("Resources", "Training");
             Utility.SelectFilter("Property Manager Hero Demo Deep Dive");
@@ -284,7 +284,7 @@ namespace Tests
         /// Verify if choosing the filter Shipping Your Office App to the Office Store can get any correct training. 
         /// </summary>
         [TestMethod]
-        public void S14_TC11_CanFindShippingYourOfficeApptotheOfficeStoreTrainings()
+        public void Comps_S14_TC11_CanFindShippingYourOfficeApptotheOfficeStoreTrainings()
         {
             Pages.Navigation.Select("Resources", "Training");
             Utility.SelectFilter("Shipping Your Office App to the Office Store");
@@ -308,7 +308,7 @@ namespace Tests
         /// Verify if choosing the filter Independent Courses can get any correct training. 
         /// </summary>
         [TestMethod]
-        public void S14_TC12_CanFindIndependentCoursesTrainings()
+        public void Comps_S14_TC12_CanFindIndependentCoursesTrainings()
         {
             Pages.Navigation.Select("Resources", "Training");
             Utility.SelectFilter("Independent Courses");
@@ -322,7 +322,7 @@ namespace Tests
         /// Verify if choosing the filter Deep Dive into Office 365 Development on non-Microsoft Stack can get any correct training. 
         /// </summary>
         [TestMethod]
-        public void S14_TC13_CanFindIndependentCoursesTrainings()
+        public void Comps_S14_TC13_CanFindIndependentCoursesTrainings()
         {
             Pages.Navigation.Select("Resources", "Training");
             Utility.SelectFilter("Deep Dive into Office 365 Development on non-Microsoft Stack");
@@ -336,7 +336,7 @@ namespace Tests
         /// Verify if choosing the filter Deep Dive: Integrate Office 365 APIs in Your Mobile Device Apps can get any correct training. 
         /// </summary>
         [TestMethod]
-        public void S14_TC14_CanFindIntegrateOffice365APIsinMobileDeviceAppsTrainings()
+        public void Comps_S14_TC14_CanFindIntegrateOffice365APIsinMobileDeviceAppsTrainings()
         {
             Pages.Navigation.Select("Resources", "Training");
             Utility.SelectFilter("Deep Dive: Integrate Office 365 APIs in Your Mobile Device Apps");
@@ -360,7 +360,7 @@ namespace Tests
         /// Verify if choosing the filter Ignite 2015 can get any correct training. 
         /// </summary>
         [TestMethod]
-        public void S14_TC15_CanFindIgniteTrainings()
+        public void Comps_S14_TC15_CanFindIgniteTrainings()
         {
             Pages.Navigation.Select("Resources", "Training");
             Utility.SelectFilter("Ignite 2015");
@@ -383,7 +383,7 @@ namespace Tests
         /// Verify if choosing the filter Build 2015 can get any correct training. 
         /// </summary>
         [TestMethod]
-        public void S14_TC16_CanFindBuildTrainings()
+        public void Comps_S14_TC16_CanFindBuildTrainings()
         {
             Pages.Navigation.Select("Resources", "Training");
             Utility.SelectFilter("Build 2015");
@@ -406,7 +406,7 @@ namespace Tests
         /// Verify if choosing the filter SAP Gateway for Microsoft can get any correct training. 
         /// </summary>
         [TestMethod]
-        public void S14_TC17_CanFindSAPGatewayforMicrosoftTrainings()
+        public void Comps_S14_TC17_CanFindSAPGatewayforMicrosoftTrainings()
         {
             Pages.Navigation.Select("Resources", "Training");
             Utility.SelectFilter("SAP Gateway for Microsoft");
