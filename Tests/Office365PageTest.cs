@@ -92,13 +92,18 @@ namespace Tests
         [TestMethod]
         public void Acceptance_S05_TC01_CanTryO365API_GetUsers()
         {
-            Pages.Office365Page.CardTryItOut.ChooseService(ServiceToTry.GetUsers);
-            Pages.Office365Page.CardTryItOut.ClickTry();
-            Assert.IsTrue(Pages.Office365Page.CardTryItOut.CanGetResponse(ServiceToTry.GetUsers, GetUsersValue.me));
+            ServiceToTry service = ServiceToTry.GetUsers;
+            Pages.Office365Page.CardTryItOut.ChooseService(service);
+            foreach (GetUsersValue item in Enum.GetValues(typeof(GetUsersValue)))
+            {
+                Pages.Office365Page.CardTryItOut.ChooseServiceValue(service, item);
+                Pages.Office365Page.CardTryItOut.ClickTry();
+                Assert.IsTrue(Pages.Office365Page.CardTryItOut.CanGetResponse(service, item), string.Format("The service {0} with parameter {1} is not work.", service.ToString(), item.ToString()));
+            }
         }
-		
+
         [TestMethod]
-        public void Comps_S05_TC02_CanTryO365API_GetGroups()
+        public void Acceptance_S05_TC02_CanTryO365API_GetGroups()
         {
             ServiceToTry service = ServiceToTry.GetGroups;
             Pages.Office365Page.CardTryItOut.ChooseService(service);
@@ -111,7 +116,7 @@ namespace Tests
         }
 
         [TestMethod]
-        public void Comps_S05_TC03_CanTryO365API_GetMessages()
+        public void Acceptance_S05_TC03_CanTryO365API_GetMessages()
         {
             ServiceToTry service = ServiceToTry.GetMessages;
             Pages.Office365Page.CardTryItOut.ChooseService(service);
@@ -124,20 +129,7 @@ namespace Tests
         }
 
         [TestMethod]
-        public void Comps_S05_TC04_CanTryO365API_GetUsers()
-        {
-            ServiceToTry service = ServiceToTry.GetUsers;
-            Pages.Office365Page.CardTryItOut.ChooseService(service);
-            foreach (GetUsersValue item in Enum.GetValues(typeof(GetUsersValue)))
-            {
-                Pages.Office365Page.CardTryItOut.ChooseServiceValue(service, item);
-                Pages.Office365Page.CardTryItOut.ClickTry();
-                Assert.IsTrue(Pages.Office365Page.CardTryItOut.CanGetResponse(service, item), string.Format("The service {0} with parameter {1} is not work.", service.ToString(), item.ToString()));
-            }
-        }
-
-        [TestMethod]
-        public void Comps_S05_TC05_CanTryO365API_GetFiles()
+        public void Acceptance_S05_TC04_CanTryO365API_GetFiles()
         {
             ServiceToTry service = ServiceToTry.GetFiles;
             Pages.Office365Page.CardTryItOut.ChooseService(service);
@@ -150,7 +142,7 @@ namespace Tests
         }
 
         [TestMethod]
-        public void Acceptance_S05_TC06_CanTryO365API_GetEvents()
+        public void Acceptance_S05_TC05_CanTryO365API_GetEvents()
         {
             Pages.Office365Page.CardTryItOut.ChooseService(ServiceToTry.GetEvents);
             Pages.Office365Page.CardTryItOut.ClickTry();
@@ -158,7 +150,7 @@ namespace Tests
         }
 
         [TestMethod]
-        public void Acceptance_S05_TC07_CanTryO365API_GetUsers()
+        public void BVT_S05_TC06_CanTryO365API_GetContacts()
         {
             Pages.Office365Page.CardTryItOut.ChooseService(ServiceToTry.GetContacts);
             Pages.Office365Page.CardTryItOut.ClickTry();
