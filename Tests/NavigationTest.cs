@@ -39,6 +39,7 @@ namespace Tests
             foreach (MenuItemOfExplore item in Enum.GetValues(typeof(MenuItemOfExplore)))
             {
                 Pages.Navigation.Select("Explore", item.ToString());
+                //Browser.Wait(TimeSpan.FromSeconds(1));
                 Assert.IsTrue(Pages.Navigation.IsAtExplorePage(item), string.Format("The menu item {0} is not opened currectly.", item.ToString()));
             }
         }
@@ -53,11 +54,13 @@ namespace Tests
                     case (MenuItemOfResource.Training):
                         Browser.SetWaitTime(TimeSpan.FromSeconds(30));
                         Pages.Navigation.Select("Resources", item.ToString());
+                        //Browser.Wait(TimeSpan.FromSeconds(20));
                         Assert.IsTrue(Pages.Navigation.IsAtResourcePage(item), string.Format("The menu item {0} is not opened currectly.", item.ToString()));
                         Browser.SetWaitTime(TimeSpan.FromSeconds(Utility.DefaultWaitTime));
                         break;
                     default:
                         Pages.Navigation.Select("Resources", item.ToString());
+                        //Browser.Wait(TimeSpan.FromSeconds(10));
                         Assert.IsTrue(Pages.Navigation.IsAtResourcePage(item), string.Format("The menu item {0} is not opened currectly.", item.ToString()));
                         break;
                 }
@@ -72,6 +75,32 @@ namespace Tests
                 Pages.Navigation.Select("Documentation", item.ToString());
                 Assert.IsTrue(Pages.Navigation.IsAtDocumentationPage(item), string.Format("The menu item {0} is not opened currectly.", item.ToString()));
             }
+        }
+
+        [TestMethod]
+        public void Acceptance_S02_TC06_CanRedirectPage()
+        {
+            string url = Browser.BaseAddress + "/codesamples";
+            //Browser.Goto(url);
+            //bool isRedirected = (Browser.Url.Equals(Browser.BaseAddress + "/code-samples"));
+            bool isRedirected = Utility.IsUrlRedirected(url);
+            Assert.IsTrue(isRedirected, string.Format("The custom alias {0} is not redirected.", url));
+
+            url = Browser.BaseAddress + "/gettingstarted";
+            isRedirected = Utility.IsUrlRedirected(url);
+            Assert.IsTrue(isRedirected, string.Format("The custom alias {0} is not redirected.", url));
+
+            url = Browser.BaseAddress + "/sample-code";
+            isRedirected = Utility.IsUrlRedirected(url);
+            Assert.IsTrue(isRedirected, string.Format("The custom alias {0} is not redirected.", url));
+
+            url = Browser.BaseAddress + "/snack-videos!"; 
+            isRedirected = Utility.IsUrlRedirected(url);
+            Assert.IsTrue(isRedirected, string.Format("The custom alias {0} is not redirected.", url));
+
+            url = Browser.BaseAddress + "/opportuni";
+            isRedirected = Utility.IsUrlRedirected(url);
+            Assert.IsTrue(isRedirected, string.Format("The custom alias {0} is not redirected.", url));
         }
 
         [ClassCleanup]

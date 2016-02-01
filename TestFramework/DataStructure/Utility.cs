@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,7 +17,7 @@ namespace TestFramework
         /// <summary>
         /// Some typical search text
         /// </summary>
-        public static readonly string[] TypicalSearchText = new string[] { "Office 365", "API", "SharePoint", "Add-in", "Property Manager", "ios", "OneDrive" };
+        public static readonly string[] TypicalSearchText = new string[] { "Office", "API", "SharePoint", "Add-in", "Property Manager", "ios", "OneDrive" };
 
         public static int DefaultWaitTime = int.Parse(GetConfigurationValue("DefaultWaitTime"));
 
@@ -228,7 +229,7 @@ namespace TestFramework
         /// <returns>True if yes, else no</returns>
         public static bool CanFindSourceLink(string sourcePart)
         {
-            var element = Browser.FindElement(By.XPath("//a[contains(@href,'" + sourcePart + "')]"));
+            var element = Browser.FindElement(By.XPath("//a[contains(@href,'"+sourcePart+"')]"));
             if (element != null)
             {
                 return true;
@@ -247,6 +248,55 @@ namespace TestFramework
         public static string GetConfigurationValue(string propertyName)
         {
             return ConfigurationManager.AppSettings[propertyName];
+        }
+
+        /// <summary>
+        /// Verify whether a url refer to a valid image
+        /// </summary>
+        /// <param name="Url">The image url</param>
+        /// <returns>True if yes, else no</returns>
+        public static bool ImageExist(string Url)
+        {
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(Url);
+            request.Timeout = 15000;
+            request.Method = "HEAD";
+
+            try
+            {
+                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                {
+                    return (response.StatusCode == HttpStatusCode.OK || response.StatusCode == HttpStatusCode.NotModified);
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Verify whether a url is redirected.
+        /// </summary>
+        /// <param name="Url">The url to be verified</param>
+        /// <returns>True if yes, else no</returns>
+        public static bool IsUrlRedirected(string Url)
+        {
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(Url);
+            request.Timeout = 15000;
+            request.Method = "GET";
+            request.AllowAutoRedirect = false;
+
+            try
+            {
+                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                {
+                    return (response.StatusCode == HttpStatusCode.Moved || response.StatusCode == HttpStatusCode.Redirect);
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
     }
 }

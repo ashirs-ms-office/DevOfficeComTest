@@ -90,26 +90,45 @@ namespace TestFramework
         }
 
         /// <summary>
-        /// Find an link or a button according to the specific text and click it
+        /// Find an link or a button role span according to the specific text and click it
         /// </summary>
         /// <param name="text">The text of the element</param>
         public static void Click(string text)
         {
             var element = GraphBrowser.FindElement(By.LinkText(text));
+            //a link
             if (element != null && element.Displayed)
             {
                 GraphBrowser.Click(element);
             }
             else
             {
-                IReadOnlyList<IWebElement> elements = GraphBrowser.webDriver.FindElements(By.TagName("button"));
+                IReadOnlyList<IWebElement> elements = GraphBrowser.webDriver.FindElements(By.XPath("//*[@role='button']"));
                 foreach (IWebElement elementToClick in elements)
                 {
-                    if (elementToClick.GetAttribute("innerHTML").Contains(text) && elementToClick.Displayed)
+                    if (elementToClick.GetAttribute("innerHTML").Equals(text) && (elementToClick.Displayed))
                     {
                         GraphBrowser.Click(elementToClick);
                         break;
                     }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Find a button according to the specific text and click it
+        /// </summary>
+        /// <param name="text">The text of the element</param>
+        public static void ClickButton(string text)
+        {
+            IReadOnlyList<IWebElement> elements = GraphBrowser.webDriver.FindElements(By.TagName("button"));
+
+            foreach (IWebElement elementToClick in elements)
+            {
+                if (elementToClick.GetAttribute("innerHTML").Trim().Contains(text) && elementToClick.Displayed)
+                {
+                    GraphBrowser.Click(elementToClick);
+                    break;
                 }
             }
         }
@@ -189,6 +208,82 @@ namespace TestFramework
             {
             }
             return layer - 1;
+        }
+
+        /// <summary>
+        /// Login on a sign-in page 
+        /// </summary>
+        /// <param name="userName">The userName to input</param>
+        /// <param name="password">The password to input</param>
+        public static void Login(string userName, string password)
+        {
+            var userIdElement = GraphBrowser.FindElement(By.XPath("//input[@id='cred_userid_inputtext']"));
+            userIdElement.SendKeys(userName);
+            var passwordElement = GraphBrowser.FindElement(By.XPath("//input[@id='cred_password_inputtext']"));
+            passwordElement.SendKeys(password);
+            Click("Sign in");
+        }
+
+        /// <summary>
+        /// Verify whether the logged in user is correct
+        /// </summary>
+        /// <param name="expectedUserName">The expected logged in user</param>
+        /// <returns>True if yes, else no.</returns>
+        public static bool IsLoggedIn(string expectedUserName = "")
+        {
+            var element = GraphBrowser.FindElement(By.XPath("//a[@ng-show='userInfo.isAuthenticated']"));
+            if (element.Displayed && expectedUserName != "" && element.Text.Equals(expectedUserName))
+            {
+                return true;
+            }
+            else if (expectedUserName == "" && element.Displayed)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Input a query string on Graph explorer page
+        /// </summary>
+        /// <param name="queryString">The query string to input</param>
+        public static void InputExplorerQueryString(string queryString)
+        {
+            var inputElement = GraphBrowser.Driver.FindElement(By.XPath(@"//input[@id=""queryBar""]"));
+            inputElement.Clear();
+            inputElement.SendKeys(queryString);
+        }
+
+        public static void InputRequestBody(string p)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Get the response on Graph explorer page
+        /// </summary>
+        /// <returns>The composed response string</returns>
+        public static string GetExplorerResponse()
+        {
+            var textElements = GraphBrowser.webDriver.FindElements(By.ClassName("ace_text-layer"));
+
+            var reseponseTextElement = textElements[0];
+            if (textElements.Count > 1)
+            {
+                reseponseTextElement = textElements[1];
+            }
+
+            StringBuilder responseBuilder = new StringBuilder();
+
+            IReadOnlyList<IWebElement> responseElements = reseponseTextElement.FindElements(By.TagName("span"));
+            for (int i = 0; i < responseElements.Count; i++)
+            {
+                responseBuilder.Append(responseElements[i].Text);
+            }
+            return responseBuilder.ToString();
         }
     }
 }

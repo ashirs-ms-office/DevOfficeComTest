@@ -40,30 +40,33 @@ namespace TestFramework.OfficeAddInPage
     }
     public class WordMoreResources
     {
+        private bool isAtCorrectResourcePage;
+        private CommonMoreResources resource = new CommonMoreResources();
+
         public void OfficeAddInTypes()
         {
-            CommonMoreResources resource= new CommonMoreResources ();
             resource.OfficeAddInTypes();
         }
         public void MoreCodeSamples()
         {
-            CommonMoreResources resource = new CommonMoreResources();
             resource.MoreCodeSamples(Product.Word);
         }
         public void ReadTheDocs()
         {
-            CommonMoreResources resource = new CommonMoreResources();
             resource.ReadTheDocs();
         }
         public void DesignYourAddIn()
         {
-            CommonMoreResources resource = new CommonMoreResources();
             resource.DesignYourAddIn();
         }
         public void PublishYourAddIn()
         {
-            CommonMoreResources resource = new CommonMoreResources();
             resource.PublishYourAddIn();
+        }
+
+        public bool IsShowingCorrectResourcePage()
+        {
+            return resource.IsShowingCorrectResourcePage(Product.Word);
         }
     }
 }

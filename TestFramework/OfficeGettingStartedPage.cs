@@ -28,7 +28,7 @@ namespace TestFramework
             IWebElement element = Browser.Driver.FindElement(By.Id("banner-image"));
             string Url = element.GetAttribute("style");
             Url = Browser.BaseAddress + Url.Substring(Url.IndexOf('/'), Url.LastIndexOf('"') - Url.IndexOf('/'));
-            return Browser.ImageExist(Url);
+            return Utility.ImageExist(Url);
         }
 
         public OfficeGettingStartedPage()

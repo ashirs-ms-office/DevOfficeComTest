@@ -49,5 +49,32 @@ namespace TestFramework.OfficeAddInPage
         {
             return Browser.Title.Contains("Getting Started with Office Add-ins");
         }
+
+        public bool OnlyDefaultCardsDisplayed()
+        {
+            var elements = Browser.Driver.FindElements(By.ClassName("card"));
+            if (elements.Count > 0)
+            {
+                foreach (IWebElement item in elements)
+                {
+                    string itemId = item.GetAttribute("id");
+                    if ((itemId == "intro" || itemId == "selectapp") && !item.Displayed)
+                    {
+                        return false;
+                    }
+
+                    if (itemId != "intro" && itemId != "selectapp" && item.Displayed)
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

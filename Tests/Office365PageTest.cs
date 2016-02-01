@@ -64,19 +64,19 @@ namespace Tests
             Assert.IsTrue(Pages.Office365Page.CardDownloadCode.IsCodeDownloaded(), "Failed to download code.");
 
             Pages.Office365Page.CardMoreResources.OutlookDevCenter();
-            Assert.IsTrue(Pages.Office365Page.CardMoreResources.IsShowingMoreResourcePage(), "Failed to open Outlook Dev Center page.");
+            Assert.IsTrue(Pages.Office365Page.CardMoreResources.IsShowingCorrectResourcePage(), "Failed to open Outlook Dev Center page.");
             Pages.Office365Page.CardMoreResources.Training();
-            Assert.IsTrue(Pages.Office365Page.CardMoreResources.IsShowingMoreResourcePage(), "Failed to open Training page.");
+            Assert.IsTrue(Pages.Office365Page.CardMoreResources.IsShowingCorrectResourcePage(), "Failed to open Training page.");
             Pages.Office365Page.CardMoreResources.APIReferences();
-            Assert.IsTrue(Pages.Office365Page.CardMoreResources.IsShowingMoreResourcePage(), "Failed to open API References page.");
+            Assert.IsTrue(Pages.Office365Page.CardMoreResources.IsShowingCorrectResourcePage(), "Failed to open API References page.");
             Pages.Office365Page.CardMoreResources.CodeSamples();
-            Assert.IsTrue(Pages.Office365Page.CardMoreResources.IsShowingMoreResourcePage(), "Failed to open Code Samples page.");
+            Assert.IsTrue(Pages.Office365Page.CardMoreResources.IsShowingCorrectResourcePage(), "Failed to open Code Samples page.");
             Pages.Office365Page.CardMoreResources.AzureAppAndPermissions();
-            Assert.IsTrue(Pages.Office365Page.CardMoreResources.IsShowingMoreResourcePage(), "Failed to open Azure app & Permissions page.");
+            Assert.IsTrue(Pages.Office365Page.CardMoreResources.IsShowingCorrectResourcePage(), "Failed to open Azure app & Permissions page.");
             Pages.Office365Page.CardMoreResources.AddToO365AppLauncher();
-            Assert.IsTrue(Pages.Office365Page.CardMoreResources.IsShowingMoreResourcePage(), "Failed to open O365 App Launcher page.");
+            Assert.IsTrue(Pages.Office365Page.CardMoreResources.IsShowingCorrectResourcePage(), "Failed to open O365 App Launcher page.");
             Pages.Office365Page.CardMoreResources.SubmitToOfficeStore();
-            Assert.IsTrue(Pages.Office365Page.CardMoreResources.IsShowingMoreResourcePage(), "Failed to open Submit to Office Store page.");
+            Assert.IsTrue(Pages.Office365Page.CardMoreResources.IsShowingCorrectResourcePage(), "Failed to open Submit to Office Store page.");
         }
 
         [TestMethod]
@@ -86,24 +86,75 @@ namespace Tests
             Assert.IsTrue(Pages.Office365Page.IsAtOffice365Page(), "Failed to open Office 365 APIs Getting started page.");
 
             // should show and only show first 3 cards
-
+            Assert.IsTrue(Pages.Office365Page.OnlyDefaultCardsDisplayed(), "Cards in Office 365 page are not displayed correctly.");
         }
 
         [TestMethod]
         public void Acceptance_S05_TC01_CanTryO365API_GetUsers()
         {
-            Pages.Office365Page.CardTryItOut.ChooseService(ServiceToTry.GetUsers);
-            Pages.Office365Page.CardTryItOut.ClickTry();
-            Assert.IsTrue(Pages.Office365Page.CardTryItOut.CanGetResponse(ServiceToTry.GetUsers, GetUsersValue.me));
+            ServiceToTry service = ServiceToTry.GetUsers;
+            Pages.Office365Page.CardTryItOut.ChooseService(service);
+            foreach (GetUsersValue item in Enum.GetValues(typeof(GetUsersValue)))
+            {
+                Pages.Office365Page.CardTryItOut.ChooseServiceValue(service, item);
+                Pages.Office365Page.CardTryItOut.ClickTry();
+                Assert.IsTrue(Pages.Office365Page.CardTryItOut.CanGetResponse(service, item), string.Format("The service {0} with parameter {1} is not work.", service.ToString(), item.ToString()));
+            }
         }
-		
+
         [TestMethod]
-        public void Comps_S05_TC02_CanTryO365API_GetGroups_DriverRootChildren()
+        public void Comps_S05_TC02_CanTryO365API_GetGroups()
         {
-            Pages.Office365Page.CardTryItOut.ChooseService(ServiceToTry.GetGroups);
-            Pages.Office365Page.CardTryItOut.ChooseServiceValue(ServiceToTry.GetGroups, GetGroupValue.drive_root_children);
+            ServiceToTry service = ServiceToTry.GetGroups;
+            Pages.Office365Page.CardTryItOut.ChooseService(service);
+            foreach (GetGroupValue item in Enum.GetValues(typeof(GetGroupValue)))
+            {
+                Pages.Office365Page.CardTryItOut.ChooseServiceValue(service, item);
+                Pages.Office365Page.CardTryItOut.ClickTry();
+                Assert.IsTrue(Pages.Office365Page.CardTryItOut.CanGetResponse(service, item), string.Format("The service {0} with parameter {1} is not work.", service.ToString(), item.ToString()));
+            }
+        }
+
+        [TestMethod]
+        public void Comps_S05_TC03_CanTryO365API_GetMessages()
+        {
+            ServiceToTry service = ServiceToTry.GetMessages;
+            Pages.Office365Page.CardTryItOut.ChooseService(service);
+            foreach (GetMessagesValue item in Enum.GetValues(typeof(GetMessagesValue)))
+            {
+                Pages.Office365Page.CardTryItOut.ChooseServiceValue(service, item);
+                Pages.Office365Page.CardTryItOut.ClickTry();
+                Assert.IsTrue(Pages.Office365Page.CardTryItOut.CanGetResponse(service, item), string.Format("The service {0} with parameter {1} is not work.", service.ToString(), item.ToString()));
+            }
+        }
+
+        [TestMethod]
+        public void Comps_S05_TC04_CanTryO365API_GetFiles()
+        {
+            ServiceToTry service = ServiceToTry.GetFiles;
+            Pages.Office365Page.CardTryItOut.ChooseService(service);
+            foreach (GetFilesValue item in Enum.GetValues(typeof(GetFilesValue)))
+            {
+                Pages.Office365Page.CardTryItOut.ChooseServiceValue(service, item);
+                Pages.Office365Page.CardTryItOut.ClickTry();
+                Assert.IsTrue(Pages.Office365Page.CardTryItOut.CanGetResponse(service, item), string.Format("The service {0} with parameter {1} is not work.", service.ToString(), item.ToString()));
+            }
+        }
+
+        [TestMethod]
+        public void Comps_S05_TC05_CanTryO365API_GetEvents()
+        {
+            Pages.Office365Page.CardTryItOut.ChooseService(ServiceToTry.GetEvents);
             Pages.Office365Page.CardTryItOut.ClickTry();
-            Assert.IsTrue(Pages.Office365Page.CardTryItOut.CanGetResponse(ServiceToTry.GetGroups, GetGroupValue.drive_root_children));
+            Assert.IsTrue(Pages.Office365Page.CardTryItOut.CanGetResponse(ServiceToTry.GetEvents, null));
+        }
+
+        [TestMethod]
+        public void Comps_S05_TC06_CanTryO365API_GetContacts()
+        {
+            Pages.Office365Page.CardTryItOut.ChooseService(ServiceToTry.GetContacts);
+            Pages.Office365Page.CardTryItOut.ClickTry();
+            Assert.IsTrue(Pages.Office365Page.CardTryItOut.CanGetResponse(ServiceToTry.GetContacts, null));
         }
 
         [TestMethod]
