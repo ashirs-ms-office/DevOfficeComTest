@@ -144,7 +144,7 @@ namespace MSGraphTest
         /// table of content will show the correct duc content.
         /// </summary>
         [TestMethod]
-        public void Comps_Graph_S04_TC03_CanDisplayAppropriateContentOnDocumentaionPage()
+        public void Comps_Graph_S04_TC03_CanDisplayCorrectContentOnDocumentaionPage()
         {
             GraphPages.Navigation.Select("Documentation");
             //If the table of content is replaced by the toggle arrow, click the arrow to display table of content

@@ -103,7 +103,7 @@ namespace Tests
         }
 
         [TestMethod]
-        public void Acceptance_S05_TC02_CanTryO365API_GetGroups()
+        public void Comps_S05_TC02_CanTryO365API_GetGroups()
         {
             ServiceToTry service = ServiceToTry.GetGroups;
             Pages.Office365Page.CardTryItOut.ChooseService(service);
@@ -116,7 +116,7 @@ namespace Tests
         }
 
         [TestMethod]
-        public void Acceptance_S05_TC03_CanTryO365API_GetMessages()
+        public void Comps_S05_TC03_CanTryO365API_GetMessages()
         {
             ServiceToTry service = ServiceToTry.GetMessages;
             Pages.Office365Page.CardTryItOut.ChooseService(service);
@@ -129,7 +129,7 @@ namespace Tests
         }
 
         [TestMethod]
-        public void Acceptance_S05_TC04_CanTryO365API_GetFiles()
+        public void Comps_S05_TC04_CanTryO365API_GetFiles()
         {
             ServiceToTry service = ServiceToTry.GetFiles;
             Pages.Office365Page.CardTryItOut.ChooseService(service);
@@ -142,7 +142,7 @@ namespace Tests
         }
 
         [TestMethod]
-        public void Acceptance_S05_TC05_CanTryO365API_GetEvents()
+        public void Comps_S05_TC05_CanTryO365API_GetEvents()
         {
             Pages.Office365Page.CardTryItOut.ChooseService(ServiceToTry.GetEvents);
             Pages.Office365Page.CardTryItOut.ClickTry();
@@ -150,7 +150,7 @@ namespace Tests
         }
 
         [TestMethod]
-        public void BVT_S05_TC06_CanTryO365API_GetContacts()
+        public void Comps_S05_TC06_CanTryO365API_GetContacts()
         {
             Pages.Office365Page.CardTryItOut.ChooseService(ServiceToTry.GetContacts);
             Pages.Office365Page.CardTryItOut.ClickTry();
