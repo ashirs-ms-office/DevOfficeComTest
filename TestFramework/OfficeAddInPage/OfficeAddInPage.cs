@@ -76,5 +76,20 @@ namespace TestFramework.OfficeAddInPage
                 return false;
             }
         }
+
+        public bool CanLoadImages()
+        {
+            var elements = Browser.Driver.FindElements(By.CssSelector("img.img-responsive.imgGS"));
+            foreach (IWebElement item in elements)
+            {
+                string Url = item.GetAttribute("src");
+                if (!Utility.ImageExist(Url))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
     }
 }

@@ -103,6 +103,27 @@ namespace Tests
             Assert.IsTrue(isRedirected, string.Format("The custom alias {0} is not redirected.", url));
         }
 
+        [TestMethod]
+        public void Acceptance_S02_TC07_CanLoadGettingStartedPageImage()
+        {
+            Pages.Navigation.Select("Getting Started");
+            Assert.IsTrue(Pages.OfficeGettingStartedPage.CanLoadImage(), "Cannot load image in getting started page.");
+        }
+
+        [TestMethod]
+        public void Acceptance_S02_TC08_CanLoadCodeSamplePageImages()
+        {
+            Browser.SetWaitTime(TimeSpan.FromSeconds(30));
+            Pages.Navigation.Select("Code Samples");
+            CodeSamplesPage page = new CodeSamplesPage();
+            foreach (CodeSamplePageImages item in Enum.GetValues(typeof(CodeSamplePageImages)))
+            {
+                Assert.IsTrue(page.CanLoadImages(item));
+            }
+
+            Browser.SetWaitTime(TimeSpan.FromSeconds(Utility.DefaultWaitTime));
+        }
+
         [ClassCleanup]
         public static void ClassCleanup()
         {

@@ -17,19 +17,37 @@ namespace TestFramework
             return Browser.Title == PageTitle;
         }
 
-        public bool CanLoadImage(HomePageImages image)
+        public bool CanLoadImages(HomePageImages image)
         {
             switch (image)
             {
                 case (HomePageImages.Banner):
-                    IWebElement element = Browser.Driver.FindElement(By.CssSelector("#carousel>div>div"));
-                    string Url = element.GetAttribute("style");
-                    Url = Browser.BaseAddress + Url.Substring(Url.IndexOf('/'), Url.LastIndexOf('"') - Url.IndexOf('/'));
-                    return Utility.ImageExist(Url);
-                case (HomePageImages.AppAwards):
-                case (HomePageImages.Hackathons):
-                    // Todo
-                    return false;
+                    var elements = Browser.Driver.FindElements(By.CssSelector("#carousel>div>div.item"));
+                    foreach (IWebElement item in elements)
+                    {
+                        string Url = item.GetAttribute("style");
+                        Url = Browser.BaseAddress + Url.Substring(Url.IndexOf('/'), Url.LastIndexOf('"') - Url.IndexOf('/'));
+                        if (!Utility.ImageExist(Url))
+                        {
+                            return false;
+                        }
+                    }
+
+                    return true;
+                case (HomePageImages.Icons):
+                    elements = Browser.Driver.FindElements(By.CssSelector("#quarter1 > div > article > div > div.quicklinks-hidden-xs > div > ol > li"));
+                    foreach (IWebElement item in elements)
+                    {
+                        IWebElement subItem = item.FindElement(By.CssSelector("a>div>div>div"));
+                        string Url = subItem.GetAttribute("style");
+                        Url = Browser.BaseAddress + Url.Substring(Url.IndexOf('/'), Url.LastIndexOf('"') - Url.IndexOf('/'));
+                        if (!Utility.ImageExist(Url))
+                        {
+                            return false;
+                        }
+                    }
+
+                    return true;
                 default:
                     return false;
             }
@@ -39,7 +57,6 @@ namespace TestFramework
     public enum HomePageImages
     {
         Banner,
-        Hackathons,
-        AppAwards
+        Icons
     }
 }

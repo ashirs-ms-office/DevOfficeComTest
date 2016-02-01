@@ -77,5 +77,45 @@ namespace TestFramework.Office365Page
                 return false;
             }
         }
+
+        public bool CanLoadImages(Office365Images image)
+        {
+            switch (image)
+            {
+                case (Office365Images.ServiceOrResource):
+                    var elements = Browser.Driver.FindElements(By.CssSelector("img.img-responsive.imgGS"));
+                    foreach (IWebElement item in elements)
+                    {
+                        string Url = item.GetAttribute("src");
+                        if (!Utility.ImageExist(Url))
+                        {
+                            return false;
+                        }
+                    }
+
+                    return true;
+                case (Office365Images.Platform):
+                    elements = Browser.Driver.FindElements(By.CssSelector("#pickPlatform > ul > li"));
+                    foreach (IWebElement item in elements)
+                    {
+                        IWebElement subItem = item.FindElement(By.CssSelector("img"));
+                        string Url = subItem.GetAttribute("src");
+                        if (!Utility.ImageExist(Url))
+                        {
+                            return false;
+                        }
+                    }
+
+                    return true;
+                default:
+                    return false;
+            }
+        }
+    }
+
+    public enum Office365Images
+    {
+        ServiceOrResource,
+        Platform
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using TestFramework;
+using TestFramework.Office365Page;
 
 namespace Tests
 {
@@ -188,7 +189,18 @@ namespace Tests
             Pages.Office365Page.CardDownloadCode.DownloadCode();
             Assert.IsTrue(Pages.Office365Page.CardDownloadCode.IsCodeDownloaded(), "Failed to download code.");
         }
-       
+
+        [TestMethod]
+        public void Acceptance_S08_TC02_CanLoadOffice365PageImages()
+        {
+            Platform platform = Platform.PHP;
+            Pages.Office365Page.CardSetupPlatform.ChoosePlatform(platform);
+            foreach (Office365Images item in Enum.GetValues(typeof(Office365Images)))
+            {
+                Assert.IsTrue(Pages.Office365Page.CanLoadImages(item));
+            }
+        }
+
         [ClassCleanup]
         public static void ClassCleanup()
         {

@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using TestFramework;
+using TestFramework.OfficeAddInPage;
 
 namespace Tests
 {
@@ -196,6 +197,14 @@ namespace Tests
 
             // Should show and only show two cards by default 
             Assert.IsTrue(Pages.OfficeAddInPage.OnlyDefaultCardsDisplayed(), "Cards in Add-in page are not displayed correctly.");
+        }
+
+        [TestMethod]
+        public void Acceptance_S09_TC06_CanLoadAddinPageImages()
+        {
+            Product product = Product.Word;
+            Pages.OfficeAddInPage.CardChooseProduct.ChooseProduct(product);
+            Assert.IsTrue(Pages.OfficeAddInPage.CanLoadImages());
         }
 
         [ClassCleanup]

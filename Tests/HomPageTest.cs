@@ -24,9 +24,12 @@ namespace Tests
         }
 
         [TestMethod]
-        public void BVT_S03_TC02_CanLoadBannerImage()
+        public void BVT_S03_TC02_CanLoadHomePageImages()
         {
-            Assert.IsTrue(Pages.HomePage.CanLoadImage(HomePageImages.Banner));
+            foreach (HomePageImages item in Enum.GetValues(typeof(HomePageImages)))
+            {
+                Assert.IsTrue(Pages.HomePage.CanLoadImages(item));
+            }
         }
         
         [ClassCleanup]
