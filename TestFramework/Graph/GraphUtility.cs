@@ -257,9 +257,14 @@ namespace TestFramework
             inputElement.SendKeys(queryString);
         }
 
-        public static void InputRequestBody(string p)
+        /// <summary>
+        /// Format a property to JSON format  and put it in Explorer request field
+        /// </summary>
+        /// <param name="property">The property to format</param>
+        public static void InputExplorerJSONBody(KeyValuePair<string,string> property)
         {
-            throw new NotImplementedException();
+            var element = GraphBrowser.FindElement(By.CssSelector("div#jsonEditor>textarea"));
+            element.SendKeys("{\""+property.Key+"\":\""+property.Value+"\"}");
         }
 
         /// <summary>
@@ -268,22 +273,37 @@ namespace TestFramework
         /// <returns>The composed response string</returns>
         public static string GetExplorerResponse()
         {
-            var textElements = GraphBrowser.webDriver.FindElements(By.ClassName("ace_text-layer"));
-
-            var reseponseTextElement = textElements[0];
-            if (textElements.Count > 1)
-            {
-                reseponseTextElement = textElements[1];
-            }
+            var textElement = GraphBrowser.webDriver.FindElement(By.XPath("//div[@id='jsonViewer']/div/div[contains(@class,'ace_content')]/div[contains(@class,'ace_text-layer')]"));
 
             StringBuilder responseBuilder = new StringBuilder();
 
-            IReadOnlyList<IWebElement> responseElements = reseponseTextElement.FindElements(By.TagName("span"));
+            IReadOnlyList<IWebElement> responseElements = textElement.FindElements(By.TagName("span"));
             for (int i = 0; i < responseElements.Count; i++)
             {
                 responseBuilder.Append(responseElements[i].Text);
             }
-            return responseBuilder.ToString();
+            //Remove the braces
+            int length = responseBuilder.Length;
+            return responseBuilder.ToString().Substring(1, length - 2);
+        }
+
+        /// <summary>
+        /// Parse a string of simple JSON format, which means no composed properties
+        /// </summary>
+        /// <param name="jsonString">The string to parse</param>
+        /// <returns>A dictionary contains properties' keys and values</returns>
+        public static Dictionary<string, string> ParseJsonFormatProperties(string jsonString)
+        {
+            string[] meProperties = jsonString.Split(',');
+            
+            Dictionary<string, string> dictionary = new Dictionary<string, string>();
+            foreach (string property in meProperties)
+            {
+                string propertyName = property.Split(':')[0].Replace("\"", "");
+                //3 for the length of "":
+                dictionary.Add(propertyName, property.Substring(propertyName.Length+3).Replace("\"", ""));
+            }
+            return dictionary;
         }
     }
 }

@@ -1,5 +1,6 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Collections.Generic;
 using TestFramework;
 
 namespace MSGraphTest
@@ -101,8 +102,8 @@ namespace MSGraphTest
             GraphBrowser.Wait(TimeSpan.FromSeconds(10));
             string v10Response = GraphUtility.GetExplorerResponse();
             Assert.IsTrue(
-                v10Response.Contains(@"""@odata.context"":""https://graph.microsoft.com/v1.0"),
-                "Setting a v1.0 query string should get a v1.0 response.");
+                 v10Response.Contains(@"""@odata.context"":""https://graph.microsoft.com/v1.0"),
+                 "Setting a v1.0 query string should get a v1.0 response.");
 
             //vBeta
             GraphUtility.InputExplorerQueryString("https://graph.microsoft.com/beta/me" + "\n");
@@ -112,5 +113,45 @@ namespace MSGraphTest
                 betaResponse.Contains(@"""@odata.context"":""https://graph.microsoft.com/beta"),
                 "Setting a vBeta query string should get a vBeta response.");
         }
+
+        /// <summary>
+        /// Verify whether request PATCH can succeed.
+        /// </summary>
+        [TestMethod]
+        public void Comps_Graph_S05_TC04_CanPatchMe()
+        {
+            GraphPages.Navigation.Select("Graph explorer");
+            string userName = Utility.GetConfigurationValue("GraphExplorerUserName");
+
+            if (!GraphUtility.IsLoggedIn())
+            {
+                GraphUtility.Click("Login");
+
+                GraphUtility.Login(
+                    userName,
+                    Utility.GetConfigurationValue("GraphExplorerPassword"));
+            }
+            //Change the operation from GET to PATCH
+            GraphUtility.ClickButton("GET");
+            GraphUtility.Click("PATCH");
+            string jobTitle = "JobTitle_" + DateTime.Now.ToString("M/d/yyyy/hh/mm/ss");
+            GraphUtility.InputExplorerJSONBody(new KeyValuePair<string,string>("jobTitle",jobTitle));
+            GraphBrowser.Wait(TimeSpan.FromSeconds(3));
+            GraphUtility.InputExplorerQueryString("https://graph.microsoft.com/v1.0/me" + "\n");
+            GraphBrowser.Wait(TimeSpan.FromSeconds(8));
+            string patchResponse = GraphUtility.GetExplorerResponse();
+
+            //Change the operation from PATCH to GET
+            GraphUtility.ClickButton("PATCH");
+            GraphUtility.Click("GET");
+            GraphUtility.InputExplorerQueryString("https://graph.microsoft.com/v1.0/me" + "\n");
+            GraphBrowser.Wait(TimeSpan.FromSeconds(8));
+            string getResponse = GraphUtility.GetExplorerResponse();
+
+            Dictionary<string, string> gottenProperties=GraphUtility.ParseJsonFormatProperties(getResponse);
+            Assert.AreEqual(jobTitle, gottenProperties["jobTitle"], "The patched property should be updated accordingly");
+        }
+
+        
     }
 }
