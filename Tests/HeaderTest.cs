@@ -101,15 +101,31 @@ namespace Tests
                 foundResult);
         }
 
-        /// <summary>
-        /// Verify whether Facebook can be navigated to
-        /// </summary>
+        ///// <summary>
+        ///// Verify whether Facebook can be navigated to
+        ///// </summary>
+        //[TestMethod]
+        //public void Comps_S01_TC03_CanGotoFacebook()
+        //{
+        //    //Click the icon upon the branding
+        //    Utility.ClickIcon("Facebook");
+        //}
+
+        ///// <summary>
+        ///// Verify whether Twitter can be navigated to
+        ///// </summary>
+        //[TestMethod]
+        //public void Comps_S01_TC04_CanGotoTwitter()
+        //{
+        //    //Click the icon upon the branding
+        //    Utility.ClickIcon("Twitter");
+        //}
+
         [TestMethod]
-        public void Comps_S01_TC03_CanGotoFacebook()
+        public void Comps_S01_TC05_CanGotoRSS()
         {
-            Utility.Click("Facebook");
-            Browser.Wait(TimeSpan.FromSeconds(5));
-            Assert.IsTrue(Browser.IsAtFacebook(),"Facebook link should be valid");
+            Utility.ClickIcon("RSS");
+            Assert.IsTrue(Browser.IsAtPage("RSS"),"RSS link upon the branding should be valid");
         }
     }
 }

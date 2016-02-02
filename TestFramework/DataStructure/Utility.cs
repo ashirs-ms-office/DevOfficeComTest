@@ -400,5 +400,20 @@ namespace TestFramework
 
             return resultNames;
         }
+
+        public static void ClickIcon(string iconType)
+        {
+            switch (iconType)
+            { 
+                //case "Facebook":
+                //    var element = Browser.FindElement(By.CssSelector("#atstbx > a.at-custom-share-anchor.at-share-btn.at-svc-facebook > span > span > svg"));
+                //    Browser.Click(element);
+                //    break;
+                case "RSS":
+                    var element = Browser.FindElement(By.CssSelector("#header-social > a"));
+                        Browser.Click(element);
+                    break;
+            }
+        }
     }
 }

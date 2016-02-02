@@ -316,17 +316,41 @@ namespace TestFramework
             defaultHandle = webDriver.CurrentWindowHandle;
         }
 
-        public static bool IsAtFacebook()
+        /// <summary>
+        /// Adjust the window siae
+        /// </summary>
+        /// <param name="width">The new window width to set</param>
+        /// <param name="height">The new window height to set</param>
+        /// <param name="maxSize">whether maxsize the window and return the size</param>
+        public static void SetWindowSize(int width, int height, bool maxSize = false)
         {
-            SwitchToNewWindow();
-            if (webDriver.Url.Contains("facebook.com/OfficeDev"))
+            if (maxSize)
             {
-                return true;
+                webDriver.Manage().Window.Maximize();
             }
             else
             {
-                return false;
+                System.Drawing.Size windowSize = new System.Drawing.Size();
+
+                windowSize.Width = width;
+                windowSize.Height = height;
+                webDriver.Manage().Window.Size = windowSize;
             }
+        }
+
+        public static bool IsAtPage(string pageType)
+        {
+            SwitchToNewWindow();
+            switch (pageType)
+            {
+                case "RSS":
+                    if (webDriver.Url.Contains("feedburner.com/office/fmNx"))
+                    {
+                        return true;
+                    }
+                    break;
+            }
+            return false;
         }
     }
 }
