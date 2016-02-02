@@ -376,5 +376,29 @@ namespace TestFramework
                 return false;
             }
         }
+
+        /// <summary>
+        /// Input search text into iwidget input field and search it
+        /// </summary>
+        /// <param name="searchText">The text to input</param>
+        /// <returns>The names of the search results</returns>
+        public static string[] SearchWidget(string searchText)
+        {
+            var element = Browser.FindElement(By.XPath("//fieldset/input[@id='q']"));
+            element.SendKeys(searchText);
+            var searchElement = Browser.FindElement(By.XPath("//fieldset/button[@type='submit']"));
+            Browser.Click(searchElement);
+
+            Browser.Wait(TimeSpan.FromSeconds(5));
+
+            IReadOnlyList<IWebElement> results = Browser.webDriver.FindElements(By.CssSelector("div.col-xs-8.name.cp1"));
+            string[] resultNames=new string[results.Count];
+            for (int i = 0; i < results.Count; i++)
+            {
+                resultNames[i] = results[i].Text;
+            }
+
+            return resultNames;
+        }
     }
 }

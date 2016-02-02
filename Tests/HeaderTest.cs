@@ -74,5 +74,31 @@ namespace Tests
                     subNavItem);
             }
         }
+
+        /// <summary>
+        /// Verify whether clicking the branding can navigate to home page
+        /// </summary>
+        [TestMethod]
+        public void Comps_S01_TC02_CanSearchWidget()
+        {
+            int randomIndex = new Random().Next(Utility.TypicalSearchText.Length);
+            string searchString = Utility.TypicalSearchText[randomIndex];
+            string[] results = Utility.SearchWidget(searchString);
+            bool isFound = false;
+            string foundResult=string.Empty;
+            for (int i = 0; i < results.Length; i++)
+            {
+                if (results[i].ToLower().Contains(searchString.ToLower()))
+                {
+                    isFound = true;
+                    foundResult=results[i];
+                    break;
+                }
+            }
+            Assert.IsTrue(isFound,
+                "Search {0} should find the result:\n{1}",
+                searchString,
+                foundResult);
+        }
     }
 }
