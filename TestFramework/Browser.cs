@@ -315,5 +315,18 @@ namespace TestFramework
 
             defaultHandle = webDriver.CurrentWindowHandle;
         }
+
+        public static bool IsAtFacebook()
+        {
+            SwitchToNewWindow();
+            if (webDriver.Url.Contains("facebook.com/OfficeDev"))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

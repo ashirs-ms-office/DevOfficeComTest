@@ -100,5 +100,16 @@ namespace Tests
                 searchString,
                 foundResult);
         }
+
+        /// <summary>
+        /// Verify whether Facebook can be navigated to
+        /// </summary>
+        [TestMethod]
+        public void Comps_S01_TC03_CanGotoFacebook()
+        {
+            Utility.Click("Facebook");
+            Browser.Wait(TimeSpan.FromSeconds(5));
+            Assert.IsTrue(Browser.IsAtFacebook(),"Facebook link should be valid");
+        }
     }
 }
