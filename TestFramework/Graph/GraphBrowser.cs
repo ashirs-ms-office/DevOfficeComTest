@@ -108,6 +108,32 @@ namespace TestFramework
             return false;
         }
 
+        public static bool SwitchToNewWindow()
+        {
+            // get all window handles
+            IList<string> handlers = webDriver.WindowHandles;
+            string newWindowHandle = string.Empty;
+            foreach (var winHandler in handlers)
+            {
+                if (!winHandler.Equals(webDriver.CurrentWindowHandle))
+                {
+                    newWindowHandle = winHandler;
+                    break;
+                }
+            }
+
+            if (!newWindowHandle.Equals(string.Empty))
+            {
+                webDriver.SwitchTo().Window(newWindowHandle);
+                return true;
+            }
+            else
+            {
+                webDriver.SwitchTo().DefaultContent();
+                return false;
+            }
+        }
+
         public static void GoBack()
         {
             if (!Title.Equals(defaultTitle))

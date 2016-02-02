@@ -49,8 +49,9 @@ namespace MSGraphTest
         {
             GraphPages.Navigation.Select("App registration");
             GraphUtility.Click("New App Registration Portal (preview)");
+            GraphBrowser.SwitchToNewWindow();
             Assert.IsTrue(
-                GraphBrowser.SwitchToWindow("apps.dev.microsoft.com"),
+            GraphUtility.HasHeadOne("Application Registration Portal"),
                 @"Clicking ""New App Registration Portal (preview)"" on App registration page can navigate to apps.dev.microsoft.com page");
         }
     }

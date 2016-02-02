@@ -261,10 +261,10 @@ namespace TestFramework
         /// Format a property to JSON format  and put it in Explorer request field
         /// </summary>
         /// <param name="property">The property to format</param>
-        public static void InputExplorerJSONBody(KeyValuePair<string,string> property)
+        public static void InputExplorerJSONBody(KeyValuePair<string, string> property)
         {
             var element = GraphBrowser.FindElement(By.CssSelector("div#jsonEditor>textarea"));
-            element.SendKeys("{\""+property.Key+"\":\""+property.Value+"\"}");
+            element.SendKeys("{\"" + property.Key + "\":\"" + property.Value + "\"}");
         }
 
         /// <summary>
@@ -295,15 +295,33 @@ namespace TestFramework
         public static Dictionary<string, string> ParseJsonFormatProperties(string jsonString)
         {
             string[] meProperties = jsonString.Split(',');
-            
+
             Dictionary<string, string> dictionary = new Dictionary<string, string>();
             foreach (string property in meProperties)
             {
                 string propertyName = property.Split(':')[0].Replace("\"", "");
                 //3 for the length of "":
-                dictionary.Add(propertyName, property.Substring(propertyName.Length+3).Replace("\"", ""));
+                dictionary.Add(propertyName, property.Substring(propertyName.Length + 3).Replace("\"", ""));
             }
             return dictionary;
+        }
+
+        /// <summary>
+        /// Verify whether there is any h1 that contains a specific text
+        /// </summary>
+        /// <param name="headText">The text of h1</param>
+        /// <returns>True if yes, else no.</returns>
+        public static bool HasHeadOne(string headText)
+        {
+            IReadOnlyList<IWebElement> elements = GraphBrowser.webDriver.FindElements(By.TagName("h1"));
+            foreach (IWebElement element in elements)
+            {
+                if (element.Text.Contains(headText))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

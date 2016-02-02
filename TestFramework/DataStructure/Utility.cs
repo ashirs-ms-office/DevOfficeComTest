@@ -17,7 +17,7 @@ namespace TestFramework
         /// <summary>
         /// Some typical search text
         /// </summary>
-        public static readonly string[] TypicalSearchText = new string[] { "Office", "API", "SharePoint", "Add-in", "Property Manager", "ios", "OneDrive" };
+        public static readonly string[] TypicalSearchText = new string[] { "Office", "API", "SharePoint", "Add-in", "Graph", "ios", "OneDrive" };
 
         public static int DefaultWaitTime = int.Parse(GetConfigurationValue("DefaultWaitTime"));
 
