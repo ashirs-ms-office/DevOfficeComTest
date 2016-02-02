@@ -24,12 +24,18 @@ namespace Tests
             Browser.Close();
         }
 
+        [TestCleanup]
+        public void TestCleanup()
+        {
+            Browser.Goto(Utility.GetConfigurationValue("BaseAddress"));
+        }
         /// <summary>
         /// Verify whether clicking the branding can navigate to home page
         /// </summary>
         [TestMethod]
         public void Acceptance_S01_TC01_CanBrandingNavToHomePage()
         {
+            Browser.SetWaitTime(TimeSpan.FromSeconds(30));
             string[] navOptions = new string[] { 
                 "Explore",
                 "Getting Started", 
