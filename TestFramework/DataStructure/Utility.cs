@@ -19,6 +19,8 @@ namespace TestFramework
         /// </summary>
         public static readonly string[] TypicalSearchText = new string[] { "Office", "API", "SharePoint", "Add-in", "Graph", "ios", "OneDrive" };
 
+        public static readonly int MinWidthToShowParam = 895;
+
         public static int DefaultWaitTime = int.Parse(GetConfigurationValue("DefaultWaitTime"));
 
         /// <summary>

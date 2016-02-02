@@ -95,11 +95,22 @@ namespace Tests
         {
             ServiceToTry service = ServiceToTry.GetUsers;
             Pages.Office365Page.CardTryItOut.ChooseService(service);
-            foreach (GetUsersValue item in Enum.GetValues(typeof(GetUsersValue)))
+            int currentWidth = 0;
+            int currentHeight = 0;
+            Browser.GetWindowSize(out currentWidth, out currentHeight);
+            if (currentWidth > Utility.MinWidthToShowParam)
             {
-                Pages.Office365Page.CardTryItOut.ChooseServiceValue(service, item);
+                foreach (GetUsersValue item in Enum.GetValues(typeof(GetUsersValue)))
+                {
+                    Pages.Office365Page.CardTryItOut.ChooseServiceValue(service, item);
+                    Pages.Office365Page.CardTryItOut.ClickTry();
+                    Assert.IsTrue(Pages.Office365Page.CardTryItOut.CanGetResponse(service, item), string.Format("The service {0} with parameter {1} is not work.", service.ToString(), item.ToString()));
+                }
+            }
+            else
+            {
                 Pages.Office365Page.CardTryItOut.ClickTry();
-                Assert.IsTrue(Pages.Office365Page.CardTryItOut.CanGetResponse(service, item), string.Format("The service {0} with parameter {1} is not work.", service.ToString(), item.ToString()));
+                Assert.IsTrue(Pages.Office365Page.CardTryItOut.CanGetResponse(service, GetUsersValue.me), string.Format("The service {0} with parameter {1} is not work.", service.ToString(), GetUsersValue.me.ToString()));
             }
         }
 
@@ -108,11 +119,22 @@ namespace Tests
         {
             ServiceToTry service = ServiceToTry.GetGroups;
             Pages.Office365Page.CardTryItOut.ChooseService(service);
-            foreach (GetGroupValue item in Enum.GetValues(typeof(GetGroupValue)))
+            int currentWidth = 0;
+            int currentHeight = 0;
+            Browser.GetWindowSize(out currentWidth, out currentHeight);
+            if (currentWidth > Utility.MinWidthToShowParam)
             {
-                Pages.Office365Page.CardTryItOut.ChooseServiceValue(service, item);
+                foreach (GetGroupValue item in Enum.GetValues(typeof(GetGroupValue)))
+                {
+                    Pages.Office365Page.CardTryItOut.ChooseServiceValue(service, item);
+                    Pages.Office365Page.CardTryItOut.ClickTry();
+                    Assert.IsTrue(Pages.Office365Page.CardTryItOut.CanGetResponse(service, item), string.Format("The service {0} with parameter {1} is not work.", service.ToString(), item.ToString()));
+                }
+            }
+            else
+            {
                 Pages.Office365Page.CardTryItOut.ClickTry();
-                Assert.IsTrue(Pages.Office365Page.CardTryItOut.CanGetResponse(service, item), string.Format("The service {0} with parameter {1} is not work.", service.ToString(), item.ToString()));
+                Assert.IsTrue(Pages.Office365Page.CardTryItOut.CanGetResponse(service, GetGroupValue.me_memberOf), string.Format("The service {0} with parameter {1} is not work.", service.ToString(), GetGroupValue.me_memberOf.ToString()));
             }
         }
 
@@ -121,11 +143,22 @@ namespace Tests
         {
             ServiceToTry service = ServiceToTry.GetMessages;
             Pages.Office365Page.CardTryItOut.ChooseService(service);
-            foreach (GetMessagesValue item in Enum.GetValues(typeof(GetMessagesValue)))
+            int currentWidth = 0;
+            int currentHeight = 0;
+            Browser.GetWindowSize(out currentWidth, out currentHeight);
+            if (currentWidth > Utility.MinWidthToShowParam)
             {
-                Pages.Office365Page.CardTryItOut.ChooseServiceValue(service, item);
+                foreach (GetMessagesValue item in Enum.GetValues(typeof(GetMessagesValue)))
+                {
+                    Pages.Office365Page.CardTryItOut.ChooseServiceValue(service, item);
+                    Pages.Office365Page.CardTryItOut.ClickTry();
+                    Assert.IsTrue(Pages.Office365Page.CardTryItOut.CanGetResponse(service, item), string.Format("The service {0} with parameter {1} is not work.", service.ToString(), item.ToString()));
+                }
+            }
+            else
+            {
                 Pages.Office365Page.CardTryItOut.ClickTry();
-                Assert.IsTrue(Pages.Office365Page.CardTryItOut.CanGetResponse(service, item), string.Format("The service {0} with parameter {1} is not work.", service.ToString(), item.ToString()));
+                Assert.IsTrue(Pages.Office365Page.CardTryItOut.CanGetResponse(service, GetMessagesValue.Inbox), string.Format("The service {0} with parameter {1} is not work.", service.ToString(), GetMessagesValue.Inbox.ToString()));
             }
         }
 
@@ -134,11 +167,22 @@ namespace Tests
         {
             ServiceToTry service = ServiceToTry.GetFiles;
             Pages.Office365Page.CardTryItOut.ChooseService(service);
-            foreach (GetFilesValue item in Enum.GetValues(typeof(GetFilesValue)))
+            int currentWidth = 0;
+            int currentHeight = 0;
+            Browser.GetWindowSize(out currentWidth, out currentHeight);
+            if (currentWidth > Utility.MinWidthToShowParam)
             {
-                Pages.Office365Page.CardTryItOut.ChooseServiceValue(service, item);
+                foreach (GetFilesValue item in Enum.GetValues(typeof(GetFilesValue)))
+                {
+                    Pages.Office365Page.CardTryItOut.ChooseServiceValue(service, item);
+                    Pages.Office365Page.CardTryItOut.ClickTry();
+                    Assert.IsTrue(Pages.Office365Page.CardTryItOut.CanGetResponse(service, item), string.Format("The service {0} with parameter {1} is not work.", service.ToString(), item.ToString()));
+                }
+            }
+            else
+            {
                 Pages.Office365Page.CardTryItOut.ClickTry();
-                Assert.IsTrue(Pages.Office365Page.CardTryItOut.CanGetResponse(service, item), string.Format("The service {0} with parameter {1} is not work.", service.ToString(), item.ToString()));
+                Assert.IsTrue(Pages.Office365Page.CardTryItOut.CanGetResponse(service, GetFilesValue.drive_root_children), string.Format("The service {0} with parameter {1} is not work.", service.ToString(), GetFilesValue.drive_root_children.ToString()));
             }
         }
 
