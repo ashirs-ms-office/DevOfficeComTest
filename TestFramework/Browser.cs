@@ -171,6 +171,17 @@ namespace TestFramework
             }
         }
 
+        /// <summary>
+        /// Get current window size
+        /// </summary>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        public static void GetWindowSize(out int width, out int height)
+        {
+            width = webDriver.Manage().Window.Size.Width;
+            height = webDriver.Manage().Window.Size.Height;
+        }
+
         public static IWebElement FindElementInFrame(string frameIdOrName, By by, out string innerText)
         {
             IWebElement frame = FindFrame(frameIdOrName);
