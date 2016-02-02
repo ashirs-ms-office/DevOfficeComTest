@@ -231,7 +231,7 @@ namespace TestFramework
         /// <returns>True if yes, else no</returns>
         public static bool CanFindSourceLink(string sourcePart)
         {
-            var element = Browser.FindElement(By.XPath("//a[contains(@href,'"+sourcePart+"')]"));
+            var element = Browser.FindElement(By.XPath("//a[contains(@href,'" + sourcePart + "')]"));
             if (element != null)
             {
                 return true;
@@ -342,19 +342,28 @@ namespace TestFramework
         /// <param name="navItem">The nav item in nav bar</param>
         public static string[] GetNavSubItems(string navItem)
         {
-            var element=Browser.FindElement(By.LinkText(navItem));
+            var element = Browser.FindElement(By.LinkText(navItem));
             try
             {
                 var subMenu = element.FindElement(By.XPath("parent::li/div"));
                 IReadOnlyList<IWebElement> subItems = subMenu.FindElements(By.TagName("a"));
+
                 string[] items = new string[subItems.Count];
                 for (int i = 0; i < subItems.Count; i++)
                 {
-                    items[i] = subItems[i].Text;
+                    if (subItems[i].Displayed)
+                    {
+                        items[i] = subItems[i].Text;
+                    }
+                    else
+                    {
+                        items = null;
+                        break;
+                    }
                 }
                 return items;
             }
-            catch(NoSuchElementException)
+            catch (NoSuchElementException)
             {
                 return null;
             }
@@ -371,7 +380,7 @@ namespace TestFramework
             {
                 return true;
             }
-            else 
+            else
             {
                 return false;
             }
@@ -392,7 +401,7 @@ namespace TestFramework
             Browser.Wait(TimeSpan.FromSeconds(5));
 
             IReadOnlyList<IWebElement> results = Browser.webDriver.FindElements(By.CssSelector("div.col-xs-8.name.cp1"));
-            string[] resultNames=new string[results.Count];
+            string[] resultNames = new string[results.Count];
             for (int i = 0; i < results.Count; i++)
             {
                 resultNames[i] = results[i].Text;
@@ -404,14 +413,14 @@ namespace TestFramework
         public static void ClickIcon(string iconType)
         {
             switch (iconType)
-            { 
+            {
                 //case "Facebook":
                 //    var element = Browser.FindElement(By.CssSelector("#atstbx > a.at-custom-share-anchor.at-share-btn.at-svc-facebook > span > span > svg"));
                 //    Browser.Click(element);
                 //    break;
                 case "RSS":
                     var element = Browser.FindElement(By.CssSelector("#header-social > a"));
-                        Browser.Click(element);
+                    Browser.Click(element);
                     break;
             }
         }

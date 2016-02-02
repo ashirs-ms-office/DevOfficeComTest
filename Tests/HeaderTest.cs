@@ -85,13 +85,13 @@ namespace Tests
             string searchString = Utility.TypicalSearchText[randomIndex];
             string[] results = Utility.SearchWidget(searchString);
             bool isFound = false;
-            string foundResult=string.Empty;
+            string foundResult = string.Empty;
             for (int i = 0; i < results.Length; i++)
             {
                 if (results[i].ToLower().Contains(searchString.ToLower()))
                 {
                     isFound = true;
-                    foundResult=results[i];
+                    foundResult = results[i];
                     break;
                 }
             }
@@ -125,7 +125,38 @@ namespace Tests
         public void Comps_S01_TC05_CanGotoRSS()
         {
             Utility.ClickIcon("RSS");
-            Assert.IsTrue(Browser.IsAtPage("RSS"),"RSS link upon the branding should be valid");
+            Assert.IsTrue(Browser.IsAtPage("RSS"), "RSS link upon the branding should be valid");
+        }
+
+        /// <summary>
+        /// Verify whether the nav items' submenus can be toggled
+        /// </summary>
+        [TestMethod]
+        public void Comps_S01_TC06_CanToggleSubMenu()
+        {
+            //Choose the items who have submenus
+            string[] navOptions = new string[] { 
+                "Explore",
+                "Resources", 
+                "Documentation" };
+
+            string navItem = navOptions[new Random().Next(navOptions.Length)];
+            string[] navSubOptions = Utility.GetNavSubItems(navItem);
+            Assert.IsNull(navSubOptions,
+                "Before clicking {0},its submenu should not appear",
+                navItem);
+
+            Pages.Navigation.Select(navItem);
+            navSubOptions = Utility.GetNavSubItems(navItem);
+            Assert.IsNotNull(navSubOptions,
+                "After clicking {0},its submenu should appear",
+                navItem);
+
+            Pages.Navigation.Select(navItem);
+            navSubOptions = Utility.GetNavSubItems(navItem);
+            Assert.IsNull(navSubOptions,
+                "After clicking {0} twice,its submenu should be hidden",
+                navItem);
         }
     }
 }
