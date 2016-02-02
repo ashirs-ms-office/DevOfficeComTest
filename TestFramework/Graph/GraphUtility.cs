@@ -260,11 +260,23 @@ namespace TestFramework
         /// <summary>
         /// Format a property to JSON format  and put it in Explorer request field
         /// </summary>
-        /// <param name="property">The property to format</param>
-        public static void InputExplorerJSONBody(KeyValuePair<string, string> property)
+        /// <param name="properties">The properties to format</param>
+        public static void InputExplorerJSONBody(Dictionary<string, string> properties)
         {
             var element = GraphBrowser.FindElement(By.CssSelector("div#jsonEditor>textarea"));
-            element.SendKeys("{\"" + property.Key + "\":\"" + property.Value + "\"}");
+            //element.SendKeys("{\"" + property.Key + "\":\"" + property.Value + "\"}");
+            element.SendKeys("{");
+            int index = 0;
+            foreach (KeyValuePair<string, string> property in properties)
+            {
+                index++;
+                element.SendKeys("\"" + property.Key + "\":\"" + property.Value + "\"");
+                if (index != properties.Count)
+                {
+                    element.SendKeys(",");
+                }
+            }
+            element.SendKeys("}");
         }
 
         /// <summary>

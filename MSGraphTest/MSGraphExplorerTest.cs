@@ -135,7 +135,9 @@ namespace MSGraphTest
             GraphUtility.ClickButton("GET");
             GraphUtility.Click("PATCH");
             string jobTitle = "JobTitle_" + DateTime.Now.ToString("M/d/yyyy/hh/mm/ss");
-            GraphUtility.InputExplorerJSONBody(new KeyValuePair<string,string>("jobTitle",jobTitle));
+            Dictionary<string, string> dic = new Dictionary<string, string>();
+            dic.Add("jobTitle", jobTitle);
+            GraphUtility.InputExplorerJSONBody(dic);
             GraphBrowser.Wait(TimeSpan.FromSeconds(3));
             GraphUtility.InputExplorerQueryString("https://graph.microsoft.com/v1.0/me" + "\n");
             GraphBrowser.Wait(TimeSpan.FromSeconds(8));
@@ -152,6 +154,68 @@ namespace MSGraphTest
             Assert.AreEqual(jobTitle, gottenProperties["jobTitle"], "The patched property should be updated accordingly");
         }
 
-        
+        /// <summary>
+        /// Verify whether a group can be "Post"ed and "Delete"ed
+        /// </summary>
+        [TestMethod]
+        public void Comps_Graph_S05_TC05_CanPostDeleteGroup()
+        {
+            GraphPages.Navigation.Select("Graph explorer");
+            string userName = Utility.GetConfigurationValue("GraphExplorerUserName");
+
+            if (!GraphUtility.IsLoggedIn())
+            {
+                GraphUtility.Click("Login");
+
+                GraphUtility.Login(
+                    userName,
+                    Utility.GetConfigurationValue("GraphExplorerPassword"));
+            }
+
+            //Change the operation from GET to POST
+            GraphUtility.ClickButton("GET");
+            GraphUtility.Click("POST");
+
+            Dictionary<string, string> postProperties = new Dictionary<string, string>();
+            postProperties.Add("description","A group for test");
+            string groupDisplayName = "TestGroup_" + DateTime.Now.ToString("M/d/yyyy/hh/mm/ss");
+            postProperties.Add("displayName", groupDisplayName);
+            postProperties.Add("mailEnabled","false");
+            postProperties.Add("securityEnabled","true");
+            postProperties.Add("mailNickname", "TestGroupMail");
+            GraphUtility.InputExplorerJSONBody(postProperties);
+            GraphUtility.InputExplorerQueryString("https://graph.microsoft.com/v1.0/groups" + "\n");
+            GraphBrowser.Wait(TimeSpan.FromSeconds(5));
+            string postResponse = GraphUtility.GetExplorerResponse();
+            Dictionary<string, string> postResponseProperties = GraphUtility.ParseJsonFormatProperties(postResponse);
+            
+            // Reload the page to empty the response
+            GraphBrowser.GoBack();
+            //Check whether the created group can be gotten
+            GraphUtility.InputExplorerQueryString("https://graph.microsoft.com/v1.0/groups/" + postResponseProperties["id"] + "\n");
+            GraphBrowser.Wait(TimeSpan.FromSeconds(5));
+            string getResponse = GraphUtility.GetExplorerResponse();
+            Dictionary<string, string> getResponseProperties = GraphUtility.ParseJsonFormatProperties(getResponse);
+            Assert.AreEqual(
+                postResponseProperties["displayName"], 
+                getResponseProperties["displayName"],
+                "The posted group should be able to GET");
+
+            //Change the operation from GET to DELETE
+            GraphUtility.ClickButton("GET");
+            GraphUtility.Click("DELETE");
+            GraphUtility.InputExplorerQueryString("https://graph.microsoft.com/v1.0/groups/" + postResponseProperties["id"] + "\n");
+            GraphBrowser.Wait(TimeSpan.FromSeconds(4));
+
+            GraphUtility.Click("DELETE");
+            GraphUtility.ClickButton("GET");
+            GraphUtility.InputExplorerQueryString("https://graph.microsoft.com/v1.0/groups/" + postResponseProperties["id"] + "\n");
+            GraphBrowser.Wait(TimeSpan.FromSeconds(5));
+            getResponse = GraphUtility.GetExplorerResponse();
+            
+            Assert.IsTrue(
+                getResponse.Contains("\"code\":\"Request_ResourceNotFound\""),
+                "The group should be deleted successfully");
+        }
     }
 }
