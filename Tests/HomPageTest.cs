@@ -31,7 +31,13 @@ namespace Tests
                 Assert.IsTrue(Pages.HomePage.CanLoadImages(item));
             }
         }
-        
+
+        [TestMethod]
+        public void Acceptance_S15_TC01_CanDisplayCorrectTradeMark()
+        {
+            Assert.IsTrue(Pages.HomePage.CanDisplayCorrectTradeMark());
+        }
+
         [ClassCleanup]
         public static void ClassCleanup()
         {

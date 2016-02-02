@@ -53,8 +53,11 @@ namespace TestFramework
 
     public enum ServiceToTry
     {
+        [Description("messages")]
         GetMessages,
+        [Description("events")]
         GetEvents,
+        [Description("contacts")]
         GetContacts,
         GetFiles,
         GetUsers,
