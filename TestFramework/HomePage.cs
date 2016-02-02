@@ -52,6 +52,12 @@ namespace TestFramework
                     return false;
             }
         }
+
+        public bool CanDisplayCorrectTradeMark()
+        {
+            IWebElement element = Browser.Driver.FindElement(By.CssSelector("#layout-footer > div > div > div > div.clearfix > div > div > div.col-xs-6.col-md-12.col-lg-12.visible-md.visible-lg.privacy-links > ul > li"));
+            return element.Text.Contains(DateTime.Now.Year.ToString());
+        }
     }
 
     public enum HomePageImages
