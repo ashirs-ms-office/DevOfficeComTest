@@ -300,5 +300,81 @@ namespace TestFramework
                 return false;
             }
         }
+
+        /// <summary>
+        /// Find an link or a button role span according to the specific text and click it
+        /// </summary>
+        /// <param name="text">The text of the element</param>
+        public static void Click(string text)
+        {
+            var element = Browser.FindElement(By.LinkText(text));
+            //a link
+            if (element != null && element.Displayed)
+            {
+                Browser.Click(element);
+            }
+            else
+            {
+                IReadOnlyList<IWebElement> elements = Browser.webDriver.FindElements(By.XPath("//*[@role='button']"));
+                foreach (IWebElement elementToClick in elements)
+                {
+                    if (elementToClick.GetAttribute("innerHTML").Equals(text) && (elementToClick.Displayed))
+                    {
+                        Browser.Click(elementToClick);
+                        break;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Click the branding image on the page
+        /// </summary>
+        public static void ClickBranding()
+        {
+            var element = Browser.FindElement(By.CssSelector("#branding>a"));
+            Browser.Click(element);
+        }
+
+        /// <summary>
+        /// Get all the links in a NavItem's sub menu
+        /// </summary>
+        /// <param name="navItem">The nav item in nav bar</param>
+        public static string[] GetNavSubItems(string navItem)
+        {
+            var element=Browser.FindElement(By.LinkText(navItem));
+            try
+            {
+                var subMenu = element.FindElement(By.XPath("parent::li/div"));
+                IReadOnlyList<IWebElement> subItems = subMenu.FindElements(By.TagName("a"));
+                string[] items = new string[subItems.Count];
+                for (int i = 0; i < subItems.Count; i++)
+                {
+                    items[i] = subItems[i].Text;
+                }
+                return items;
+            }
+            catch(NoSuchElementException)
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Verify whether the branding of dev center exists on the current page
+        /// </summary>
+        /// <returns></returns>
+        public static bool BrandingExists()
+        {
+            var element = Browser.FindElement(By.XPath("//div[@id='branding']/a/img[@alt='Office Dev Office Center logo']"));
+            if (element != null)
+            {
+                return true;
+            }
+            else 
+            {
+                return false;
+            }
+        }
     }
 }

@@ -13,7 +13,7 @@ namespace TestFramework
 {
     public static class Browser
     {
-        static IWebDriver webDriver;
+        internal static IWebDriver webDriver;
         static string defaultTitle;
         static string defaultHandle;
 
