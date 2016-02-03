@@ -135,6 +135,17 @@ namespace TestFramework
         PreviousVersions
     }
 
+    public enum SliderMenuItem
+    {
+        [Description("Get Started")]
+        GetStarted,
+        News,
+        Opportunity,
+        Transform,
+        [Description("Featured App")]
+        FeaturedApp
+    }
+
     public enum GetMessagesValue
     {
         Inbox,

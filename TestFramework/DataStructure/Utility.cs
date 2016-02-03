@@ -424,5 +424,29 @@ namespace TestFramework
                     break;
             }
         }
+
+        public static SliderMenuItem GetLeftMenuItem(SliderMenuItem item)
+        {
+            if ((int)item == 0)
+            {
+                return (SliderMenuItem)(Enum.GetNames(item.GetType()).Count() - 1);
+            }
+            else
+            {
+                return (SliderMenuItem)(item - 1);
+            }
+        }
+
+        public static SliderMenuItem GetRightMenuItem(SliderMenuItem item)
+        {
+            if ((int)item == Enum.GetNames(item.GetType()).Count() - 1)
+            {
+                return (SliderMenuItem)(0);
+            }
+            else
+            {
+                return (SliderMenuItem)(item + 1);
+            }
+        }
     }
 }
