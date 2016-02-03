@@ -51,6 +51,7 @@ namespace Tests
         {
             Pages.OfficeGettingStartedPage.Office365APIGetStarted();
             Assert.IsTrue(Pages.Office365Page.IsAtOffice365Page(), "Failed to open Office 365 APIs Getting started page.");
+            Assert.IsTrue(Pages.Office365Page.OnlyDefaultCardsDisplayed(), "Cards in Office 365 page are not displayed correctly.");
 
             Pages.Office365Page.CardTryItOut.ChooseService(ServiceToTry.GetMessages);
             Pages.Office365Page.CardTryItOut.ClickTry();
@@ -61,7 +62,9 @@ namespace Tests
             Assert.IsTrue(Pages.Office365Page.CardSetupPlatform.IsShowingPlatformSetup(platform), "Failed to choose platform {0}.", platform.ToString());
 
             Pages.Office365Page.CardRegisterApp.SigninLater();
-            Pages.Office365Page.CardDownloadCode.DownloadCode();
+            Assert.IsTrue(Pages.Office365Page.IsCardDisplayed("setup-project"), "Card with id 'setup-project' in Office 365 page is not displayed correctly.");
+            Assert.IsTrue(Pages.Office365Page.IsCardDisplayed("next-step"), "Card with id 'next-step' in Office 365 page is not displayed correctly.");
+            Pages.Office365Page.CardDownloadCode.DownloadCode(); 
             Assert.IsTrue(Pages.Office365Page.CardDownloadCode.IsCodeDownloaded(), "Failed to download code.");
 
             Pages.Office365Page.CardMoreResources.OutlookDevCenter();

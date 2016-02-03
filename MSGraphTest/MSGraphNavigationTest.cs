@@ -148,7 +148,45 @@ namespace MSGraphTest
             GraphPages.Navigation.Select(navPage);
 
             string imageUrl = GraphUtility.GetGraphBannerImageUrl();
-            Assert.IsTrue(GraphBrowser.ImageExist(Utility.GetConfigurationValue("MSGraphBaseAddress") + imageUrl), "The banner image should be valid to load");
+            Assert.IsTrue(Utility.ImageExist(Utility.GetConfigurationValue("MSGraphBaseAddress") + imageUrl), "The banner image should be valid to load");
+        }
+
+        /// <summary>
+        /// Verify whether the default banner image can be loaded.
+        /// </summary>
+        [TestMethod]
+        public void Comps_Graph_S01_TC09_CanLoadGraphPageImages()
+        {
+            //Currently ignore Graph explorer and Documentation, since these pages don't have banner image
+            //Graph branding image
+            string[] navOptions = new string[] {
+                "Home",
+                "Get started", 
+                //"Documentation", 
+                //"Graph explorer", 
+                "App registration",
+                "Samples & SDKs",
+                "Changelog" };
+
+            foreach (string navPage in navOptions)
+            {
+                GraphPages.Navigation.Select(navPage);
+                if (navPage == "Home")
+                {
+                    foreach (GraphHomePageImages item in Enum.GetValues(typeof(GraphHomePageImages)))
+                    {
+                        Assert.IsTrue(GraphPages.HomePage.CanLoadImages(item));
+                    }
+                }
+                else
+                {
+                    var graphPage = new GraphPage(true);
+                    foreach (GraphPageImages item in Enum.GetValues(typeof(GraphPageImages)))
+                    {
+                        Assert.IsTrue(graphPage.CanLoadImages(item));
+                    }
+                }
+            }
         }
     }
 }

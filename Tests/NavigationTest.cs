@@ -124,6 +124,42 @@ namespace Tests
             Browser.SetWaitTime(TimeSpan.FromSeconds(Utility.DefaultWaitTime));
         }
 
+        [TestMethod]
+        public void Comps_S02_TC09_CanLoadResourcePageImages()
+        {
+            foreach (MenuItemOfResource item in Enum.GetValues(typeof(MenuItemOfResource)))
+            {
+                ResourcePage page;
+                switch (item)
+                {
+                    case (MenuItemOfResource.AppRegistrationTool):
+                    case (MenuItemOfResource.APISandbox):
+                    case (MenuItemOfResource.MiniLabs):
+                        break;
+                    case (MenuItemOfResource.Training):
+                        Browser.SetWaitTime(TimeSpan.FromSeconds(30));
+                        Pages.Navigation.Select("Resources", item.ToString());
+                        //Browser.Wait(TimeSpan.FromSeconds(20));
+                        page = new ResourcePage();
+                        foreach (ResourcePageImages image in Enum.GetValues(typeof(ResourcePageImages)))
+                        {
+                            Assert.IsTrue(page.CanLoadImage(image), string.Format("The images in resource page {0} is not loaded currectly.", item.ToString()));
+                        }
+                        Browser.SetWaitTime(TimeSpan.FromSeconds(Utility.DefaultWaitTime));
+                        break;
+                    default:
+                        Pages.Navigation.Select("Resources", item.ToString());
+                        //Browser.Wait(TimeSpan.FromSeconds(20));
+                        page = new ResourcePage();
+                        foreach (ResourcePageImages image in Enum.GetValues(typeof(ResourcePageImages)))
+                        {
+                            Assert.IsTrue(page.CanLoadImage(image), string.Format("The images in resource page {0} is not loaded currectly.", item.ToString()));
+                        }
+                        break;
+                }
+            }
+        }
+
         [ClassCleanup]
         public static void ClassCleanup()
         {

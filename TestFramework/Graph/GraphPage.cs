@@ -13,13 +13,6 @@ namespace TestFramework
         {
             get { return graphTitle.WrappedDriver.Title; }
         }
-        public bool CanLoadImage()
-        {
-            IWebElement element = GraphBrowser.Driver.FindElement(By.CssSelector("article>div>div>div>div"));
-            string Url = element.GetAttribute("style");
-            Url = GraphBrowser.BaseAddress + Url.Substring(Url.IndexOf('/'), Url.LastIndexOf('"') - Url.IndexOf('/'));
-            return GraphBrowser.ImageExist(Url);
-        }
 
         /// <summary>
         /// The constructor method
@@ -39,5 +32,37 @@ namespace TestFramework
                 graphTitle = (OpenQA.Selenium.Remote.RemoteWebElement)Browser.Driver.FindElement(By.CssSelector("head>title"));
             }
             }
+
+        public bool CanLoadImages(GraphPageImages image)
+        {
+            switch (image)
+            {
+                case (GraphPageImages.MainBanner):
+                    var element = GraphBrowser.Driver.FindElement(By.Id("banner-image"));
+                    string Url = element.GetAttribute("style");
+                    Url = GraphBrowser.BaseAddress + Url.Substring(Url.IndexOf('/'), Url.LastIndexOf('"') - Url.IndexOf('/'));
+                    return Utility.ImageExist(Url);
+                case (GraphPageImages.Others):
+                    var elements = GraphBrowser.Driver.FindElements(By.CssSelector("img"));
+                    foreach (IWebElement item in elements)
+                    {
+                        Url = item.GetAttribute("src");
+                        if (!Utility.ImageExist(Url))
+                        {
+                            return false;
+                        }
+                    }
+
+                    return true;
+                default:
+                    return false;
+            }
+        }
+    }
+
+    public enum GraphPageImages
+    {
+        MainBanner,
+        Others
     }
 }

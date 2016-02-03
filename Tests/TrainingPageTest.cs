@@ -49,7 +49,7 @@ namespace Tests
         /// Verify the search function in Resources->Training
         /// </summary>
         [TestMethod]
-        public void S14_TC02_Can_Search_CorrectTrainings()
+        public void Acceptance_S14_TC02_Can_Search_CorrectTrainings()
         {
             Pages.Navigation.Select("Resources", "Training");
             int randomIndex = new Random().Next(Utility.TypicalSearchText.Length);
