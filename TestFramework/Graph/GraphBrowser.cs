@@ -146,6 +146,11 @@ namespace TestFramework
             }
         }
 
+        public static void Refresh()
+        {
+            webDriver.Navigate().Refresh();
+        }
+
         public static IWebElement FindElementInFrame(string frameIdOrName, By by, out string innerText)
         {
             IWebElement frame = FindFrame(frameIdOrName);
@@ -339,7 +344,7 @@ namespace TestFramework
         /// <returns>The size on current screen(in pixels)</returns>
         public static void TransferPhysicalSizeToPixelSize(double deviceSize, Size deviceResolution, out Size windowSize)
         {
-            
+
             Panel panel = new System.Windows.Forms.Panel();
             Graphics g = System.Drawing.Graphics.FromHwnd(panel.Handle);
             IntPtr hdc = g.GetHdc();
@@ -359,5 +364,14 @@ namespace TestFramework
 
         [DllImport("gdi32.dll")]
         private static extern int GetDeviceCaps(IntPtr hdc, int Index);
+
+        /// <summary>
+        /// Wait for the returned response
+        /// </summary>
+        public static void WaitForExploreResponse()
+        {
+            var wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(30));
+            wait.Until(ExpectedConditions.ElementExists(By.CssSelector("#jsonViewer > div.ace_scroller > div > div.ace_layer.ace_text-layer > div.ace_line")));
+        }
     }
 }

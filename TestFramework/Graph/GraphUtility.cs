@@ -221,7 +221,13 @@ namespace TestFramework
             userIdElement.SendKeys(userName);
             var passwordElement = GraphBrowser.FindElement(By.XPath("//input[@id='cred_password_inputtext']"));
             passwordElement.SendKeys(password);
-            Click("Sign in");
+            var signInElement = GraphBrowser.FindElement(By.XPath("//span[@id='cred_sign_in_button']"));
+           do
+           { 
+               GraphBrowser.Wait(TimeSpan.FromSeconds(1)); 
+           } while (!signInElement.Enabled);
+            GraphBrowser.Click(signInElement);
+            
         }
 
         /// <summary>
@@ -318,19 +324,34 @@ namespace TestFramework
             return dictionary;
         }
 
-        /// <summary>
-        /// Verify whether there is any h1 that contains a specific text
-        /// </summary>
-        /// <param name="headText">The text of h1</param>
-        /// <returns>True if yes, else no.</returns>
-        public static bool HasHeadOne(string headText)
+        public static void SelectO365AppRegisstration()
         {
-            IReadOnlyList<IWebElement> elements = GraphBrowser.webDriver.FindElements(By.TagName("h1"));
-            foreach (IWebElement element in elements)
+            var element = GraphBrowser.FindElement(By.XPath("//a[contains(@href,'dev.office.com/app-registration')]"));
+            GraphBrowser.Click(element);
+        }
+
+        public static void SelectNewAppRegisstrationPortal()
+        {
+            var element = GraphBrowser.FindElement(By.XPath("//a[contains(@href,'apps.dev.microsoft.com')]"));
+            GraphBrowser.Click(element);
+        }
+
+        public static bool IsAtApplicationRegistrationPortal(bool isNewPortal)
+        {
+            GraphBrowser.webDriver.SwitchTo().DefaultContent();
+            string urlKeyWord = isNewPortal ? "apps.dev.microsoft.com" : "dev.office.com/app-registration";
+            // get all window handles
+            IList<string> handlers = GraphBrowser.webDriver.WindowHandles;
+            foreach (var winHandler in handlers)
             {
-                if (element.Text.Contains(headText))
+                GraphBrowser.webDriver.SwitchTo().Window(winHandler);
+                if (GraphBrowser.webDriver.Url.Contains(urlKeyWord))
                 {
                     return true;
+                }
+                else
+                {
+                    GraphBrowser.webDriver.SwitchTo().DefaultContent();
                 }
             }
             return false;

@@ -138,19 +138,18 @@ namespace MSGraphTest
             Dictionary<string, string> dic = new Dictionary<string, string>();
             dic.Add("jobTitle", jobTitle);
             GraphUtility.InputExplorerJSONBody(dic);
-            GraphBrowser.Wait(TimeSpan.FromSeconds(3));
             GraphUtility.InputExplorerQueryString("https://graph.microsoft.com/v1.0/me" + "\n");
-            GraphBrowser.Wait(TimeSpan.FromSeconds(8));
+            GraphBrowser.WaitForExploreResponse();
             string patchResponse = GraphUtility.GetExplorerResponse();
 
             //Change the operation from PATCH to GET
             GraphUtility.ClickButton("PATCH");
             GraphUtility.Click("GET");
             GraphUtility.InputExplorerQueryString("https://graph.microsoft.com/v1.0/me" + "\n");
-            GraphBrowser.Wait(TimeSpan.FromSeconds(8));
+            GraphBrowser.Wait(TimeSpan.FromSeconds(5));
             string getResponse = GraphUtility.GetExplorerResponse();
 
-            Dictionary<string, string> gottenProperties=GraphUtility.ParseJsonFormatProperties(getResponse);
+            Dictionary<string, string> gottenProperties = GraphUtility.ParseJsonFormatProperties(getResponse);
             Assert.AreEqual(jobTitle, gottenProperties["jobTitle"], "The patched property should be updated accordingly");
         }
 
@@ -177,27 +176,27 @@ namespace MSGraphTest
             GraphUtility.Click("POST");
 
             Dictionary<string, string> postProperties = new Dictionary<string, string>();
-            postProperties.Add("description","A group for test");
+            postProperties.Add("description", "A group for test");
             string groupDisplayName = "TestGroup_" + DateTime.Now.ToString("M/d/yyyy/hh/mm/ss");
             postProperties.Add("displayName", groupDisplayName);
-            postProperties.Add("mailEnabled","false");
-            postProperties.Add("securityEnabled","true");
+            postProperties.Add("mailEnabled", "false");
+            postProperties.Add("securityEnabled", "true");
             postProperties.Add("mailNickname", "TestGroupMail");
             GraphUtility.InputExplorerJSONBody(postProperties);
             GraphUtility.InputExplorerQueryString("https://graph.microsoft.com/v1.0/groups" + "\n");
-            GraphBrowser.Wait(TimeSpan.FromSeconds(5));
+            GraphBrowser.WaitForExploreResponse();
             string postResponse = GraphUtility.GetExplorerResponse();
             Dictionary<string, string> postResponseProperties = GraphUtility.ParseJsonFormatProperties(postResponse);
-            
+
             // Reload the page to empty the response
-            GraphBrowser.GoBack();
+            GraphBrowser.Refresh();
             //Check whether the created group can be gotten
             GraphUtility.InputExplorerQueryString("https://graph.microsoft.com/v1.0/groups/" + postResponseProperties["id"] + "\n");
-            GraphBrowser.Wait(TimeSpan.FromSeconds(5));
+            GraphBrowser.WaitForExploreResponse();
             string getResponse = GraphUtility.GetExplorerResponse();
             Dictionary<string, string> getResponseProperties = GraphUtility.ParseJsonFormatProperties(getResponse);
             Assert.AreEqual(
-                postResponseProperties["displayName"], 
+                postResponseProperties["displayName"],
                 getResponseProperties["displayName"],
                 "The posted group should be able to GET");
 
@@ -212,7 +211,7 @@ namespace MSGraphTest
             GraphUtility.InputExplorerQueryString("https://graph.microsoft.com/v1.0/groups/" + postResponseProperties["id"] + "\n");
             GraphBrowser.Wait(TimeSpan.FromSeconds(5));
             getResponse = GraphUtility.GetExplorerResponse();
-            
+
             Assert.IsTrue(
                 getResponse.Contains("\"code\":\"Request_ResourceNotFound\""),
                 "The group should be deleted successfully");

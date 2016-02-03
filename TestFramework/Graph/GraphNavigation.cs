@@ -19,10 +19,10 @@ namespace TestFramework
         [FindsBy(How = How.LinkText, Using = "Documentation")]
         private IWebElement documentationLinkElement;
 
-        [FindsBy(How = How.LinkText, Using = "Graph explorer")]
+        [FindsBy(How = How.XPath, Using = "//ul[@class='nav navbar-nav']/li/a[contains(@href,'graphexplorer2.azurewebsites.net')]")]
         private IWebElement exploreLinkElement;
 
-        [FindsBy(How = How.LinkText, Using = "App registration")]
+        [FindsBy(How = How.XPath, Using = "//ul[@class='nav navbar-nav']/li/a[contains(@href,'/app-registration')]")]
         private IWebElement appregistrationLinkElement;
 
         [FindsBy(How = How.LinkText, Using = "Samples & SDKs")]
