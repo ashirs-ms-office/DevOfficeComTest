@@ -78,6 +78,28 @@ namespace TestFramework.Office365Page
             }
         }
 
+        public bool IsCardDisplayed(string CardId)
+        {
+            var elements = Browser.Driver.FindElements(By.ClassName("card"));
+            if (elements.Count > 0)
+            {
+                foreach (IWebElement item in elements)
+                {
+                    string itemId = item.GetAttribute("id");
+                    if (itemId == CardId)
+                    {
+                        return item.Displayed;
+                    }
+                }
+
+                return false;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public bool CanLoadImages(Office365Images image)
         {
             switch (image)

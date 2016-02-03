@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using System;
+using OpenQA.Selenium;
 
 namespace TestFramework.OfficeAddInPage
 {
@@ -90,6 +91,28 @@ namespace TestFramework.OfficeAddInPage
             }
 
             return true;
+        }
+
+        public bool IsCardDisplayed(string CardId)
+        {
+            var elements = Browser.Driver.FindElements(By.ClassName("card"));
+            if (elements.Count > 0)
+            {
+                foreach (IWebElement item in elements)
+                {
+                    string itemId = item.GetAttribute("id");
+                    if (itemId == CardId)
+                    {
+                        return item.Displayed;
+                    }
+                }
+
+                return false;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

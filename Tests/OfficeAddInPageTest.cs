@@ -99,12 +99,15 @@ namespace Tests
         {
             Pages.OfficeGettingStartedPage.OfficeAddInGetStarted();
             Assert.IsTrue(Pages.OfficeAddInPage.IsAtAddinPage(), "Failed to open Office Add-in Getting started page.");
+            Assert.IsTrue(Pages.OfficeAddInPage.OnlyDefaultCardsDisplayed(), "Cards in Add-in page are not displayed correctly.");
 
             // Select app
             Product product = Product.Outlook;
             Pages.OfficeAddInPage.CardChooseProduct.ChooseProduct(product);
             Assert.IsTrue(Pages.OfficeAddInPage.CardChooseProduct.IsShowingProductExplore(product), "Failed to choose product {0}.", product.ToString());
             Assert.IsTrue(Pages.OfficeAddInPage.CardChooseProduct.IsShowingVideo(product), "Failed to choose product {0}.", product.ToString());
+            Assert.IsTrue(Pages.OfficeAddInPage.IsCardDisplayed("build"), "Card with id 'build' in Add-in page is not displayed correctly.");
+            Assert.IsTrue(Pages.OfficeAddInPage.IsCardDisplayed("more"), "Card with id 'more' in Add-in page is not displayed correctly.");
 
             // Explore
             // Pages.OfficeAddInPage.CardOutlook.Explore.play();
