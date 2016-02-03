@@ -61,7 +61,7 @@
   <ItemGroup>
     <Compile Include="CodeSamplePageTest.cs" />
     <Compile Include="HeaderTest.cs" />
-    <Compile Include="HomPageTest.cs" />
+    <Compile Include="HomePageTest.cs" />
     <Compile Include="NavigationTest.cs" />
     <Compile Include="Office365PageTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
