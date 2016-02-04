@@ -73,11 +73,11 @@ namespace Tests
             Browser.SetWindowSize(width, height, false);
         }
 
-        [TestMethod]
-        public void Acceptance_S15_TC01_CanDisplayCorrectTradeMark()
-        {
-            Assert.IsTrue(Pages.HomePage.CanDisplayCorrectTradeMark());
-        }
+        //[TestMethod]
+        //public void Acceptance_S15_TC01_CanDisplayCorrectTradeMark()
+        //{
+        //    Assert.IsTrue(Pages.HomePage.CanDisplayCorrectTradeMark());
+        //}
 
         [ClassCleanup]
         public static void ClassCleanup()
