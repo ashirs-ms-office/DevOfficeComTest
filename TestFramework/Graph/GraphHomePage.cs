@@ -13,13 +13,8 @@ namespace TestFramework
         { }
         private static string PageTitle = "Microsoft Graph - Home";
 
-        [FindsBy(How = How.LinkText, Using = "Explore")]
+        [FindsBy(How = How.XPath, Using = "//ul[@class='nav navbar-nav']/li/a[contains(@href,'graphexplorer2.azurewebsites.net')]")]
         private IWebElement exploreLink;
-
-        public bool IsAt()
-        {
-            return GraphBrowser.Title == PageTitle;
-        }
 
         public bool CanLoadImages(GraphHomePageImages image)
         {

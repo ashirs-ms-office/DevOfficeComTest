@@ -182,8 +182,15 @@ namespace TestFramework
             var element = GraphBrowser.FindElement(By.XPath(xpath));
             var menuItem = element.FindElement(By.LinkText(item));
             string subMenuId = menuItem.GetAttribute("data-target");
-            var subMenu = element.FindElement(By.XPath("//ul[@id='" + subMenuId.Replace("#", string.Empty) + "']"));
-            return subMenu.Displayed;
+            if (subMenuId != null && subMenuId != string.Empty)
+            {
+                var subMenu = element.FindElement(By.XPath("//ul[@id='" + subMenuId.Replace("#", string.Empty) + "']"));
+                return subMenu.Displayed;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         /// <summary>
@@ -222,12 +229,12 @@ namespace TestFramework
             var passwordElement = GraphBrowser.FindElement(By.XPath("//input[@id='cred_password_inputtext']"));
             passwordElement.SendKeys(password);
             var signInElement = GraphBrowser.FindElement(By.XPath("//span[@id='cred_sign_in_button']"));
-           do
-           { 
-               GraphBrowser.Wait(TimeSpan.FromSeconds(1)); 
-           } while (!signInElement.Enabled);
+            do
+            {
+                GraphBrowser.Wait(TimeSpan.FromSeconds(1));
+            } while (!signInElement.Enabled);
             GraphBrowser.Click(signInElement);
-            
+
         }
 
         /// <summary>
@@ -336,6 +343,12 @@ namespace TestFramework
             GraphBrowser.Click(element);
         }
 
+        /// <summary>
+        /// Verify whether the page is at the expected app registration portal
+        /// </summary>
+        /// <param name="isNewPortal">The expected portal page type, true for
+        /// new protal, false for O365 portal</param>
+        /// <returns>True if yes, else no.</returns>
         public static bool IsAtApplicationRegistrationPortal(bool isNewPortal)
         {
             GraphBrowser.webDriver.SwitchTo().DefaultContent();
@@ -355,6 +368,103 @@ namespace TestFramework
                 }
             }
             return false;
+        }
+
+        public static void SelectToSeeOverView()
+        {
+            var element = GraphBrowser.FindElement(By.XPath("//div/a[contains(@href,'/docs')]"));
+            GraphBrowser.Click(element);
+        }
+
+        public static void SelectToTryAPI()
+        {
+            var element = GraphBrowser.FindElement(By.XPath("//div/a[contains(@href,'graphexplorer2.azurewebsites.net')]"));
+            GraphBrowser.Click(element);
+        }
+
+        public static void SelectO365GettingStarted()
+        {
+            var element = GraphBrowser.FindElement(By.XPath("//button[contains(@onclick,'getting-started/office365apis')]"));
+            GraphBrowser.Click(element);
+        }
+
+        /// <summary>
+        /// Return a random selection of items at TOC's specific level
+        /// </summary>
+        /// <param name="index">The specific level index. Starts from 0</param>
+        /// <param name="hasDoc">Indicates whether only returns the items each of which has the related documents</param>
+        /// <returns>TOC Items' title-and-links(separated by ,). The title part contains the item's whole path in TOC</returns>
+        public static string GetTOCItem(int index, bool hasDoc = false)
+        {
+            string xPath = "//nav[@id='home-nav-blade']";
+            for (int i = 0; i <= index; i++)
+            {
+                xPath += "/ul/li";
+            }
+            IReadOnlyList<IWebElement> links = GraphBrowser.webDriver.FindElements(By.XPath(xPath + "/a"));
+            string item = string.Empty;
+
+            int randomIndex;
+            do
+            {
+                randomIndex = new Random().Next(links.Count);
+
+                string path = string.Empty;
+                var ancestorElements = links[randomIndex].FindElements(By.XPath("ancestor::li/a")); //parent relative to current element
+                for (int j = 0; j < ancestorElements.Count - 1; j++)
+                {
+                    string ancestorTitle = ancestorElements[j].GetAttribute("innerHTML");
+                    if (ancestorElements[j].GetAttribute("style").Contains("text-transform: uppercase"))
+                    {
+                        ancestorTitle = ancestorTitle.ToUpper();
+                    }
+                    path += ancestorTitle + ">";
+                }
+
+                if (hasDoc)
+                {
+                    if (!links[randomIndex].GetAttribute("href").EndsWith("/"))
+                    {
+                        item = path + links[randomIndex].GetAttribute("innerHTML") + "," + links[randomIndex].GetAttribute("href");
+                    }
+                }
+                else
+                {
+                    item = path + links[randomIndex].GetAttribute("innerHTML") + "," + links[randomIndex].GetAttribute("href");
+                }
+            } while (links[randomIndex].GetAttribute("href").EndsWith("/"));
+            return item;
+        }
+
+        /// <summary>
+        /// Verify if the document displayed matches TOC item's link
+        /// </summary>
+        /// <param name="tocLink">TOC item's link</param>
+        /// <returns>True if yes, else no.</returns>
+        public static bool ValidateDocument(string tocLink)
+        {
+            string elementSrc = GraphBrowser.FindElement(By.XPath("//iframe[@id='docframe']")).GetAttribute("src").Replace("zh-cn/", "").Replace("en-us/", "");
+
+            if (tocLink.Replace("zh-cn/", "").Replace("en-us/", "").EndsWith(elementSrc.Replace(".htm", "").Replace("/GraphDocuments", "")))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static void ClickLogin()
+        {
+            var element = GraphBrowser.FindElement(By.XPath("//a[@ng-click='login()']"));
+            GraphBrowser.Click(element);
+        }
+
+        public static void ClickLogout()
+        {
+            var element = GraphBrowser.FindElement(By.XPath("//a[@ng-click='logout()']"));
+            GraphBrowser.Click(element);
         }
     }
 }

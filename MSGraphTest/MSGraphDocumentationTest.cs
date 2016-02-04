@@ -152,125 +152,35 @@ namespace MSGraphTest
             {
                 GraphUtility.ToggleMenu();
             }
-
-            //Level 1 layer
-            GraphUtility.Click("WALKTHROUGHS");
-            GraphBrowser.Wait(TimeSpan.FromSeconds(2));
+            int layerCount = GraphUtility.GetTOCLayer();
+            int randomIndex = new Random().Next(layerCount);
+            string levelItem = GraphUtility.GetTOCItem(randomIndex, true);
+            string[] parts = levelItem.Split(new char[] { ',' });
+            string[] tocPath = parts[0].Split(new char[] { '>' });
+            string title = tocPath[tocPath.Length - 1];
+            string link = parts[1];
+            for (int j = 0; j < tocPath.Length; j++)
+            {
+                //Avoid to fold the sublayer
+                if (!GraphUtility.SubLayerDisplayed(tocPath[j]))
+                {
+                    GraphUtility.Click(tocPath[j]);
+                }
+            }
+            GraphBrowser.Wait(TimeSpan.FromSeconds(5));
+            bool isCorrectDoc = GraphUtility.ValidateDocument(link);
             string docTitle = GraphUtility.GetDocTitle();
 
-            Assert.AreEqual(
-                "Platform specific walkthroughs",
-                docTitle,
-                @"Platform specific walkthroughs content should be shown when ""WALKTHROUGHS"" is chosen in the table of content on Documentation page");
+            Assert.IsTrue(
+               isCorrectDoc,
+               @"{0} content should be shown when {1} is chosen in the table of content on Documentation page",
+               docTitle,
+               parts[0]);
+            for (int k = tocPath.Length - 1; k >= 0; k--)
+            {
+                GraphUtility.Click(tocPath[k]);
+            }
 
-            //Level 2 layer
-            GraphUtility.Click("OVERVIEW");
-            GraphUtility.Click("Paging");
-            GraphBrowser.Wait(TimeSpan.FromSeconds(2));
-            docTitle = GraphUtility.GetDocTitle();
-
-            Assert.AreEqual(
-                "Paging Microsoft Graph data in your app",
-                docTitle,
-                @"Paging content should be shown when ""OVERVIEW""->""Paging"" is chosen in the table of content on Documentation page");
-
-            //Level 2 layer
-            GraphUtility.Click("AUTHORIZATION");
-            GraphUtility.Click("Associate Office 365 account");
-            GraphBrowser.Wait(TimeSpan.FromSeconds(2));
-            docTitle = GraphUtility.GetDocTitle();
-
-            Assert.AreEqual(
-                "Associate your Office 365 account with Azure AD to create and manage apps",
-                docTitle,
-                @"Associate Office 365 account content should be shown when ""AUTHORIZATION""->""Associate Office 365 account"" is chosen in the table of content on Documentation page");
-
-            //Level 3 layer
-            GraphUtility.Click("/V1.0 REFERENCE");
-            GraphUtility.Click("OUTLOOK CALENDAR");
-            GraphUtility.Click("EVENT");
-            GraphBrowser.Wait(TimeSpan.FromSeconds(2));
-            docTitle = GraphUtility.GetDocTitle();
-
-            Assert.AreEqual(
-                "event resource type",
-                docTitle,
-                @"Event resource type content should be shown when ""/V1.0 REFERENCE""->""OUTLOOK CALENDAR""->""EVENT"" is chosen in the table of content on Documentation page");
-
-            //Level 3 layer
-            GraphUtility.Click("GROUPS");
-            GraphUtility.Click("POST");
-            GraphBrowser.Wait(TimeSpan.FromSeconds(2));
-            docTitle = GraphUtility.GetDocTitle();
-
-            Assert.AreEqual(
-                "post resource type",
-                docTitle,
-                @"post resource type content should be shown when ""/V1.0 REFERENCE""->""GROUPS""->""POST"" is chosen in the table of content on Documentation page");
-
-            //Level 3 layer
-            GraphUtility.Click("/BETA REFERENCE");
-            GraphUtility.Click("PEOPLE");
-            GraphUtility.Click("PERSON");
-            GraphBrowser.Wait(TimeSpan.FromSeconds(2));
-            docTitle = GraphUtility.GetDocTitle();
-
-            Assert.AreEqual(
-                "person resource type",
-                docTitle,
-                @"person resource type content should be shown when ""/BETA REFERENCE""->""PEOPLE""->""PERSON"" is chosen in the table of content on Documentation page");
-
-            //Level 4 layer
-            GraphUtility.Click("/V1.0 REFERENCE");
-            GraphUtility.Click("USERS");
-            GraphUtility.Click("PHOTO");
-            GraphUtility.Click("Update photo");
-            GraphBrowser.Wait(TimeSpan.FromSeconds(2));
-            docTitle = GraphUtility.GetDocTitle();
-
-            Assert.AreEqual(
-                "Update profilephoto",
-                docTitle,
-                @"Update profilephoto content should be shown when ""/V1.0 REFERENCE""->""USERS""->""PHOTO""->""Update photo"" is chosen in the table of content on Documentation page");
-
-            //Level 4 layer
-            GraphUtility.Click("/BETA REFERENCE");
-            GraphUtility.Click("OUTLOOK EXTENSIONS");
-            GraphUtility.Click("OPENTYPEEXTENSION");
-            GraphUtility.Click("Delete openTypeExtension");
-            GraphBrowser.Wait(TimeSpan.FromSeconds(2));
-            docTitle = GraphUtility.GetDocTitle();
-
-            Assert.AreEqual(
-                "Delete extension",
-                docTitle,
-                @"Delete extension content should be shown when ""/BETA REFERENCE""->""OUTLOOK EXTENSIONS""->""OPENTYPEEXTENSION""->""Delete openTypeExtension"" is chosen in the table of content on Documentation page");
-
-            //Level 4 layer
-            GraphUtility.Click("/V1.0 REFERENCE");
-            GraphUtility.Click("DIRECTORY");
-            GraphUtility.Click("DEVICE");
-            GraphUtility.Click("List devices");
-            GraphBrowser.Wait(TimeSpan.FromSeconds(2));
-            docTitle = GraphUtility.GetDocTitle();
-
-            Assert.AreEqual(
-                "List devices",
-                docTitle,
-                @"List devices content should be shown when ""/V1.0 REFERENCE""->""DIRECTORY""->""DEVICE""->""List devices"" is chosen in the table of content on Documentation page");
-
-            //Level 4 layer
-            GraphUtility.Click("/BETA REFERENCE");
-            GraphUtility.Click("ONEDRIVE");
-            GraphUtility.Click("ITEM");
-            GraphUtility.Click("Create item");
-            GraphBrowser.Wait(TimeSpan.FromSeconds(2));
-            docTitle = GraphUtility.GetDocTitle();
-
-            Assert.AreEqual(
-                "Create an item in a collection",
-                docTitle,
-                @"Create an item in a collection content should be shown when ""/BETA REFERENCE""->""ONEDRIVE""->""ITEM""->""Create item"" is chosen in the table of content on Documentation page");
         }
 
         /// <summary>

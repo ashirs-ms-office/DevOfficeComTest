@@ -38,10 +38,10 @@ namespace MSGraphTest
             GraphPages.Navigation.Select("Graph explorer");
             if (GraphUtility.IsLoggedIn())
             {
-                GraphUtility.Click("Logout");
+                GraphUtility.ClickLogout();
                 GraphBrowser.Wait(TimeSpan.FromSeconds(5));
             }
-            GraphUtility.Click("Login");
+            GraphUtility.ClickLogin();
             GraphUtility.Login(
                 Utility.GetConfigurationValue("GraphExplorerUserName"),
                 Utility.GetConfigurationValue("GraphExplorerPassword"));
@@ -61,10 +61,10 @@ namespace MSGraphTest
             {
                 if (GraphUtility.IsLoggedIn())
                 {
-                    GraphUtility.Click("Logout");
+                    GraphUtility.ClickLogout();
                     GraphBrowser.Wait(TimeSpan.FromSeconds(5));
                 }
-                GraphUtility.Click("Login");
+                GraphUtility.ClickLogin();
 
                 GraphUtility.Login(
                     userName,
@@ -91,7 +91,7 @@ namespace MSGraphTest
 
             if (!GraphUtility.IsLoggedIn())
             {
-                GraphUtility.Click("Login");
+                GraphUtility.ClickLogin();
 
                 GraphUtility.Login(
                     userName,
@@ -125,7 +125,7 @@ namespace MSGraphTest
 
             if (!GraphUtility.IsLoggedIn())
             {
-                GraphUtility.Click("Login");
+                GraphUtility.ClickLogin();
 
                 GraphUtility.Login(
                     userName,
@@ -164,7 +164,7 @@ namespace MSGraphTest
 
             if (!GraphUtility.IsLoggedIn())
             {
-                GraphUtility.Click("Login");
+                GraphUtility.ClickLogin();
 
                 GraphUtility.Login(
                     userName,

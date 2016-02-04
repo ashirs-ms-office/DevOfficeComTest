@@ -34,6 +34,7 @@ namespace MSGraphTest
         [TestMethod]
         public void BVT_Graph_S01_TC01_CanBrandingNavToHomePage()
         {
+            string title = GraphPages.Navigation.Select("Home");
             //Currently ignore the Graph explorer, since this page desn't have Microsoft
             //Graph branding image
             string[] navOptions = new string[] { 
@@ -44,14 +45,13 @@ namespace MSGraphTest
                 "App registration", 
                 "Samples & SDKs", 
                 "Changelog" };
-
             string navPage = navOptions[new Random().Next(navOptions.Length)];
             GraphPages.Navigation.Select(navPage);
 
             GraphUtility.ClickBranding();
 
             Assert.IsTrue(
-                GraphPages.Navigation.IsAtGraphPage("Home"),
+                GraphPages.Navigation.IsAtGraphPage(title),
                 @"Clicking the branding image should navigate to Graph Home Page");
         }
 
@@ -61,10 +61,11 @@ namespace MSGraphTest
         [TestMethod]
         public void BVT_Graph_S01_TC02_CanGoToGetstartedPage()
         {
-            GraphPages.Navigation.Select("Get started");
+            string title = GraphPages.Navigation.Select("Get started");
             Assert.IsTrue(
-                GraphPages.Navigation.IsAtGraphPage("Get started"),
-                @"The opened page should be ""Get started""");
+                GraphPages.Navigation.IsAtGraphPage(title),
+                @"The opened page should be {0}",
+                title);
         }
 
         /// <summary>
@@ -73,10 +74,11 @@ namespace MSGraphTest
         [TestMethod]
         public void BVT_Graph_S01_TC03_CanGoToDocumentationPage()
         {
-            GraphPages.Navigation.Select("Documentation");
+            string title = GraphPages.Navigation.Select("Documentation");
             Assert.IsTrue(
-                GraphPages.Navigation.IsAtGraphPage("Documentation"),
-                @"The opened page should be ""Documentation""");
+                GraphPages.Navigation.IsAtGraphPage(title),
+                @"The opened page should be {0}",
+                title);
         }
 
         /// <summary>
@@ -97,10 +99,11 @@ namespace MSGraphTest
         [TestMethod]
         public void BVT_Graph_S01_TC05_CanGoToAppRegistrationPage()
         {
-            GraphPages.Navigation.Select("App registration");
+            string title=GraphPages.Navigation.Select("App registration");
             Assert.IsTrue(
-                GraphPages.Navigation.IsAtGraphPage("App registration"),
-                @"The opened page should be ""App registration""");
+                GraphPages.Navigation.IsAtGraphPage(title),
+                @"The opened page should be {0}",
+                title);
         }
 
         /// <summary>
@@ -109,10 +112,11 @@ namespace MSGraphTest
         [TestMethod]
         public void BVT_Graph_S01_TC06_CanGoToSamplesAndSDKsPage()
         {
-            GraphPages.Navigation.Select("Samples & SDKs");
+            string title = GraphPages.Navigation.Select("Samples & SDKs");
             Assert.IsTrue(
-                GraphPages.Navigation.IsAtGraphPage("Samples & SDKs"),
-                @"The opened page should be ""Samples & SDKs""");
+                GraphPages.Navigation.IsAtGraphPage(title),
+                @"The opened page should be {0}",
+                title);
         }
 
         /// <summary>
