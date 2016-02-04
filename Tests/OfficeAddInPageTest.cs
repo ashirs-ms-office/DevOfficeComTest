@@ -205,7 +205,7 @@ namespace Tests
         }
 
         [TestMethod]
-        public void Acceptance_S09_TC06_CanLoadAddinPageImages()
+        public void BVT_S09_TC06_CanLoadAddinPageImages()
         {
             Product product = Product.Word;
             Pages.OfficeAddInPage.CardChooseProduct.ChooseProduct(product);

@@ -296,7 +296,7 @@ namespace Tests
         }
 
         [TestMethod]
-        public void Acceptance_S08_TC02_CanLoadOffice365PageImages()
+        public void BVT_S08_TC02_CanLoadOffice365PageImages()
         {
             Platform platform = Platform.PHP;
             Pages.Office365Page.CardSetupPlatform.ChoosePlatform(platform);
