@@ -60,12 +60,16 @@ namespace Tests
             Platform platform = Platform.Node;
             Pages.Office365Page.CardSetupPlatform.ChoosePlatform(platform);
             Assert.IsTrue(Pages.Office365Page.CardSetupPlatform.IsShowingPlatformSetup(platform), "Failed to choose platform {0}.", platform.ToString());
+            Assert.IsFalse(Pages.Office365Page.IsCardDisplayed("setup-project"), "Card with id 'setup-project' in Office 365 page is not displayed correctly.");
+            Assert.IsFalse(Pages.Office365Page.IsCardDisplayed("next-step"), "Card with id 'next-step' in Office 365 page is not displayed correctly.");
 
             Pages.Office365Page.CardRegisterApp.SigninLater();
             Assert.IsTrue(Pages.Office365Page.IsCardDisplayed("setup-project"), "Card with id 'setup-project' in Office 365 page is not displayed correctly.");
             Assert.IsTrue(Pages.Office365Page.IsCardDisplayed("next-step"), "Card with id 'next-step' in Office 365 page is not displayed correctly.");
+            Assert.IsFalse(Pages.Office365Page.IsCardDisplayed("AllSet"), "Card with id 'AllSet' in Office 365 page is not displayed correctly.");
             Pages.Office365Page.CardDownloadCode.DownloadCode(); 
             Assert.IsTrue(Pages.Office365Page.CardDownloadCode.IsCodeDownloaded(), "Failed to download code.");
+            Assert.IsTrue(Pages.Office365Page.IsCardDisplayed("AllSet"), "Card with id 'AllSet' in Office 365 page is not displayed correctly.");
 
             Pages.Office365Page.CardMoreResources.OutlookDevCenter();
             Assert.IsTrue(Pages.Office365Page.CardMoreResources.IsShowingCorrectResourcePage(), "Failed to open Outlook Dev Center page.");
@@ -225,30 +229,37 @@ namespace Tests
             foreach (ServiceToTry service in Enum.GetValues(typeof(ServiceToTry)))
             {
                 Pages.Office365Page.CardTryItOut.ChooseService(service);
+                bool correctUrl = false;
                 bool correctParameter = false;
                 switch (service)
                 {
                     case ServiceToTry.GetMessages:
                         correctParameter = Pages.Office365Page.CardTryItOut.ChooseServiceValue(service, GetMessagesValue.Inbox);
+                        correctUrl = Pages.Office365Page.CardTryItOut.UrlContainsServiceName(service);
                         break;
                     case ServiceToTry.GetEvents:
                     case ServiceToTry.GetContacts:
                         correctParameter = !Pages.Office365Page.CardTryItOut.IsParameterTableDisplayed();
+                        correctUrl = Pages.Office365Page.CardTryItOut.UrlContainsServiceName(service);
                         break;
                     case ServiceToTry.GetFiles:
                         correctParameter = Pages.Office365Page.CardTryItOut.ChooseServiceValue(service, GetFilesValue.drive_root_children);
+                        correctUrl = Pages.Office365Page.CardTryItOut.UrlContainsParameterValue();
                         break;
                     case ServiceToTry.GetUsers:
                         correctParameter = Pages.Office365Page.CardTryItOut.ChooseServiceValue(service, GetUsersValue.me);
+                        correctUrl = Pages.Office365Page.CardTryItOut.UrlContainsParameterValue();
                         break;
                     case ServiceToTry.GetGroups:
                         correctParameter = Pages.Office365Page.CardTryItOut.ChooseServiceValue(service, GetGroupValue.me_memberOf);
+                        correctUrl = Pages.Office365Page.CardTryItOut.UrlContainsParameterValue();
                         break;
                     default:
                         break;
                 }
 
                 Assert.IsTrue(correctParameter, string.Format("The parameter of service {0} is not changed accordingly.", service.ToString()));
+                Assert.IsTrue(correctUrl, string.Format("The url in the service {0} is not changed accordingly.", service.ToString()));
             }
         }
 
