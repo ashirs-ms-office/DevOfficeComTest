@@ -104,14 +104,14 @@ namespace Tests
         }
 
         [TestMethod]
-        public void Acceptance_S02_TC07_CanLoadGettingStartedPageImage()
+        public void BVT_S02_TC07_CanLoadGettingStartedPageImage()
         {
             Pages.Navigation.Select("Getting Started");
             Assert.IsTrue(Pages.OfficeGettingStartedPage.CanLoadImage(), "Cannot load image in getting started page.");
         }
 
         [TestMethod]
-        public void Acceptance_S02_TC08_CanLoadCodeSamplePageImages()
+        public void BVT_S02_TC08_CanLoadCodeSamplePageImages()
         {
             Browser.SetWaitTime(TimeSpan.FromSeconds(30));
             Pages.Navigation.Select("Code Samples");
@@ -125,7 +125,7 @@ namespace Tests
         }
 
         [TestMethod]
-        public void Comps_S02_TC09_CanLoadResourcePageImages()
+        public void BVT_S02_TC09_CanLoadResourcePageImages()
         {
             foreach (MenuItemOfResource item in Enum.GetValues(typeof(MenuItemOfResource)))
             {

@@ -55,17 +55,21 @@ namespace Tests
 
             Pages.Office365Page.CardTryItOut.ChooseService(ServiceToTry.GetMessages);
             Pages.Office365Page.CardTryItOut.ClickTry();
-            Assert.IsTrue(Pages.Office365Page.CardTryItOut.CanGetResponse(ServiceToTry.GetMessages, GetMessagesValue.Inbox), "Failed to get the response for the serivce to try.");
+            Assert.IsTrue(Pages.Office365Page.CardTryItOut.CanGetResponse(GetMessagesValue.Inbox), "Failed to get the response for the serivce to try.");
 
             Platform platform = Platform.Node;
             Pages.Office365Page.CardSetupPlatform.ChoosePlatform(platform);
             Assert.IsTrue(Pages.Office365Page.CardSetupPlatform.IsShowingPlatformSetup(platform), "Failed to choose platform {0}.", platform.ToString());
+            Assert.IsFalse(Pages.Office365Page.IsCardDisplayed("setup-project"), "Card with id 'setup-project' in Office 365 page is not displayed correctly.");
+            Assert.IsFalse(Pages.Office365Page.IsCardDisplayed("next-step"), "Card with id 'next-step' in Office 365 page is not displayed correctly.");
 
             Pages.Office365Page.CardRegisterApp.SigninLater();
             Assert.IsTrue(Pages.Office365Page.IsCardDisplayed("setup-project"), "Card with id 'setup-project' in Office 365 page is not displayed correctly.");
             Assert.IsTrue(Pages.Office365Page.IsCardDisplayed("next-step"), "Card with id 'next-step' in Office 365 page is not displayed correctly.");
+            Assert.IsFalse(Pages.Office365Page.IsCardDisplayed("AllSet"), "Card with id 'AllSet' in Office 365 page is not displayed correctly.");
             Pages.Office365Page.CardDownloadCode.DownloadCode(); 
             Assert.IsTrue(Pages.Office365Page.CardDownloadCode.IsCodeDownloaded(), "Failed to download code.");
+            Assert.IsTrue(Pages.Office365Page.IsCardDisplayed("AllSet"), "Card with id 'AllSet' in Office 365 page is not displayed correctly.");
 
             Pages.Office365Page.CardMoreResources.OutlookDevCenter();
             Assert.IsTrue(Pages.Office365Page.CardMoreResources.IsShowingCorrectResourcePage(), "Failed to open Outlook Dev Center page.");
@@ -105,16 +109,16 @@ namespace Tests
             {
                 foreach (GetUsersValue item in Enum.GetValues(typeof(GetUsersValue)))
                 {
-                    Pages.Office365Page.CardTryItOut.ChooseServiceValue(service, item);
+                    Pages.Office365Page.CardTryItOut.ChooseServiceValue(item);
                     Pages.Office365Page.CardTryItOut.ClickTry();
-                    Assert.IsTrue(Pages.Office365Page.CardTryItOut.CanGetResponse(service, item), string.Format("The service {0} with parameter {1} is not work.", service.ToString(), item.ToString()));
+                    Assert.IsTrue(Pages.Office365Page.CardTryItOut.CanGetResponse(item), string.Format("The service {0} with parameter {1} is not work.", service.ToString(), item.ToString()));
                     Assert.IsTrue(Pages.Office365Page.CardTryItOut.UrlContainsParameterValue(), string.Format("The parameter {0} of service {1} is not contained in the url.", item.ToString(), service.ToString()));
                 }
             }
             else
             {
                 Pages.Office365Page.CardTryItOut.ClickTry();
-                Assert.IsTrue(Pages.Office365Page.CardTryItOut.CanGetResponse(service, GetUsersValue.me), string.Format("The service {0} with parameter {1} is not work.", service.ToString(), GetUsersValue.me.ToString()));
+                Assert.IsTrue(Pages.Office365Page.CardTryItOut.CanGetResponse(GetUsersValue.me), string.Format("The service {0} with parameter {1} is not work.", service.ToString(), GetUsersValue.me.ToString()));
                 Assert.IsTrue(Pages.Office365Page.CardTryItOut.UrlContainsParameterValue(), string.Format("The parameter {0} of service {1} is not contained in the url.", GetUsersValue.me.ToString(), service.ToString()));
             }
         }
@@ -131,16 +135,16 @@ namespace Tests
             {
                 foreach (GetGroupValue item in Enum.GetValues(typeof(GetGroupValue)))
                 {
-                    Pages.Office365Page.CardTryItOut.ChooseServiceValue(service, item);
+                    Pages.Office365Page.CardTryItOut.ChooseServiceValue(item);
                     Pages.Office365Page.CardTryItOut.ClickTry();
-                    Assert.IsTrue(Pages.Office365Page.CardTryItOut.CanGetResponse(service, item), string.Format("The service {0} with parameter {1} is not work.", service.ToString(), item.ToString()));
+                    Assert.IsTrue(Pages.Office365Page.CardTryItOut.CanGetResponse(item), string.Format("The service {0} with parameter {1} is not work.", service.ToString(), item.ToString()));
                     Assert.IsTrue(Pages.Office365Page.CardTryItOut.UrlContainsParameterValue(), string.Format("The parameter {0} of service {1} is not contained in the url.", item.ToString(), service.ToString()));
                 }
             }
             else
             {
                 Pages.Office365Page.CardTryItOut.ClickTry();
-                Assert.IsTrue(Pages.Office365Page.CardTryItOut.CanGetResponse(service, GetGroupValue.me_memberOf), string.Format("The service {0} with parameter {1} is not work.", service.ToString(), GetGroupValue.me_memberOf.ToString()));
+                Assert.IsTrue(Pages.Office365Page.CardTryItOut.CanGetResponse(GetGroupValue.me_memberOf), string.Format("The service {0} with parameter {1} is not work.", service.ToString(), GetGroupValue.me_memberOf.ToString()));
                 Assert.IsTrue(Pages.Office365Page.CardTryItOut.UrlContainsParameterValue(), string.Format("The parameter {0} of service {1} is not contained in the url.", GetGroupValue.me_memberOf.ToString(), service.ToString()));
             }
         }
@@ -157,18 +161,18 @@ namespace Tests
             {
                 foreach (GetMessagesValue item in Enum.GetValues(typeof(GetMessagesValue)))
                 {
-                    Pages.Office365Page.CardTryItOut.ChooseServiceValue(service, item);
+                    Pages.Office365Page.CardTryItOut.ChooseServiceValue(item);
                     Pages.Office365Page.CardTryItOut.ClickTry();
-                    Assert.IsTrue(Pages.Office365Page.CardTryItOut.CanGetResponse(service, item), string.Format("The service {0} with parameter {1} is not work.", service.ToString(), item.ToString()));
-                    Assert.IsTrue(Pages.Office365Page.CardTryItOut.UrlContainsServiceName(service), string.Format("The name of service {0} is not contained in the url.", service.ToString()));
+                    Assert.IsTrue(Pages.Office365Page.CardTryItOut.CanGetResponse(item), string.Format("The service {0} with parameter {1} is not work.", service.ToString(), item.ToString()));
+                    Assert.IsTrue(Pages.Office365Page.CardTryItOut.UrlContainsServiceName(), string.Format("The name of service {0} is not contained in the url.", service.ToString()));
                     Assert.IsTrue(Pages.Office365Page.CardTryItOut.UrlContainsParameterValue(), string.Format("The parameter {0} of service {1} is not contained in the url.", item.ToString(), service.ToString()));
                 }
             }
             else
             {
                 Pages.Office365Page.CardTryItOut.ClickTry();
-                Assert.IsTrue(Pages.Office365Page.CardTryItOut.CanGetResponse(service, GetMessagesValue.Inbox), string.Format("The service {0} with parameter {1} is not work.", service.ToString(), GetMessagesValue.Inbox.ToString()));
-                Assert.IsTrue(Pages.Office365Page.CardTryItOut.UrlContainsServiceName(service), string.Format("The name of service {0} is not contained in the url.", service.ToString()));
+                Assert.IsTrue(Pages.Office365Page.CardTryItOut.CanGetResponse(GetMessagesValue.Inbox), string.Format("The service {0} with parameter {1} is not work.", service.ToString(), GetMessagesValue.Inbox.ToString()));
+                Assert.IsTrue(Pages.Office365Page.CardTryItOut.UrlContainsServiceName(), string.Format("The name of service {0} is not contained in the url.", service.ToString()));
                 Assert.IsTrue(Pages.Office365Page.CardTryItOut.UrlContainsParameterValue(), string.Format("The parameter {0} of service {1} is not contained in the url.", GetMessagesValue.Inbox.ToString(), service.ToString()));
             }
         }
@@ -185,16 +189,16 @@ namespace Tests
             {
                 foreach (GetFilesValue item in Enum.GetValues(typeof(GetFilesValue)))
                 {
-                    Pages.Office365Page.CardTryItOut.ChooseServiceValue(service, item);
+                    Pages.Office365Page.CardTryItOut.ChooseServiceValue(item);
                     Pages.Office365Page.CardTryItOut.ClickTry();
-                    Assert.IsTrue(Pages.Office365Page.CardTryItOut.CanGetResponse(service, item), string.Format("The service {0} with parameter {1} is not work.", service.ToString(), item.ToString()));
+                    Assert.IsTrue(Pages.Office365Page.CardTryItOut.CanGetResponse(item), string.Format("The service {0} with parameter {1} is not work.", service.ToString(), item.ToString()));
                     Assert.IsTrue(Pages.Office365Page.CardTryItOut.UrlContainsParameterValue(), string.Format("The parameter {0} of service {1} is not contained in the url.", item.ToString(), service.ToString()));
                 }
             }
             else
             {
                 Pages.Office365Page.CardTryItOut.ClickTry();
-                Assert.IsTrue(Pages.Office365Page.CardTryItOut.CanGetResponse(service, GetFilesValue.drive_root_children), string.Format("The service {0} with parameter {1} is not work.", service.ToString(), GetFilesValue.drive_root_children.ToString()));
+                Assert.IsTrue(Pages.Office365Page.CardTryItOut.CanGetResponse(GetFilesValue.drive_root_children), string.Format("The service {0} with parameter {1} is not work.", service.ToString(), GetFilesValue.drive_root_children.ToString()));
                 Assert.IsTrue(Pages.Office365Page.CardTryItOut.UrlContainsParameterValue(), string.Format("The parameter {0} of service {1} is not contained in the url.", GetFilesValue.drive_root_children.ToString(), service.ToString()));
             }
         }
@@ -205,8 +209,8 @@ namespace Tests
             ServiceToTry service = ServiceToTry.GetEvents;
             Pages.Office365Page.CardTryItOut.ChooseService(service);
             Pages.Office365Page.CardTryItOut.ClickTry();
-            Assert.IsTrue(Pages.Office365Page.CardTryItOut.CanGetResponse(service, null));
-            Assert.IsTrue(Pages.Office365Page.CardTryItOut.UrlContainsServiceName(service), string.Format("The name of service {0} is not contained in the url.", service.ToString()));
+            Assert.IsTrue(Pages.Office365Page.CardTryItOut.CanGetResponse(null));
+            Assert.IsTrue(Pages.Office365Page.CardTryItOut.UrlContainsServiceName(), string.Format("The name of service {0} is not contained in the url.", service.ToString()));
         }
 
         [TestMethod]
@@ -215,8 +219,8 @@ namespace Tests
             ServiceToTry service = ServiceToTry.GetContacts;
             Pages.Office365Page.CardTryItOut.ChooseService(service);
             Pages.Office365Page.CardTryItOut.ClickTry();
-            Assert.IsTrue(Pages.Office365Page.CardTryItOut.CanGetResponse(service, null));
-            Assert.IsTrue(Pages.Office365Page.CardTryItOut.UrlContainsServiceName(service), string.Format("The name of service {0} is not contained in the url.", service.ToString()));
+            Assert.IsTrue(Pages.Office365Page.CardTryItOut.CanGetResponse(null));
+            Assert.IsTrue(Pages.Office365Page.CardTryItOut.UrlContainsServiceName(), string.Format("The name of service {0} is not contained in the url.", service.ToString()));
         }
 
         [TestMethod]
@@ -225,30 +229,37 @@ namespace Tests
             foreach (ServiceToTry service in Enum.GetValues(typeof(ServiceToTry)))
             {
                 Pages.Office365Page.CardTryItOut.ChooseService(service);
+                bool correctUrl = false;
                 bool correctParameter = false;
                 switch (service)
                 {
                     case ServiceToTry.GetMessages:
-                        correctParameter = Pages.Office365Page.CardTryItOut.ChooseServiceValue(service, GetMessagesValue.Inbox);
+                        correctParameter = Pages.Office365Page.CardTryItOut.ChooseServiceValue(GetMessagesValue.Inbox);
+                        correctUrl = Pages.Office365Page.CardTryItOut.UrlContainsServiceName();
                         break;
                     case ServiceToTry.GetEvents:
                     case ServiceToTry.GetContacts:
                         correctParameter = !Pages.Office365Page.CardTryItOut.IsParameterTableDisplayed();
+                        correctUrl = Pages.Office365Page.CardTryItOut.UrlContainsServiceName();
                         break;
                     case ServiceToTry.GetFiles:
-                        correctParameter = Pages.Office365Page.CardTryItOut.ChooseServiceValue(service, GetFilesValue.drive_root_children);
+                        correctParameter = Pages.Office365Page.CardTryItOut.ChooseServiceValue(GetFilesValue.drive_root_children);
+                        correctUrl = Pages.Office365Page.CardTryItOut.UrlContainsParameterValue();
                         break;
                     case ServiceToTry.GetUsers:
-                        correctParameter = Pages.Office365Page.CardTryItOut.ChooseServiceValue(service, GetUsersValue.me);
+                        correctParameter = Pages.Office365Page.CardTryItOut.ChooseServiceValue(GetUsersValue.me);
+                        correctUrl = Pages.Office365Page.CardTryItOut.UrlContainsParameterValue();
                         break;
                     case ServiceToTry.GetGroups:
-                        correctParameter = Pages.Office365Page.CardTryItOut.ChooseServiceValue(service, GetGroupValue.me_memberOf);
+                        correctParameter = Pages.Office365Page.CardTryItOut.ChooseServiceValue(GetGroupValue.me_memberOf);
+                        correctUrl = Pages.Office365Page.CardTryItOut.UrlContainsParameterValue();
                         break;
                     default:
                         break;
                 }
 
                 Assert.IsTrue(correctParameter, string.Format("The parameter of service {0} is not changed accordingly.", service.ToString()));
+                Assert.IsTrue(correctUrl, string.Format("The url in the service {0} is not changed accordingly.", service.ToString()));
             }
         }
 
@@ -285,7 +296,7 @@ namespace Tests
         }
 
         [TestMethod]
-        public void Acceptance_S08_TC02_CanLoadOffice365PageImages()
+        public void BVT_S08_TC02_CanLoadOffice365PageImages()
         {
             Platform platform = Platform.PHP;
             Pages.Office365Page.CardSetupPlatform.ChoosePlatform(platform);

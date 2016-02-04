@@ -159,7 +159,7 @@ namespace MSGraphTest
         /// Verify whether the default banner image can be loaded.
         /// </summary>
         [TestMethod]
-        public void Comps_Graph_S01_TC09_CanLoadGraphPageImages()
+        public void BVT_Graph_S01_TC09_CanLoadGraphPageImages()
         {
             //Currently ignore Graph explorer and Documentation, since these pages don't have banner image
             //Graph branding image

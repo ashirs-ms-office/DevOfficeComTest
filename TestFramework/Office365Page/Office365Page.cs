@@ -80,23 +80,31 @@ namespace TestFramework.Office365Page
 
         public bool IsCardDisplayed(string CardId)
         {
-            var elements = Browser.Driver.FindElements(By.ClassName("card"));
-            if (elements.Count > 0)
+            if (CardId.Contains("AllSet"))
             {
-                foreach (IWebElement item in elements)
-                {
-                    string itemId = item.GetAttribute("id");
-                    if (itemId == CardId)
-                    {
-                        return item.Displayed;
-                    }
-                }
-
-                return false;
+                var element = Browser.Driver.FindElement(By.Id("AllSet"));
+                return element.Displayed;
             }
             else
             {
-                return false;
+                var elements = Browser.Driver.FindElements(By.ClassName("card"));
+                if (elements.Count > 0)
+                {
+                    foreach (IWebElement item in elements)
+                    {
+                        string itemId = item.GetAttribute("id");
+                        if (itemId == CardId)
+                        {
+                            return item.Displayed;
+                        }
+                    }
+
+                    return false;
+                }
+                else
+                {
+                    return false;
+                }
             }
         }
 
