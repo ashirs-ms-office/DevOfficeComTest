@@ -16,6 +16,50 @@ namespace TestFramework
             get { return resourceTitle; }
         }
 
+        public bool CanLoadImage(ResourcePageImages image)
+        {
+            switch (image)
+            {
+                case (ResourcePageImages.Banner):
+                    IWebElement element = Browser.Driver.FindElement(By.Id("banner-image"));
+                    string Url = element.GetAttribute("style");
+                    Url = Browser.BaseAddress + Url.Substring(Url.IndexOf('/'), Url.LastIndexOf('"') - Url.IndexOf('/'));
+                    return Utility.ImageExist(Url);
+                case (ResourcePageImages.Responsive):
+                    var elements = Browser.Driver.FindElements(By.CssSelector("img.img-responsive"));
+                    if (elements.Count != 0)
+                    {
+                        foreach (IWebElement item in elements)
+                        {
+                            Url = item.GetAttribute("src");
+                            if (!Utility.ImageExist(Url))
+                            {
+                                return false;
+                            }
+                        }
+                    }
+
+                    return true;
+                case (ResourcePageImages.Background):
+                    elements = Browser.Driver.FindElements(By.CssSelector("div.background-img"));
+                    if (elements.Count != 0)
+                    {
+                        foreach (IWebElement item in elements)
+                        {
+                            Url = item.FindElement(By.TagName("img")).GetAttribute("src");
+                            if (!Utility.ImageExist(Url))
+                            {
+                                return false;
+                            }
+                        }
+                    }
+
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
         public ResourcePage()
         {
             Browser.SetWaitTime(TimeSpan.FromSeconds(5));
@@ -53,5 +97,12 @@ namespace TestFramework
             resourceTitle = resourceName.Text;
             Browser.SetWaitTime(TimeSpan.FromSeconds(Utility.DefaultWaitTime));
         }
+    }
+
+    public enum ResourcePageImages
+    {
+        Banner,
+        Responsive,
+        Background
     }
 }

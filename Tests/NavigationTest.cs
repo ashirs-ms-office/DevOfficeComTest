@@ -103,6 +103,63 @@ namespace Tests
             Assert.IsTrue(isRedirected, string.Format("The custom alias {0} is not redirected.", url));
         }
 
+        [TestMethod]
+        public void BVT_S02_TC07_CanLoadGettingStartedPageImage()
+        {
+            Pages.Navigation.Select("Getting Started");
+            Assert.IsTrue(Pages.OfficeGettingStartedPage.CanLoadImage(), "Cannot load image in getting started page.");
+        }
+
+        [TestMethod]
+        public void BVT_S02_TC08_CanLoadCodeSamplePageImages()
+        {
+            Browser.SetWaitTime(TimeSpan.FromSeconds(30));
+            Pages.Navigation.Select("Code Samples");
+            CodeSamplesPage page = new CodeSamplesPage();
+            foreach (CodeSamplePageImages item in Enum.GetValues(typeof(CodeSamplePageImages)))
+            {
+                Assert.IsTrue(page.CanLoadImages(item));
+            }
+
+            Browser.SetWaitTime(TimeSpan.FromSeconds(Utility.DefaultWaitTime));
+        }
+
+        [TestMethod]
+        public void BVT_S02_TC09_CanLoadResourcePageImages()
+        {
+            foreach (MenuItemOfResource item in Enum.GetValues(typeof(MenuItemOfResource)))
+            {
+                ResourcePage page;
+                switch (item)
+                {
+                    case (MenuItemOfResource.AppRegistrationTool):
+                    case (MenuItemOfResource.APISandbox):
+                    case (MenuItemOfResource.MiniLabs):
+                        break;
+                    case (MenuItemOfResource.Training):
+                        Browser.SetWaitTime(TimeSpan.FromSeconds(30));
+                        Pages.Navigation.Select("Resources", item.ToString());
+                        //Browser.Wait(TimeSpan.FromSeconds(20));
+                        page = new ResourcePage();
+                        foreach (ResourcePageImages image in Enum.GetValues(typeof(ResourcePageImages)))
+                        {
+                            Assert.IsTrue(page.CanLoadImage(image), string.Format("The images in resource page {0} is not loaded currectly.", item.ToString()));
+                        }
+                        Browser.SetWaitTime(TimeSpan.FromSeconds(Utility.DefaultWaitTime));
+                        break;
+                    default:
+                        Pages.Navigation.Select("Resources", item.ToString());
+                        //Browser.Wait(TimeSpan.FromSeconds(20));
+                        page = new ResourcePage();
+                        foreach (ResourcePageImages image in Enum.GetValues(typeof(ResourcePageImages)))
+                        {
+                            Assert.IsTrue(page.CanLoadImage(image), string.Format("The images in resource page {0} is not loaded currectly.", item.ToString()));
+                        }
+                        break;
+                }
+            }
+        }
+
         [ClassCleanup]
         public static void ClassCleanup()
         {

@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using TestFramework;
+using TestFramework.OfficeAddInPage;
 
 namespace Tests
 {
@@ -98,12 +99,16 @@ namespace Tests
         {
             Pages.OfficeGettingStartedPage.OfficeAddInGetStarted();
             Assert.IsTrue(Pages.OfficeAddInPage.IsAtAddinPage(), "Failed to open Office Add-in Getting started page.");
+            Assert.IsTrue(Pages.OfficeAddInPage.OnlyDefaultCardsDisplayed(), "Cards in Add-in page are not displayed correctly.");
 
             // Select app
             Product product = Product.Outlook;
             Pages.OfficeAddInPage.CardChooseProduct.ChooseProduct(product);
             Assert.IsTrue(Pages.OfficeAddInPage.CardChooseProduct.IsShowingProductExplore(product), "Failed to choose product {0}.", product.ToString());
             Assert.IsTrue(Pages.OfficeAddInPage.CardChooseProduct.IsShowingVideo(product), "Failed to choose product {0}.", product.ToString());
+            Assert.IsTrue(Pages.OfficeAddInPage.IsCardDisplayed("build"), "Card with id 'build' in Add-in page is not displayed correctly.");
+            Assert.IsTrue(Pages.OfficeAddInPage.IsCardDisplayed("more"), "Card with id 'more' in Add-in page is not displayed correctly.");
+            Assert.IsFalse(Pages.OfficeAddInPage.IsCardDisplayed("AllSetDeepBlue"), "Card with id 'AllSetDeepBlue' in Office 365 page is not displayed correctly.");
 
             // Explore
             // Pages.OfficeAddInPage.CardOutlook.Explore.play();
@@ -111,6 +116,7 @@ namespace Tests
             // Build
             Pages.OfficeAddInPage.CardOutlook.Build.StartBuilding();
             Assert.IsTrue(Pages.OfficeAddInPage.CardOutlook.Build.IsShowingBuildPage(), "Failed to open build page");
+            Assert.IsTrue(Pages.OfficeAddInPage.IsCardDisplayed("AllSetDeepBlue"), "Card with id 'AllSetDeepBlue' in Office 365 page is not displayed correctly.");
 
             // More Resource
             Pages.OfficeAddInPage.CardOutlook.MoreResouces.OutlookDevCenter();
@@ -196,6 +202,14 @@ namespace Tests
 
             // Should show and only show two cards by default 
             Assert.IsTrue(Pages.OfficeAddInPage.OnlyDefaultCardsDisplayed(), "Cards in Add-in page are not displayed correctly.");
+        }
+
+        [TestMethod]
+        public void BVT_S09_TC06_CanLoadAddinPageImages()
+        {
+            Product product = Product.Word;
+            Pages.OfficeAddInPage.CardChooseProduct.ChooseProduct(product);
+            Assert.IsTrue(Pages.OfficeAddInPage.CanLoadImages());
         }
 
         [ClassCleanup]

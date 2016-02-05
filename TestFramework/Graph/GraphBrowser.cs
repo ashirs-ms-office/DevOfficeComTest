@@ -108,6 +108,32 @@ namespace TestFramework
             return false;
         }
 
+        public static bool SwitchToNewWindow()
+        {
+            // get all window handles
+            IList<string> handlers = webDriver.WindowHandles;
+            string newWindowHandle = string.Empty;
+            foreach (var winHandler in handlers)
+            {
+                if (!winHandler.Equals(webDriver.CurrentWindowHandle))
+                {
+                    newWindowHandle = winHandler;
+                    break;
+                }
+            }
+
+            if (!newWindowHandle.Equals(string.Empty))
+            {
+                webDriver.SwitchTo().Window(newWindowHandle);
+                return true;
+            }
+            else
+            {
+                webDriver.SwitchTo().DefaultContent();
+                return false;
+            }
+        }
+
         public static void GoBack()
         {
             if (!Title.Equals(defaultTitle))
@@ -118,6 +144,11 @@ namespace TestFramework
             {
                 webDriver.Navigate().Refresh();
             }
+        }
+
+        public static void Refresh()
+        {
+            webDriver.Navigate().Refresh();
         }
 
         public static IWebElement FindElementInFrame(string frameIdOrName, By by, out string innerText)
@@ -185,30 +216,6 @@ namespace TestFramework
             fileName = string.Format("{0}\\{1}.png", Utility.GetConfigurationValue("ScreenShotSavePath"), fileName);
             Screenshot s = screenshot.GetScreenshot();
             s.SaveAsFile(fileName, System.Drawing.Imaging.ImageFormat.Png);
-        }
-
-        /// <summary>
-        /// Verify whether a url refer to a valid image
-        /// </summary>
-        /// <param name="Url">The image url</param>
-        /// <returns>True if yes, else no</returns>
-        public static bool ImageExist(string Url)
-        {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(Url);
-            request.Timeout = 15000;
-            request.Method = "HEAD";
-
-            try
-            {
-                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
-                {
-                    return response.StatusCode == HttpStatusCode.OK;
-                }
-            }
-            catch (Exception)
-            {
-                return false;
-            }
         }
 
         /// <summary>
@@ -313,7 +320,7 @@ namespace TestFramework
         /// <returns>The size on current screen(in pixels)</returns>
         public static void TransferPhysicalSizeToPixelSize(double deviceSize, Size deviceResolution, out Size windowSize)
         {
-            
+
             Panel panel = new System.Windows.Forms.Panel();
             Graphics g = System.Drawing.Graphics.FromHwnd(panel.Handle);
             IntPtr hdc = g.GetHdc();
@@ -333,5 +340,14 @@ namespace TestFramework
 
         [DllImport("gdi32.dll")]
         private static extern int GetDeviceCaps(IntPtr hdc, int Index);
+
+        /// <summary>
+        /// Wait for the returned response
+        /// </summary>
+        public static void WaitForExploreResponse()
+        {
+            var wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(30));
+            wait.Until(ExpectedConditions.ElementExists(By.CssSelector("#jsonViewer > div.ace_scroller > div > div.ace_layer.ace_text-layer > div.ace_line")));
+        }
     }
 }

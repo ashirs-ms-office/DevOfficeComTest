@@ -53,8 +53,11 @@ namespace TestFramework
 
     public enum ServiceToTry
     {
+        [Description("messages")]
         GetMessages,
+        [Description("events")]
         GetEvents,
+        [Description("contacts")]
         GetContacts,
         GetFiles,
         GetUsers,
@@ -130,6 +133,17 @@ namespace TestFramework
         Office365RESTAPIs,
         [Description("Previous Versions")]
         PreviousVersions
+    }
+
+    public enum SliderMenuItem
+    {
+        [Description("Get Started")]
+        GetStarted,
+        News,
+        Opportunity,
+        Transform,
+        [Description("Featured App")]
+        FeaturedApp
     }
 
     public enum GetMessagesValue

@@ -34,14 +34,11 @@ namespace MSGraphTest
         [TestMethod]
         public void BVT_Graph_S02_TC01_CanGoToHomePage()
         {
+            string title=GraphPages.Navigation.Select("Home");
             Assert.IsTrue(
-                GraphPages.Navigation.IsAtGraphPage("Home"),
-                @"The opened page should be ""Home"" when go to the base url");
-
-            GraphPages.Navigation.Select("Home");
-            Assert.IsTrue(
-                GraphPages.Navigation.IsAtGraphPage("Home"),
-                @"The opened page should be ""Home"" when clicking it");
+                GraphPages.Navigation.IsAtGraphPage(title),
+                @"The opened page should be {0} when clicking it",
+                title);
 
             //Currently ignore the Graph explorer, since this page desn't have Microsoft
             //MS Graph nav bar
@@ -57,10 +54,11 @@ namespace MSGraphTest
             string navPage = navOptions[new Random().Next(navOptions.Length)];
             GraphPages.Navigation.Select(navPage);
 
-            GraphPages.Navigation.Select("Home");
+            title = GraphPages.Navigation.Select("Home");
             Assert.IsTrue(
-                GraphPages.Navigation.IsAtGraphPage("Home"),
-                @"The opened page should be ""Home"" when clicking it {0} page's nav bar", 
+                GraphPages.Navigation.IsAtGraphPage(title),
+                @"The opened page should be {0} when clicking it {1} page's nav bar",
+                title,
                 navPage);
         }
 
@@ -70,12 +68,13 @@ namespace MSGraphTest
         [TestMethod]
         public void Acceptance_Graph_S02_TC02_ClickSeeOverviewCanShowDocumentaionPage()
         {
-            GraphUtility.Click("See overview");
+            GraphUtility.SelectToSeeOverView();
+            bool isOverview = GraphUtility.ValidateDocument(Utility.GetConfigurationValue("MSGraphBaseAddress") + "/overview/overview");
             string docTitle = GraphUtility.GetDocTitle();
-            Assert.AreEqual(
-                "Overview of Microsoft Graph",
-                docTitle,
-                "The documentation should be Overview when clicking See overview on Home page");
+            Assert.IsTrue(
+                isOverview,
+                "The documentation should be {0} when clicking See overview on Home page",
+                docTitle);
         }
 
         /// <summary>
@@ -84,7 +83,7 @@ namespace MSGraphTest
         [TestMethod]
         public void Acceptance_Graph_S02_TC03_ClickTryAPIOnExplorerCanShowPage()
         {
-            GraphUtility.Click("Try the API");
+            GraphUtility.SelectToTryAPI();
             Assert.IsTrue(
                 GraphBrowser.SwitchToWindow("Graph Explorer"),
                 @"The opened page should be ""Graph explorer"" when clicking Try the API");

@@ -13,7 +13,7 @@ namespace TestFramework
 {
     public static class Browser
     {
-        static IWebDriver webDriver;
+        internal static IWebDriver webDriver;
         static string defaultTitle;
         static string defaultHandle;
 
@@ -168,6 +168,17 @@ namespace TestFramework
             }
         }
 
+        /// <summary>
+        /// Get current window size
+        /// </summary>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        public static void GetWindowSize(out int width, out int height)
+        {
+            width = webDriver.Manage().Window.Size.Width;
+            height = webDriver.Manage().Window.Size.Height;
+        }
+
         public static IWebElement FindElementInFrame(string frameIdOrName, By by, out string innerText)
         {
             IWebElement frame = FindFrame(frameIdOrName);
@@ -300,6 +311,43 @@ namespace TestFramework
             }
 
             defaultHandle = webDriver.CurrentWindowHandle;
+        }
+
+        /// <summary>
+        /// Adjust the window siae
+        /// </summary>
+        /// <param name="width">The new window width to set</param>
+        /// <param name="height">The new window height to set</param>
+        /// <param name="maxSize">whether maxsize the window and return the size</param>
+        public static void SetWindowSize(int width, int height, bool maxSize = false)
+        {
+            if (maxSize)
+            {
+                webDriver.Manage().Window.Maximize();
+            }
+            else
+            {
+                System.Drawing.Size windowSize = new System.Drawing.Size();
+
+                windowSize.Width = width;
+                windowSize.Height = height;
+                webDriver.Manage().Window.Size = windowSize;
+            }
+        }
+
+        public static bool IsAtPage(string pageType)
+        {
+            SwitchToNewWindow();
+            switch (pageType)
+            {
+                case "RSS":
+                    if (webDriver.Url.Contains("feedburner.com/office/fmNx"))
+                    {
+                        return true;
+                    }
+                    break;
+            }
+            return false;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using System;
+using OpenQA.Selenium;
 
 namespace TestFramework.OfficeAddInPage
 {
@@ -74,6 +75,51 @@ namespace TestFramework.OfficeAddInPage
             else
             {
                 return false;
+            }
+        }
+
+        public bool CanLoadImages()
+        {
+            var elements = Browser.Driver.FindElements(By.CssSelector("img.img-responsive.imgGS"));
+            foreach (IWebElement item in elements)
+            {
+                string Url = item.GetAttribute("src");
+                if (!Utility.ImageExist(Url))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public bool IsCardDisplayed(string CardId)
+        {
+            if (CardId.Contains("AllSet"))
+            {
+                var element = Browser.Driver.FindElement(By.Id("AllSetDeepBlue"));
+                return element.Displayed;
+            }
+            else
+            {
+                var elements = Browser.Driver.FindElements(By.ClassName("card"));
+                if (elements.Count > 0)
+                {
+                    foreach (IWebElement item in elements)
+                    {
+                        string itemId = item.GetAttribute("id");
+                        if (itemId == CardId)
+                        {
+                            return item.Displayed;
+                        }
+                    }
+
+                    return false;
+                }
+                else
+                {
+                    return false;
+                }
             }
         }
     }

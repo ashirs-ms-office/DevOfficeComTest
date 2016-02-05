@@ -17,7 +17,9 @@ namespace TestFramework
         /// <summary>
         /// Some typical search text
         /// </summary>
-        public static readonly string[] TypicalSearchText = new string[] { "Office", "API", "SharePoint", "Add-in", "Property Manager", "ios", "OneDrive" };
+        public static readonly string[] TypicalSearchText = new string[] { "Office", "API", "SharePoint", "Add-in", "Graph", "ios", "OneDrive" };
+
+        public static readonly int MinWidthToShowParam = 895;
 
         public static int DefaultWaitTime = int.Parse(GetConfigurationValue("DefaultWaitTime"));
 
@@ -229,7 +231,7 @@ namespace TestFramework
         /// <returns>True if yes, else no</returns>
         public static bool CanFindSourceLink(string sourcePart)
         {
-            var element = Browser.FindElement(By.XPath("//a[contains(@href,'"+sourcePart+"')]"));
+            var element = Browser.FindElement(By.XPath("//a[contains(@href,'" + sourcePart + "')]"));
             if (element != null)
             {
                 return true;
@@ -296,6 +298,154 @@ namespace TestFramework
             catch (Exception)
             {
                 return false;
+            }
+        }
+
+        /// <summary>
+        /// Find an link or a button role span according to the specific text and click it
+        /// </summary>
+        /// <param name="text">The text of the element</param>
+        public static void Click(string text)
+        {
+            var element = Browser.FindElement(By.LinkText(text));
+            //a link
+            if (element != null && element.Displayed)
+            {
+                Browser.Click(element);
+            }
+            else
+            {
+                IReadOnlyList<IWebElement> elements = Browser.webDriver.FindElements(By.XPath("//*[@role='button']"));
+                foreach (IWebElement elementToClick in elements)
+                {
+                    if (elementToClick.GetAttribute("innerHTML").Equals(text) && (elementToClick.Displayed))
+                    {
+                        Browser.Click(elementToClick);
+                        break;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Click the branding image on the page
+        /// </summary>
+        public static void ClickBranding()
+        {
+            var element = Browser.FindElement(By.CssSelector("#branding>a"));
+            Browser.Click(element);
+        }
+
+        /// <summary>
+        /// Get all the links in a NavItem's sub menu
+        /// </summary>
+        /// <param name="navItem">The nav item in nav bar</param>
+        public static string[] GetNavSubItems(string navItem)
+        {
+            var element = Browser.FindElement(By.LinkText(navItem));
+            try
+            {
+                var subMenu = element.FindElement(By.XPath("parent::li/div"));
+                IReadOnlyList<IWebElement> subItems = subMenu.FindElements(By.TagName("a"));
+
+                string[] items = new string[subItems.Count];
+                for (int i = 0; i < subItems.Count; i++)
+                {
+                    if (subItems[i].Displayed)
+                    {
+                        items[i] = subItems[i].Text;
+                    }
+                    else
+                    {
+                        items = null;
+                        break;
+                    }
+                }
+                return items;
+            }
+            catch (NoSuchElementException)
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Verify whether the branding of dev center exists on the current page
+        /// </summary>
+        /// <returns></returns>
+        public static bool BrandingExists()
+        {
+            var element = Browser.FindElement(By.XPath("//div[@id='branding']/a/img[@alt='Office Dev Office Center logo']"));
+            if (element != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Input search text into iwidget input field and search it
+        /// </summary>
+        /// <param name="searchText">The text to input</param>
+        /// <returns>The names of the search results</returns>
+        public static string[] SearchWidget(string searchText)
+        {
+            var element = Browser.FindElement(By.XPath("//fieldset/input[@id='q']"));
+            element.SendKeys(searchText);
+            var searchElement = Browser.FindElement(By.XPath("//fieldset/button[@type='submit']"));
+            Browser.Click(searchElement);
+
+            Browser.Wait(TimeSpan.FromSeconds(5));
+
+            IReadOnlyList<IWebElement> results = Browser.webDriver.FindElements(By.CssSelector("div.col-xs-8.name.cp1"));
+            string[] resultNames = new string[results.Count];
+            for (int i = 0; i < results.Count; i++)
+            {
+                resultNames[i] = results[i].Text;
+            }
+
+            return resultNames;
+        }
+
+        public static void ClickIcon(string iconType)
+        {
+            switch (iconType)
+            {
+                //case "Facebook":
+                //    var element = Browser.FindElement(By.CssSelector("#atstbx > a.at-custom-share-anchor.at-share-btn.at-svc-facebook > span > span > svg"));
+                //    Browser.Click(element);
+                //    break;
+                case "RSS":
+                    var element = Browser.FindElement(By.CssSelector("#header-social > a"));
+                    Browser.Click(element);
+                    break;
+            }
+        }
+
+        public static SliderMenuItem GetLeftMenuItem(SliderMenuItem item)
+        {
+            if ((int)item == 0)
+            {
+                return (SliderMenuItem)(Enum.GetNames(item.GetType()).Count() - 1);
+            }
+            else
+            {
+                return (SliderMenuItem)(item - 1);
+            }
+        }
+
+        public static SliderMenuItem GetRightMenuItem(SliderMenuItem item)
+        {
+            if ((int)item == Enum.GetNames(item.GetType()).Count() - 1)
+            {
+                return (SliderMenuItem)(0);
+            }
+            else
+            {
+                return (SliderMenuItem)(item + 1);
             }
         }
     }

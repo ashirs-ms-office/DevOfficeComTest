@@ -37,12 +37,12 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
-    <Reference Include="WebDriver, Version=2.49.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Selenium.WebDriver.2.49.0\lib\net40\WebDriver.dll</HintPath>
+    <Reference Include="WebDriver, Version=2.50.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Selenium.WebDriver.2.50.1\lib\net40\WebDriver.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="WebDriver.Support, Version=2.49.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Selenium.Support.2.49.0\lib\net40\WebDriver.Support.dll</HintPath>
+    <Reference Include="WebDriver.Support, Version=2.50.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Selenium.Support.2.50.1\lib\net40\WebDriver.Support.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
@@ -60,7 +60,8 @@
   </Choose>
   <ItemGroup>
     <Compile Include="CodeSamplePageTest.cs" />
-    <Compile Include="HomPageTest.cs" />
+    <Compile Include="HeaderTest.cs" />
+    <Compile Include="HomePageTest.cs" />
     <Compile Include="NavigationTest.cs" />
     <Compile Include="Office365PageTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -75,10 +76,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Dev-Acceptances.playlist" />
-    <None Include="Dev-BVTs.playlist">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <None Include="Dev-BVTs.playlist" />
     <None Include="Dev-Comps.playlist" />
+    <None Include="Dev-All.playlist" />
     <None Include="packages.config" />
   </ItemGroup>
   <Choose>

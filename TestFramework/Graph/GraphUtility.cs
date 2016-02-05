@@ -182,8 +182,15 @@ namespace TestFramework
             var element = GraphBrowser.FindElement(By.XPath(xpath));
             var menuItem = element.FindElement(By.LinkText(item));
             string subMenuId = menuItem.GetAttribute("data-target");
-            var subMenu = element.FindElement(By.XPath("//ul[@id='" + subMenuId.Replace("#", string.Empty) + "']"));
-            return subMenu.Displayed;
+            if (subMenuId != null && subMenuId != string.Empty)
+            {
+                var subMenu = element.FindElement(By.XPath("//ul[@id='" + subMenuId.Replace("#", string.Empty) + "']"));
+                return subMenu.Displayed;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         /// <summary>
@@ -221,7 +228,13 @@ namespace TestFramework
             userIdElement.SendKeys(userName);
             var passwordElement = GraphBrowser.FindElement(By.XPath("//input[@id='cred_password_inputtext']"));
             passwordElement.SendKeys(password);
-            Click("Sign in");
+            var signInElement = GraphBrowser.FindElement(By.XPath("//span[@id='cred_sign_in_button']"));
+            do
+            {
+                GraphBrowser.Wait(TimeSpan.FromSeconds(1));
+            } while (!signInElement.Enabled);
+            GraphBrowser.Click(signInElement);
+
         }
 
         /// <summary>
@@ -257,9 +270,26 @@ namespace TestFramework
             inputElement.SendKeys(queryString);
         }
 
-        public static void InputRequestBody(string p)
+        /// <summary>
+        /// Format a property to JSON format  and put it in Explorer request field
+        /// </summary>
+        /// <param name="properties">The properties to format</param>
+        public static void InputExplorerJSONBody(Dictionary<string, string> properties)
         {
-            throw new NotImplementedException();
+            var element = GraphBrowser.FindElement(By.CssSelector("div#jsonEditor>textarea"));
+            //element.SendKeys("{\"" + property.Key + "\":\"" + property.Value + "\"}");
+            element.SendKeys("{");
+            int index = 0;
+            foreach (KeyValuePair<string, string> property in properties)
+            {
+                index++;
+                element.SendKeys("\"" + property.Key + "\":\"" + property.Value + "\"");
+                if (index != properties.Count)
+                {
+                    element.SendKeys(",");
+                }
+            }
+            element.SendKeys("}");
         }
 
         /// <summary>
@@ -268,22 +298,173 @@ namespace TestFramework
         /// <returns>The composed response string</returns>
         public static string GetExplorerResponse()
         {
-            var textElements = GraphBrowser.webDriver.FindElements(By.ClassName("ace_text-layer"));
-
-            var reseponseTextElement = textElements[0];
-            if (textElements.Count > 1)
-            {
-                reseponseTextElement = textElements[1];
-            }
+            var textElement = GraphBrowser.webDriver.FindElement(By.XPath("//div[@id='jsonViewer']/div/div[contains(@class,'ace_content')]/div[contains(@class,'ace_text-layer')]"));
 
             StringBuilder responseBuilder = new StringBuilder();
 
-            IReadOnlyList<IWebElement> responseElements = reseponseTextElement.FindElements(By.TagName("span"));
+            IReadOnlyList<IWebElement> responseElements = textElement.FindElements(By.TagName("span"));
             for (int i = 0; i < responseElements.Count; i++)
             {
                 responseBuilder.Append(responseElements[i].Text);
             }
-            return responseBuilder.ToString();
+            //Remove the braces
+            int length = responseBuilder.Length;
+            return responseBuilder.ToString().Substring(1, length - 2);
+        }
+
+        /// <summary>
+        /// Parse a string of simple JSON format, which means no composed properties
+        /// </summary>
+        /// <param name="jsonString">The string to parse</param>
+        /// <returns>A dictionary contains properties' keys and values</returns>
+        public static Dictionary<string, string> ParseJsonFormatProperties(string jsonString)
+        {
+            string[] meProperties = jsonString.Split(',');
+
+            Dictionary<string, string> dictionary = new Dictionary<string, string>();
+            foreach (string property in meProperties)
+            {
+                string propertyName = property.Split(':')[0].Replace("\"", "");
+                //3 for the length of "":
+                dictionary.Add(propertyName, property.Substring(propertyName.Length + 3).Replace("\"", ""));
+            }
+            return dictionary;
+        }
+
+        public static void SelectO365AppRegisstration()
+        {
+            var element = GraphBrowser.FindElement(By.XPath("//a[contains(@href,'dev.office.com/app-registration')]"));
+            GraphBrowser.Click(element);
+        }
+
+        public static void SelectNewAppRegisstrationPortal()
+        {
+            var element = GraphBrowser.FindElement(By.XPath("//a[contains(@href,'apps.dev.microsoft.com')]"));
+            GraphBrowser.Click(element);
+        }
+
+        /// <summary>
+        /// Verify whether the page is at the expected app registration portal
+        /// </summary>
+        /// <param name="isNewPortal">The expected portal page type, true for
+        /// new protal, false for O365 portal</param>
+        /// <returns>True if yes, else no.</returns>
+        public static bool IsAtApplicationRegistrationPortal(bool isNewPortal)
+        {
+            GraphBrowser.webDriver.SwitchTo().DefaultContent();
+            string urlKeyWord = isNewPortal ? "apps.dev.microsoft.com" : "dev.office.com/app-registration";
+            // get all window handles
+            IList<string> handlers = GraphBrowser.webDriver.WindowHandles;
+            foreach (var winHandler in handlers)
+            {
+                GraphBrowser.webDriver.SwitchTo().Window(winHandler);
+                if (GraphBrowser.webDriver.Url.Contains(urlKeyWord))
+                {
+                    return true;
+                }
+                else
+                {
+                    GraphBrowser.webDriver.SwitchTo().DefaultContent();
+                }
+            }
+            return false;
+        }
+
+        public static void SelectToSeeOverView()
+        {
+            var element = GraphBrowser.FindElement(By.XPath("//div/a[contains(@href,'/docs')]"));
+            GraphBrowser.Click(element);
+        }
+
+        public static void SelectToTryAPI()
+        {
+            var element = GraphBrowser.FindElement(By.XPath("//div/a[contains(@href,'graphexplorer2.azurewebsites.net')]"));
+            GraphBrowser.Click(element);
+        }
+
+        public static void SelectO365GettingStarted()
+        {
+            var element = GraphBrowser.FindElement(By.XPath("//button[contains(@onclick,'getting-started/office365apis')]"));
+            GraphBrowser.Click(element);
+        }
+
+        /// <summary>
+        /// Return a random selection of items at TOC's specific level
+        /// </summary>
+        /// <param name="index">The specific level index. Starts from 0</param>
+        /// <param name="hasDoc">Indicates whether only returns the items each of which has the related documents</param>
+        /// <returns>TOC Items' title-and-links(separated by ,). The title part contains the item's whole path in TOC</returns>
+        public static string GetTOCItem(int index, bool hasDoc = false)
+        {
+            string xPath = "//nav[@id='home-nav-blade']";
+            for (int i = 0; i <= index; i++)
+            {
+                xPath += "/ul/li";
+            }
+            IReadOnlyList<IWebElement> links = GraphBrowser.webDriver.FindElements(By.XPath(xPath + "/a"));
+            string item = string.Empty;
+
+            int randomIndex;
+            do
+            {
+                randomIndex = new Random().Next(links.Count);
+
+                string path = string.Empty;
+                var ancestorElements = links[randomIndex].FindElements(By.XPath("ancestor::li/a")); //parent relative to current element
+                for (int j = 0; j < ancestorElements.Count - 1; j++)
+                {
+                    string ancestorTitle = ancestorElements[j].GetAttribute("innerHTML");
+                    if (ancestorElements[j].GetAttribute("style").Contains("text-transform: uppercase"))
+                    {
+                        ancestorTitle = ancestorTitle.ToUpper();
+                    }
+                    path += ancestorTitle + ">";
+                }
+
+                if (hasDoc)
+                {
+                    if (!links[randomIndex].GetAttribute("href").EndsWith("/"))
+                    {
+                        item = path + links[randomIndex].GetAttribute("innerHTML") + "," + links[randomIndex].GetAttribute("href");
+                    }
+                }
+                else
+                {
+                    item = path + links[randomIndex].GetAttribute("innerHTML") + "," + links[randomIndex].GetAttribute("href");
+                }
+            } while (links[randomIndex].GetAttribute("href").EndsWith("/"));
+            return item;
+        }
+
+        /// <summary>
+        /// Verify if the document displayed matches TOC item's link
+        /// </summary>
+        /// <param name="tocLink">TOC item's link</param>
+        /// <returns>True if yes, else no.</returns>
+        public static bool ValidateDocument(string tocLink)
+        {
+            string elementSrc = GraphBrowser.FindElement(By.XPath("//iframe[@id='docframe']")).GetAttribute("src").Replace("zh-cn/", "").Replace("en-us/", "");
+
+            if (tocLink.Replace("zh-cn/", "").Replace("en-us/", "").EndsWith(elementSrc.Replace(".htm", "").Replace("/GraphDocuments", "")))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static void ClickLogin()
+        {
+            var element = GraphBrowser.FindElement(By.XPath("//a[@ng-click='login()']"));
+            GraphBrowser.Click(element);
+        }
+
+        public static void ClickLogout()
+        {
+            var element = GraphBrowser.FindElement(By.XPath("//a[@ng-click='logout()']"));
+            GraphBrowser.Click(element);
         }
     }
 }

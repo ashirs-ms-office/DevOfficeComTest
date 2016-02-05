@@ -35,9 +35,9 @@ namespace MSGraphTest
         public void Acceptance_Graph_S07_TC01_CanGoToDevOfficeCom()
         {
             GraphPages.Navigation.Select("App registration");
-            GraphUtility.Click("Office 365 App Registration Tool");
+            GraphUtility.SelectO365AppRegisstration();
             Assert.IsTrue(
-                GraphBrowser.SwitchToWindow("Office Dev Center - Office 365 App Registration Tool"),
+               GraphUtility.IsAtApplicationRegistrationPortal(false),
                 @"Clicking ""Office 365 App Registration Tool"" on App registration page can navigate to devofficecom, App Registration Tool page");
         }
 
@@ -48,9 +48,10 @@ namespace MSGraphTest
         public void Acceptance_Graph_S07_TC02_CanGoToAppRegistrationPortal()
         {
             GraphPages.Navigation.Select("App registration");
-            GraphUtility.Click("New App Registration Portal (preview)");
+            GraphUtility.SelectNewAppRegisstrationPortal();
+            GraphBrowser.SwitchToNewWindow();
             Assert.IsTrue(
-                GraphBrowser.SwitchToWindow("apps.dev.microsoft.com"),
+            GraphUtility.IsAtApplicationRegistrationPortal(true),
                 @"Clicking ""New App Registration Portal (preview)"" on App registration page can navigate to apps.dev.microsoft.com page");
         }
     }

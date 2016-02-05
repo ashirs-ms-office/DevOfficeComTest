@@ -6,6 +6,9 @@ namespace TestFramework.Office365Page
 {
     public class CardTryItOut : BasePage
     {
+        private static bool isParameterValueContained = false;
+        private static ServiceToTry currentSerivce = new ServiceToTry();
+
         public void ChooseService(ServiceToTry serviceToTry)
         {
             if (!Browser.Url.Contains("/getting-started/office365apis"))
@@ -16,12 +19,13 @@ namespace TestFramework.Office365Page
             int serviceIndex = (int)serviceToTry;
             var service = Browser.Driver.FindElement(By.Id("serviceOption"+serviceIndex));
             Browser.Click(service);
+            currentSerivce = serviceToTry;
         }
 		
-        public void ChooseServiceValue(ServiceToTry service, object value)
+        public bool ChooseServiceValue(object value)
         {
             string serviceValue = null;
-            switch (service)
+            switch (currentSerivce)
             {
                 case ServiceToTry.GetMessages:
                     {
@@ -107,9 +111,16 @@ namespace TestFramework.Office365Page
                     break;
             }
 
-            //Browser.SelectElement(Browser.Driver.FindElement(By.Id("valueSelection"))).SelectByValue(serviceValue);
-            Browser.SelectElement(Browser.Driver.FindElement(By.Id("valueSelection"))).SelectByText(serviceValue);
-            bool isValue = Browser.Driver.FindElement(By.Id("urlValue")).Text.Contains(serviceValue);
+            if (serviceValue != null)
+            {
+                Browser.SelectElement(Browser.Driver.FindElement(By.Id("valueSelection"))).SelectByText(serviceValue);
+                isParameterValueContained = Browser.Driver.FindElement(By.Id("urlValue")).Text.Contains(serviceValue);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public void ClickTry()
@@ -143,10 +154,10 @@ namespace TestFramework.Office365Page
             }
         }
 
-        public bool CanGetResponse(ServiceToTry serviceToTry, object value)
+        public bool CanGetResponse(object value)
         {
             var responseBody = Browser.Driver.FindElement(By.Id("responseBody"));
-            int serviceIndex = (int)serviceToTry;
+            int serviceIndex = (int)currentSerivce;
             switch (serviceIndex)
             {
                 // To do: finish all services and parameters
@@ -214,6 +225,74 @@ namespace TestFramework.Office365Page
                 default:
                     return false; 
             }
+        }
+
+        public bool UrlContainsServiceName()
+        {
+            if (IsParameterTableDisplayed())
+            {
+                switch (currentSerivce)
+                {
+                    case ServiceToTry.GetMessages:
+                    case ServiceToTry.GetEvents:
+                    case ServiceToTry.GetContacts:
+                        return Browser.Driver.FindElement(By.Id("urlValue")).Text.Contains(EnumExtension.GetDescription(currentSerivce));
+                    case ServiceToTry.GetFiles:
+                    case ServiceToTry.GetUsers:
+                    case ServiceToTry.GetGroups:
+                        return isParameterValueContained;
+                    default:
+                        return false;
+                }
+            }
+            else
+            {
+                switch (currentSerivce)
+                {
+                    case ServiceToTry.GetMessages:
+                    case ServiceToTry.GetEvents:
+                    case ServiceToTry.GetContacts:
+                        return Browser.Driver.FindElement(By.Id("urlValue")).Text.Contains(EnumExtension.GetDescription(currentSerivce));
+                    case ServiceToTry.GetFiles:
+                        return Browser.Driver.FindElement(By.Id("urlValue")).Text.Contains("drive/root/children");
+                    case ServiceToTry.GetUsers:
+                        return Browser.Driver.FindElement(By.Id("urlValue")).Text.Contains("me");
+                    case ServiceToTry.GetGroups:
+                        return Browser.Driver.FindElement(By.Id("urlValue")).Text.Contains("me/memberOf");
+                    default:
+                        return false;
+                }
+            }
+        }
+
+        public bool UrlContainsParameterValue()
+        {
+            if (IsParameterTableDisplayed())
+            {
+                return isParameterValueContained;
+            }
+            else
+            {
+                switch (currentSerivce)
+                {
+                    case ServiceToTry.GetMessages:
+                        return Browser.Driver.FindElement(By.Id("urlValue")).Text.Contains(GetMessagesValue.Inbox.ToString());
+                    case ServiceToTry.GetFiles:
+                        return Browser.Driver.FindElement(By.Id("urlValue")).Text.Contains("drive/root/children");
+                    case ServiceToTry.GetUsers:
+                        return Browser.Driver.FindElement(By.Id("urlValue")).Text.Contains("me");
+                    case ServiceToTry.GetGroups:
+                        return Browser.Driver.FindElement(By.Id("urlValue")).Text.Contains("me/memberOf");
+                    default:
+                        return false;
+                }
+            }
+        }
+
+        public bool IsParameterTableDisplayed()
+        {
+            IWebElement parameterDetail = Browser.Driver.FindElement(By.Id("parameterDetails"));
+            return parameterDetail.Text != null && parameterDetail.Text != string.Empty;
         }
     }
 }
