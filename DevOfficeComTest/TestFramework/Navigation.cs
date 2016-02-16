@@ -7,19 +7,19 @@ namespace TestFramework
 {
     public class Navigation : BasePage
     {
-        [FindsBy(How = How.LinkText, Using = "Explore")]
+        [FindsBy(How = How.CssSelector, Using = "#navbar-collapse-1 > ul > li:nth-child(1) > a")]
         private IWebElement exploreLinkElement;
 
-        [FindsBy(How = How.LinkText, Using = "Resources")]
+        [FindsBy(How = How.CssSelector, Using = "#navbar-collapse-1 > ul > li:nth-child(4) > a")]
         private IWebElement resourceLinkElement;
 
-        [FindsBy(How = How.LinkText, Using = "Getting Started")]
+        [FindsBy(How = How.CssSelector, Using = "#navbar-collapse-1 > ul > li:nth-child(2) > a")]
         private IWebElement gettingstartedLinkElement;
 
-        [FindsBy(How = How.LinkText, Using = "Code Samples")]
+        [FindsBy(How = How.CssSelector, Using = "#navbar-collapse-1 > ul > li:nth-child(3) > a")]
         private IWebElement codesamplesLinkElement;
 
-        [FindsBy(How = How.LinkText, Using = "Documentation")]
+        [FindsBy(How = How.CssSelector, Using = "#navbar-collapse-1 > ul > li:nth-child(5) > a")]
         private IWebElement documentationLinkElement;
 
         public void Select(string menuName, string itemName = "")
@@ -52,19 +52,44 @@ namespace TestFramework
                 MenuItemOfDocumentation documentationItem;
                 if (Enum.TryParse(itemName, out exploreItem))
                 {
-                    var item = Browser.Driver.FindElement(By.LinkText(EnumExtension.GetDescription(exploreItem)));
-                    Browser.Click(item);
+                    IWebElement item;
+                    switch (exploreItem)
+                    {
+                        case (MenuItemOfExplore.WhyOffice):
+                        case (MenuItemOfExplore.OfficeUIFabric):
+                        case (MenuItemOfExplore.MicrosoftGraph):
+                            item = Browser.Driver.FindElement(By.CssSelector("#navbar-collapse-1 > ul > li.subnav__item.dropdown-toggle.dropdown.open > div > div > ul > li:nth-child(" + ((int)exploreItem + 1) + ") > a"));
+                            break;
+                        case (MenuItemOfExplore.Android):
+                        case (MenuItemOfExplore.DotNET):
+                        case (MenuItemOfExplore.iOS):
+                        case (MenuItemOfExplore.JavaScript):
+                        case (MenuItemOfExplore.Node):
+                        case (MenuItemOfExplore.PHP):
+                        case (MenuItemOfExplore.Python):
+                        case (MenuItemOfExplore.Ruby):
+                            item = Browser.Driver.FindElement(By.CssSelector("#navbar-collapse-1 > ul > li.subnav__item.dropdown-toggle.dropdown.open > div > div > div.tier-3.col-md-6.col-sm-5 > ul > li:nth-child(" + ((int)exploreItem - 13) + ") > a"));
+                            break;
+                        default:
+                            item = Browser.Driver.FindElement(By.CssSelector("#navbar-collapse-1 > ul > li.subnav__item.dropdown-toggle.dropdown.open > div > div > div.tier-2.col-md-3.col-sm-4 > ul > li:nth-child(" + ((int)exploreItem - 2) + ") > a"));
+                            break;
+                    }
+
+                    if (item != null)
+                    {
+                        Browser.Click(item);
+                    }
                 }
 
                 if (Enum.TryParse(itemName, out resourceItem))
                 {
-                    var item = Browser.Driver.FindElement(By.LinkText(EnumExtension.GetDescription(resourceItem)));
+                    var item = Browser.Driver.FindElement(By.CssSelector("#navbar-collapse-1 > ul > li.subnav__item.dropdown-toggle.dropdown.open > div > div > ul > li:nth-child(" + ((int)resourceItem + 1) + ") > a"));
                     Browser.Click(item);
                 }
 
                 if (Enum.TryParse(itemName, out documentationItem))
                 {
-                    var item = Browser.Driver.FindElement(By.LinkText(EnumExtension.GetDescription(documentationItem)));
+                    var item = Browser.Driver.FindElement(By.CssSelector("#navbar-collapse-1 > ul > li.subnav__item.dropdown-toggle.dropdown.open > div > div > ul > li:nth-child(" + ((int)documentationItem + 1) + ") > a"));
                     Browser.Click(item);
                 }
             }

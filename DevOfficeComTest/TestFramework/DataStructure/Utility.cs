@@ -302,32 +302,6 @@ namespace TestFramework
         }
 
         /// <summary>
-        /// Find an link or a button role span according to the specific text and click it
-        /// </summary>
-        /// <param name="text">The text of the element</param>
-        public static void Click(string text)
-        {
-            var element = Browser.FindElement(By.LinkText(text));
-            //a link
-            if (element != null && element.Displayed)
-            {
-                Browser.Click(element);
-            }
-            else
-            {
-                IReadOnlyList<IWebElement> elements = Browser.webDriver.FindElements(By.XPath("//*[@role='button']"));
-                foreach (IWebElement elementToClick in elements)
-                {
-                    if (elementToClick.GetAttribute("innerHTML").Equals(text) && (elementToClick.Displayed))
-                    {
-                        Browser.Click(elementToClick);
-                        break;
-                    }
-                }
-            }
-        }
-
-        /// <summary>
         /// Click the branding image on the page
         /// </summary>
         public static void ClickBranding()
@@ -339,10 +313,10 @@ namespace TestFramework
         /// <summary>
         /// Get all the links in a NavItem's sub menu
         /// </summary>
-        /// <param name="navItem">The nav item in nav bar</param>
-        public static string[] GetNavSubItems(string navItem)
+        /// <param name="itemIndex">The nav item index in nav bar</param>
+        public static string[] GetNavSubItems(int itemIndex)
         {
-            var element = Browser.FindElement(By.LinkText(navItem));
+            var element = Browser.FindElement(By.CssSelector("#navbar-collapse-1 > ul > li:nth-child(" + ((int)itemIndex + 1) + ") > a"));
             try
             {
                 var subMenu = element.FindElement(By.XPath("parent::li/div"));

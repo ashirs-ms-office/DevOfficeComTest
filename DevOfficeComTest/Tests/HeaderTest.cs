@@ -43,12 +43,13 @@ namespace Tests
                 "Resources", 
                 "Documentation" };
 
-            string navItem = navOptions[new Random().Next(navOptions.Length)];
+            int itemIndex = new Random().Next(navOptions.Length);
+            string navItem = navOptions[itemIndex];
 
-            Pages.Navigation.Select(navItem);
-            string[] navSubOptions = Utility.GetNavSubItems(navItem);
+            string[] navSubOptions = Utility.GetNavSubItems(itemIndex);
             if (navSubOptions == null)
             {
+                Pages.Navigation.Select(navItem);
                 Utility.ClickBranding();
 
                 Assert.IsTrue(
@@ -66,8 +67,7 @@ namespace Tests
                     Browser.GoBack();
                     int randomIndex = new Random().Next(navSubOptions.Length);
                     subNavItem = navSubOptions[randomIndex];
-                    Pages.Navigation.Select(navItem);
-                    Utility.Click(subNavItem);
+                    Pages.Navigation.Select(navItem, subNavItem);
                     Browser.SwitchToNewWindow();
                 } while (!Utility.BrandingExists());
 
@@ -146,20 +146,26 @@ namespace Tests
                 "Resources", 
                 "Documentation" };
 
-            string navItem = navOptions[new Random().Next(navOptions.Length)];
-            string[] navSubOptions = Utility.GetNavSubItems(navItem);
+            int itemIndex = new Random().Next(navOptions.Length);
+            string navItem = navOptions[itemIndex];
+            if (itemIndex != 0)
+            {
+                itemIndex += 2; // Get the real item index
+            }
+
+            string[] navSubOptions = Utility.GetNavSubItems(itemIndex);
             Assert.IsNull(navSubOptions,
                 "Before clicking {0},its submenu should not appear",
                 navItem);
 
             Pages.Navigation.Select(navItem);
-            navSubOptions = Utility.GetNavSubItems(navItem);
+            navSubOptions = Utility.GetNavSubItems(itemIndex);
             Assert.IsNotNull(navSubOptions,
                 "After clicking {0},its submenu should appear",
                 navItem);
 
             Pages.Navigation.Select(navItem);
-            navSubOptions = Utility.GetNavSubItems(navItem);
+            navSubOptions = Utility.GetNavSubItems(itemIndex);
             Assert.IsNull(navSubOptions,
                 "After clicking {0} twice,its submenu should be hidden",
                 navItem);

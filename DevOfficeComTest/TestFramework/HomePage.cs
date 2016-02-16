@@ -9,8 +9,6 @@ namespace TestFramework
     public class HomePage : BasePage
     {
         private static string PageTitle = "Office Dev Center - Homepage";
-
-        [FindsBy(How = How.LinkText, Using = "Explore")] private IWebElement exploreLink;
         
         public void SlideToLeftMenuItem()
         {
