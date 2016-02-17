@@ -25,7 +25,7 @@ namespace MSGraphTest
         [TestCleanup]
         public void TestCleanup()
         {
-            GraphBrowser.Goto(GraphUtility.GetConfigurationValue("MSGraphBaseAddress"));
+            GraphBrowser.Goto(GraphBrowser.BaseAddress);
         }
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace MSGraphTest
         [TestMethod]
         public void BVT_Graph_S01_TC01_CanBrandingNavToHomePage()
         {
-            string title = GraphPages.Navigation.Select("Home");
+            GraphPages.Navigation.Select("Home");
             //Currently ignore the Graph explorer, since this page desn't have Microsoft
             //Graph branding image
             string[] navOptions = new string[] { 
@@ -51,7 +51,7 @@ namespace MSGraphTest
             GraphUtility.ClickBranding();
 
             Assert.IsTrue(
-                GraphPages.Navigation.IsAtGraphPage(title),
+                GraphPages.Navigation.IsAtGraphPage("Home"),
                 @"Clicking the branding image should navigate to Graph Home Page");
         }
 
@@ -125,9 +125,9 @@ namespace MSGraphTest
         [TestMethod]
         public void BVT_Graph_S01_TC07_CanGoToChangelogPage()
         {
-            GraphPages.Navigation.Select("Changelog");
+            string title = GraphPages.Navigation.Select("Changelog");
             Assert.IsTrue(
-                GraphPages.Navigation.IsAtGraphPage("Changelog"),
+                GraphPages.Navigation.IsAtGraphPage(title),
                 @"The opened page should be ""Changelog""");
         }
 
@@ -174,7 +174,7 @@ namespace MSGraphTest
 
             foreach (string navPage in navOptions)
             {
-                GraphPages.Navigation.Select(navPage);
+                string title=GraphPages.Navigation.Select(navPage);
                 if (navPage == "Home")
                 {
                     foreach (GraphHomePageImages item in Enum.GetValues(typeof(GraphHomePageImages)))

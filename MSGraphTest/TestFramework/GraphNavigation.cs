@@ -30,6 +30,11 @@ namespace TestFramework
         [FindsBy(How = How.XPath, Using = "//ul[@class='nav navbar-nav']/li/a[contains(@href,'/changelog')]")]
         private IWebElement changelogLinkElement;
 
+        /// <summary>
+        /// Select a item in the nav bar
+        /// </summary>
+        /// <param name="menuName">The menu item text in English</param>
+        /// <returns>The menu item text in a specific languange</returns>
         public string Select(string menuName)
         {
             string menuItemText = string.Empty;

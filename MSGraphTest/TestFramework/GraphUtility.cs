@@ -310,7 +310,7 @@ namespace TestFramework
             {
                 responseBuilder.Append(responseElements[i].Text);
             }
-            //Remove the braces
+            //Remove the braces {}
             int length = responseBuilder.Length;
             return responseBuilder.ToString().Substring(1, length - 2);
         }
@@ -404,6 +404,7 @@ namespace TestFramework
             {
                 xPath += "/ul/li";
             }
+            //Find all the toc items at the specific level
             IReadOnlyList<IWebElement> links = GraphBrowser.webDriver.FindElements(By.XPath(xPath + "/a"));
             string item = string.Empty;
 
@@ -423,19 +424,26 @@ namespace TestFramework
                     }
                     path += ancestorTitle + ">";
                 }
-
+                string title = links[randomIndex].GetAttribute("innerHTML");
+                if (links[randomIndex].GetAttribute("style").Contains("text-transform: uppercase"))
+                {
+                    title = title.ToUpper();
+                }
                 if (hasDoc)
                 {
                     if (!links[randomIndex].GetAttribute("href").EndsWith("/"))
                     {
-                        item = path + links[randomIndex].GetAttribute("innerHTML") + "," + links[randomIndex].GetAttribute("href");
+                        item = path + title + "," + links[randomIndex].GetAttribute("href");
                     }
                 }
                 else
                 {
-                    item = path + links[randomIndex].GetAttribute("innerHTML") + "," + links[randomIndex].GetAttribute("href");
+                    item = path + title + "," + links[randomIndex].GetAttribute("href");
                 }
-            } while (links[randomIndex].GetAttribute("href").EndsWith("/"));
+            } while (links[randomIndex].GetAttribute("href").EndsWith("/")
+                //Beta reference->onenote doesn't have related document
+                || links[randomIndex].GetAttribute("href").EndsWith("api-reference/beta/resources/note")
+                );
             return item;
         }
 
@@ -446,9 +454,10 @@ namespace TestFramework
         /// <returns>True if yes, else no.</returns>
         public static bool ValidateDocument(string tocLink)
         {
-            string elementSrc = GraphBrowser.FindElement(By.XPath("//iframe[@id='docframe']")).GetAttribute("src").Replace("zh-cn/", "").Replace("en-us/", "");
+            string lcName = GraphUtility.GetConfigurationValue("LCName");
+            string elementSrc = GraphBrowser.FindElement(By.XPath("//iframe[@id='docframe']")).GetAttribute("src").Replace(lcName + "/", "").Replace("en-us/", "");
 
-            if (tocLink.Replace("zh-cn/", "").Replace("en-us/", "").EndsWith(elementSrc.Replace(".htm", "").Replace("/GraphDocuments", "")))
+            if (tocLink.Replace(lcName + "/", "").Replace("en-us/", "").EndsWith(elementSrc.Replace(".htm", "").Replace("/GraphDocuments", "")))
             {
                 return true;
             }
@@ -458,12 +467,18 @@ namespace TestFramework
             }
         }
 
+        /// <summary>
+        /// Click Login
+        /// </summary>
         public static void ClickLogin()
         {
             var element = GraphBrowser.FindElement(By.XPath("//a[@ng-click='login()']"));
             GraphBrowser.Click(element);
         }
 
+        /// <summary>
+        /// Click Logout
+        /// </summary>
         public static void ClickLogout()
         {
             var element = GraphBrowser.FindElement(By.XPath("//a[@ng-click='logout()']"));
