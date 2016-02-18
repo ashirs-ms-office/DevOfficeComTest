@@ -39,7 +39,6 @@ namespace Tests
             foreach (MenuItemOfExplore item in Enum.GetValues(typeof(MenuItemOfExplore)))
             {
                 Pages.Navigation.Select("Explore", item.ToString());
-                //Browser.Wait(TimeSpan.FromSeconds(1));
                 Assert.IsTrue(Pages.Navigation.IsAtExplorePage(item), string.Format("The menu item {0} is not opened currectly.", item.ToString()));
             }
         }

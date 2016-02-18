@@ -77,7 +77,7 @@ namespace Tests
 
             // Build
             Pages.OfficeAddInPage.CardExcel.Build.StartBuilding();
-            Assert.IsTrue(Pages.OfficeAddInPage.CardExcel.Build.IsShowingBuildPage(), "Failed to open build page");
+            Assert.IsTrue(Pages.OfficeAddInPage.CardExcel.Build.IsShowingBuildPage(), "The building page should be opened successfully");
 
             // More Resource
             Pages.OfficeAddInPage.CardExcel.MoreResouces.DownLoadStarterSample();
