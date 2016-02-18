@@ -2,10 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
 using System.Net;
 using System.Text;
-using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace TestFramework
 {
@@ -404,6 +403,7 @@ namespace TestFramework
             {
                 xPath += "/ul/li";
             }
+            //Find all the toc items at the specific level
             IReadOnlyList<IWebElement> links = GraphBrowser.webDriver.FindElements(By.XPath(xPath + "/a"));
             string item = string.Empty;
 
@@ -423,19 +423,26 @@ namespace TestFramework
                     }
                     path += ancestorTitle + ">";
                 }
-
+                string title = links[randomIndex].GetAttribute("innerHTML");
+                if (links[randomIndex].GetAttribute("style").Contains("text-transform: uppercase"))
+                {
+                    title = title.ToUpper();
+                }
                 if (hasDoc)
                 {
                     if (!links[randomIndex].GetAttribute("href").EndsWith("/"))
                     {
-                        item = path + links[randomIndex].GetAttribute("innerHTML") + "," + links[randomIndex].GetAttribute("href");
+                        item = path + title + "," + links[randomIndex].GetAttribute("href");
                     }
                 }
                 else
                 {
-                    item = path + links[randomIndex].GetAttribute("innerHTML") + "," + links[randomIndex].GetAttribute("href");
+                    item = path + title + "," + links[randomIndex].GetAttribute("href");
                 }
-            } while (links[randomIndex].GetAttribute("href").EndsWith("/"));
+            } while (links[randomIndex].GetAttribute("href").EndsWith("/")
+                //Beta reference->onenote doesn't have related document
+                || links[randomIndex].GetAttribute("href").EndsWith("api-reference/beta/resources/note")
+                );
             return item;
         }
 
@@ -446,9 +453,15 @@ namespace TestFramework
         /// <returns>True if yes, else no.</returns>
         public static bool ValidateDocument(string tocLink)
         {
-            string elementSrc = GraphBrowser.FindElement(By.XPath("//iframe[@id='docframe']")).GetAttribute("src").Replace("zh-cn/", "").Replace("en-us/", "");
+            if (tocLink.Contains(GraphBrowser.BaseAddress)) 
+            {
+                tocLink = tocLink.Replace(GraphBrowser.BaseAddress,"");
+            }
+            Regex reg = new Regex("(" + GraphBrowser.BaseAddress + @")?(" + tocLink.Replace("zh-cn/", "").Replace("en-us/", "")+"){1}");
 
-            if (tocLink.Replace("zh-cn/", "").Replace("en-us/", "").EndsWith(elementSrc.Replace(".htm", "").Replace("/GraphDocuments", "")))
+            string elementSrc = GraphBrowser.FindElement(By.XPath("//iframe[@id='docframe']")).GetAttribute("src").Replace("zh-cn/", "").Replace("en-us/", "").Replace(".htm", "").Replace("/GraphDocuments", "");
+            bool isMatched = reg.IsMatch(elementSrc);
+            if (isMatched)
             {
                 return true;
             }

@@ -22,7 +22,10 @@ namespace TestFramework
 
         public static string BaseAddress
         {
-            get { return GraphUtility.GetConfigurationValue("MSGraphBaseAddress"); }
+            get {
+                string address = GraphUtility.GetConfigurationValue("MSGraphBaseAddress");
+                return address.EndsWith("/") ? address .Substring(0,address.Length-1): address;
+            }
         }
 
         public static void Initialize()
