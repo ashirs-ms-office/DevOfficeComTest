@@ -212,6 +212,9 @@ namespace TestFramework
 
         public bool IsAtExplorePage(MenuItemOfExplore item)
         {
+            int retryCount = Int32.Parse(Utility.GetConfigurationValue("RetryCount"));
+            int waitTime = Int32.Parse(Utility.GetConfigurationValue("WaitTime"));
+
             Platform platformResult;
             Product productResult;
             OtherProduct otherProduct;
@@ -228,8 +231,14 @@ namespace TestFramework
                 bool isAtOtherProductPage = false;
                 if (canSwitchWindow)
                 {
+                    int i = 0;
                     var otherProductPage = new NewWindowPage();
-                    isAtOtherProductPage = otherProductPage.IsAt(item.ToString());
+                    do
+                    {
+                        Browser.Wait(TimeSpan.FromSeconds(waitTime));
+                        i++;
+                        isAtOtherProductPage = otherProductPage.IsAt(item.ToString());
+                    } while (i < retryCount && !isAtOtherProductPage);
                     Browser.SwitchBack();
                 }
 

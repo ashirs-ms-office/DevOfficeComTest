@@ -173,7 +173,7 @@ namespace MSGraphTest
 
             Assert.IsTrue(
                isCorrectDoc,
-               @"{0} content should be shown when {1} is chosen in the table of content on Documentation page",
+               @"The shown content is {0} when {1} is chosen in the table of content on Documentation page",
                docTitle,
                parts[0]);
             for (int k = tocPath.Length - 1; k >= 0; k--)
