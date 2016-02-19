@@ -227,7 +227,15 @@ namespace TestFramework
         public static void Login(string userName, string password)
         {
             var userIdElement = GraphBrowser.FindElement(By.XPath("//input[@id='cred_userid_inputtext']"));
-            userIdElement.SendKeys(userName);
+            if (userIdElement.Displayed)
+            {
+                userIdElement.SendKeys(userName);
+            }
+            else
+            {
+                var existentUser = GraphBrowser.webDriver.FindElement(By.CssSelector("li#login_user_chooser>a#" + userName.Replace("@", "_").Replace(".", "_") + "_link"));
+                GraphBrowser.Click(existentUser);
+            }
             var passwordElement = GraphBrowser.FindElement(By.XPath("//input[@id='cred_password_inputtext']"));
             passwordElement.SendKeys(password);
             var signInElement = GraphBrowser.FindElement(By.XPath("//span[@id='cred_sign_in_button']"));
@@ -453,13 +461,15 @@ namespace TestFramework
         /// <returns>True if yes, else no.</returns>
         public static bool ValidateDocument(string tocLink)
         {
+            string lcName = GraphUtility.GetConfigurationValue("LCName");
+            
             if (tocLink.Contains(GraphBrowser.BaseAddress)) 
             {
                 tocLink = tocLink.Replace(GraphBrowser.BaseAddress,"");
             }
-            Regex reg = new Regex("(" + GraphBrowser.BaseAddress + @")?(" + tocLink.Replace("zh-cn/", "").Replace("en-us/", "")+"){1}");
+            Regex reg = new Regex("(" + GraphBrowser.BaseAddress + @")?(" + tocLink.Replace(lcName+"/", "").Replace("en-us/", "")+"){1}");
 
-            string elementSrc = GraphBrowser.FindElement(By.XPath("//iframe[@id='docframe']")).GetAttribute("src").Replace("zh-cn/", "").Replace("en-us/", "").Replace(".htm", "").Replace("/GraphDocuments", "");
+            string elementSrc = GraphBrowser.FindElement(By.XPath("//iframe[@id='docframe']")).GetAttribute("src").Replace(lcName + "/", "").Replace("en-us/", "").Replace(".htm", "").Replace("/GraphDocuments", "");
             bool isMatched = reg.IsMatch(elementSrc);
             if (isMatched)
             {

@@ -29,7 +29,7 @@ namespace MSGraphTest
             {
             Assert.Inconclusive("The test site should not be the production site");
             }
-            string url = GraphBrowser.BaseAddress + "/robots.txt";
+            string url = GraphBrowser.BaseAddress.Replace(GraphUtility.GetConfigurationValue("LCName"),"") + "robots.txt";
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = "GET";
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
@@ -40,7 +40,7 @@ namespace MSGraphTest
             Assert.IsTrue(disallowed, "The site should not be allowed to access");
         }
 
-        // <summary>
+        /// <summary>
         /// Verify whether robots.txt of production site specifies the site is accessible.
         /// </summary>
         [TestMethod]
