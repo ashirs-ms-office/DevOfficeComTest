@@ -228,15 +228,7 @@ namespace TestFramework
         public static void Login(string userName, string password)
         {
             var userIdElement = GraphBrowser.FindElement(By.XPath("//input[@id='cred_userid_inputtext']"));
-            if (userIdElement.Displayed)
-            {
-                userIdElement.SendKeys(userName);
-            }
-            else
-            {
-                var existentUser = GraphBrowser.webDriver.FindElement(By.CssSelector("li#login_user_chooser>a#" + userName.Replace("@", "_").Replace(".", "_") + "_link"));
-                GraphBrowser.Click(existentUser);
-            }
+            userIdElement.SendKeys(userName);
             var passwordElement = GraphBrowser.FindElement(By.XPath("//input[@id='cred_password_inputtext']"));
             passwordElement.SendKeys(password);
             var signInElement = GraphBrowser.FindElement(By.XPath("//span[@id='cred_sign_in_button']"));
