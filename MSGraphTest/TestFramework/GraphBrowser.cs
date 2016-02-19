@@ -22,7 +22,7 @@ namespace TestFramework
 
         public static string BaseAddress
         {
-            get { return GraphUtility.GetConfigurationValue("MSGraphBaseAddress") + "/" + GraphUtility.GetConfigurationValue("LCName"); }
+            get { return GraphUtility.GetConfigurationValue("MSGraphBaseAddress"); }
         }
 
         public static void Initialize()
@@ -348,11 +348,6 @@ namespace TestFramework
         {
             var wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(30));
             wait.Until(ExpectedConditions.ElementExists(By.CssSelector("#jsonViewer > div.ace_scroller > div > div.ace_layer.ace_text-layer > div.ace_line")));
-        }
-
-        public static void ClearCookies()
-        {
-            webDriver.Manage().Cookies.DeleteAllCookies();
         }
     }
 }

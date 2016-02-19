@@ -26,7 +26,7 @@ namespace MSGraphTest
         [TestCleanup]
         public void TestCleanup()
         {
-            GraphBrowser.Goto(GraphBrowser.BaseAddress);
+            GraphBrowser.Goto(GraphUtility.GetConfigurationValue("MSGraphBaseAddress"));
         }
 
         /// <summary>
@@ -35,7 +35,6 @@ namespace MSGraphTest
         [TestMethod]
         public void Acceptance_Graph_S05_TC01_CanLogin()
         {
-            GraphBrowser.ClearCookies();
             GraphPages.Navigation.Select("Graph explorer");
             if (GraphUtility.IsLoggedIn())
             {

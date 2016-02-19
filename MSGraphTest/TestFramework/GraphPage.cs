@@ -29,14 +29,9 @@ namespace TestFramework
             switch (image)
             {
                 case (GraphPageImages.MainBanner):
-                    var element = GraphBrowser.FindElement(By.Id("banner-image"));
-                    //The div in Home page does not have id attribute
-                    if (element == null)
-                    {
-                        element = GraphBrowser.FindElement(By.CssSelector("div#layout-featured>div>article>div>div>div>div"));
-                    }
+                    var element = GraphBrowser.Driver.FindElement(By.Id("banner-image"));
                     string Url = element.GetAttribute("style");
-                    Url = GraphUtility.GetConfigurationValue("MSGraphBaseAddress") + Url.Substring(Url.IndexOf('/'), Url.LastIndexOf('"') - Url.IndexOf('/'));
+                    Url = GraphBrowser.BaseAddress + Url.Substring(Url.IndexOf('/'), Url.LastIndexOf('"') - Url.IndexOf('/'));
                     return GraphUtility.ImageExist(Url);
                 case (GraphPageImages.Others):
                     var elements = GraphBrowser.Driver.FindElements(By.CssSelector("img"));

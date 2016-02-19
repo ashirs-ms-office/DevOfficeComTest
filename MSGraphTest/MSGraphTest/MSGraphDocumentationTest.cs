@@ -27,7 +27,7 @@ namespace MSGraphTest
         [TestCleanup]
         public void TestCleanup()
         {
-            GraphBrowser.Goto(GraphBrowser.BaseAddress);
+            GraphBrowser.Goto(GraphUtility.GetConfigurationValue("MSGraphBaseAddress"));
         }
 
         /// <summary>
@@ -141,7 +141,7 @@ namespace MSGraphTest
 
         /// <summary>
         /// Verify whether clicking different subject on Documentation page's
-        /// table of content will show the correct doc content.
+        /// table of content will show the correct duc content.
         /// </summary>
         [TestMethod]
         public void Comps_Graph_S04_TC03_CanDisplayCorrectContentOnDocumentaionPage()

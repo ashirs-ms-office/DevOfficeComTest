@@ -25,7 +25,7 @@ namespace MSGraphTest
         [TestCleanup]
         public void TestCleanup()
         {
-            GraphBrowser.Goto(GraphBrowser.BaseAddress);
+            GraphBrowser.Goto(GraphUtility.GetConfigurationValue("MSGraphBaseAddress"));
         }
 
         /// <summary>
