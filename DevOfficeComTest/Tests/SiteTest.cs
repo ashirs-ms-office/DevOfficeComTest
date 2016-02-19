@@ -25,6 +25,10 @@ namespace Tests
         [TestMethod]
         public void BVT_S15_TC01_CanAccessSiteRobots()
         {
+            if (Browser.BaseAddress.Contains("dev.office.com"))
+            {
+                Assert.Inconclusive("The test site should not be the production site");
+            }
             string url = Browser.BaseAddress + "/robots.txt";
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = "GET";

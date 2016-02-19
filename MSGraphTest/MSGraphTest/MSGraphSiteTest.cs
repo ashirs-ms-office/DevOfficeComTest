@@ -25,6 +25,10 @@ namespace MSGraphTest
         [TestMethod]
         public void BVT_Graph_S06_TC01_CanAccessSiteRobots()
         {
+            if (GraphBrowser.BaseAddress.Contains("graph.microsoft.io"))
+            {
+            Assert.Inconclusive("The test site should not be the production site");
+            }
             string url = GraphBrowser.BaseAddress + "/robots.txt";
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = "GET";
