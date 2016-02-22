@@ -15,7 +15,7 @@ if "%*"=="/?" (
  echo An absolute or relative path to save the screenshot file.
  echo.
  echo [/DefaultWaitTime:^<Wait Time^>]
- echo Deafult wait time when finding element.
+ echo Default wait time when finding element.
  echo.
  echo [/Tests:^<Test Case Name[,Test Case Name]...^>]
  echo Run tests with names that match the provided values.
@@ -34,28 +34,36 @@ cd ..
 IF EXIST .\TestFramework\_App.config DEL .\TestFramework\_App.config
 FOR /F "delims=" %%I IN (.\TestFramework\App.config) DO (
 set str=%%I
-set flag=0
 SETLOCAL ENABLEDELAYEDEXPANSION
+set flag=0
 FOR %%a IN (%*) DO (
 set te=%%a
 if "!te:~1,7!"=="Browser" (
+ set flag=1
  set browser=!te:~9!
  )
 if "!te:~1,11!"=="BaseAddress" (
+ set flag=1
  set url=!te:~13!
  )
 if "!te:~1,18!"=="ScreenShotSavePath" (
+ set flag=1
  set savePath=!te:~20!
  )
 if "!te:~1,15!"=="DefaultWaitTime" (
+ set flag=1
  set waitTime=!te:~17!
  )
 )
+if "!flag!"=="0" (
+ endlocal
+ goto TestRun
+)
+
 for /f tokens^=1^,2^,3^,4*^ delims^=^" %%J in ("%%I") do (
-set te=%%L
-if "!te:~1,5!"=="value" (
- set flag=1
- set flag2=0
+ set te=%%L
+ if "!te:~1,5!"=="value" (
+  set flag2=0
   if "%%K"=="Browser" (
    if defined browser (
     set flag2=1
@@ -83,16 +91,16 @@ if "!te:~1,5!"=="value" (
   if "!flag2!"=="0" (
     echo %%J"%%K"%%L"%%M"%%N>>.\TestFramework\_App.config
   )
+ ) else (
+  ECHO.!str!>>.\TestFramework\_App.config
  )
-)
-if "!flag!"=="0" (
- ECHO.!str!>>.\TestFramework\_App.config
 )
 endlocal
 )
 DEL .\TestFramework\App.config
 rename .\TestFramework\_App.config App.config
 
+:TestRun
 SETLOCAL ENABLEDELAYEDEXPANSION
 set flag3=0
 FOR %%b IN (%*) DO (
