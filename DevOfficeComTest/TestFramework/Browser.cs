@@ -19,10 +19,11 @@ namespace TestFramework
 
         public static string BaseAddress
         {
-            get { return Utility.GetConfigurationValue("BaseAddress"); }
-            //get { return "http://officedevcenter-msprod-standby.azurewebsites.net"; }
-            //get { return "http://officedevcentersite-orchard.azurewebsites.net"; }
-            //get { return "http://localhost"; }
+            get
+            {
+                string address = Utility.GetConfigurationValue("BaseAddress");
+                return address.EndsWith("/") ? address.Substring(0, address.Length - 1) : address;
+            }
         }
 
         public static void Initialize(string postfix = "")

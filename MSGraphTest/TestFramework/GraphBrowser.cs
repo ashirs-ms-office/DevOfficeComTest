@@ -22,9 +22,10 @@ namespace TestFramework
 
         public static string BaseAddress
         {
-            get {
+            get
+            {
                 string address = GraphUtility.GetConfigurationValue("MSGraphBaseAddress");
-                return address.EndsWith("/") ? address.Substring(0,address.Length-1): address;
+                return address.EndsWith("/") ? address.Substring(0, address.Length - 1) : address;
             }
         }
 
@@ -323,7 +324,6 @@ namespace TestFramework
         /// <returns>The size on current screen(in pixels)</returns>
         public static void TransferPhysicalSizeToPixelSize(double deviceSize, Size deviceResolution, out Size windowSize)
         {
-
             Panel panel = new System.Windows.Forms.Panel();
             Graphics g = System.Drawing.Graphics.FromHwnd(panel.Handle);
             IntPtr hdc = g.GetHdc();
@@ -349,8 +349,17 @@ namespace TestFramework
         /// </summary>
         public static void WaitForExploreResponse()
         {
-            var wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(30));
-            wait.Until(ExpectedConditions.ElementExists(By.CssSelector("#jsonViewer > div.ace_scroller > div > div.ace_layer.ace_text-layer > div.ace_line")));
+            GraphBrowser.Wait(By.CssSelector("#jsonViewer > div.ace_scroller > div > div.ace_layer.ace_text-layer > div.ace_line"));
+            var element = GraphBrowser.FindElement(By.CssSelector("#jsonViewer > div.ace_scroller > div > div.ace_layer.ace_text-layer > div.ace_line"));
+            int waitTime = Int32.Parse(GraphUtility.GetConfigurationValue("WaitTime"));
+            int retryCount = Int32.Parse(GraphUtility.GetConfigurationValue("RetryCount"));
+            int i = 0;
+            do
+            {
+                GraphBrowser.Wait(TimeSpan.FromSeconds(waitTime));
+                element = GraphBrowser.FindElement(By.CssSelector("#jsonViewer > div.ace_scroller > div > div.ace_layer.ace_text-layer > div.ace_line"));
+                i++;
+            } while (i < retryCount && element.Text.Equals(string.Empty));
         }
     }
 }
