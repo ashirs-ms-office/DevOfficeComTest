@@ -24,7 +24,7 @@ namespace TestFramework
         {
             get {
                 string address = GraphUtility.GetConfigurationValue("MSGraphBaseAddress");
-                return address.EndsWith("/") ? address + GraphUtility.GetConfigurationValue("LCName") : address + "/" + GraphUtility.GetConfigurationValue("LCName");
+                return address.EndsWith("/") ? address : address + "/";
             }
         }
 

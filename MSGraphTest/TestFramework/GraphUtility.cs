@@ -461,7 +461,7 @@ namespace TestFramework
         /// <returns>True if yes, else no.</returns>
         public static bool ValidateDocument(string tocLink)
         {
-            string lcName = GraphUtility.GetConfigurationValue("LCName");
+            string lcName = GetLCN();
             
             if (tocLink.Contains(GraphBrowser.BaseAddress)) 
             {
@@ -525,6 +525,18 @@ namespace TestFramework
             {
                 return false;
             }
+        }
+
+        public static string GetLCN()
+        {
+            string url = GraphBrowser.Url;
+            string restPart=GraphBrowser.Url.Replace(GraphUtility.GetConfigurationValue("MSGraphBaseAddress"), "");
+            if (restPart.StartsWith("/"))
+            {
+                restPart = restPart.Substring(1);
+            }
+            string lcnName=restPart.Split('/')[0];
+            return lcnName;
         }
     }
 }
