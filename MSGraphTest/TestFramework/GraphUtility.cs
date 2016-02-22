@@ -136,6 +136,24 @@ namespace TestFramework
         }
 
         /// <summary>
+        /// Extracts the base address from the value in App.config
+        /// </summary>
+        /// <returns>The base address</returns>
+        public static string RemoveRedundantPartsfromExtractBaseAddress()
+        {
+            string prefix = GraphBrowser.BaseAddress;
+            //GraphBrowser.BaseAddress does not end with "/",so the last index of "/" 
+            // decides whether GraphBrowser.BaseAddress contains LCName or other parts
+            int index = prefix.LastIndexOf("/");
+            if (index != prefix.IndexOf("://") + 2)
+            {
+                //It means in app config value of BaseAddress, it contains LCName or other parts
+                prefix = prefix.Substring(0, index);
+            }
+            return prefix;
+        }
+
+        /// <summary>
         /// Randomly find a TOC item, which has a sub content menu, at a specific layer.
         /// </summary>
         /// <param name="layerIndex">The layer index. Starts from 0.</param>
@@ -238,13 +256,15 @@ namespace TestFramework
             }
             var passwordElement = GraphBrowser.FindElement(By.XPath("//input[@id='cred_password_inputtext']"));
             passwordElement.SendKeys(password);
-            var signInElement = GraphBrowser.FindElement(By.XPath("//span[@id='cred_sign_in_button']"));
+            GraphBrowser.Wait(By.CssSelector("#cred_sign_in_button"));
+            var signInElement = GraphBrowser.FindElement(By.CssSelector("#cred_sign_in_button"));
             do
             {
                 GraphBrowser.Wait(TimeSpan.FromSeconds(1));
+                //Reload the element to avoid it timeout
+                signInElement = GraphBrowser.FindElement(By.CssSelector("#cred_sign_in_button"));
             } while (!signInElement.Enabled);
             GraphBrowser.Click(signInElement);
-
         }
 
         /// <summary>
@@ -254,6 +274,7 @@ namespace TestFramework
         /// <returns>True if yes, else no.</returns>
         public static bool IsLoggedIn(string expectedUserName = "")
         {
+            GraphBrowser.Wait(By.XPath("//a[@ng-show='userInfo.isAuthenticated']"));
             var element = GraphBrowser.FindElement(By.XPath("//a[@ng-show='userInfo.isAuthenticated']"));
             if (element.Displayed && expectedUserName != "" && element.Text.Equals(expectedUserName))
             {
@@ -275,6 +296,7 @@ namespace TestFramework
         /// <param name="queryString">The query string to input</param>
         public static void InputExplorerQueryString(string queryString)
         {
+            GraphBrowser.Wait(By.XPath(@"//input[@id=""queryBar""]"));
             var inputElement = GraphBrowser.Driver.FindElement(By.XPath(@"//input[@id=""queryBar""]"));
             inputElement.Clear();
             inputElement.SendKeys(queryString);
@@ -286,6 +308,7 @@ namespace TestFramework
         /// <param name="properties">The properties to format</param>
         public static void InputExplorerJSONBody(Dictionary<string, string> properties)
         {
+            GraphBrowser.Wait(By.CssSelector("div#jsonEditor>textarea"));
             var element = GraphBrowser.FindElement(By.CssSelector("div#jsonEditor>textarea"));
             //element.SendKeys("{\"" + property.Key + "\":\"" + property.Value + "\"}");
             element.SendKeys("{");
@@ -308,7 +331,8 @@ namespace TestFramework
         /// <returns>The composed response string</returns>
         public static string GetExplorerResponse()
         {
-            var textElement = GraphBrowser.webDriver.FindElement(By.XPath("//div[@id='jsonViewer']/div/div[contains(@class,'ace_content')]/div[contains(@class,'ace_text-layer')]"));
+            GraphBrowser.Wait(By.XPath("//div[@id='jsonViewer']/div/div[contains(@class,'ace_content')]/div[contains(@class,'ace_text-layer')]"));
+            var textElement = GraphBrowser.FindElement(By.XPath("//div[@id='jsonViewer']/div/div[contains(@class,'ace_content')]/div[contains(@class,'ace_text-layer')]"));
 
             StringBuilder responseBuilder = new StringBuilder();
 
@@ -318,8 +342,15 @@ namespace TestFramework
                 responseBuilder.Append(responseElements[i].Text);
             }
             //Remove the braces
-            int length = responseBuilder.Length;
-            return responseBuilder.ToString().Substring(1, length - 2);
+            if (responseBuilder.ToString().StartsWith("{"))
+            {
+                int length = responseBuilder.Length;
+                return responseBuilder.ToString().Substring(1, length - 2);
+            }
+            else 
+            {
+                return responseBuilder.ToString();
+            }
         }
 
         /// <summary>
@@ -530,12 +561,8 @@ namespace TestFramework
         public static string GetLCN()
         {
             string url = GraphBrowser.Url;
-            string restPart=GraphBrowser.Url.Replace(GraphUtility.GetConfigurationValue("MSGraphBaseAddress"), "");
-            if (restPart.StartsWith("/"))
-            {
-                restPart = restPart.Substring(1);
-            }
-            string lcnName=restPart.Split('/')[0];
+            string restPart = GraphBrowser.Url.Substring(url.IndexOf("://")+3);
+            string lcnName=restPart.Split('/')[1];
             return lcnName;
         }
     }

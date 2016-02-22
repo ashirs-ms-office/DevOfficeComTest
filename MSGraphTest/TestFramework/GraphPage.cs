@@ -36,7 +36,8 @@ namespace TestFramework
                         element = GraphBrowser.FindElement(By.CssSelector("div#layout-featured>div>article>div>div>div>div"));
                     }
                     string Url = element.GetAttribute("style");
-                    Url = GraphUtility.GetConfigurationValue("MSGraphBaseAddress") + Url.Substring(Url.IndexOf('/'), Url.LastIndexOf('"') - Url.IndexOf('/'));
+                    string prefix = GraphUtility.RemoveRedundantPartsfromExtractBaseAddress();
+                    Url = prefix + Url.Substring(Url.IndexOf('/'), Url.LastIndexOf('"') - Url.IndexOf('/'));
                     return GraphUtility.ImageExist(Url);
                 case (GraphPageImages.Others):
                     var elements = GraphBrowser.Driver.FindElements(By.CssSelector("img"));

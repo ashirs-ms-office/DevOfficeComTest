@@ -99,7 +99,7 @@ namespace MSGraphTest
         [TestMethod]
         public void BVT_Graph_S01_TC05_CanGoToAppRegistrationPage()
         {
-            string title=GraphPages.Navigation.Select("App registration");
+            string title = GraphPages.Navigation.Select("App registration");
             Assert.IsTrue(
                 GraphPages.Navigation.IsAtGraphPage(title),
                 @"The opened page should be {0}",
@@ -150,9 +150,9 @@ namespace MSGraphTest
 
             string navPage = navOptions[new Random().Next(navOptions.Length)];
             GraphPages.Navigation.Select(navPage);
-
+            string prefix = GraphUtility.RemoveRedundantPartsfromExtractBaseAddress();
             string imageUrl = GraphUtility.GetGraphBannerImageUrl();
-            Assert.IsTrue(GraphUtility.ImageExist(GraphUtility.GetConfigurationValue("MSGraphBaseAddress") + imageUrl), "The banner image should be valid to load");
+            Assert.IsTrue(GraphUtility.ImageExist(prefix + imageUrl), "The banner image should be valid to load");
         }
 
         /// <summary>

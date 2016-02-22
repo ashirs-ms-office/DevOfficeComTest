@@ -31,8 +31,8 @@ namespace MSGraphTest
         [TestMethod]
         public void BVT_Graph_S06_TC01_CanAccessSiteRobots()
         {
-            string lcnName = GraphUtility.GetLCN();
-            string url = GraphBrowser.BaseAddress.Replace(lcnName, "") + "robots.txt";
+            string prefix = GraphUtility.RemoveRedundantPartsfromExtractBaseAddress();
+            string url = prefix + "/robots.txt";
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = "GET";
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
