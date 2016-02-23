@@ -148,10 +148,15 @@ namespace MSGraphTest
             GraphUtility.InputExplorerQueryString("https://graph.microsoft.com/v1.0/me" + "\n");
             string getResponse = GraphUtility.GetExplorerResponse();
             //The response doesn't change means no GET response is returned.So wait and re-obtain it
-            while (getResponse == patchResponse)
+            int waitTime = Int32.Parse(GraphUtility.GetConfigurationValue("WaitTime"));
+            int retryCount = Int32.Parse(GraphUtility.GetConfigurationValue("RetryCount"));
+            int i = 0;
+
+            while (i < retryCount && getResponse == patchResponse)
             {
-                GraphBrowser.Wait(TimeSpan.FromSeconds(3));
+                GraphBrowser.Wait(TimeSpan.FromSeconds(waitTime));
                 getResponse = GraphUtility.GetExplorerResponse();
+                i++;
             }
             Dictionary<string, string> gottenProperties = GraphUtility.ParseJsonFormatProperties(getResponse);
             Assert.AreEqual(jobTitle, gottenProperties["jobTitle"], "The patched property should be updated accordingly");

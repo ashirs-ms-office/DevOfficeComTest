@@ -258,12 +258,16 @@ namespace TestFramework
             passwordElement.SendKeys(password);
             GraphBrowser.Wait(By.CssSelector("#cred_sign_in_button"));
             var signInElement = GraphBrowser.FindElement(By.CssSelector("#cred_sign_in_button"));
+            int waitTime = Int32.Parse(GraphUtility.GetConfigurationValue("WaitTime"));
+            int retryCount = Int32.Parse(GraphUtility.GetConfigurationValue("RetryCount"));
+            int i = 0;
             do
             {
-                GraphBrowser.Wait(TimeSpan.FromSeconds(1));
+                GraphBrowser.Wait(TimeSpan.FromSeconds(waitTime));
                 //Reload the element to avoid it timeout
                 signInElement = GraphBrowser.FindElement(By.CssSelector("#cred_sign_in_button"));
-            } while (!signInElement.Enabled);
+                i++;
+            } while (i < retryCount && !signInElement.Enabled);
             GraphBrowser.Click(signInElement);
         }
 
@@ -347,7 +351,7 @@ namespace TestFramework
                 int length = responseBuilder.Length;
                 return responseBuilder.ToString().Substring(1, length - 2);
             }
-            else 
+            else
             {
                 return responseBuilder.ToString();
             }
@@ -493,12 +497,12 @@ namespace TestFramework
         public static bool ValidateDocument(string tocLink)
         {
             string lcName = GetLCN();
-            
-            if (tocLink.Contains(GraphBrowser.BaseAddress)) 
+
+            if (tocLink.Contains(GraphBrowser.BaseAddress))
             {
-                tocLink = tocLink.Replace(GraphBrowser.BaseAddress,"");
+                tocLink = tocLink.Replace(GraphBrowser.BaseAddress, "");
             }
-            Regex reg = new Regex("(" + GraphBrowser.BaseAddress + @")?(" + tocLink.Replace(lcName+"/", "").Replace("en-us/", "")+"){1}");
+            Regex reg = new Regex("(" + GraphBrowser.BaseAddress + @")?(" + tocLink.Replace(lcName + "/", "").Replace("en-us/", "") + "){1}");
 
             string elementSrc = GraphBrowser.FindElement(By.XPath("//iframe[@id='docframe']")).GetAttribute("src").Replace(lcName + "/", "").Replace("en-us/", "").Replace(".htm", "").Replace("/GraphDocuments", "");
             bool isMatched = reg.IsMatch(elementSrc);
@@ -561,8 +565,8 @@ namespace TestFramework
         public static string GetLCN()
         {
             string url = GraphBrowser.Url;
-            string restPart = GraphBrowser.Url.Substring(url.IndexOf("://")+3);
-            string lcnName=restPart.Split('/')[1];
+            string restPart = GraphBrowser.Url.Substring(url.IndexOf("://") + 3);
+            string lcnName = restPart.Split('/')[1];
             return lcnName;
         }
     }

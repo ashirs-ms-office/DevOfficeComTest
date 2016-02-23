@@ -35,9 +35,7 @@ namespace TestFramework
                     {
                         element = GraphBrowser.FindElement(By.CssSelector("div#layout-featured>div>article>div>div>div>div"));
                     }
-                    string Url = element.GetAttribute("style");
-                    string prefix = GraphUtility.RemoveRedundantPartsfromExtractBaseAddress();
-                    Url = prefix + Url.Substring(Url.IndexOf('/'), Url.LastIndexOf('"') - Url.IndexOf('/'));
+                    string Url = ((string)(GraphBrowser.webDriver as IJavaScriptExecutor).ExecuteScript(@"return getComputedStyle(arguments[0])['background-image'];", element)).Replace(@"url(""", "").Replace(@""")", "");
                     return GraphUtility.ImageExist(Url);
                 case (GraphPageImages.Others):
                     var elements = GraphBrowser.Driver.FindElements(By.CssSelector("img"));

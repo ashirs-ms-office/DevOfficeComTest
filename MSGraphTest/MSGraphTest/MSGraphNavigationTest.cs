@@ -177,7 +177,7 @@ namespace MSGraphTest
                 GraphPages.Navigation.Select(navPage);
                 if (navPage == "Home")
                 {
-                    foreach (GraphHomePageImages item in Enum.GetValues(typeof(GraphHomePageImages)))
+                    foreach (GraphPageImages item in Enum.GetValues(typeof(GraphPageImages)))
                     {
                         Assert.IsTrue(GraphPages.HomePage.CanLoadImages(item));
                     }

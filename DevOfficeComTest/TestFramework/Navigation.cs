@@ -72,6 +72,8 @@ namespace TestFramework
 
         public bool IsAtProductPage(string productName)
         {
+            int retryCount = Int32.Parse(Utility.GetConfigurationValue("RetryCount"));
+            int waitTime = Int32.Parse(Utility.GetConfigurationValue("WaitTime"));
             switch (productName)
             {
                 case ("Outlook"):
@@ -79,11 +81,15 @@ namespace TestFramework
                     bool isAtOutlookPage = false;
                     if (canSwitchWindow)
                     {
-                        var outlookPage = new NewWindowPage();
-                        isAtOutlookPage = outlookPage.IsAt(productName);
+                        int i = 0;
+                        while (i < retryCount && !isAtOutlookPage)
+                        {
+                            var outlookPage = new NewWindowPage();
+                            isAtOutlookPage = outlookPage.IsAt(productName);
+                            i++;
+                        }
                         Browser.SwitchBack();
                     }
-
                     Browser.GoBack();
                     return isAtOutlookPage;
                 case ("DotNET"):
@@ -162,8 +168,12 @@ namespace TestFramework
 
         public bool IsAtResourcePage(MenuItemOfResource item)
         {
+            int retryCount = Int32.Parse(Utility.GetConfigurationValue("RetryCount"));
+            int waitTime = Int32.Parse(Utility.GetConfigurationValue("WaitTime"));
+
             var resourcePage = new ResourcePage();
             bool isAtResourcePage = false;
+            int i = 0;
             switch (item)
             {
                 case (MenuItemOfResource.MiniLabs):
@@ -178,8 +188,12 @@ namespace TestFramework
                     bool canSwitchWindow = Browser.SwitchToNewWindow();
                     if (canSwitchWindow)
                     {
-                        var sandboxPage = new NewWindowPage();
-                        isAtResourcePage = sandboxPage.IsAt(EnumExtension.GetDescription(item));
+                        while (i < retryCount && !isAtResourcePage)
+                        {
+                            var sandboxPage = new NewWindowPage();
+                            isAtResourcePage = sandboxPage.IsAt(EnumExtension.GetDescription(item));
+                            i++;
+                        }
                         Browser.SwitchBack();
                     }
 
@@ -189,7 +203,6 @@ namespace TestFramework
                     isAtResourcePage = resourcePage.ResourceName.ToLower().Contains(EnumExtension.GetDescription(item).ToLower());
                     break;
             }
-
             return isAtResourcePage;
         }
 
@@ -232,9 +245,10 @@ namespace TestFramework
                 if (canSwitchWindow)
                 {
                     int i = 0;
-                    var otherProductPage = new NewWindowPage();
                     do
                     {
+                        //In case the title expires, reconstruct it
+                        var otherProductPage = new NewWindowPage();
                         Browser.Wait(TimeSpan.FromSeconds(waitTime));
                         i++;
                         isAtOtherProductPage = otherProductPage.IsAt(item.ToString());
