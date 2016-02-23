@@ -6,7 +6,7 @@ if "%*"=="/?" (
  echo [/Browser:^<Browser Name^>]
  echo The browser used to access the site. The value should be one of following: IE32, IE64, Chrome, Firefox.
  echo.
- echo [/BaseAddress:^<Base Url^>]
+ echo [/MSGraphBaseAddress:^<Base Url^>]
  echo The root url of the site under test.
  echo.
  echo [/DefaultWaitTime:^<Wait Time^>]
@@ -37,15 +37,15 @@ if "%*"=="/?" (
  echo      If all the options to choose tests are ignored, all the tests will be run by default.
  echo.
  echo Examples:
- echo      To run tests in playlist file Dev-BVTs.playlist with BaseAddress set to http://Dev.Office.Com
- echo        ^>runTest.cmd /BaseAddress:http://Dev.Office.Com /PlayList:tests\Dev-BVTs.playlist
+ echo      To run tests in playlist file Graph-BVTs.playlist with BaseAddress set to http://graph.microsoft.io
+ echo        ^>runTest.cmd /MSGraphBaseAddress:http://graph.microsoft.io /PlayList:MSGraphTest\Graph-BVTs.playlist
  echo      To run tests which test name contains "TC01" with DefaultWaitTime set to 30
  echo        ^>runTest.cmd /DefaultWaitTime:30 /TestCaseFilter:Name~TC01
  goto end
 )
 cd ..
-IF NOT EXIST .\Tests\bin\Debug\tests.dll MSBuild .\DevOfficeComTest.sln
-IF NOT EXIST .\TestFramework\bin\Debug\TestFramework.dll MSBuild .\DevOfficeComTest.sln
+IF NOT EXIST .\MSGraphTest\bin\Debug\MSGraphTest.dll MSBuild .\MSGraphTest.sln
+IF NOT EXIST .\TestFramework\bin\Debug\TestFramework.dll MSBuild .\MSGraphTest.sln
 IF EXIST .\TestFramework\_App.config DEL .\TestFramework\_App.config
 FOR /F "delims=" %%I IN (.\TestFramework\App.config) DO (
 set str=%%I
@@ -57,9 +57,9 @@ if "!te:~1,7!"=="Browser" (
  set flag=1
  set browser=!te:~9!
  )
-if "!te:~1,11!"=="BaseAddress" (
+if "!te:~1,18!"=="MSGraphBaseAddress" (
  set flag=1
- set url=!te:~13!
+ set url=!te:~20!
  )
 if "!te:~1,18!"=="ScreenShotSavePath" (
  set flag=1
@@ -85,7 +85,7 @@ for /f tokens^=1^,2^,3^,4*^ delims^=^" %%J in ("%%I") do (
     echo %%J"%%K"%%L"!browser!"%%N>>.\TestFramework\_App.config
    )
   )
-  if "%%K"=="BaseAddress" (
+  if "%%K"=="MSGraphBaseAddress" (
    if defined url (
     set flag2=1
     echo %%J"%%K"%%L"!url!"%%N>>.\TestFramework\_App.config
@@ -137,9 +137,9 @@ if "!flag3!"=="1" (
  )
 )
 if defined testFilter (
- vstest.console.exe .\Tests\bin\Debug\Tests.dll /logger:trx !testFilter!
+ vstest.console.exe .\MSGraphTest\bin\Debug\MSGraphTest.dll /logger:trx !testFilter!
 ) else if defined testCases (
- vstest.console.exe .\Tests\bin\Debug\Tests.dll /logger:trx !testCases!
+ vstest.console.exe .\MSGraphTest\bin\Debug\MSGraphTest.dll /logger:trx !testCases!
 ) else if defined playList (
  set tests=/Tests:
  for /f "delims=" %%c IN (!playList!) DO (
@@ -150,9 +150,9 @@ if defined testFilter (
    )
   )
  )
- vstest.console.exe .\Tests\bin\Debug\Tests.dll /logger:trx !tests:~0,-1!
+ vstest.console.exe .\MSGraphTest\bin\Debug\MSGraphTest.dll /logger:trx !tests:~0,-1!
 ) else (
- vstest.console.exe .\Tests\bin\Debug\Tests.dll /logger:trx
+ vstest.console.exe .\MSGraphTest\bin\Debug\MSGraphTest.dll /logger:trx
 )
 endlocal
 
