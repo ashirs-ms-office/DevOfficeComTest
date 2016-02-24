@@ -1,6 +1,7 @@
 ﻿using System;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
+using OpenQA.Selenium.Support.UI;
 
 namespace TestFramework.Office365Page
 {
@@ -128,10 +129,10 @@ namespace TestFramework.Office365Page
             var tryBtn = Browser.Driver.FindElement(By.Id("invokeurlBtn"));
             Browser.Click(tryBtn);
 
-            if (Browser.Driver.FindElement(By.Id("responseBody")) != null)
-            {
-                Browser.Wait(TimeSpan.FromSeconds(3));
-            }
+            //if (Browser.Driver.FindElement(By.Id("responseBody")) != null)
+            //{
+            //    Browser.Wait(TimeSpan.FromSeconds(3));
+            //}
             // var wait = new WebDriverWait(Browser.Driver as IWebDriver, TimeSpan.FromSeconds(5));
             //wait.Until(d => d.FindElement(By.Id("response-container")));
             //WebDriverWait wait = new WebDriverWait((Browser.Driver as IWebDriver), TimeSpan.FromSeconds(10));
@@ -157,74 +158,95 @@ namespace TestFramework.Office365Page
         public bool CanGetResponse(object value)
         {
             var responseBody = Browser.Driver.FindElement(By.Id("responseBody"));
+            string responseText = responseBody.Text.ToLower();
+            string textToBePresent = string.Empty;
             int serviceIndex = (int)currentSerivce;
             switch (serviceIndex)
             {
-                // To do: finish all services and parameters
                 case (0):
                     switch ((GetMessagesValue)value)
                     {
                         case GetMessagesValue.Inbox:
-                            string responseText = responseBody.Text;
-                            return responseText.Contains(@"https://graph.microsoft.com/v1.0/$metadata#users('alexd%40a830edad9050849NDA1.onmicrosoft.com')/mailFolders('Inbox')/messages");
+                            textToBePresent = @"/mailFolders('Inbox')/messages";
+                            break;
                         case GetMessagesValue.Drafts:
-                            responseText = responseBody.Text;
-                            return responseText.Contains(@"https://graph.microsoft.com/v1.0/$metadata#users('alexd%40a830edad9050849NDA1.onmicrosoft.com')/mailFolders('Drafts')/messages");
+                            textToBePresent = @"/mailFolders('Drafts')/messages";
+                            break;
                         case GetMessagesValue.DeletedItems:
-                            responseText = responseBody.Text;
-                            return responseText.Contains(@"https://graph.microsoft.com/v1.0/$metadata#users('alexd%40a830edad9050849NDA1.onmicrosoft.com')/mailFolders('DeletedItems')/messages");
+                            textToBePresent = @"/mailFolders('DeletedItems')/messages";
+                            break;
                         case GetMessagesValue.SentItems:
-                            responseText = responseBody.Text;
-                            return responseText.Contains(@"https://graph.microsoft.com/v1.0/$metadata#users('alexd%40a830edad9050849NDA1.onmicrosoft.com')/mailFolders('SentItems')/messages");
+                            textToBePresent = @"/mailFolders('SentItems')/messages";
+                            break;
                         default:
-                            return false;
+                            break;
                     }
+                    break;
                 case (1):
-                    return responseBody.Text.Contains(@"https://graph.microsoft.com/v1.0/$metadata#users('alexd%40a830edad9050849NDA1.onmicrosoft.com')/events");
+                    textToBePresent = @"/events";
+                    break;
                 case (2):
-                    return responseBody.Text.Contains(@"https://graph.microsoft.com/v1.0/$metadata#users('alexd%40a830edad9050849NDA1.onmicrosoft.com')/contacts");
+                    textToBePresent = @"/contacts";
+                    break;
                 case (3):
                     switch ((GetFilesValue)value)
                     {
                         case GetFilesValue.drive_root_children:
-                            return responseBody.Text.ToLower().Contains(@"https://graph.microsoft.com/v1.0/$metadata#drive/root/children");
+                            textToBePresent = @"https://graph.microsoft.com/v1.0/$metadata#drive/root/children";
+                            break;
                         case GetFilesValue.me_drive:
-                            return responseBody.Text.ToLower().Contains(@"https://graph.microsoft.com/v1.0/$metadata#drives/$entity");
+                            textToBePresent = @"https://graph.microsoft.com/v1.0/$metadata#drives/$entity";
+                            break;
                         default:
-                            return false;
+                            break;
                     }
+                    break;
                 case (4):
                     switch ((GetUsersValue)value)
                     {
                         case GetUsersValue.me:
-                            return responseBody.Text.ToLower().Contains(@"https://graph.microsoft.com/v1.0/$metadata#users/$entity");
+                            textToBePresent = @"https://graph.microsoft.com/v1.0/$metadata#users/$entity";
+                            break;
                         case GetUsersValue.me_manager:
-                            return responseBody.Text.Contains(@"https://graph.microsoft.com/v1.0/$metadata#directoryObjects/$entity"); 
+                            textToBePresent = @"https://graph.microsoft.com/v1.0/$metadata#directoryObjects/$entity";
+                            break;
                         case GetUsersValue.me_select_skills:
-                            return responseBody.Text.ToLower().Contains(@"https://graph.microsoft.com/v1.0/$metadata#users(skills)/$entity");
+                            textToBePresent = @"https://graph.microsoft.com/v1.0/$metadata#users(skills)/$entity";
+                            break;
                         case GetUsersValue.myOrganization_users:
-                            return responseBody.Text.ToLower().Contains(@"https://graph.microsoft.com/v1.0/$metadata#users");
+                            textToBePresent = @"https://graph.microsoft.com/v1.0/$metadata#users";
+                            break;
                         default:
-                            return false;
+                            break;
                     }
+                    break;
                 case (5):
                     switch ((GetGroupValue)value)
                     {
                         case GetGroupValue.me_memberOf:
-                            return responseBody.Text.Contains(@"https://graph.microsoft.com/v1.0/$metadata#directoryObjects");
+                            textToBePresent = @"https://graph.microsoft.com/v1.0/$metadata#directoryObjects";
+                            break;
                         case GetGroupValue.members:
-                            return responseBody.Text.Contains(@"https://graph.microsoft.com/v1.0/$metadata#directoryObjects");
+                            textToBePresent = @"https://graph.microsoft.com/v1.0/$metadata#directoryObjects";
+                            break;
                         case GetGroupValue.drive_root_children:
-                            return responseBody.Text.ToLower().Contains(@"https://graph.microsoft.com/v1.0/$metadata#groups('41525360-8eca-49ce-bcee-b205cd0aa747')/drive/root/children");
+                            textToBePresent = @"https://graph.microsoft.com/v1.0/$metadata#groups('41525360-8eca-49ce-bcee-b205cd0aa747')/drive/root/children";
+                            break;
                         case GetGroupValue.conversations:
-                            return responseBody.Text.ToLower().Contains(@"https://graph.microsoft.com/v1.0/$metadata#groups('41525360-8eca-49ce-bcee-b205cd0aa747')/conversations");
+                            textToBePresent = @"https://graph.microsoft.com/v1.0/$metadata#groups('41525360-8eca-49ce-bcee-b205cd0aa747')/conversations";
+                            break;
                         default:
-                            return false;
+                            break;
                     }
-
+                    break;
                 default:
-                    return false; 
+                    break;
             }
+
+            var wait = new WebDriverWait((IWebDriver)Browser.Driver, TimeSpan.FromSeconds(30));
+            wait.Until(ExpectedConditions.TextToBePresentInElement(responseBody, textToBePresent));
+
+            return true; 
         }
 
         public bool UrlContainsServiceName()
