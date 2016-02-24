@@ -314,7 +314,6 @@ namespace TestFramework
         {
             GraphBrowser.Wait(By.CssSelector("div#jsonEditor>textarea"));
             var element = GraphBrowser.FindElement(By.CssSelector("div#jsonEditor>textarea"));
-            //element.SendKeys("{\"" + property.Key + "\":\"" + property.Value + "\"}");
             element.SendKeys("{");
             int index = 0;
             foreach (KeyValuePair<string, string> property in properties)
@@ -336,11 +335,8 @@ namespace TestFramework
         public static string GetExplorerResponse()
         {
             GraphBrowser.Wait(By.XPath("//div[@id='jsonViewer']/div/div[contains(@class,'ace_content')]/div[contains(@class,'ace_text-layer')]"));
-            var textElement = GraphBrowser.FindElement(By.XPath("//div[@id='jsonViewer']/div/div[contains(@class,'ace_content')]/div[contains(@class,'ace_text-layer')]"));
-
             StringBuilder responseBuilder = new StringBuilder();
-
-            IReadOnlyList<IWebElement> responseElements = textElement.FindElements(By.TagName("span"));
+            IReadOnlyList<IWebElement> responseElements = GraphBrowser.webDriver.FindElements(By.CssSelector("div#jsonViewer>div.ace_scroller>div>div.ace_layer.ace_text-layer>div.ace_line> span"));
             for (int i = 0; i < responseElements.Count; i++)
             {
                 responseBuilder.Append(responseElements[i].Text);

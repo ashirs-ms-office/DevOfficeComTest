@@ -168,6 +168,9 @@ namespace MSGraphTest
         [TestMethod]
         public void Comps_Graph_S05_TC05_CanPostDeleteGroup()
         {
+            int waitTime = Int32.Parse(GraphUtility.GetConfigurationValue("WaitTime"));
+            int retryCount = Int32.Parse(GraphUtility.GetConfigurationValue("RetryCount"));
+
             GraphPages.Navigation.Select("Graph explorer");
             string userName = GraphUtility.GetConfigurationValue("GraphExplorerUserName");
 
@@ -209,17 +212,24 @@ namespace MSGraphTest
                 getResponseProperties["displayName"],
                 "The posted group should be able to GET");
 
-            //Change the operation from GET to DELETE
+            // Reload the page to empty the response
+            GraphBrowser.Refresh();
             GraphUtility.ClickButton("GET");
             GraphUtility.Click("DELETE");
             GraphUtility.InputExplorerQueryString("https://graph.microsoft.com/v1.0/groups/" + postResponseProperties["id"] + "\n");
-            GraphBrowser.Wait(TimeSpan.FromSeconds(4));
+            GraphBrowser.WaitForExploreResponse();
+            string deleteResponse = GraphUtility.GetExplorerResponse();
 
             GraphUtility.Click("DELETE");
             GraphUtility.ClickButton("GET");
             GraphUtility.InputExplorerQueryString("https://graph.microsoft.com/v1.0/groups/" + postResponseProperties["id"] + "\n");
-            GraphBrowser.Wait(TimeSpan.FromSeconds(5));
-            getResponse = GraphUtility.GetExplorerResponse();
+            int i = 0;
+            do
+            {
+                GraphBrowser.Wait(TimeSpan.FromSeconds(waitTime));
+                getResponse = GraphUtility.GetExplorerResponse();
+                i++;
+            } while (i < retryCount && getResponse.Equals(deleteResponse));
 
             Assert.IsTrue(
                 getResponse.Contains("\"code\":\"Request_ResourceNotFound\""),
