@@ -27,7 +27,7 @@ namespace MSGraphTest
         [TestCleanup]
         public void TestCleanup()
         {
-            GraphBrowser.Goto(GraphUtility.GetConfigurationValue("MSGraphBaseAddress"));
+            GraphBrowser.Goto(GraphBrowser.BaseAddress);
         }
 
         /// <summary>
@@ -141,7 +141,7 @@ namespace MSGraphTest
 
         /// <summary>
         /// Verify whether clicking different subject on Documentation page's
-        /// table of content will show the correct duc content.
+        /// table of content will show the correct doc content.
         /// </summary>
         [TestMethod]
         public void Comps_Graph_S04_TC03_CanDisplayCorrectContentOnDocumentaionPage()
@@ -173,7 +173,7 @@ namespace MSGraphTest
 
             Assert.IsTrue(
                isCorrectDoc,
-               @"{0} content should be shown when {1} is chosen in the table of content on Documentation page",
+               @"The shown content is {0} when {1} is chosen in the table of content on Documentation page",
                docTitle,
                parts[0]);
             for (int k = tocPath.Length - 1; k >= 0; k--)

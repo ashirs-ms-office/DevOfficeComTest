@@ -2,10 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
 using System.Net;
 using System.Text;
-using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace TestFramework
 {
@@ -137,6 +136,24 @@ namespace TestFramework
         }
 
         /// <summary>
+        /// Extracts the base address from the value in App.config
+        /// </summary>
+        /// <returns>The base address</returns>
+        public static string RemoveRedundantPartsfromExtractBaseAddress()
+        {
+            string prefix = GraphBrowser.BaseAddress;
+            //GraphBrowser.BaseAddress does not end with "/",so the last index of "/" 
+            // decides whether GraphBrowser.BaseAddress contains LCName or other parts
+            int index = prefix.LastIndexOf("/");
+            if (index != prefix.IndexOf("://") + 2)
+            {
+                //It means in app config value of BaseAddress, it contains LCName or other parts
+                prefix = prefix.Substring(0, index);
+            }
+            return prefix;
+        }
+
+        /// <summary>
         /// Randomly find a TOC item, which has a sub content menu, at a specific layer.
         /// </summary>
         /// <param name="layerIndex">The layer index. Starts from 0.</param>
@@ -228,16 +245,30 @@ namespace TestFramework
         public static void Login(string userName, string password)
         {
             var userIdElement = GraphBrowser.FindElement(By.XPath("//input[@id='cred_userid_inputtext']"));
-            userIdElement.SendKeys(userName);
+            if (userIdElement.Displayed)
+            {
+                userIdElement.SendKeys(userName);
+            }
+            else
+            {
+                var existentUser = GraphBrowser.webDriver.FindElement(By.CssSelector("li#login_user_chooser>a#" + userName.Replace("@", "_").Replace(".", "_") + "_link"));
+                GraphBrowser.Click(existentUser);
+            }
             var passwordElement = GraphBrowser.FindElement(By.XPath("//input[@id='cred_password_inputtext']"));
             passwordElement.SendKeys(password);
-            var signInElement = GraphBrowser.FindElement(By.XPath("//span[@id='cred_sign_in_button']"));
+            GraphBrowser.Wait(By.CssSelector("#cred_sign_in_button"));
+            var signInElement = GraphBrowser.FindElement(By.CssSelector("#cred_sign_in_button"));
+            int waitTime = Int32.Parse(GraphUtility.GetConfigurationValue("WaitTime"));
+            int retryCount = Int32.Parse(GraphUtility.GetConfigurationValue("RetryCount"));
+            int i = 0;
             do
             {
-                GraphBrowser.Wait(TimeSpan.FromSeconds(1));
-            } while (!signInElement.Enabled);
+                GraphBrowser.Wait(TimeSpan.FromSeconds(waitTime));
+                //Reload the element to avoid it timeout
+                signInElement = GraphBrowser.FindElement(By.CssSelector("#cred_sign_in_button"));
+                i++;
+            } while (i < retryCount && !signInElement.Enabled);
             GraphBrowser.Click(signInElement);
-
         }
 
         /// <summary>
@@ -247,6 +278,7 @@ namespace TestFramework
         /// <returns>True if yes, else no.</returns>
         public static bool IsLoggedIn(string expectedUserName = "")
         {
+            GraphBrowser.Wait(By.XPath("//a[@ng-show='userInfo.isAuthenticated']"));
             var element = GraphBrowser.FindElement(By.XPath("//a[@ng-show='userInfo.isAuthenticated']"));
             if (element.Displayed && expectedUserName != "" && element.Text.Equals(expectedUserName))
             {
@@ -268,6 +300,7 @@ namespace TestFramework
         /// <param name="queryString">The query string to input</param>
         public static void InputExplorerQueryString(string queryString)
         {
+            GraphBrowser.Wait(By.XPath(@"//input[@id=""queryBar""]"));
             var inputElement = GraphBrowser.Driver.FindElement(By.XPath(@"//input[@id=""queryBar""]"));
             inputElement.Clear();
             inputElement.SendKeys(queryString);
@@ -279,6 +312,7 @@ namespace TestFramework
         /// <param name="properties">The properties to format</param>
         public static void InputExplorerJSONBody(Dictionary<string, string> properties)
         {
+            GraphBrowser.Wait(By.CssSelector("div#jsonEditor>textarea"));
             var element = GraphBrowser.FindElement(By.CssSelector("div#jsonEditor>textarea"));
             //element.SendKeys("{\"" + property.Key + "\":\"" + property.Value + "\"}");
             element.SendKeys("{");
@@ -301,7 +335,8 @@ namespace TestFramework
         /// <returns>The composed response string</returns>
         public static string GetExplorerResponse()
         {
-            var textElement = GraphBrowser.webDriver.FindElement(By.XPath("//div[@id='jsonViewer']/div/div[contains(@class,'ace_content')]/div[contains(@class,'ace_text-layer')]"));
+            GraphBrowser.Wait(By.XPath("//div[@id='jsonViewer']/div/div[contains(@class,'ace_content')]/div[contains(@class,'ace_text-layer')]"));
+            var textElement = GraphBrowser.FindElement(By.XPath("//div[@id='jsonViewer']/div/div[contains(@class,'ace_content')]/div[contains(@class,'ace_text-layer')]"));
 
             StringBuilder responseBuilder = new StringBuilder();
 
@@ -311,8 +346,15 @@ namespace TestFramework
                 responseBuilder.Append(responseElements[i].Text);
             }
             //Remove the braces
-            int length = responseBuilder.Length;
-            return responseBuilder.ToString().Substring(1, length - 2);
+            if (responseBuilder.ToString().StartsWith("{"))
+            {
+                int length = responseBuilder.Length;
+                return responseBuilder.ToString().Substring(1, length - 2);
+            }
+            else
+            {
+                return responseBuilder.ToString();
+            }
         }
 
         /// <summary>
@@ -404,6 +446,7 @@ namespace TestFramework
             {
                 xPath += "/ul/li";
             }
+            //Find all the toc items at the specific level
             IReadOnlyList<IWebElement> links = GraphBrowser.webDriver.FindElements(By.XPath(xPath + "/a"));
             string item = string.Empty;
 
@@ -423,19 +466,26 @@ namespace TestFramework
                     }
                     path += ancestorTitle + ">";
                 }
-
+                string title = links[randomIndex].GetAttribute("innerHTML");
+                if (links[randomIndex].GetAttribute("style").Contains("text-transform: uppercase"))
+                {
+                    title = title.ToUpper();
+                }
                 if (hasDoc)
                 {
                     if (!links[randomIndex].GetAttribute("href").EndsWith("/"))
                     {
-                        item = path + links[randomIndex].GetAttribute("innerHTML") + "," + links[randomIndex].GetAttribute("href");
+                        item = path + title + "," + links[randomIndex].GetAttribute("href");
                     }
                 }
                 else
                 {
-                    item = path + links[randomIndex].GetAttribute("innerHTML") + "," + links[randomIndex].GetAttribute("href");
+                    item = path + title + "," + links[randomIndex].GetAttribute("href");
                 }
-            } while (links[randomIndex].GetAttribute("href").EndsWith("/"));
+            } while (links[randomIndex].GetAttribute("href").EndsWith("/")
+                //Beta reference->onenote doesn't have related document
+                || links[randomIndex].GetAttribute("href").EndsWith("api-reference/beta/resources/note")
+                );
             return item;
         }
 
@@ -446,9 +496,17 @@ namespace TestFramework
         /// <returns>True if yes, else no.</returns>
         public static bool ValidateDocument(string tocLink)
         {
-            string elementSrc = GraphBrowser.FindElement(By.XPath("//iframe[@id='docframe']")).GetAttribute("src").Replace("zh-cn/", "").Replace("en-us/", "");
+            string lcName = GetLCN();
 
-            if (tocLink.Replace("zh-cn/", "").Replace("en-us/", "").EndsWith(elementSrc.Replace(".htm", "").Replace("/GraphDocuments", "")))
+            if (tocLink.Contains(GraphBrowser.BaseAddress))
+            {
+                tocLink = tocLink.Replace(GraphBrowser.BaseAddress, "");
+            }
+            Regex reg = new Regex("(" + GraphBrowser.BaseAddress + @")?(" + tocLink.Replace(lcName + "/", "").Replace("en-us/", "") + "){1}");
+
+            string elementSrc = GraphBrowser.FindElement(By.XPath("//iframe[@id='docframe']")).GetAttribute("src").Replace(lcName + "/", "").Replace("en-us/", "").Replace(".htm", "").Replace("/GraphDocuments", "");
+            bool isMatched = reg.IsMatch(elementSrc);
+            if (isMatched)
             {
                 return true;
             }
@@ -502,6 +560,14 @@ namespace TestFramework
             {
                 return false;
             }
+        }
+
+        public static string GetLCN()
+        {
+            string url = GraphBrowser.Url;
+            string restPart = GraphBrowser.Url.Substring(url.IndexOf("://") + 3);
+            string lcnName = restPart.Split('/')[1];
+            return lcnName;
         }
     }
 }

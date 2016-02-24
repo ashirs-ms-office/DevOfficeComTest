@@ -25,7 +25,7 @@ namespace MSGraphTest
         [TestCleanup]
         public void TestCleanup()
         {
-            GraphBrowser.Goto(GraphUtility.GetConfigurationValue("MSGraphBaseAddress"));
+            GraphBrowser.Goto(GraphBrowser.BaseAddress);
         }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace MSGraphTest
         [TestMethod]
         public void BVT_Graph_S01_TC05_CanGoToAppRegistrationPage()
         {
-            string title=GraphPages.Navigation.Select("App registration");
+            string title = GraphPages.Navigation.Select("App registration");
             Assert.IsTrue(
                 GraphPages.Navigation.IsAtGraphPage(title),
                 @"The opened page should be {0}",
@@ -125,9 +125,9 @@ namespace MSGraphTest
         [TestMethod]
         public void BVT_Graph_S01_TC07_CanGoToChangelogPage()
         {
-            GraphPages.Navigation.Select("Changelog");
+            string title = GraphPages.Navigation.Select("Changelog");
             Assert.IsTrue(
-                GraphPages.Navigation.IsAtGraphPage("Changelog"),
+                GraphPages.Navigation.IsAtGraphPage(title),
                 @"The opened page should be ""Changelog""");
         }
 
@@ -150,9 +150,9 @@ namespace MSGraphTest
 
             string navPage = navOptions[new Random().Next(navOptions.Length)];
             GraphPages.Navigation.Select(navPage);
-
+            string prefix = GraphUtility.RemoveRedundantPartsfromExtractBaseAddress();
             string imageUrl = GraphUtility.GetGraphBannerImageUrl();
-            Assert.IsTrue(GraphUtility.ImageExist(GraphUtility.GetConfigurationValue("MSGraphBaseAddress") + imageUrl), "The banner image should be valid to load");
+            Assert.IsTrue(GraphUtility.ImageExist(prefix + imageUrl), "The banner image should be valid to load");
         }
 
         /// <summary>
@@ -177,7 +177,7 @@ namespace MSGraphTest
                 GraphPages.Navigation.Select(navPage);
                 if (navPage == "Home")
                 {
-                    foreach (GraphHomePageImages item in Enum.GetValues(typeof(GraphHomePageImages)))
+                    foreach (GraphPageImages item in Enum.GetValues(typeof(GraphPageImages)))
                     {
                         Assert.IsTrue(GraphPages.HomePage.CanLoadImages(item));
                     }

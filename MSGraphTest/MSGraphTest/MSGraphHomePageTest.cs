@@ -25,7 +25,7 @@ namespace MSGraphTest
         [TestCleanup]
         public void TestCleanup()
         {
-            GraphBrowser.Goto(GraphUtility.GetConfigurationValue("MSGraphBaseAddress"));
+            GraphBrowser.Goto(GraphBrowser.BaseAddress);
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace MSGraphTest
         public void Acceptance_Graph_S02_TC02_ClickSeeOverviewCanShowDocumentaionPage()
         {
             GraphUtility.SelectToSeeOverView();
-            bool isOverview = GraphUtility.ValidateDocument(GraphUtility.GetConfigurationValue("MSGraphBaseAddress") + "/overview/overview");
+            bool isOverview = GraphUtility.ValidateDocument(GraphBrowser.BaseAddress + "/overview/overview");
             string docTitle = GraphUtility.GetDocTitle();
             Assert.IsTrue(
                 isOverview,
