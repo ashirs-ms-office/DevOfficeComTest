@@ -63,7 +63,7 @@ if "!te:~1,11!"=="BaseAddress" (
  )
 if "!te:~1,18!"=="ScreenShotSavePath" (
  set flag=1
- set savePath=!te:~20!
+rem set savePath=!te:~20!
  )
 if "!te:~1,15!"=="DefaultWaitTime" (
  set flag=1
@@ -104,14 +104,16 @@ for /f tokens^=1^,2^,3^,4*^ delims^=^" %%J in ("%%I") do (
    )
   )
   if "!flag2!"=="0" (
-    echo %%J"%%K"%%L"%%M"%%N>>.\TestFramework\_App.config
+    echo !str!>>.\TestFramework\_App.config
   )
  ) else (
-  ECHO.!str!>>.\TestFramework\_App.config
+  ECHO !str!>>.\TestFramework\_App.config
  )
 )
 endlocal
 )
+
+powershell -command write-host "The related property value in App.config will be updated according to the input options." -ForegroundColor Yellow
 DEL .\TestFramework\App.config
 rename .\TestFramework\_App.config App.config
 
