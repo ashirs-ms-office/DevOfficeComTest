@@ -269,18 +269,16 @@ namespace TestFramework
                 bool isAtOtherProductPage = false;
                 if (canSwitchWindow)
                 {
+                    Browser.webDriver.Navigate().Refresh();
                     int i = 0;
                     do
                     {
-                        //In case the title expires, reconstruct it
-                        var otherProductPage = new NewWindowPage();
                         Browser.Wait(TimeSpan.FromSeconds(waitTime));
                         i++;
-                        isAtOtherProductPage = otherProductPage.IsAt(item.ToString());
+                        isAtOtherProductPage = Browser.webDriver.Title.Contains(item.ToString());
                     } while (i < retryCount && !isAtOtherProductPage);
                     Browser.SwitchBack();
                 }
-
                 Browser.GoBack();
                 return isAtOtherProductPage;
             }
