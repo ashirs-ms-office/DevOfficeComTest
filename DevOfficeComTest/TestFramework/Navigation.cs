@@ -241,10 +241,17 @@ namespace TestFramework
             if (Enum.TryParse(item.ToString(), out otherProduct))
             {
                 bool canSwitchWindow = Browser.SwitchToNewWindow();
+                
+                #region Workaround for Access
+                if (item.Equals(MenuItemOfExplore.Access)) 
+                {
+                    canSwitchWindow = Browser.SwitchToNewWindow();
+                }
+                #endregion Workaround for Access
+
                 bool isAtOtherProductPage = false;
                 if (canSwitchWindow)
                 {
-                    Browser.webDriver.Navigate().Refresh();
                     int i = 0;
                     do
                     {
