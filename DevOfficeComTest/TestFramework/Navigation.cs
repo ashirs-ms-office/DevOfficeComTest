@@ -241,9 +241,9 @@ namespace TestFramework
             if (Enum.TryParse(item.ToString(), out otherProduct))
             {
                 bool canSwitchWindow = Browser.SwitchToNewWindow();
-                
+
                 #region Workaround for Access
-                if (item.Equals(MenuItemOfExplore.Access)) 
+                if (item.Equals(MenuItemOfExplore.Access) && !Browser.webDriver.Title.Contains(item.ToString()))
                 {
                     canSwitchWindow = Browser.SwitchToNewWindow();
                 }
