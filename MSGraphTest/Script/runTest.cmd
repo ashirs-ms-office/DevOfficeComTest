@@ -44,8 +44,8 @@ if "%*"=="/?" (
  goto end
 )
 cd ..
-IF NOT EXIST .\MSGraphTest\bin\Debug\MSGraphTest.dll MSBuild .\MSGraphTest.sln
-IF NOT EXIST .\TestFramework\bin\Debug\TestFramework.dll MSBuild .\MSGraphTest.sln
+IF NOT EXIST .\MSGraphTest\bin\Debug\MSGraphTest.dll MSBuild .\MSGraphTest.sln /clp:ErrorsOnly /v:m
+IF NOT EXIST .\TestFramework\bin\Debug\TestFramework.dll MSBuild .\MSGraphTest.sln /clp:ErrorsOnly /v:m
 IF EXIST .\TestFramework\_App.config DEL .\TestFramework\_App.config
 FOR /F "delims=" %%I IN (.\TestFramework\App.config) DO (
 set str=%%I
@@ -116,6 +116,7 @@ endlocal
 powershell -command write-host "The related property value in App.config will be updated according to the input options." -ForegroundColor Yellow
 DEL .\TestFramework\App.config
 rename .\TestFramework\_App.config App.config
+MSBuild .\MSGraphTest.sln /t:Rebuild /clp:ErrorsOnly /v:m
 
 :TestRun
 SETLOCAL ENABLEDELAYEDEXPANSION
