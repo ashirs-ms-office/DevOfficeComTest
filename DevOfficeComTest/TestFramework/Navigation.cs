@@ -257,10 +257,7 @@ namespace TestFramework
                     {
                         Browser.Wait(TimeSpan.FromSeconds(waitTime));
                         i++;
-                        isAtOtherProductPage = Browser.webDriver.Title.Contains(item.ToString())
-                            || Browser.webDriver.Title.Contains(item.ToString().ToLower())
-                            || Browser.webDriver.Url.Contains(item.ToString())
-                            || Browser.webDriver.Url.Contains(item.ToString().ToLower());
+                        isAtOtherProductPage = Browser.webDriver.Title.Contains(item.ToString());
                     } while (i < retryCount && !isAtOtherProductPage);
                     Browser.SwitchBack();
                 }
