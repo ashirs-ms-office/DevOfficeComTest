@@ -18,7 +18,7 @@ namespace TestFramework
         [FindsBy(How = How.XPath, Using = "//ul[@class='nav navbar-nav']/li/a[contains(@href,'/docs')]")]
         private IWebElement documentationLinkElement;
 
-        [FindsBy(How = How.XPath, Using = "//ul[@class='nav navbar-nav']/li/a[contains(@href,'graphexplorer2.azurewebsites.net')]")]
+        [FindsBy(How = How.XPath, Using = "//ul[@class='nav navbar-nav']/li/a[contains(@href,'/graph-explorer')]")]
         private IWebElement exploreLinkElement;
 
         [FindsBy(How = How.XPath, Using = "//ul[@class='nav navbar-nav']/li/a[contains(@href,'/app-registration')]")]
