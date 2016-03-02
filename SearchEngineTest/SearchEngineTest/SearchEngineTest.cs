@@ -7,6 +7,8 @@ using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Diagnostics;
+using System.Reflection;
 
 namespace SearchEngineTest
 {
@@ -28,13 +30,14 @@ namespace SearchEngineTest
                     WebDriver = new InternetExplorerDriver(System.IO.Directory.GetCurrentDirectory() + @"/Drivers/IE32/");
                     break;
                 case ("ie64"):
-                    WebDriver = new InternetExplorerDriver(System.IO.Directory.GetCurrentDirectory() + @"/Drivers/IE64/");
+                    WebDriver = new InternetExplorerDriver(System.IO.Directory.GetCurrentDirectory() + @"/Drivers/IE64/", new InternetExplorerOptions() { RequireWindowFocus=true});
                     break;
                 case ("firefox"):
                 default:
                     WebDriver = new FirefoxDriver();
                     break;
             }
+
             int waitTime = Int32.Parse(ConfigurationManager.AppSettings["WaitTime"]);
             WebDriver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(waitTime));
             WebDriver.Manage().Timeouts().SetPageLoadTimeout(TimeSpan.FromSeconds(waitTime));
@@ -51,64 +54,63 @@ namespace SearchEngineTest
         [TestMethod]
         public void BVT_S01_TC01_CanFindGraphSite()
         {
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
             int lowestRanking = Int32.Parse(ConfigurationManager.AppSettings["LowestRanking"]);
             int ranking = 0;
             bool isFounded = false;
-            
+
             WebDriver.Navigate().GoToUrl("http://" + searchEngine + ".com");
-            List<SearchedResult> searchedResults = Search("Microsoft Graph");
+            List<SearchedResult> searchedResults = Search(SearchSite.MSGraph);
             foreach (SearchedResult result in searchedResults)
             {
                 if (ranking >= lowestRanking) break;
-                if (result.Name.Contains("Microsoft Graph"))
+                if (result.DetailLink.Contains("graph.microsoft.io"))
                 {
                     isFounded = true;
-                    WebDriver.Navigate().GoToUrl(result.DetailLink);
                     break;
                 }
                 ranking++;
             }
-            if (!isFounded)
-            {
-                Assert.Fail("Cannot find the production site in top {0}", lowestRanking);
-            }
-            else
-            {
-                Assert.IsTrue(WebDriver.Title.Contains("Microsoft Graph"), "The result at position {0} should be Microsoft Graph production site", ranking + 1);
-            }
+            sw.Stop();
+            Assert.IsTrue(isFounded,
+                "The result{0} Microsoft Graph production site on {1}. Time elapsed: {2}",
+                isFounded?String.Format(" at position {0} is",ranking + 1):"s in top 5 don't contain",
+                searchEngine,
+                sw.Elapsed);
         }
 
         /// <summary>
         /// Verify whether dev.office.com site can be found on search engine
         /// </summary>
         [TestMethod]
-        public void BVT_S01_TC02_CanFindGraphSite()
+        public void BVT_S01_TC02_CanFindOfficeDevCenterSite()
         {
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
             int lowestRanking = Int32.Parse(ConfigurationManager.AppSettings["LowestRanking"]);
             int ranking = 0;
             bool isFounded = false;
 
             WebDriver.Navigate().GoToUrl("http://" + searchEngine + ".com");
-            List<SearchedResult> searchedResults = Search("Office Dev Center");
+            List<SearchedResult> searchedResults = Search(SearchSite.OfficeDevCenter);
             foreach (SearchedResult result in searchedResults)
             {
                 if (ranking >= lowestRanking) break;
-                if (result.Name.Contains("Office Dev Center"))
+                if (result.DetailLink.Contains("dev.office.com"))
                 {
                     isFounded = true;
-                    WebDriver.Navigate().GoToUrl(result.DetailLink);
                     break;
                 }
                 ranking++;
             }
-            if (!isFounded)
-            {
-                Assert.Fail("Cannot find Office Dev Center production site in top {0}", lowestRanking);
-            }
-            else
-            {
-                Assert.IsTrue(WebDriver.Title.Contains("Office Dev Center"), "The result at position {0} should be Office Dev Center production site", ranking + 1);
-            }
+            sw.Stop();
+            Assert.IsTrue(isFounded,
+                "The result {0} Office Dev Center production site on {1}. Time elapsed: {2}",
+                isFounded ? String.Format(" at position {0} is", ranking + 1) : "s in top 5 don't contain",
+                searchEngine,
+                sw.Elapsed);
+
         }
 
         /// <summary>
@@ -116,14 +118,15 @@ namespace SearchEngineTest
         /// </summary>
         /// <param name="searchSite">Production Site to search</param>
         /// <returns>Searched results</returns>
-        public static List<SearchedResult> Search(string searchSite)
+        public static List<SearchedResult> Search(SearchSite searchSite)
         {
             IReadOnlyList<IWebElement> elements = WebDriver.FindElements(By.TagName("input"));
             foreach (IWebElement element in elements)
             {
                 if (element.Enabled && element.Displayed)
                 {
-                    element.SendKeys(searchSite + "\n");
+                    string keyWord = GetDescription(searchSite);
+                    element.SendKeys(keyWord + "\n");
                     break;
                 }
             }
@@ -159,6 +162,15 @@ namespace SearchEngineTest
             }
 
             return searchedResults;
+        }
+
+        public static string GetDescription(Enum value)
+        {
+            FieldInfo fi = value.GetType().GetField(value.ToString());
+            System.ComponentModel.DescriptionAttribute[] attributes =
+                  (System.ComponentModel.DescriptionAttribute[])fi.GetCustomAttributes(
+                  typeof(System.ComponentModel.DescriptionAttribute), false);
+            return (attributes.Length > 0) ? attributes[0].Description : value.ToString();
         }
     }
 }

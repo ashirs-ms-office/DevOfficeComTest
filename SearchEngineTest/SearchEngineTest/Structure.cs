@@ -1,6 +1,16 @@
-﻿namespace SearchEngineTest
+﻿using System;
+using System.ComponentModel;
+using System.Configuration;
+
+namespace SearchEngineTest
 {
-    using System;
+    public enum SearchSite
+    {
+        [Description("Microsoft Graph")]
+        MSGraph,
+        [Description("Office Dev Center")]
+        OfficeDevCenter
+    }
 
     /// <summary>
     /// This struct contains the searched result's information
