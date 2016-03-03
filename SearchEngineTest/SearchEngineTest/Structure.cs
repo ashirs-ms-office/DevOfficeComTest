@@ -6,8 +6,14 @@ namespace SearchEngineTest
 {
     public enum SearchSite
     {
+        [Description("Graph Microsoft")]
+        GraphMS,
         [Description("Microsoft Graph")]
         MSGraph,
+        [Description("Microsoft Graph API")]
+        MSGraphAPI,
+        [Description("dev office")]
+        DevOffice,
         [Description("Office Dev Center")]
         OfficeDevCenter
     }

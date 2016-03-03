@@ -30,7 +30,7 @@ namespace SearchEngineTest
                     WebDriver = new InternetExplorerDriver(System.IO.Directory.GetCurrentDirectory() + @"/Drivers/IE32/");
                     break;
                 case ("ie64"):
-                    WebDriver = new InternetExplorerDriver(System.IO.Directory.GetCurrentDirectory() + @"/Drivers/IE64/", new InternetExplorerOptions() { RequireWindowFocus=true});
+                    WebDriver = new InternetExplorerDriver(System.IO.Directory.GetCurrentDirectory() + @"/Drivers/IE64/", new InternetExplorerOptions() { RequireWindowFocus = true });
                     break;
                 case ("firefox"):
                 default:
@@ -54,30 +54,45 @@ namespace SearchEngineTest
         [TestMethod]
         public void BVT_S01_TC01_CanFindGraphSite()
         {
-            Stopwatch sw = new Stopwatch();
-            sw.Start();
             int lowestRanking = Int32.Parse(ConfigurationManager.AppSettings["LowestRanking"]);
-            int ranking = 0;
-            bool isFounded = false;
-
             WebDriver.Navigate().GoToUrl("http://" + searchEngine + ".com");
-            List<SearchedResult> searchedResults = Search(SearchSite.MSGraph);
-            foreach (SearchedResult result in searchedResults)
-            {
-                if (ranking >= lowestRanking) break;
-                if (result.DetailLink.Contains("graph.microsoft.io"))
-                {
-                    isFounded = true;
-                    break;
-                }
-                ranking++;
-            }
-            sw.Stop();
+            int ranking;
+            
+            DateTime time = DateTime.Now;
+            bool isFounded = CanFindSiteinSearchResults(SearchSite.MSGraph,
+                "graph.microsoft.io",
+                lowestRanking, out ranking);
+
             Assert.IsTrue(isFounded,
-                "The result{0} Microsoft Graph production site on {1}. Time elapsed: {2}",
-                isFounded?String.Format(" at position {0} is",ranking + 1):"s in top 5 don't contain",
+                "{0}: The result{1} Microsoft Graph production site on {2} when searching {3}.",
+                time.ToString(),
+                isFounded ? String.Format(" at position {0} is", ranking + 1) : "s in top 5 don't contain",
                 searchEngine,
-                sw.Elapsed);
+                GetDescription(SearchSite.MSGraph));
+
+            time = DateTime.Now;
+            isFounded = CanFindSiteinSearchResults(SearchSite.MSGraphAPI,
+                "graph.microsoft.io",
+                lowestRanking, out ranking);
+
+            Assert.IsTrue(isFounded,
+                "{0}: The result{1} Microsoft Graph production site on {2} when searching {3}.",
+                time.ToString(),
+                isFounded ? String.Format(" at position {0} is", ranking + 1) : "s in top 5 don't contain",
+                searchEngine,
+                GetDescription(SearchSite.MSGraphAPI));
+
+            time = DateTime.Now;
+            isFounded = CanFindSiteinSearchResults(SearchSite.GraphMS,
+                "graph.microsoft.io",
+                lowestRanking, out ranking);
+
+            Assert.IsTrue(isFounded,
+                "{0}: The result{1} Microsoft Graph production site on {2} when searching {3}.",
+                time.ToString(),
+                isFounded ? String.Format(" at position {0} is", ranking + 1) : "s in top 5 don't contain",
+                searchEngine,
+                GetDescription(SearchSite.GraphMS));
         }
 
         /// <summary>
@@ -86,31 +101,57 @@ namespace SearchEngineTest
         [TestMethod]
         public void BVT_S01_TC02_CanFindOfficeDevCenterSite()
         {
-            Stopwatch sw = new Stopwatch();
-            sw.Start();
             int lowestRanking = Int32.Parse(ConfigurationManager.AppSettings["LowestRanking"]);
-            int ranking = 0;
-            bool isFounded = false;
+            WebDriver.Navigate().GoToUrl("http://" + searchEngine + ".com"); 
+            int ranking;
 
-            WebDriver.Navigate().GoToUrl("http://" + searchEngine + ".com");
-            List<SearchedResult> searchedResults = Search(SearchSite.OfficeDevCenter);
+            DateTime time = DateTime.Now;
+            bool isFounded = CanFindSiteinSearchResults(SearchSite.OfficeDevCenter,
+                "dev.office.com",
+                lowestRanking, out ranking);
+
+            Assert.IsTrue(isFounded,
+                "{0}: The result {1} Office Dev Center production site on {2} when searching {3}.",
+                time.ToString(),
+                isFounded ? String.Format(" at position {0} is", ranking + 1) : "s in top 5 don't contain",
+                searchEngine,
+                GetDescription(SearchSite.OfficeDevCenter));
+
+            time = DateTime.Now;
+            isFounded = CanFindSiteinSearchResults(SearchSite.DevOffice,
+                "dev.office.com",
+                lowestRanking, out ranking);
+
+            Assert.IsTrue(isFounded,
+                "{0}: The result {1} Office Dev Center production site on {2} when searching {3}.",
+                time.ToString(),
+                isFounded ? String.Format(" at position {0} is", ranking + 1) : "s in top 5 don't contain",
+                searchEngine,
+                GetDescription(SearchSite.DevOffice));
+        }
+
+        /// <summary>
+        /// Verify whether the ranking of the site search result is acceptable
+        /// </summary>
+        /// <param name="lowestRanking">The expected lowest ranking for the site search result</param>
+        /// <param name="ranking">The actual ranking</param>
+        /// <returns>True if ranking is less than lowestRanking, else no.</returns>
+        private static bool CanFindSiteinSearchResults(SearchSite item, string link, int lowestRanking, out int ranking)
+        {
+            ranking = 0;
+            bool isFounded = false;
+            List<SearchedResult> searchedResults = Search(item);
             foreach (SearchedResult result in searchedResults)
             {
                 if (ranking >= lowestRanking) break;
-                if (result.DetailLink.Contains("dev.office.com"))
+                if (result.DetailLink.Contains(link))
                 {
                     isFounded = true;
                     break;
                 }
                 ranking++;
             }
-            sw.Stop();
-            Assert.IsTrue(isFounded,
-                "The result {0} Office Dev Center production site on {1}. Time elapsed: {2}",
-                isFounded ? String.Format(" at position {0} is", ranking + 1) : "s in top 5 don't contain",
-                searchEngine,
-                sw.Elapsed);
-
+            return isFounded;
         }
 
         /// <summary>
@@ -126,6 +167,7 @@ namespace SearchEngineTest
                 if (element.Enabled && element.Displayed)
                 {
                     string keyWord = GetDescription(searchSite);
+                    element.Clear();
                     element.SendKeys(keyWord + "\n");
                     break;
                 }
