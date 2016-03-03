@@ -148,7 +148,7 @@ if defined testFilter (
  for /f "delims=" %%c IN (!playList!) DO (
   for %%d in (%%c) do (
    set te=%%d
-   if "!te:~1,5!"=="Tests" (
+   if "!te:~1,11!"=="MSGraphTest" (
     set tests=!tests!!te:~1,-1!,
    )
   )
