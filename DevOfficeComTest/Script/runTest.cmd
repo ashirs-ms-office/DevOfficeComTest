@@ -53,19 +53,19 @@ SETLOCAL ENABLEDELAYEDEXPANSION
 set flag=0
 FOR %%a IN (%*) DO (
 set te=%%a
-if "!te:~1,7!"=="Browser" (
+IF /i "!te:~1,7!"=="Browser" (
  set flag=1
  set browser=!te:~9!
  )
-if "!te:~1,11!"=="BaseAddress" (
+if /i "!te:~1,11!"=="BaseAddress" (
  set flag=1
  set url=!te:~13!
  )
-if "!te:~1,18!"=="ScreenShotSavePath" (
+if /i "!te:~1,18!"=="ScreenShotSavePath" (
  set flag=1
 rem set savePath=!te:~20!
  )
-if "!te:~1,15!"=="DefaultWaitTime" (
+if /i "!te:~1,15!"=="DefaultWaitTime" (
  set flag=1
  set waitTime=!te:~17!
  )
@@ -77,27 +77,27 @@ if "!flag!"=="0" (
 
 for /f tokens^=1^,2^,3^,4*^ delims^=^" %%J in ("%%I") do (
  set te=%%L
- if "!te:~1,5!"=="value" (
+ IF /i "!te:~1,5!"=="value" (
   set flag2=0
-  if "%%K"=="Browser" (
-   if defined browser (
+  IF /i "%%K"=="Browser" (
+   IF defined browser (
     set flag2=1
     echo %%J"%%K"%%L"!browser!"%%N>>.\TestFramework\_App.config
    )
   )
-  if "%%K"=="BaseAddress" (
+  if /i "%%K"=="BaseAddress" (
    if defined url (
     set flag2=1
     echo %%J"%%K"%%L"!url!"%%N>>.\TestFramework\_App.config
    )
   )
-  if "%%K"=="ScreenShotSavePath" (
+  if /i "%%K"=="ScreenShotSavePath" (
    if defined savePath (
     set flag2=1
     echo %%J"%%K"%%L"!savePath!"%%N>>.\TestFramework\_App.config
    )
   )
-  if "%%K"=="DefaultWaitTime" (
+  IF /i "%%K"=="DefaultWaitTime" (
    if defined waitTime (
     set flag2=1
     echo %%J"%%K"%%L"!waitTime!"%%N>>.\TestFramework\_App.config
@@ -123,14 +123,14 @@ SETLOCAL ENABLEDELAYEDEXPANSION
 set flag3=0
 FOR %%b IN (%*) DO (
 set te=%%b
-if "!te:~1,8!"=="PlayList" (
+IF /i "!te:~1,8!"=="PlayList" (
  set playList=!te:~10!
  )
-if "!te:~1,5!"=="Tests" (
+IF /i "!te:~1,5!"=="Tests" (
  set flag3=1
  set testCases=!te!
  )
-if "!te:~1,14!"=="TestCaseFilter" (
+IF /i "!te:~1,14!"=="TestCaseFilter" (
  set testFilter=!te!
  )
 if "!flag3!"=="1" (
