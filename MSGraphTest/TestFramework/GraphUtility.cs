@@ -424,7 +424,7 @@ namespace TestFramework
         /// </summary>
         public static void SelectToTryAPI()
         {
-            var element = GraphBrowser.FindElement(By.XPath("//div/a[contains(@href,'graphexplorer2.azurewebsites.net')]"));
+            var element = GraphBrowser.FindElement(By.XPath("//div/a[contains(@href,'graph-explorer')]"));
             GraphBrowser.Click(element);
         }
 
