@@ -266,21 +266,26 @@ namespace TestFramework
             if (Enum.TryParse(item.ToString(), out otherProduct))
             {
                 bool canSwitchWindow = Browser.SwitchToNewWindow();
+
+                #region Workaround for Access
+                if (item.Equals(MenuItemOfExplore.Access) && !Browser.webDriver.Title.Contains(item.ToString()))
+                {
+                    canSwitchWindow = Browser.SwitchToNewWindow();
+                }
+                #endregion Workaround for Access
+
                 bool isAtOtherProductPage = false;
                 if (canSwitchWindow)
                 {
                     int i = 0;
                     do
                     {
-                        //In case the title expires, reconstruct it
-                        var otherProductPage = new NewWindowPage();
                         Browser.Wait(TimeSpan.FromSeconds(waitTime));
                         i++;
-                        isAtOtherProductPage = otherProductPage.IsAt(item.ToString());
+                        isAtOtherProductPage = Browser.webDriver.Title.Contains(item.ToString());
                     } while (i < retryCount && !isAtOtherProductPage);
                     Browser.SwitchBack();
                 }
-
                 Browser.GoBack();
                 return isAtOtherProductPage;
             }

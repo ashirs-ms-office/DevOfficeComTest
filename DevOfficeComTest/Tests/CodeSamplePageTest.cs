@@ -29,13 +29,13 @@ namespace Tests
         [TestInitialize]
         public void TestInitialize()
         {
-            Browser.Goto(Utility.GetConfigurationValue("BaseAddress") + "/code-samples");
+            Browser.Goto(Browser.BaseAddress + "/code-samples");
         }
 
         [TestCleanup]
         public void TestCleanup()
         {
-            Browser.Goto(Utility.GetConfigurationValue("BaseAddress") + "/code-samples");
+            Browser.Goto(Browser.BaseAddress + "/code-samples");
             Utility.ExecuteClearFilters();
         }
         #endregion
