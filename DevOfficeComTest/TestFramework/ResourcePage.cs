@@ -68,11 +68,11 @@ namespace TestFramework
                 var bannerImage = Browser.Driver.FindElement(By.Id("banner-image"));
                 if (bannerImage.FindElement(By.CssSelector("div")).GetAttribute("class") == "no-description-banner-contents")
                 {
-                    resourceName = bannerImage.FindElement(By.CssSelector("div>div>h2"));
+                    resourceName = bannerImage.FindElement(By.CssSelector("div>div>h1"));
                 }
                 else
                 {
-                    resourceName = bannerImage.FindElement(By.CssSelector("div>div>div>h2"));
+					resourceName = bannerImage.FindElement(By.CssSelector("div>div>div>h1"));
                 }
             }
             catch (NoSuchElementException)

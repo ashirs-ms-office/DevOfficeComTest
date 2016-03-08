@@ -142,8 +142,7 @@ namespace TestFramework
         public bool IsAtOpportunityPage()
         {
             var opportunityPage = new OpportunityPage();
-            bool canLoadImage = opportunityPage.CanLoadImage();
-            return canLoadImage;
+			return opportunityPage.isAt();
         }
 
         public bool IsAtFabricPage(string fabricTitle)
@@ -203,7 +202,7 @@ namespace TestFramework
             {
                 case (MenuItemOfResource.MiniLabs):
                     string miniLabsName = EnumExtension.GetDescription(item).Replace("-", " ").ToLower();
-                    isAtResourcePage = resourcePage.ResourceName.ToLower().Contains(miniLabsName);
+					isAtResourcePage = resourcePage.ResourceName.ToLower().Contains(miniLabsName);
                     break;
                 case (MenuItemOfResource.SnackDemoVideos):
                     string snackVideosName = EnumExtension.GetDescription(item).Replace("Demo ", "").ToLower();
