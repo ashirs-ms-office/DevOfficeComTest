@@ -34,7 +34,13 @@ namespace Tests
         /// </summary>
         [TestMethod]
         public void Acceptance_S01_TC01_CanBrandingNavToHomePage()
-        {
+
+		
+		
+		
+		
+		
+		{
             Browser.SetWaitTime(TimeSpan.FromSeconds(30));
             string[] navOptions = new string[] { 
                 "Explore",
