@@ -100,7 +100,7 @@ namespace TestFramework
             foreach (var winHandler in handlers)
             {
                 webDriver.SwitchTo().Window(winHandler);
-                if (webDriver.Title.Contains(title))
+                if (webDriver.Title.ToLower().Contains(title.ToLower()))
                 {
                     return true;
                 }

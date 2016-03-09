@@ -77,10 +77,10 @@ namespace TestFramework
         public bool IsAtGraphPage(string graphTitle)
         {
             var graphPage = new GraphPage();
-            string title = graphPage.GraphTitle.Replace(" ", "");
+            string title = graphPage.GraphTitle.Replace(" ", "").ToLower();
 
             GraphBrowser.GoBack();
-            return title.Contains(graphTitle.Replace(" ", ""));
+            return title.Contains(graphTitle.ToLower().Replace(" ", ""));
         }
     }
 }

@@ -35,7 +35,7 @@ namespace MSGraphTest
         [TestMethod]
         public void Acceptance_Graph_S05_TC01_CanLogin()
         {
-            GraphPages.Navigation.Select("Graph explorer");
+            TestHelper.VerifyAndSelectExplorerOnNavBar();
             if (GraphUtility.IsLoggedIn())
             {
                 GraphUtility.ClickLogout();
@@ -53,7 +53,7 @@ namespace MSGraphTest
         [TestMethod]
         public void Comps_Graph_S05_TC02_CanGetMe()
         {
-            GraphPages.Navigation.Select("Graph explorer");
+            TestHelper.VerifyAndSelectExplorerOnNavBar();
             string userName = GraphUtility.GetConfigurationValue("GraphExplorerUserName");
 
             if (!GraphUtility.IsLoggedIn(userName))
@@ -85,7 +85,7 @@ namespace MSGraphTest
         [TestMethod]
         public void Comps_Graph_S05_TC03_CanSwitchAPIVersion()
         {
-            GraphPages.Navigation.Select("Graph explorer");
+            TestHelper.VerifyAndSelectExplorerOnNavBar();
             string userName = GraphUtility.GetConfigurationValue("GraphExplorerUserName");
 
             if (!GraphUtility.IsLoggedIn())
@@ -119,7 +119,7 @@ namespace MSGraphTest
         [TestMethod]
         public void Comps_Graph_S05_TC04_CanPatchMe()
         {
-            GraphPages.Navigation.Select("Graph explorer");
+            TestHelper.VerifyAndSelectExplorerOnNavBar();
             string userName = GraphUtility.GetConfigurationValue("GraphExplorerUserName");
 
             if (!GraphUtility.IsLoggedIn())
@@ -167,7 +167,7 @@ namespace MSGraphTest
         [TestMethod]
         public void Comps_Graph_S05_TC05_CanPostDeleteGroup()
         {
-            GraphPages.Navigation.Select("Graph explorer");
+            TestHelper.VerifyAndSelectExplorerOnNavBar();
             int waitTime = Int32.Parse(GraphUtility.GetConfigurationValue("WaitTime"));
             int retryCount = Int32.Parse(GraphUtility.GetConfigurationValue("RetryCount"));
 
