@@ -53,16 +53,6 @@ namespace Tests
         }
 
         [TestMethod]
-        public void Comps_S12_TC01_CanStartBuilding_Excel()
-        {
-            Product product = Product.Excel;
-            Pages.OfficeAddInPage.CardChooseProduct.ChooseProduct(product);
-            Assert.IsTrue(Pages.OfficeAddInPage.CardChooseProduct.IsShowingProductExplore(product), "Failed to choose product {0}.", product.ToString());
-            Pages.OfficeAddInPage.CardExcel.Build.StartBuilding();
-            Assert.IsTrue(Pages.OfficeAddInPage.CardExcel.Build.IsShowingBuildPage(), "Failed to open build page");
-        }
-
-        [TestMethod]
         public void Acceptance_S09_TC01_CanGoThroughAddinPage_Excel()
         {
             // Select app
@@ -76,8 +66,7 @@ namespace Tests
             // Pages.OfficeAddInPage.CardExcel.Explore.play();
 
             // Build
-            Pages.OfficeAddInPage.CardExcel.Build.StartBuilding();
-            Assert.IsTrue(Pages.OfficeAddInPage.CardExcel.Build.IsShowingBuildPage(), "The building page should be opened successfully");
+            Pages.OfficeAddInPage.SelectBuildTool();
 
             // More Resource
             Pages.OfficeAddInPage.CardExcel.MoreResouces.DownLoadStarterSample();
@@ -107,34 +96,24 @@ namespace Tests
             Assert.IsTrue(Pages.OfficeAddInPage.CardChooseProduct.IsShowingProductExplore(product), "Failed to choose product {0}.", product.ToString());
             Assert.IsTrue(Pages.OfficeAddInPage.CardChooseProduct.IsShowingVideo(product), "Failed to choose product {0}.", product.ToString());
             Assert.IsTrue(Pages.OfficeAddInPage.IsCardDisplayed("build"), "Card with id 'build' in Add-in page is not displayed correctly.");
-            //Assert.IsTrue(Pages.OfficeAddInPage.IsCardDisplayed("more"), "Card with id 'more' in Add-in page is not displayed correctly.");
-            //Assert.IsFalse(Pages.OfficeAddInPage.IsCardDisplayed("AllSetDeepBlue"), "Card with id 'AllSetDeepBlue' in Office 365 page is not displayed correctly.");
+            Pages.OfficeAddInPage.SelectBuildTool(true);
+            Assert.IsTrue(Pages.OfficeAddInPage.IsCardDisplayed("more"), "Card with id 'more' in Add-in page is not displayed correctly.");
 
-            // Explore
-            // Pages.OfficeAddInPage.CardOutlook.Explore.play();
-
-            //** WE only show build card
-			//** TODO: modify code to cick on build tool and then validate "more" card.
-			// Build
-			////Pages.OfficeAddInPage.CardOutlook.Build.StartBuilding();
-			//Assert.IsTrue(Pages.OfficeAddInPage.CardOutlook.Build.IsShowingBuildPage(), "Failed to open build page");
-			//Assert.IsTrue(Pages.OfficeAddInPage.IsCardDisplayed("AllSetDeepBlue"), "Card with id 'AllSetDeepBlue' in Office 365 page is not displayed correctly.");
-
-			//// More Resource
-			//Pages.OfficeAddInPage.CardOutlook.MoreResouces.OutlookDevCenter();
-			//Assert.IsTrue(Pages.OfficeAddInPage.CardOutlook.MoreResouces.IsShowingCorrectResourcePage(), "Failed to open Outlook Dev Center page.");
-			//Pages.OfficeAddInPage.CardOutlook.MoreResouces.DownLoadStarterSample();
-			//Assert.IsTrue(Pages.OfficeAddInPage.CardOutlook.MoreResouces.IsShowingCorrectResourcePage(), "Failed to open DownLoad Sample page.");
-			//Pages.OfficeAddInPage.CardOutlook.MoreResouces.DesignYourAddIn();
-			//Assert.IsTrue(Pages.OfficeAddInPage.CardOutlook.MoreResouces.IsShowingCorrectResourcePage(), "Failed to open Design guidelines page.");
-			//Pages.OfficeAddInPage.CardOutlook.MoreResouces.MoreCodeSamples();
-			//Assert.IsTrue(Pages.OfficeAddInPage.CardOutlook.MoreResouces.IsShowingCorrectResourcePage(), "Failed to open Code Samples page.");
-			//Pages.OfficeAddInPage.CardOutlook.MoreResouces.OfficeAddInTypes();
-			//Assert.IsTrue(Pages.OfficeAddInPage.CardOutlook.MoreResouces.IsShowingCorrectResourcePage(), "Failed to open Add-in Types page.");
-			//Pages.OfficeAddInPage.CardOutlook.MoreResouces.PublishYourAddIn();
-			//Assert.IsTrue(Pages.OfficeAddInPage.CardOutlook.MoreResouces.IsShowingCorrectResourcePage(), "Failed to open Publish AddIn page.");
-			//Pages.OfficeAddInPage.CardOutlook.MoreResouces.ReadTheDocs();
-			//Assert.IsTrue(Pages.OfficeAddInPage.CardOutlook.MoreResouces.IsShowingCorrectResourcePage(), "Failed to open Add-in overview page.");
+            // More Resource
+            Pages.OfficeAddInPage.CardOutlook.MoreResouces.OutlookDevCenter();
+            Assert.IsTrue(Pages.OfficeAddInPage.CardOutlook.MoreResouces.IsShowingCorrectResourcePage(), "Failed to open Outlook Dev Center page.");
+            Pages.OfficeAddInPage.CardOutlook.MoreResouces.DownLoadStarterSample();
+            Assert.IsTrue(Pages.OfficeAddInPage.CardOutlook.MoreResouces.IsShowingCorrectResourcePage(), "Failed to open DownLoad Sample page.");
+            Pages.OfficeAddInPage.CardOutlook.MoreResouces.DesignYourAddIn();
+            Assert.IsTrue(Pages.OfficeAddInPage.CardOutlook.MoreResouces.IsShowingCorrectResourcePage(), "Failed to open Design guidelines page.");
+            Pages.OfficeAddInPage.CardOutlook.MoreResouces.MoreCodeSamples();
+            Assert.IsTrue(Pages.OfficeAddInPage.CardOutlook.MoreResouces.IsShowingCorrectResourcePage(), "Failed to open Code Samples page.");
+            Pages.OfficeAddInPage.CardOutlook.MoreResouces.OfficeAddInTypes();
+            Assert.IsTrue(Pages.OfficeAddInPage.CardOutlook.MoreResouces.IsShowingCorrectResourcePage(), "Failed to open Add-in Types page.");
+            Pages.OfficeAddInPage.CardOutlook.MoreResouces.PublishYourAddIn();
+            Assert.IsTrue(Pages.OfficeAddInPage.CardOutlook.MoreResouces.IsShowingCorrectResourcePage(), "Failed to open Publish AddIn page.");
+            Pages.OfficeAddInPage.CardOutlook.MoreResouces.ReadTheDocs();
+            Assert.IsTrue(Pages.OfficeAddInPage.CardOutlook.MoreResouces.IsShowingCorrectResourcePage(), "Failed to open Add-in overview page.");
         }
 
         [TestMethod]
@@ -151,9 +130,7 @@ namespace Tests
             // Pages.OfficeAddInPage.CardPowerPoint.Explore.play();
 
             // Build
-            Pages.OfficeAddInPage.CardPowerPoint.Build.StartBuilding();
-            Assert.IsTrue(Pages.OfficeAddInPage.CardPowerPoint.Build.IsShowingBuildPage(), "Failed to open build page");
-
+            Pages.OfficeAddInPage.SelectBuildTool(true);
             // More Resource
             Pages.OfficeAddInPage.CardPowerPoint.MoreResouces.DesignYourAddIn();
             Assert.IsTrue(Pages.OfficeAddInPage.CardPowerPoint.MoreResouces.IsShowingCorrectResourcePage(), "Failed to open Design guidelines page.");
@@ -180,8 +157,7 @@ namespace Tests
             // Pages.OfficeAddInPage.CardWord.Explore.play();
 
             // Build
-            Pages.OfficeAddInPage.CardWord.Build.StartBuilding();
-            Assert.IsTrue(Pages.OfficeAddInPage.CardWord.Build.IsShowingBuildPage(), "Failed to open build page");
+            Pages.OfficeAddInPage.SelectBuildTool();
 
             // More Resource
             Pages.OfficeAddInPage.CardWord.MoreResouces.DesignYourAddIn();
