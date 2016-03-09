@@ -87,9 +87,9 @@ namespace MSGraphTest
         [TestMethod]
         public void BVT_Graph_S01_TC04_CanGoToGraphExplorerPage()
         {
-            GraphPages.Navigation.Select("Graph explorer");
+            string title = TestHelper.VerifyAndSelectExplorerOnNavBar();
             Assert.IsTrue(
-                GraphPages.Navigation.IsAtGraphPage("Graph Explorer"),
+                GraphPages.Navigation.IsAtGraphPage(title),
                 @"The opened page should be ""Graph explorer""");
         }
 
