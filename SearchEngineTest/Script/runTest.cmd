@@ -61,9 +61,14 @@ endlocal
 
 powershell -command write-host "The related property value in App.config will be updated according to the input options." -ForegroundColor Yellow
 
-MSBuild .\SearchEngineTest.sln /t:Rebuild /clp:ErrorsOnly /v:m
-
 :TestRun
+IF EXIST %windir%\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe (
+%windir%\Microsoft.NET\Framework\v4.0.30319\MSBuild SearchEngineTest.sln /t:Rebuild /clp:ErrorsOnly /v:m
+) else (
+MSBuild SearchEngineTest.sln /t:Rebuild /clp:ErrorsOnly /v:m
+)
+
+powershell -command write-host "The solution is built successfully." -ForegroundColor Green
 SETLOCAL ENABLEDELAYEDEXPANSION
 set flag3=0
 FOR %%b IN (%*) DO (
@@ -85,9 +90,9 @@ if "!flag3!"=="1" (
  )
 )
 if defined testFilter (
- vstest.console.exe .\SearchEngineTest\bin\Debug\SearchEngineTest.dll /logger:trx !testFilter!
+ "%VS140COMNTOOLS%..\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe" .\SearchEngineTest\bin\Debug\SearchEngineTest.dll /logger:trx !testFilter!
 ) else if defined testCases (
- vstest.console.exe .\SearchEngineTest\bin\Debug\SearchEngineTest.dll /logger:trx !testCases!
+ "%VS140COMNTOOLS%..\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe" .\SearchEngineTest\bin\Debug\SearchEngineTest.dll /logger:trx !testCases!
 ) else if defined playList (
 rem Get names of test cases  
 set tests=/Tests:
@@ -99,9 +104,9 @@ set tests=/Tests:
    )
   )
  )
- vstest.console.exe .\SearchEngineTest\bin\Debug\SearchEngineTest.dll /logger:trx !tests:~0,-1!
+ "%VS140COMNTOOLS%..\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe" .\SearchEngineTest\bin\Debug\SearchEngineTest.dll /logger:trx !tests:~0,-1!
 ) else (
- vstest.console.exe .\SearchEngineTest\bin\Debug\SearchEngineTest.dll /logger:trx
+ "%VS140COMNTOOLS%..\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe" .\SearchEngineTest\bin\Debug\SearchEngineTest.dll /logger:trx
 )
 endlocal
 
