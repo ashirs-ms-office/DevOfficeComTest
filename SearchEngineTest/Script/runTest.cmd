@@ -32,7 +32,7 @@ if "%*"=="/?" (
  echo.
  echo Examples:
  echo      To run tests in playlist file SearchEngine-BVTs.playlist
- echo        ^>runTest.cmd /PlayList:SearchEngineTest\SearchEngine-BVTs.playlist
+ echo        ^>runTest.cmd /PlayList:SearchEngineTest\SearchEngine.playlist
  echo      To run tests which test name contains "TC01" with WaitTime set to 30
  echo        ^>runTest.cmd /WaitTime:30 /TestCaseFilter:Name~TC01
  goto end
