@@ -37,6 +37,7 @@ if "%*"=="/?" (
  echo        ^>runTest.cmd /WaitTime:30 /TestCaseFilter:Name~TC01
  goto end
 )
+pushd %~dp0
 cd ..
 SETLOCAL ENABLEDELAYEDEXPANSION
 set flag=0
