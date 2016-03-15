@@ -15,7 +15,7 @@ namespace SearchEngineTest
     [TestClass]
     public class SearchEngineTest
     {
-        static string searchEngine = ConfigurationManager.AppSettings["SearchEngine"];
+        static string searchEngine = ConfigurationManager.AppSettings["SearchEngine"].ToLower();
         public static IWebDriver WebDriver;
         static int lowestRanking = Int32.Parse(ConfigurationManager.AppSettings["LowestRanking"]);
 
