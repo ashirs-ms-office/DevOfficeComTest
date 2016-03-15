@@ -15,8 +15,9 @@ namespace SearchEngineTest
     [TestClass]
     public class SearchEngineTest
     {
-        static string searchEngine = ConfigurationManager.AppSettings["SearchEngine"];
+        static string searchEngine = ConfigurationManager.AppSettings["SearchEngine"].ToLower();
         public static IWebDriver WebDriver;
+        static int lowestRanking = Int32.Parse(ConfigurationManager.AppSettings["LowestRanking"]);
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
@@ -54,14 +55,13 @@ namespace SearchEngineTest
         [TestMethod]
         public void BVT_S01_TC01_CanFindGraphSite()
         {
-            int lowestRanking = Int32.Parse(ConfigurationManager.AppSettings["LowestRanking"]);
             WebDriver.Navigate().GoToUrl("http://" + searchEngine + ".com");
             int ranking;
-            
+
             DateTime time = DateTime.Now;
             bool isFounded = CanFindSiteinSearchResults(SearchSite.MSGraph,
                 "graph.microsoft.io",
-                lowestRanking, out ranking);
+                out ranking);
 
             Assert.IsTrue(isFounded,
                 "{0}: The result{1} Microsoft Graph production site on {2} when searching {3}.",
@@ -73,7 +73,7 @@ namespace SearchEngineTest
             time = DateTime.Now;
             isFounded = CanFindSiteinSearchResults(SearchSite.MSGraphAPI,
                 "graph.microsoft.io",
-                lowestRanking, out ranking);
+                out ranking);
 
             Assert.IsTrue(isFounded,
                 "{0}: The result{1} Microsoft Graph production site on {2} when searching {3}.",
@@ -85,7 +85,7 @@ namespace SearchEngineTest
             time = DateTime.Now;
             isFounded = CanFindSiteinSearchResults(SearchSite.GraphMS,
                 "graph.microsoft.io",
-                lowestRanking, out ranking);
+                out ranking);
 
             Assert.IsTrue(isFounded,
                 "{0}: The result{1} Microsoft Graph production site on {2} when searching {3}.",
@@ -101,14 +101,13 @@ namespace SearchEngineTest
         [TestMethod]
         public void BVT_S01_TC02_CanFindOfficeDevCenterSite()
         {
-            int lowestRanking = Int32.Parse(ConfigurationManager.AppSettings["LowestRanking"]);
-            WebDriver.Navigate().GoToUrl("http://" + searchEngine + ".com"); 
+            WebDriver.Navigate().GoToUrl("http://" + searchEngine + ".com");
             int ranking;
 
             DateTime time = DateTime.Now;
             bool isFounded = CanFindSiteinSearchResults(SearchSite.OfficeDevCenter,
                 "dev.office.com",
-                lowestRanking, out ranking);
+                out ranking);
 
             Assert.IsTrue(isFounded,
                 "{0}: The result {1} Office Dev Center production site on {2} when searching {3}.",
@@ -120,7 +119,7 @@ namespace SearchEngineTest
             time = DateTime.Now;
             isFounded = CanFindSiteinSearchResults(SearchSite.DevOffice,
                 "dev.office.com",
-                lowestRanking, out ranking);
+                out ranking);
 
             Assert.IsTrue(isFounded,
                 "{0}: The result {1} Office Dev Center production site on {2} when searching {3}.",
@@ -133,10 +132,9 @@ namespace SearchEngineTest
         /// <summary>
         /// Verify whether the ranking of the site search result is acceptable
         /// </summary>
-        /// <param name="lowestRanking">The expected lowest ranking for the site search result</param>
         /// <param name="ranking">The actual ranking</param>
         /// <returns>True if ranking is less than lowestRanking, else no.</returns>
-        private static bool CanFindSiteinSearchResults(SearchSite item, string link, int lowestRanking, out int ranking)
+        private static bool CanFindSiteinSearchResults(SearchSite item, string link, out int ranking)
         {
             ranking = 0;
             bool isFounded = false;
@@ -161,9 +159,10 @@ namespace SearchEngineTest
         /// <returns>Searched results</returns>
         public static List<SearchedResult> Search(SearchSite searchSite)
         {
-            IReadOnlyList<IWebElement> elements = WebDriver.FindElements(By.TagName("input"));
-            foreach (IWebElement element in elements)
+            int inputCount = WebDriver.FindElements(By.TagName("input")).Count;
+            for (int i = 0; i < inputCount; i++)
             {
+                IWebElement element = WebDriver.FindElements(By.TagName("input"))[i];
                 if (element.Enabled && element.Displayed)
                 {
                     string keyWord = GetDescription(searchSite);
@@ -182,30 +181,47 @@ namespace SearchEngineTest
             {
                 case "google":
                     wait.Until(ExpectedConditions.ElementExists(By.CssSelector("h3>a")));
-                    searchedElementResults = WebDriver.FindElements(By.CssSelector("h3>a"));
+                    searchedResults = GetSearchResults("h3>a");
                     break;
                 case "bing":
                     wait.Until(ExpectedConditions.ElementExists(By.CssSelector("li>h2>a")));
-                    searchedElementResults = WebDriver.FindElements(By.CssSelector("li>h2>a"));
+                    searchedResults = GetSearchResults("li>h2>a");
                     break;
                 default:
                     searchedElementResults = null;
                     break;
             }
-            if (searchedElementResults != null)
-            {
-                for (int i = 0; i < searchedElementResults.Count; i++)
-                {
-                    SearchedResult result = new SearchedResult();
-                    result.Name = searchedElementResults[i].Text;
-                    result.DetailLink = searchedElementResults[i].GetAttribute("href");
-                    searchedResults.Add(result);
-                }
-            }
-
             return searchedResults;
         }
 
+        /// <summary>
+        /// Get search results on result page
+        /// </summary>
+        /// <param name="selectorString">The Css selector string of result elements</param>
+        /// <returns>Searched results</returns>
+        private static List<SearchedResult> GetSearchResults(string selectorString)
+        {
+            List<SearchedResult> searchedResults = new List<SearchedResult>();
+
+            int resultCount = WebDriver.FindElements(By.CssSelector(selectorString)).Count;
+            int range = resultCount > lowestRanking ? lowestRanking : resultCount;
+            for (int i = 0; i < range; i++)
+            {
+                SearchedResult result = new SearchedResult
+                {
+                    Name = WebDriver.FindElements(By.CssSelector(selectorString))[i].Text,
+                    DetailLink = WebDriver.FindElements(By.CssSelector(selectorString))[i].GetAttribute("href")
+                };
+                searchedResults.Add(result);
+            }
+            return searchedResults;
+        }
+
+        /// <summary>
+        /// Get the Description attribute of an enum value
+        /// </summary>
+        /// <param name="value">The enum value</param>
+        /// <returns>Description attribute</returns>
         public static string GetDescription(Enum value)
         {
             FieldInfo fi = value.GetType().GetField(value.ToString());
