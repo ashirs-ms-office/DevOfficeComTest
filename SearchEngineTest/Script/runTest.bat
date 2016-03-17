@@ -37,6 +37,7 @@ if "%*"=="/?" (
  echo        ^>runTest.cmd /WaitTime:30 /TestCaseFilter:Name~TC01
  goto end
 )
+pushd %~dp0
 cd ..
 SETLOCAL ENABLEDELAYEDEXPANSION
 set flag=0
@@ -69,7 +70,9 @@ MSBuild SearchEngineTest.sln /t:Rebuild /clp:ErrorsOnly /v:m
 )
 
 powershell -command write-host "The solution is built successfully." -ForegroundColor Green
+set tempFolder=.\Script\TempResults
 SETLOCAL ENABLEDELAYEDEXPANSION
+md .\Script\TempResults
 set flag3=0
 FOR %%b IN (%*) DO (
 set te=%%b
@@ -90,9 +93,9 @@ if "!flag3!"=="1" (
  )
 )
 if defined testFilter (
- "%VS140COMNTOOLS%..\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe" .\SearchEngineTest\bin\Debug\SearchEngineTest.dll /logger:trx !testFilter!
+ "%VS140COMNTOOLS%..\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe" .\SearchEngineTest\bin\Debug\SearchEngineTest.dll /logger:trx !testFilter! | findstr /B /V "Microsoft Copyright Starting">>!tempFolder!\temp.txt
 ) else if defined testCases (
- "%VS140COMNTOOLS%..\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe" .\SearchEngineTest\bin\Debug\SearchEngineTest.dll /logger:trx !testCases!
+ "%VS140COMNTOOLS%..\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe" .\SearchEngineTest\bin\Debug\SearchEngineTest.dll /logger:trx !testCases! | findstr /B /V "Microsoft Copyright Starting">>!tempFolder!\temp.txt
 ) else if defined playList (
 rem Get names of test cases  
 set tests=/Tests:
@@ -104,10 +107,30 @@ set tests=/Tests:
    )
   )
  )
- "%VS140COMNTOOLS%..\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe" .\SearchEngineTest\bin\Debug\SearchEngineTest.dll /logger:trx !tests:~0,-1!
+ "%VS140COMNTOOLS%..\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe" .\SearchEngineTest\bin\Debug\SearchEngineTest.dll /logger:trx !tests:~0,-1! | findstr /B /V "Microsoft Copyright Starting">>!tempFolder!\temp.txt
 ) else (
- "%VS140COMNTOOLS%..\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe" .\SearchEngineTest\bin\Debug\SearchEngineTest.dll /logger:trx
+ "%VS140COMNTOOLS%..\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe" .\SearchEngineTest\bin\Debug\SearchEngineTest.dll /logger:trx | findstr /B /V "Microsoft Copyright Starting">>!tempFolder!\temp.txt
 )
+endlocal
+
+SETLOCAL ENABLEDELAYEDEXPANSION
+SET tempFile=!tempFolder!\temp.txt
+type !tempFile!
+FOR /f "delims=" %%a in (!tempFile!) do (
+SET str=%%a
+IF "!str:~0,12!" == "Results File" (
+SET resultTrxFile= !str:~14!
+goto SendMail
+ )
+)
+
+:SendMail
+cd .\Script
+PowerShell.exe -ExecutionPolicy ByPass .\SendTestReportMail.ps1  .\TempResults\temp.txt !resultTrxFile!
+
+cd..
+del !tempFolder!\temp.txt
+rd !tempFolder!
 endlocal
 
 cd .\Script

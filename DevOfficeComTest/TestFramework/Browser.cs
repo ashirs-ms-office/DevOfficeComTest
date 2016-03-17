@@ -16,6 +16,7 @@ namespace TestFramework
         internal static IWebDriver webDriver;
         static string defaultTitle;
         static string defaultHandle;
+        internal static string homeTitle;
 
         public static string BaseAddress
         {
@@ -36,6 +37,7 @@ namespace TestFramework
             }
             webDriver.Navigate().GoToUrl(address);
             defaultTitle = Title;
+            homeTitle = Title;
         }
 
         public static void Goto(string url)
