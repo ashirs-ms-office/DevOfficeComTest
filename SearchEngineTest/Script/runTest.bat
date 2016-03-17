@@ -93,9 +93,9 @@ if "!flag3!"=="1" (
  )
 )
 if defined testFilter (
- "%VS140COMNTOOLS%..\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe" .\SearchEngineTest\bin\Debug\SearchEngineTest.dll /logger:trx !testFilter!>>!tempFolder!\temp.txt
+ "%VS140COMNTOOLS%..\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe" .\SearchEngineTest\bin\Debug\SearchEngineTest.dll /logger:trx !testFilter! | findstr /B /V "Microsoft Copyright Starting">>!tempFolder!\temp.txt
 ) else if defined testCases (
- "%VS140COMNTOOLS%..\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe" .\SearchEngineTest\bin\Debug\SearchEngineTest.dll /logger:trx !testCases!>>!tempFolder!\temp.txt
+ "%VS140COMNTOOLS%..\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe" .\SearchEngineTest\bin\Debug\SearchEngineTest.dll /logger:trx !testCases! | findstr /B /V "Microsoft Copyright Starting">>!tempFolder!\temp.txt
 ) else if defined playList (
 rem Get names of test cases  
 set tests=/Tests:
@@ -107,9 +107,9 @@ set tests=/Tests:
    )
   )
  )
- "%VS140COMNTOOLS%..\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe" .\SearchEngineTest\bin\Debug\SearchEngineTest.dll /logger:trx !tests:~0,-1!>>!tempFolder!\temp.txt
+ "%VS140COMNTOOLS%..\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe" .\SearchEngineTest\bin\Debug\SearchEngineTest.dll /logger:trx !tests:~0,-1! | findstr /B /V "Microsoft Copyright Starting">>!tempFolder!\temp.txt
 ) else (
- "%VS140COMNTOOLS%..\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe" .\SearchEngineTest\bin\Debug\SearchEngineTest.dll /logger:trx>>!tempFolder!\temp.txt
+ "%VS140COMNTOOLS%..\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe" .\SearchEngineTest\bin\Debug\SearchEngineTest.dll /logger:trx | findstr /B /V "Microsoft Copyright Starting">>!tempFolder!\temp.txt
 )
 endlocal
 
@@ -120,8 +120,15 @@ FOR /f "delims=" %%a in (!tempFile!) do (
 SET str=%%a
 IF "!str:~0,12!" == "Results File" (
 SET resultTrxFile= !str:~14!
+goto SendMail
  )
 )
+
+:SendMail
+cd .\Script
+PowerShell.exe -ExecutionPolicy ByPass .\SendTestReportMail.ps1  .\TempResults\temp.txt !resultTrxFile!
+
+cd..
 del !tempFolder!\temp.txt
 rd !tempFolder!
 endlocal
