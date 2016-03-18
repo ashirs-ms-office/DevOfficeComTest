@@ -52,7 +52,7 @@ namespace TestFramework
                 MenuItemOfDocumentation documentationItem;
                 if (Enum.TryParse(itemName, out exploreItem))
                 {
-                    IWebElement item;
+                    IWebElement item = null;
                     switch (exploreItem)
                     {
                         case (MenuItemOfExplore.WhyOffice):
@@ -71,7 +71,20 @@ namespace TestFramework
                             item = Browser.Driver.FindElement(By.CssSelector("#navbar-collapse-1 > ul > li.subnav__item.dropdown-toggle.dropdown.open > div > div > div.tier-3.col-md-6.col-sm-5 > ul > li:nth-child(" + ((int)exploreItem - 13) + ") > a"));
                             break;
                         default:
-                            item = Browser.Driver.FindElement(By.CssSelector("#navbar-collapse-1 > ul > li.subnav__item.dropdown-toggle.dropdown.open > div > div > div.tier-2.col-md-3.col-sm-4 > ul > li:nth-child(" + ((int)exploreItem - 2) + ") > a"));
+                            IReadOnlyList<IWebElement> elements = Browser.Driver.FindElements(By.CssSelector("#navbar-collapse-1 > ul > li.subnav__item.dropdown-toggle.dropdown.open > div > div > div.tier-2.col-md-3.col-sm-4 > ul > li> a"));
+                            for (int i = 0; i < elements.Count; i++)
+                            {
+                                if (elements[i].Text.ToLower().Contains(itemName.ToLower()))
+                                {
+                                    item = elements[i];
+                                    break;
+                                }
+                                else
+                                {
+                                    // In case of elements expire, reload them
+                                    elements = Browser.Driver.FindElements(By.CssSelector("#navbar-collapse-1 > ul > li.subnav__item.dropdown-toggle.dropdown.open > div > div > div.tier-2.col-md-3.col-sm-4 > ul > li> a"));
+                                }
+                            }
                             break;
                     }
 
@@ -142,7 +155,7 @@ namespace TestFramework
         public bool IsAtOpportunityPage()
         {
             var opportunityPage = new OpportunityPage();
-			return opportunityPage.isAt();
+            return opportunityPage.isAt();
         }
 
         public bool IsAtFabricPage(string fabricTitle)
@@ -202,7 +215,7 @@ namespace TestFramework
             {
                 case (MenuItemOfResource.MiniLabs):
                     string miniLabsName = EnumExtension.GetDescription(item).Replace("-", " ").ToLower();
-					isAtResourcePage = resourcePage.ResourceName.ToLower().Contains(miniLabsName);
+                    isAtResourcePage = resourcePage.ResourceName.ToLower().Contains(miniLabsName);
                     break;
                 case (MenuItemOfResource.SnackDemoVideos):
                     string snackVideosName = EnumExtension.GetDescription(item).Replace("Demo ", "").ToLower();
@@ -265,12 +278,12 @@ namespace TestFramework
             if (Enum.TryParse(item.ToString(), out otherProduct))
             {
                 bool canSwitchWindow = Browser.SwitchToNewWindow();
-                
-                if (Browser.webDriver.Title.Equals(Browser.homeTitle)) 
+
+                if (Browser.webDriver.Title.Equals(Browser.homeTitle))
                 {
                     canSwitchWindow = Browser.SwitchToNewWindow();
                 }
-                
+
                 bool isAtOtherProductPage = false;
                 if (canSwitchWindow)
                 {
