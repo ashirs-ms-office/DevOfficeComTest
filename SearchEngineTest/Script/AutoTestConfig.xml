@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TestConfig>
-<Property name="StartTime" value="XX:XX"/>
-<Property name="SMTPServerHost" value="XXXXXXXX"/>
-<Property name="SMTPUser" value="XXXXXX"/>
-<Property name="SMTPPassword" value="XXXXXX"/>
-<Property name="FromAddress" value="XXXX@XXXX.com"/>
-<Property name="Domain" value="XXXXX"/>
-<Property name="ToAddresses" value="XXXX;XXXX"/>
+<Property key="StartTime" value="19:24"/>
+<Property key="SMTPServerHost" value="smtphost.redmond.corp.microsoft.com"/>
+<Property key="SMTPUser" value="pettest"/>
+<Property key="SMTPPassword" value="Weixiaobao,2016."/>
+<Property key="FromAddress" value="pettest@microsoft.com"/>
+<Property key="Domain" value="fareast"/>
+<Property key="ToAddresses" value="v-chli@microsoft.com"/>
 </TestConfig>
