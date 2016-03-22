@@ -164,7 +164,7 @@ namespace MSGraphTest
             //Currently ignore Graph explorer and Documentation, since these pages don't have banner image
             //Graph branding image
             string[] navOptions = new string[] {
-                "Home",
+                //"Home",
                 "Get started", 
                 //"Documentation", 
                 //"Graph explorer", 
