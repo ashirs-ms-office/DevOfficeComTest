@@ -62,14 +62,15 @@ namespace SearchEngineTest
             bool isFounded = CanFindSiteinSearchResults(SearchSite.MSGraph,
                 "graph.microsoft.io",
                 out ranking);
-
+            
             Assert.IsTrue(isFounded,
                 "{0}: The result{1} Microsoft Graph production site on {2} when searching {3}.",
                 time.ToString(),
                 isFounded ? String.Format(" at position {0} is", ranking + 1) : "s in top 5 don't contain",
                 searchEngine,
                 GetDescription(SearchSite.MSGraph));
-
+            Trace.WriteLine(String.Format("Keywords:{0} Ranking:{1}", GetDescription(SearchSite.MSGraph), ranking + 1));
+            
             time = DateTime.Now;
             isFounded = CanFindSiteinSearchResults(SearchSite.MSGraphAPI,
                 "graph.microsoft.io",
@@ -81,7 +82,8 @@ namespace SearchEngineTest
                 isFounded ? String.Format(" at position {0} is", ranking + 1) : "s in top 5 don't contain",
                 searchEngine,
                 GetDescription(SearchSite.MSGraphAPI));
-
+            Trace.WriteLine(String.Format("Keywords:{0} Ranking:{1}", GetDescription(SearchSite.MSGraphAPI), ranking + 1));
+            
             time = DateTime.Now;
             isFounded = CanFindSiteinSearchResults(SearchSite.GraphMS,
                 "graph.microsoft.io",
@@ -93,6 +95,7 @@ namespace SearchEngineTest
                 isFounded ? String.Format(" at position {0} is", ranking + 1) : "s in top 5 don't contain",
                 searchEngine,
                 GetDescription(SearchSite.GraphMS));
+            Trace.WriteLine(String.Format("Keywords:{0} Ranking:{1}", GetDescription(SearchSite.GraphMS), ranking + 1));
         }
 
         /// <summary>
@@ -115,7 +118,8 @@ namespace SearchEngineTest
                 isFounded ? String.Format(" at position {0} is", ranking + 1) : "s in top 5 don't contain",
                 searchEngine,
                 GetDescription(SearchSite.OfficeDevCenter));
-
+            Trace.WriteLine(String.Format("Keywords:{0} Ranking:{1}", GetDescription(SearchSite.OfficeDevCenter), ranking + 1));
+            
             time = DateTime.Now;
             isFounded = CanFindSiteinSearchResults(SearchSite.DevOffice,
                 "dev.office.com",
@@ -127,6 +131,7 @@ namespace SearchEngineTest
                 isFounded ? String.Format(" at position {0} is", ranking + 1) : "s in top 5 don't contain",
                 searchEngine,
                 GetDescription(SearchSite.DevOffice));
+            Trace.WriteLine(String.Format("Keywords:{0} Ranking:{1}", GetDescription(SearchSite.DevOffice), ranking + 1));
         }
 
         /// <summary>

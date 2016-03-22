@@ -38,6 +38,18 @@ if "%*"=="/?" (
  goto end
 )
 pushd %~dp0
+REM Use tzutil to get and modify the timezone for timestamps
+SETLOCAL ENABLEDELAYEDEXPANSION
+tzutil /g>>currTimeZone.txt
+
+PowerShell.exe -ExecutionPolicy ByPass .\GetConfigFileNode.ps1 'TimeZone'>>newTimeZone.txt
+for /f "delims=" %%t IN (newTimeZone.txt) DO (
+set newTimeZone=%%t
+)
+tzutil /s ^"!newTimeZone!^"
+del newTimeZone.txt
+endlocal
+
 cd ..
 SETLOCAL ENABLEDELAYEDEXPANSION
 set flag=0
@@ -135,5 +147,12 @@ endlocal
 
 cd .\Script
 :end
+SETLOCAL ENABLEDELAYEDEXPANSION
+for /f "delims=" %%t IN (currTimeZone.txt) DO (
+set originalTimeZone=%%t
+)
+tzutil /s ^"!originalTimeZone!^"
+del currTimeZone.txt
+endlocal
 PAUSE
 @ECHO ON
