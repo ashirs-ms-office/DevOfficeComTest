@@ -10,7 +10,7 @@ namespace MSGraphTest
     [TestClass]
     public class MSGraphSearchTest
     {
-        private string hostName = "http://msgraph-staging-localization.azurewebsites.net";
+        private string hostName = "http://graph.microsoft.io";
         private string path = "Search/localfiles?q=authentication&target=docs-local";
         private string[] languages = { "/en-us/", "/de-de/", "/ja-jp/", "/zh-cn/" };
 
