@@ -1,8 +1,6 @@
 param(
-[String] $TestOutputFile,
-[String] $UserandMachine,
-[String] $Date,
-[String] $Time)
+[String] $TestOutputFileLocation
+)
 
 function SubStringCount
 {
@@ -47,6 +45,11 @@ function ExtractKeyWordsAndRanking
     return $searchedArr;
 }
 
+if(-not $TestOutputFileLocation.EndsWith("\"))
+{
+$TestOutputFileLocation="$TestOutputFileLocation\";
+}
+resolve-path $TestOutputFileLocation;
 Get-Location
 #mail server configuration 
 $smtpServer = .\GetConfigFileNode.ps1 "SMTPServerHost" 
@@ -65,88 +68,123 @@ foreach($toAddress in $toAddresses)
     $mail.To.Add($toAddress)
 }
 $mail.IsBodyHtml=$true
-$mail.Subject = "[SeachEngine]Automation Test Report"+"_"+$Date+"_"+$Time.Split(".")[0]
-
-#Construct the mail table
-$traceFileName= $UserandMachine+" "+$Date+" "+$Time
-[xml]$traceContent = New-Object XML
-$traceContent.Load($traceFileName)
-$caseResultNodes = $traceContent.GetElementsByTagName("UnitTestResult")
-
-$contents = Get-Content -Path $TestOutputFile
-$mail.Body='<table cellspacing="1" cellpadding="3" border="3" style="font-size: 12pt;line-height: 15px;border-left:3px;">';
-$mail.Body+='<tr style="background-color:#8B008B;color:#FFFFFF"><th>Test Case Name</th><th>Search Key Words</th><th>Ranking</th><th>Search Engine</th><th>Result</th></tr>';
-$mail.Body+='<tr>';
-for($i=0;$i -lt $contents.Length; $i++)
+$date=Get-Date -Format 'yyyy-MM-dd-hh-mm-ss'
+$mail.Subject = "[SeachEngine]Automation Test Report"+"_"+$date;
+$mail.Body=""
+$fileList=Get-ChildItem $TestOutputFileLocation;
+foreach($tempFile in $fileList)
 {
-    if($contents[$i])
+    #Construct the mail table
+    $contents = Get-Content -Path $tempFile.FullName
+    [xml]$traceContent = New-Object XML
+    for($l=$contents.Length-1; $l -ge 0;$l--)
     {
-        if($contents[$i].StartsWith("Fail"))
+        if($contents[$l].StartsWith("Results File:"))
         {
-            $mail.Priority = "High"
-        }
-        if($contents[$i].StartsWith("Failed") -or $contents[$i].StartsWith("Passed") -or $contents[$i].StartsWith("Inconclusive"))
-        {
-            $result=$contents[$i].Split(" ")[0]
-            $searchCount=0;
-            $searchedArr=@();
-            #Add Case name
-            $caseName=$contents[$i].SubString($result.Length).Trim()
-            foreach($caseResultNode in $caseResultNodes)
-            {
-                if($caseResultNode.GetAttribute("testName") -eq $caseName)
-                {
-                    $traceInfo=$caseResultNode.GetElementsByTagName("StdOut")[0].InnerText;
-                    $searchCount=SubStringCount $traceInfo "Keywords"
-                    $searchedArr+=ExtractKeyWordsAndRanking $traceInfo $searchCount
-                }
-            }
-            
-            $mail.Body+="<td rowspan=`"$searchCount`">";
-            $mail.Body+=$caseName;
-            $mail.Body+='</td>';
-                        
-            #Add Key Words
-            $mail.Body+='<td>';
-            $mail.Body+=$searchedArr[0].Replace("<->",'</td><td>');
-            $mail.Body+='</td>';         
-            
-            #Add Search Engine
-            $mail.Body+="<td rowspan=`"$searchCount`">";
-            $searchEngine=.\GetConfigFileNode.ps1 "SearchEngine" $true
-            $mail.Body+=$searchEngine;
-            $mail.Body+='</td>';
-            #Add Result
-            if($result -eq "Passed")
-            {
-                $mail.Body+="<td rowspan=`"$searchCount`"><p style=`"color:#008000;`">";
-            }
-            elseif($result -eq "Failed")
-            {
-                $mail.Body+="<td rowspan=`"$searchCount`"><p style=`"color:#FF0000;`">";
-            }
-            else
-            {
-                $mail.Body+="<td rowspan=`"$searchCount`"><p style=`"color:#FFFF00;`">";
-            }
-            $mail.Body+=$result;
-            $mail.Body+='</p></td>';
-            $mail.Body+='</tr>';
-            
-            for($k=1;$k -lt $searchCount;$k++)
-            {
-                $mail.Body+='<tr><td>'+$searchedArr[$k].Replace("<->",'</td><td>')+'</td></tr>';
-            }
-        }
+            $traceFileName=$contents[$l].Replace("Results File:","").TrimStart();
+            $traceContent.Load($traceFileName);
+            break;
+        }      
     }
+    $caseResultNodes = $traceContent.GetElementsByTagName("UnitTestResult")
+
+    $mail.Body+='<table cellspacing="1" cellpadding="3" border="3" style="font-size: 12pt;line-height: 15px;border-left:3px;">';
+    if($tempFile.BaseName.ToLower().Contains("google"))
+    {
+        $searchEngine="Google";
+    }
+    else
+    {
+        $searchEngine="Bing";
+    }
+    $mail.Body+="<tr style=`"background-color:#8B008B;color:#FFFFFF`"><th colspan=`"4`"style=`"text-align:center`">$searchEngine Search Results</th></tr>";
+    $mail.Body+='<tr style="background-color:#8B008B;color:#FFFFFF"><th>Test Case Name</th><th>Search Key Words</th><th>Ranking</th><th>Test Result</th></tr>';
+    $mail.Body+='<tr>';
+    for($i=0;$i -lt $contents.Length; $i++)
+    {
+        if($contents[$i])
+        {
+            if($contents[$i].StartsWith("Fail"))
+            {
+                $mail.Priority = "High"
+            }
+            if($contents[$i].StartsWith("Failed") -or $contents[$i].StartsWith("Passed") -or $contents[$i].StartsWith("Inconclusive"))
+            {
+                $result=$contents[$i].Split(" ")[0]
+                $searchCount=0;
+                $searchedArr=@();
+                #Add Case name
+                $caseName=$contents[$i].SubString($result.Length).Trim()
+                foreach($caseResultNode in $caseResultNodes)
+                {
+                    if($caseResultNode.GetAttribute("testName") -eq $caseName)
+                    {
+                        $traceInfo=$caseResultNode.GetElementsByTagName("StdOut")[0].InnerText;
+                        $searchCount=SubStringCount $traceInfo "Keywords"
+                        $searchedArr+=ExtractKeyWordsAndRanking $traceInfo $searchCount
+                    }
+                }
+            
+                $mail.Body+="<td";
+                if($searchCount -gt 0)
+                {
+                    $mail.Body+=" rowspan=`"$searchCount`"";
+                }           
+                $mail.Body+=">";
+                $mail.Body+=$caseName;
+                $mail.Body+='</td>';
+                        
+                #Add Key Words and Ranking
+                $mail.Body+='<td>';
+                if($searchCount -gt 0)
+                {
+                    $mail.Body+=$searchedArr[0].Replace("<->",'</td><td>');
+                }
+                else
+                {
+                    $mail.Body+='</td><td>';
+                }
+                $mail.Body+='</td>';         
+                #Add Result
+                if($result -eq "Passed")
+                {
+                    $color="#008000";
+                }
+                elseif($result -eq "Failed")
+                {
+                    $color="#FF0000";
+                }
+                else
+                {
+                    $color="#F5DEB3";
+                }
+                $mail.Body+="<td";
+                if($searchCount -gt 0)
+                {
+                $mail.Body+=" rowspan=`"$searchCount`"";
+                }
+                $mail.Body+="><p style=`"color:"+"$color`";>";
+                $mail.Body+=$result;
+                $mail.Body+='</p></td>';
+                $mail.Body+='</tr>';
+                        
+                for($k=1;$k -lt $searchCount -and $searchCount -gt 0;$k++)
+                {
+                    $mail.Body+='<tr><td>'+$searchedArr[$k].Replace("<->",'</td><td>')+'</td></tr>';
+                }           
+            }
+        }  
+    }
+    $mail.Body+='</table><br/>';
+    #Add the trace file as attachment
+    $attachment = new-Object System.Net.Mail.Attachment($traceFileName)
+    $mail.Attachments.Add($attachment)
+    $baseName=$traceFileName.SubString($traceFileName.LastIndexOf("\")+1);
+    $mail.Body+="<div style=`"font-size: 12pt;`"> <br/>Trace file:$baseName</div>";
 }
-$mail.Body+='</table>';
 
 $mail.Body+='<div style="font-size: 12pt;"> <br/>For details please see the attachment.</div>';
 
-#Add the trace file as attachment
-$attachment = new-Object System.Net.Mail.Attachment($traceFileName)
-$mail.Attachments.Add($attachment)
 
 #Send the message
 $smtpClient = New-Object System.Net.Mail.SmtpClient -argumentList $smtpServer
