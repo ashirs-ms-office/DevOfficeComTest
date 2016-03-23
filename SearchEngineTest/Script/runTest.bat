@@ -75,6 +75,12 @@ endlocal
 powershell -command write-host "The related property value in App.config will be updated according to the input options." -ForegroundColor Yellow
 
 :TestRun
+SETLOCAL ENABLEDELAYEDEXPANSION
+FOR %%s IN (Google Bing) DO (
+echo.
+echo Use %%s to search...
+PowerShell.exe -ExecutionPolicy ByPass .\Script\ModifyConfigFileNode.ps1 '.\SearchEngineTest\App.config' 'SearchEngine' %%s
+
 IF EXIST %windir%\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe (
 %windir%\Microsoft.NET\Framework\v4.0.30319\MSBuild SearchEngineTest.sln /t:Rebuild /clp:ErrorsOnly /v:m
 ) else (
@@ -105,9 +111,9 @@ if "!flag3!"=="1" (
  )
 )
 if defined testFilter (
- "%VS140COMNTOOLS%..\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe" .\SearchEngineTest\bin\Debug\SearchEngineTest.dll /logger:trx !testFilter! | findstr /B /V "Microsoft Copyright Starting">>!tempFolder!\temp.txt
+ "%VS140COMNTOOLS%..\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe" .\SearchEngineTest\bin\Debug\SearchEngineTest.dll /logger:trx !testFilter! | findstr /B /V "Microsoft Copyright Starting">>!tempFolder!\%%stemp.txt
 ) else if defined testCases (
- "%VS140COMNTOOLS%..\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe" .\SearchEngineTest\bin\Debug\SearchEngineTest.dll /logger:trx !testCases! | findstr /B /V "Microsoft Copyright Starting">>!tempFolder!\temp.txt
+ "%VS140COMNTOOLS%..\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe" .\SearchEngineTest\bin\Debug\SearchEngineTest.dll /logger:trx !testCases! | findstr /B /V "Microsoft Copyright Starting">>!tempFolder!\%%stemp.txt
 ) else if defined playList (
 rem Get names of test cases  
 set tests=/Tests:
@@ -119,33 +125,22 @@ set tests=/Tests:
    )
   )
  )
- "%VS140COMNTOOLS%..\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe" .\SearchEngineTest\bin\Debug\SearchEngineTest.dll /logger:trx !tests:~0,-1! | findstr /B /V "Microsoft Copyright Starting">>!tempFolder!\temp.txt
+ "%VS140COMNTOOLS%..\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe" .\SearchEngineTest\bin\Debug\SearchEngineTest.dll /logger:trx !tests:~0,-1! | findstr /B /V "Microsoft Copyright Starting">>!tempFolder!\%%stemp.txt
 ) else (
- "%VS140COMNTOOLS%..\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe" .\SearchEngineTest\bin\Debug\SearchEngineTest.dll /logger:trx | findstr /B /V "Microsoft Copyright Starting">>!tempFolder!\temp.txt
+ "%VS140COMNTOOLS%..\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe" .\SearchEngineTest\bin\Debug\SearchEngineTest.dll /logger:trx | findstr /B /V "Microsoft Copyright Starting">>!tempFolder!\%%stemp.txt
 )
 endlocal
-
-SETLOCAL ENABLEDELAYEDEXPANSION
-SET tempFile=!tempFolder!\temp.txt
-type !tempFile!
-FOR /f "delims=" %%a in (!tempFile!) do (
-SET str=%%a
-IF "!str:~0,12!" == "Results File" (
-SET resultTrxFile= !str:~14!
-goto SendMail
- )
 )
+rem endlocal of seach engine loop for %%s
+endlocal
 
 :SendMail
 cd .\Script
-PowerShell.exe -ExecutionPolicy ByPass .\SendTestReportMail.ps1  .\TempResults\temp.txt !resultTrxFile!
+PowerShell.exe -ExecutionPolicy ByPass .\SendTestReportMail.ps1  .\TempResults
 
-cd..
-del !tempFolder!\temp.txt
-rd !tempFolder!
-endlocal
+del TempResults\*temp.txt
+rd TempResults
 
-cd .\Script
 :end
 SETLOCAL ENABLEDELAYEDEXPANSION
 for /f "delims=" %%t IN (currTimeZone.txt) DO (
