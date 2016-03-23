@@ -85,7 +85,7 @@ for($i=0;$i -lt $contents.Length; $i++)
         {
             $mail.Priority = "High"
         }
-        if($contents[$i].StartsWith("Fail") -or $contents[$i].StartsWith("Passed") -or $contents[$i].StartsWith("Inconclusive"))
+        if($contents[$i].StartsWith("Failed") -or $contents[$i].StartsWith("Passed") -or $contents[$i].StartsWith("Inconclusive"))
         {
             $result=$contents[$i].Split(" ")[0]
             $searchCount=0;
@@ -121,7 +121,7 @@ for($i=0;$i -lt $contents.Length; $i++)
             {
                 $mail.Body+="<td rowspan=`"$searchCount`"><p style=`"color:#008000;`">";
             }
-            elseif($result -eq "Fail")
+            elseif($result -eq "Failed")
             {
                 $mail.Body+="<td rowspan=`"$searchCount`"><p style=`"color:#FF0000;`">";
             }
